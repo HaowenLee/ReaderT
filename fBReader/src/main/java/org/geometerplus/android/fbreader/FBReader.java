@@ -20,6 +20,7 @@
 package org.geometerplus.android.fbreader;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.SearchManager;
 import android.content.ActivityNotFoundException;
@@ -36,9 +37,13 @@ import android.support.v4.app.ActivityCompat;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 
 import org.geometerplus.android.fbreader.api.ApiListener;
 import org.geometerplus.android.fbreader.api.ApiServerImplementation;
@@ -63,6 +68,7 @@ import org.geometerplus.fbreader.bookmodel.BookModel;
 import org.geometerplus.fbreader.fbreader.ActionCode;
 import org.geometerplus.fbreader.fbreader.DictionaryHighlighting;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
+import org.geometerplus.fbreader.fbreader.FBView;
 import org.geometerplus.fbreader.fbreader.options.CancelMenuHelper;
 import org.geometerplus.fbreader.fbreader.options.ColorProfile;
 import org.geometerplus.fbreader.formats.ExternalFormatPlugin;
@@ -223,6 +229,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         };
     }
 
+
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
@@ -257,6 +264,10 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         myRootView = findViewById(R.id.root_view);
         myMainView = findViewById(R.id.main_view);
         setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
+
+        firstMenu = findViewById(R.id.firstMenu);
+
+        initListener();
 
         myFBReaderApp = (FBReaderApp) FBReaderApp.Instance();
         if (myFBReaderApp == null) {
@@ -892,6 +903,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
     private boolean myWakeLockToCreate;
     private boolean myStartTimer;
 
+    @SuppressLint("InvalidWakeLockTag")
     public final void createWakeLock() {
         if (myWakeLockToCreate) {
             synchronized (this) {
@@ -1073,5 +1085,149 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         myFBReaderApp.getTextView().removeHighlightings(DictionaryHighlighting.class);
         myFBReaderApp.getViewWidget().reset();
         myFBReaderApp.getViewWidget().repaint();
+    }
+
+    /**
+     * 显示一级菜单
+     */
+    public void openFirstMenu() {
+        final View firstMenu = findViewById(R.id.firstMenu);
+        if (firstMenu.getVisibility() == View.VISIBLE) {
+            closeFirstMenu();
+        } else {
+            firstMenu.startAnimation(getMenuAnim(true));
+            firstMenu.setVisibility(View.VISIBLE);
+
+            SeekBar seekBar = firstMenu.findViewById(R.id.bookProgress);
+
+            // Setup book progress
+            final FBView textView = myFBReaderApp.getTextView();
+            ZLTextView.PagePosition pagePosition = textView.pagePosition();
+            if (seekBar.getMax() != pagePosition.Total - 1 || seekBar.getProgress() != pagePosition.Current - 1) {
+                seekBar.setMax(pagePosition.Total - 1);
+                seekBar.setProgress(pagePosition.Current - 1);
+            }
+        }
+    }
+
+    /**
+     * 菜单动画
+     */
+    private Animation menuOpenAnim;
+    private Animation menuCloseAnim;
+
+    /**
+     * 获取菜单动画
+     *
+     * @param isOpen 打开与否
+     * @return 菜单动画
+     */
+    private Animation getMenuAnim(boolean isOpen) {
+        if (isOpen) {
+            if (menuOpenAnim == null) {
+                menuOpenAnim = new TranslateAnimation(Animation.RELATIVE_TO_SELF,
+                        0, Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF,
+                        1, Animation.RELATIVE_TO_SELF, 0);
+                menuOpenAnim.setDuration(100);
+            }
+            return menuOpenAnim;
+        } else {
+            if (menuCloseAnim == null) {
+                menuCloseAnim = new TranslateAnimation(Animation.RELATIVE_TO_SELF,
+                        0, Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF,
+                        0, Animation.RELATIVE_TO_SELF, 1);
+                menuCloseAnim.setDuration(100);
+            }
+            return menuCloseAnim;
+        }
+    }
+
+    /**
+     * 菜单
+     */
+    private View firstMenu;
+
+    private void initListener() {
+        firstMenu.findViewById(R.id.quick_theme_change).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (myFBReaderApp.isActionVisible(ActionCode.SWITCH_TO_NIGHT_PROFILE)) {
+                    myFBReaderApp.runAction(ActionCode.SWITCH_TO_NIGHT_PROFILE);
+                } else {
+                    myFBReaderApp.runAction(ActionCode.SWITCH_TO_DAY_PROFILE);
+                }
+            }
+        });
+
+        firstMenu.findViewById(R.id.shangyizhang).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myFBReaderApp.runAction(ActionCode.TURN_PAGE_BACK);
+            }
+        });
+
+        firstMenu.findViewById(R.id.xiayizhang).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myFBReaderApp.runAction(ActionCode.TURN_PAGE_FORWARD);
+            }
+        });
+
+        SeekBar seekBar = firstMenu.findViewById(R.id.bookProgress);
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser) {
+                    final int page = progress + 1;
+                    gotoPage(page);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            private void gotoPage(int page) {
+                FBView textView = myFBReaderApp.getTextView();
+                if (page == 1) {
+                    textView.gotoHome();
+                } else {
+                    textView.gotoPage(page);
+                }
+                myFBReaderApp.getViewWidget().reset();
+                myFBReaderApp.getViewWidget().repaint();
+            }
+        });
+    }
+
+    /**
+     * 关闭菜单
+     */
+    private void closeFirstMenu() {
+        Animation animation = getMenuAnim(false);
+        firstMenu.startAnimation(animation);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                firstMenu.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
     }
 }
