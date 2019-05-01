@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 底部 -->
+    <RelativeLayout
+        android:id="@+id/rlMenuTop"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#EBECEE">
+
+    </RelativeLayout>
+
+    <!-- 底部 -->
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/rlMenuBottom"
+        android:layout_width="match_parent"
+        android:layout_height="198dp"
+        android:layout_gravity="bottom"
+        android:background="#EBECEE"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp">
+
+        <TextView
+            android:id="@+id/tvLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="亮度"
+            android:textColor="#666666"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toTopOf="@id/tvTheme"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="主题"
+            android:textColor="#666666"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toTopOf="@id/tvText"
+            app:layout_constraintStart_toStartOf="@id/tvLight"
+            app:layout_constraintTop_toBottomOf="@id/tvLight" />
+
+        <TextView
+            android:id="@+id/tvText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="文字"
+            android:textColor="#666666"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toTopOf="@id/tvPage"
+            app:layout_constraintStart_toStartOf="@id/tvLight"
+            app:layout_constraintTop_toBottomOf="@id/tvTheme" />
+
+        <TextView
+            android:id="@+id/tvPage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="翻页"
+            android:textColor="#666666"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tvLight"
+            app:layout_constraintTop_toBottomOf="@id/tvText" />
+
+        <SeekBar
+            android:id="@+id/sbProgress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            app:layout_constraintBottom_toBottomOf="@id/tvLight"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvLight"
+            app:layout_constraintTop_toTopOf="@id/tvLight" />
+
+        <TextView
+            android:id="@+id/tvThemeWhite"
+            android:layout_width="56dp"
+            android:layout_height="28dp"
+            android:background="#F8F8F8"
+            android:gravity="center"
+            android:text="白色"
+            android:textColor="#000000"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@id/tvTheme"
+            app:layout_constraintEnd_toStartOf="@id/tvThemeYellow"
+            app:layout_constraintStart_toStartOf="@id/sbProgress"
+            app:layout_constraintTop_toTopOf="@id/tvTheme" />
+
+        <TextView
+            android:id="@+id/tvThemeYellow"
+            android:layout_width="56dp"
+            android:layout_height="28dp"
+            android:background="#E4DFCD"
+            android:gravity="center"
+            android:text="黄色"
+            android:textColor="#3E2A17"
+            android:textSize="13sp"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvThemeWhite"
+            app:layout_constraintEnd_toStartOf="@id/tvThemeGreen"
+            app:layout_constraintStart_toEndOf="@id/tvThemeWhite" />
+
+        <TextView
+            android:id="@+id/tvThemeGreen"
+            android:layout_width="56dp"
+            android:layout_height="28dp"
+            android:background="#A6C9AB"
+            android:gravity="center"
+            android:text="护眼"
+            android:textColor="#29322A"
+            android:textSize="13sp"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvThemeWhite"
+            app:layout_constraintEnd_toStartOf="@id/tvThemeBlack"
+            app:layout_constraintStart_toEndOf="@id/tvThemeYellow" />
+
+        <TextView
+            android:id="@+id/tvThemeBlack"
+            android:layout_width="56dp"
+            android:layout_height="28dp"
+            android:background="#34383C"
+            android:gravity="center"
+            android:text="夜间"
+            android:textColor="#7e8994"
+            android:textSize="13sp"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvThemeWhite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvThemeGreen" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</FrameLayout>
