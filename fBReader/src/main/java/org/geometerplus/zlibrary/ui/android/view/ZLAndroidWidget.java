@@ -31,8 +31,10 @@ import org.geometerplus.zlibrary.core.application.ZLApplication;
 import org.geometerplus.zlibrary.core.application.ZLKeyBindings;
 import org.geometerplus.zlibrary.core.util.SystemInfo;
 import org.geometerplus.zlibrary.core.view.ZLView;
+import org.geometerplus.zlibrary.core.view.ZLViewEnums;
 import org.geometerplus.zlibrary.core.view.ZLViewWidget;
 
+import org.geometerplus.zlibrary.ui.android.util.ImageUtils;
 import org.geometerplus.zlibrary.ui.android.view.animation.*;
 
 import org.geometerplus.fbreader.Paths;
@@ -128,7 +130,7 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
                     myAnimationProvider = new SlideOldStyleAnimationProvider(myBitmapManager);
                     break;
                 case shift:
-                    myAnimationProvider = new ShiftAnimationProvider(myBitmapManager);
+                    myAnimationProvider = new PreviewShiftAnimationProvider(myBitmapManager);
                     break;
             }
         }
@@ -293,7 +295,15 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
     }
 
     private void onDrawStatic(final Canvas canvas) {
-        canvas.drawBitmap(myBitmapManager.getBitmap(ZLView.PageIndex.current), 0, 0, myPaint);
+        Bitmap previousBitmap = ImageUtils.scale(myBitmapManager.getBitmap(ZLView.PageIndex.previous), 0.75f, false);
+        canvas.drawBitmap(previousBitmap, -getWidth() * 0.67f, getHeight() * 0.125f, myPaint);
+
+        Bitmap currentBitmap = ImageUtils.scale(myBitmapManager.getBitmap(ZLView.PageIndex.current), 0.75f, false);
+        canvas.drawBitmap(currentBitmap, getWidth() * 0.125f, getHeight() * 0.125f, myPaint);
+
+        Bitmap nextBitmap = ImageUtils.scale(myBitmapManager.getBitmap(ZLView.PageIndex.next), 0.75f, false);
+        canvas.drawBitmap(nextBitmap, getWidth() * 0.92f, getHeight() * 0.125f, myPaint);
+
         drawFooter(canvas, null);
         post(new Runnable() {
             public void run() {

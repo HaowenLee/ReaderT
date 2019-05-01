@@ -20,7 +20,7 @@
 package org.geometerplus.zlibrary.core.view;
 
 public interface ZLViewEnums {
-	public enum PageIndex {
+	enum PageIndex {
 		previous, current, next;
 
 		public PageIndex getNext() {
@@ -46,7 +46,7 @@ public interface ZLViewEnums {
 		}
 	}
 
-	public enum Direction {
+	enum Direction {
 		leftToRight(true), rightToLeft(true), up(false), down(false);
 
 		public final boolean IsHorizontal;
@@ -56,7 +56,7 @@ public interface ZLViewEnums {
 		}
 	}
 
-	public enum Animation {
+	enum Animation {
 		none, curl, slide, slideOldStyle, shift
 	}
 }
