@@ -41,6 +41,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -1093,8 +1094,37 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
     public void openFirstMenu() {
         final View firstMenu = findViewById(R.id.firstMenu);
         if (firstMenu.getVisibility() == View.VISIBLE) {
+            // 缩放
+            ScaleAnimation animation = new ScaleAnimation(1, 1 / 0.75f, 1,
+                    1 / 0.75f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+            animation.setDuration(DURATION);
+            myMainView.startAnimation(animation);
+            animation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    myMainView.setPreview(false);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+
             closeFirstMenu();
         } else {
+            // 缩放
+            ScaleAnimation animation = new ScaleAnimation(1 / 0.75f, 1, 1 / 0.75f,
+                    1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+            animation.setDuration(DURATION);
+            myMainView.startAnimation(animation);
+            myMainView.setPreview(true);
+
             firstMenu.startAnimation(getMenuAnim(true));
             firstMenu.setVisibility(View.VISIBLE);
 
@@ -1109,6 +1139,8 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             }
         }
     }
+
+    private static final int DURATION = 300;
 
     /**
      * 菜单动画
@@ -1128,7 +1160,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                 menuOpenAnim = new TranslateAnimation(Animation.RELATIVE_TO_SELF,
                         0, Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF,
                         1, Animation.RELATIVE_TO_SELF, 0);
-                menuOpenAnim.setDuration(100);
+                menuOpenAnim.setDuration(DURATION);
             }
             return menuOpenAnim;
         } else {
@@ -1136,7 +1168,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                 menuCloseAnim = new TranslateAnimation(Animation.RELATIVE_TO_SELF,
                         0, Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF,
                         0, Animation.RELATIVE_TO_SELF, 1);
-                menuCloseAnim.setDuration(100);
+                menuCloseAnim.setDuration(DURATION);
             }
             return menuCloseAnim;
         }

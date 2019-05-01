@@ -81,11 +81,6 @@ public final class NoneAnimationProvider extends AnimationProvider {
 	}
 
 	@Override
-	protected boolean isPreview() {
-		return false;
-	}
-
-	@Override
 	public void drawFooterBitmapInternal(Canvas canvas, Bitmap footerBitmap, int voffset) {
 		canvas.drawBitmap(footerBitmap, 0, voffset, myPaint);
 	}

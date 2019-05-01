@@ -24,6 +24,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import org.geometerplus.zlibrary.core.view.ZLViewEnums;
 import org.geometerplus.zlibrary.ui.android.view.ViewUtil;
 
 public final class PreviewShiftAnimationProvider extends SimpleAnimationProvider {
@@ -41,7 +42,12 @@ public final class PreviewShiftAnimationProvider extends SimpleAnimationProvider
     protected void drawInternal(Canvas canvas) {
         if (myDirection.IsHorizontal) {
             final int dX = myEndX - myStartX;
-            drawBitmapTo(canvas, dX, 0, myPaint);
+            if (isPreview()) {
+                drawBitmapFrom(canvas, dX, 0, myPaint);
+            } else {
+                drawBitmapTo(canvas, dX > 0 ? dX - myWidth : dX + myWidth, 0, myPaint);
+                drawBitmapFrom(canvas, dX, 0, myPaint);
+            }
         } else {
             final int dY = myEndY - myStartY;
             drawBitmapTo(canvas, 0, dY > 0 ? dY - myHeight : dY + myHeight, myPaint);
@@ -68,12 +74,16 @@ public final class PreviewShiftAnimationProvider extends SimpleAnimationProvider
     }
 
     @Override
-    protected void setFilter() {
-        ViewUtil.setColorLevel(myPaint, myColorLevel);
+    protected void drawBitmapFrom(Canvas canvas, int x, int y, Paint paint) {
+        if (isPreview()) {
+            myBitmapManager.drawPreviewBitmap(canvas, x, y, ZLViewEnums.PageIndex.current, paint);
+        } else {
+            super.drawBitmapFrom(canvas, x, y, paint);
+        }
     }
 
     @Override
-    protected boolean isPreview() {
-        return true;
+    protected void setFilter() {
+        ViewUtil.setColorLevel(myPaint, myColorLevel);
     }
 }

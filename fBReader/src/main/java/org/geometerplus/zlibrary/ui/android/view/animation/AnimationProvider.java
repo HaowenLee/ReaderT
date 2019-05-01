@@ -45,7 +45,7 @@ public abstract class AnimationProvider {
 
     private Mode myMode = Mode.NoScrolling;
 
-    private final BitmapManager myBitmapManager;
+    protected final BitmapManager myBitmapManager;
     protected int myStartX;
     protected int myStartY;
     protected int myEndX;
@@ -277,23 +277,10 @@ public abstract class AnimationProvider {
     }
 
     protected void drawBitmapFrom(Canvas canvas, int x, int y, Paint paint) {
-        if (isPreview()) {
-            myBitmapManager.drawBitmap(canvas, x, y, ZLViewEnums.PageIndex.current, paint);
-        } else {
-            myBitmapManager.drawBitmap(canvas, x, y, ZLViewEnums.PageIndex.current, paint, true);
-        }
+        myBitmapManager.drawBitmap(canvas, x, y, ZLViewEnums.PageIndex.current, paint);
     }
 
     protected void drawBitmapTo(Canvas canvas, int x, int y, Paint paint) {
-        if (isPreview()) {
-            myBitmapManager.drawBitmap(canvas, x, y, getPageToScrollTo(), paint, true);
-        } else {
-            myBitmapManager.drawBitmap(canvas, x, y, getPageToScrollTo(), paint);
-        }
+        myBitmapManager.drawBitmap(canvas, x, y, getPageToScrollTo(), paint);
     }
-
-    /**
-     * 是否是预览模式
-     */
-    protected abstract boolean isPreview();
 }

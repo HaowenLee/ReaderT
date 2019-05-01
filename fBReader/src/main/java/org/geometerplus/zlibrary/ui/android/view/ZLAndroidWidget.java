@@ -294,15 +294,30 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
         }
     }
 
+    private boolean isPreview = false;
+
+    public void setPreview(boolean preview) {
+        isPreview = preview;
+        if (myAnimationProvider instanceof PreviewShiftAnimationProvider) {
+            ((PreviewShiftAnimationProvider) myAnimationProvider).setPreview(isPreview);
+        }
+        postInvalidate();
+    }
+
     private void onDrawStatic(final Canvas canvas) {
-        Bitmap previousBitmap = ImageUtils.scale(myBitmapManager.getBitmap(ZLView.PageIndex.previous), 0.75f, false);
-        canvas.drawBitmap(previousBitmap, -getWidth() * 0.67f, getHeight() * 0.125f, myPaint);
 
-        Bitmap currentBitmap = ImageUtils.scale(myBitmapManager.getBitmap(ZLView.PageIndex.current), 0.75f, false);
-        canvas.drawBitmap(currentBitmap, getWidth() * 0.125f, getHeight() * 0.125f, myPaint);
+        if (isPreview) {
+            Bitmap previousBitmap = ImageUtils.scale(myBitmapManager.getBitmap(ZLView.PageIndex.previous), 0.75f, false);
+            canvas.drawBitmap(previousBitmap, -getWidth() * 0.67f, getHeight() * 0.125f, myPaint);
 
-        Bitmap nextBitmap = ImageUtils.scale(myBitmapManager.getBitmap(ZLView.PageIndex.next), 0.75f, false);
-        canvas.drawBitmap(nextBitmap, getWidth() * 0.92f, getHeight() * 0.125f, myPaint);
+            Bitmap currentBitmap = ImageUtils.scale(myBitmapManager.getBitmap(ZLView.PageIndex.current), 0.75f, false);
+            canvas.drawBitmap(currentBitmap, getWidth() * 0.125f, getHeight() * 0.125f, myPaint);
+
+            Bitmap nextBitmap = ImageUtils.scale(myBitmapManager.getBitmap(ZLView.PageIndex.next), 0.75f, false);
+            canvas.drawBitmap(nextBitmap, getWidth() * 0.92f, getHeight() * 0.125f, myPaint);
+        } else {
+            canvas.drawBitmap(myBitmapManager.getBitmap(ZLView.PageIndex.current), 0, 0, myPaint);
+        }
 
         drawFooter(canvas, null);
         post(new Runnable() {

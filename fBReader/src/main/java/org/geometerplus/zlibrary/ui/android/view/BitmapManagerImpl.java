@@ -80,7 +80,7 @@ final class BitmapManagerImpl implements BitmapManager {
     }
 
     @Override
-    public void drawBitmap(Canvas canvas, int x, int y, ZLViewEnums.PageIndex index, Paint paint, boolean isPreview) {
+    public void drawPreviewBitmap(Canvas canvas, int x, int y, ZLViewEnums.PageIndex index, Paint paint) {
         Bitmap bitmap = getBitmap(ZLView.PageIndex.previous);
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();

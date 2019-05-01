@@ -24,7 +24,10 @@ import android.graphics.*;
 import org.geometerplus.zlibrary.core.view.ZLViewEnums;
 
 public interface BitmapManager {
-	Bitmap getBitmap(ZLViewEnums.PageIndex index);
-	void drawBitmap(Canvas canvas, int x, int y, ZLViewEnums.PageIndex index, Paint paint);
-	void drawBitmap(Canvas canvas, int x, int y, ZLViewEnums.PageIndex index, Paint paint,boolean isPreview);
+
+    Bitmap getBitmap(ZLViewEnums.PageIndex index);
+
+    void drawBitmap(Canvas canvas, int x, int y, ZLViewEnums.PageIndex index, Paint paint);
+
+    void drawPreviewBitmap(Canvas canvas, int x, int y, ZLViewEnums.PageIndex index, Paint paint);
 }

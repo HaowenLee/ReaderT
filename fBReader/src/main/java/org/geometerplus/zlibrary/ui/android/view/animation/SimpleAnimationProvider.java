@@ -23,7 +23,17 @@ import org.geometerplus.zlibrary.core.view.ZLViewEnums;
 
 abstract class SimpleAnimationProvider extends AnimationProvider {
 
+    private boolean isPreview;
+
     private float mySpeedFactor;
+
+    public boolean isPreview() {
+        return isPreview;
+    }
+
+    public void setPreview(boolean preview) {
+        isPreview = preview;
+    }
 
     SimpleAnimationProvider(BitmapManager bitmapManager) {
         super(bitmapManager);
@@ -121,10 +131,5 @@ abstract class SimpleAnimationProvider extends AnimationProvider {
             }
         }
         mySpeed *= mySpeedFactor;
-    }
-
-    @Override
-    protected boolean isPreview() {
-        return false;
     }
 }

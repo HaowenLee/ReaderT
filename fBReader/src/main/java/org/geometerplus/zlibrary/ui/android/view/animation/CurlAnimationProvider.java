@@ -228,11 +228,6 @@ public final class CurlAnimationProvider extends AnimationProvider {
 	}
 
 	@Override
-	protected boolean isPreview() {
-		return false;
-	}
-
-	@Override
 	protected void startAnimatedScrollingInternal(int speed) {
 		mySpeedFactor = (float)Math.pow(2.0, 0.25 * speed);
 		mySpeed *= 1.5;
