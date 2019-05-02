@@ -21,11 +21,16 @@
             android:scrollbarAlwaysDrawVerticalTrack="true"
             android:scrollbars="vertical" />
 
-        <include
-            layout="@layout/reader_bottom_menu_first_layout"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom" />
+            android:layout_gravity="bottom">
+
+            <include layout="@layout/reader_bottom_menu_first_layout" />
+
+            <include layout="@layout/reader_menu_setting" />
+
+        </FrameLayout>
 
     </FrameLayout>
 

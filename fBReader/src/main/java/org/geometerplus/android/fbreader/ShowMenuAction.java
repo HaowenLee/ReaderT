@@ -28,7 +28,7 @@ class ShowMenuAction extends FBAndroidAction {
 
 	@Override
 	protected void run(Object ... params) {
-		BaseActivity.openFirstMenu();
+		BaseActivity.openOrCloseFirstMenu();
 		//BaseActivity.openOptionsMenu();
 	}
 }
