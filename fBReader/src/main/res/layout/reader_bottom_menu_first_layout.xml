@@ -5,7 +5,7 @@
     android:id="@+id/firstMenu"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#F8F8F8"
+    android:background="#EBECEE"
     android:tag="layout/reader_bottom_menu_first_layout_0"
     android:visibility="gone"
     tools:visibility="visible">

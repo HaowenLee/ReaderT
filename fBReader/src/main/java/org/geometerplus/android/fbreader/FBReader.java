@@ -37,9 +37,11 @@ import android.support.v4.app.ActivityCompat;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
@@ -57,6 +59,8 @@ import org.geometerplus.android.fbreader.httpd.DataService;
 import org.geometerplus.android.fbreader.libraryService.BookCollectionShadow;
 import org.geometerplus.android.fbreader.sync.SyncOperations;
 import org.geometerplus.android.fbreader.tips.TipsActivity;
+import org.geometerplus.android.fbreader.util.ScreenUtils;
+import org.geometerplus.android.fbreader.util.SizeUtils;
 import org.geometerplus.android.util.DeviceType;
 import org.geometerplus.android.util.SearchDialogUtil;
 import org.geometerplus.android.util.UIMessageUtil;
@@ -1094,28 +1098,6 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
     public void openFirstMenu() {
         final View firstMenu = findViewById(R.id.firstMenu);
         if (firstMenu.getVisibility() == View.VISIBLE) {
-            // 缩放
-            ScaleAnimation animation = new ScaleAnimation(1, 1 / 0.75f, 1,
-                    1 / 0.75f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-            animation.setDuration(DURATION);
-            myMainView.startAnimation(animation);
-            animation.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    myMainView.setPreview(false);
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-
             closeFirstMenu();
         } else {
             // 缩放
@@ -1237,12 +1219,133 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                 myFBReaderApp.getViewWidget().repaint();
             }
         });
+
+        firstMenu.findViewById(R.id.open_slid_menu).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openSlideMenu();
+            }
+        });
+
+        findViewById(R.id.slideMenu).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Empty body.
+            }
+        });
+
+        // 返回
+        findViewById(R.id.viewBackground).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    closeSlideMenu();
+                }
+                return true;
+            }
+        });
+    }
+
+    private void openSlideMenu() {
+        View slideView = findViewById(R.id.slideMenu);
+        slideView.setVisibility(View.VISIBLE);
+        TranslateAnimation inAnimation = new TranslateAnimation(-(ScreenUtils.getWidth(this) - SizeUtils.dp2px(this, 40)), 0, 0, 0);
+        inAnimation.setDuration(300);
+        slideView.startAnimation(inAnimation);
+
+        View viewBackground = findViewById(R.id.viewBackground);
+        viewBackground.setVisibility(View.VISIBLE);
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0, 0.3f);
+        alphaAnimation.setDuration(300);
+        alphaAnimation.setFillAfter(true);
+        viewBackground.startAnimation(alphaAnimation);
+
+        View readerView = findViewById(R.id.readerView);
+        TranslateAnimation outAnimation = new TranslateAnimation(0,
+                ScreenUtils.getWidth(this) - SizeUtils.dp2px(this, 40), 0, 0);
+        outAnimation.setDuration(300);
+        outAnimation.setFillAfter(true);
+        readerView.startAnimation(outAnimation);
+
+        closeFirstMenu();
+    }
+
+    private void closeSlideMenu() {
+        final View slideView = findViewById(R.id.slideMenu);
+        final TranslateAnimation inAnimation = new TranslateAnimation(0, -(ScreenUtils.getWidth(this) - SizeUtils.dp2px(this, 40)), 0, 0);
+        inAnimation.setDuration(300);
+        inAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                slideView.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        slideView.startAnimation(inAnimation);
+
+        final View viewBackground = findViewById(R.id.viewBackground);
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0.3f, 0);
+        alphaAnimation.setDuration(300);
+        alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                viewBackground.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        viewBackground.startAnimation(alphaAnimation);
+
+        View readerView = findViewById(R.id.readerView);
+        TranslateAnimation outAnimation = new TranslateAnimation(ScreenUtils.getWidth(this)
+                - SizeUtils.dp2px(this, 40), 0, 0, 0);
+        outAnimation.setDuration(300);
+        readerView.startAnimation(outAnimation);
     }
 
     /**
      * 关闭菜单
      */
     private void closeFirstMenu() {
+        // 缩放
+        ScaleAnimation scaleAnimation = new ScaleAnimation(1, 1 / 0.75f, 1,
+                1 / 0.75f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        scaleAnimation.setDuration(DURATION);
+        myMainView.startAnimation(scaleAnimation);
+        scaleAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                myMainView.setPreview(false);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
         Animation animation = getMenuAnim(false);
         firstMenu.startAnimation(animation);
         animation.setAnimationListener(new Animation.AnimationListener() {
