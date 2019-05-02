@@ -27,6 +27,7 @@ import android.graphics.*;
 import android.util.AttributeSet;
 import android.view.*;
 
+import org.geometerplus.android.fbreader.util.SizeUtils;
 import org.geometerplus.zlibrary.core.application.ZLApplication;
 import org.geometerplus.zlibrary.core.application.ZLKeyBindings;
 import org.geometerplus.zlibrary.core.util.SystemInfo;
@@ -74,6 +75,9 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
         setFocusableInTouchMode(true);
         setDrawingCacheEnabled(false);
         setOnLongClickListener(this);
+
+        linePaint.setColor(0xFFFF6B00);
+        linePaint.setStyle(Paint.Style.FILL_AND_STROKE);
     }
 
     @Override
@@ -304,17 +308,24 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
         postInvalidate();
     }
 
+    private Paint linePaint = new Paint();
+
     private void onDrawStatic(final Canvas canvas) {
 
         if (isPreview) {
             Bitmap previousBitmap = ImageUtils.scale(myBitmapManager.getBitmap(ZLView.PageIndex.previous), 0.75f, false);
-            canvas.drawBitmap(previousBitmap, -getWidth() * 0.67f, getHeight() * 0.125f, myPaint);
+            canvas.drawBitmap(previousBitmap, -getWidth() * 0.67f, getHeight() * 0.1f, myPaint);
 
             Bitmap currentBitmap = ImageUtils.scale(myBitmapManager.getBitmap(ZLView.PageIndex.current), 0.75f, false);
-            canvas.drawBitmap(currentBitmap, getWidth() * 0.125f, getHeight() * 0.125f, myPaint);
+            float left = getWidth() * 0.125f - SizeUtils.dp2px(getContext(), 0.5f);
+            float top = getHeight() * 0.1f - SizeUtils.dp2px(getContext(), 0.5f);
+            float right = left + currentBitmap.getWidth() + SizeUtils.dp2px(getContext(), 0.75f);
+            float bottom = top + currentBitmap.getHeight() + SizeUtils.dp2px(getContext(), 0.75f);
+            canvas.drawRect(left, top, right, bottom, linePaint);
+            canvas.drawBitmap(currentBitmap, getWidth() * 0.125f, getHeight() * 0.1f, myPaint);
 
             Bitmap nextBitmap = ImageUtils.scale(myBitmapManager.getBitmap(ZLView.PageIndex.next), 0.75f, false);
-            canvas.drawBitmap(nextBitmap, getWidth() * 0.92f, getHeight() * 0.125f, myPaint);
+            canvas.drawBitmap(nextBitmap, getWidth() * 0.92f, getHeight() * 0.1f, myPaint);
         } else {
             canvas.drawBitmap(myBitmapManager.getBitmap(ZLView.PageIndex.current), 0, 0, myPaint);
         }

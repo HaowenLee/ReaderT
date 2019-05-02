@@ -86,13 +86,13 @@ final class BitmapManagerImpl implements BitmapManager {
         int height = bitmap.getHeight();
 
         Bitmap previousBitmap = ImageUtils.scale(getBitmap(ZLView.PageIndex.previous), 0.75f, false);
-        canvas.drawBitmap(previousBitmap, x + -width * 0.67f, y + height * 0.125f, paint);
+        canvas.drawBitmap(previousBitmap, x + -width * 0.67f, y + height * 0.1f, paint);
 
         Bitmap currentBitmap = ImageUtils.scale(getBitmap(ZLView.PageIndex.current), 0.75f, false);
-        canvas.drawBitmap(currentBitmap, x + width * 0.125f, y + height * 0.125f, paint);
+        canvas.drawBitmap(currentBitmap, x + width * 0.125f, y + height * 0.1f, paint);
 
         Bitmap nextBitmap = ImageUtils.scale(getBitmap(ZLView.PageIndex.next), 0.75f, false);
-        canvas.drawBitmap(nextBitmap, x + width * 0.92f, y + height * 0.125f, paint);
+        canvas.drawBitmap(nextBitmap, x + width * 0.92f, y + height * 0.1f, paint);
     }
 
     private int getInternalIndex(ZLView.PageIndex index) {

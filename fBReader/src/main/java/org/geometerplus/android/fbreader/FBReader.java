@@ -286,12 +286,6 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 
         myFBReaderApp.setExternalFileOpener(new ExternalFileOpener(this));
 
-        // 设置全屏
-        getWindow().setFlags(
-                WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                myShowStatusBarFlag ? 0 : WindowManager.LayoutParams.FLAG_FULLSCREEN
-        );
-
         if (myFBReaderApp.getPopupById(TextSearchPopup.ID) == null) {
             new TextSearchPopup(myFBReaderApp);
         }
@@ -1102,7 +1096,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         } else {
             // 缩放
             ScaleAnimation animation = new ScaleAnimation(1 / 0.75f, 1, 1 / 0.75f,
-                    1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                    1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.4f);
             animation.setDuration(DURATION);
             myMainView.startAnimation(animation);
             myMainView.setPreview(true);
@@ -1122,7 +1116,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         }
     }
 
-    private static final int DURATION = 300;
+    private static final int DURATION = 350;
 
     /**
      * 菜单动画
@@ -1250,20 +1244,20 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         View slideView = findViewById(R.id.slideMenu);
         slideView.setVisibility(View.VISIBLE);
         TranslateAnimation inAnimation = new TranslateAnimation(-(ScreenUtils.getWidth(this) - SizeUtils.dp2px(this, 40)), 0, 0, 0);
-        inAnimation.setDuration(300);
+        inAnimation.setDuration(DURATION);
         slideView.startAnimation(inAnimation);
 
         View viewBackground = findViewById(R.id.viewBackground);
         viewBackground.setVisibility(View.VISIBLE);
         AlphaAnimation alphaAnimation = new AlphaAnimation(0, 0.3f);
-        alphaAnimation.setDuration(300);
+        alphaAnimation.setDuration(DURATION);
         alphaAnimation.setFillAfter(true);
         viewBackground.startAnimation(alphaAnimation);
 
         View readerView = findViewById(R.id.readerView);
         TranslateAnimation outAnimation = new TranslateAnimation(0,
                 ScreenUtils.getWidth(this) - SizeUtils.dp2px(this, 40), 0, 0);
-        outAnimation.setDuration(300);
+        outAnimation.setDuration(DURATION);
         outAnimation.setFillAfter(true);
         readerView.startAnimation(outAnimation);
 
@@ -1273,7 +1267,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
     private void closeSlideMenu() {
         final View slideView = findViewById(R.id.slideMenu);
         final TranslateAnimation inAnimation = new TranslateAnimation(0, -(ScreenUtils.getWidth(this) - SizeUtils.dp2px(this, 40)), 0, 0);
-        inAnimation.setDuration(300);
+        inAnimation.setDuration(DURATION);
         inAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -1294,7 +1288,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 
         final View viewBackground = findViewById(R.id.viewBackground);
         AlphaAnimation alphaAnimation = new AlphaAnimation(0.3f, 0);
-        alphaAnimation.setDuration(300);
+        alphaAnimation.setDuration(DURATION);
         alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -1316,7 +1310,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         View readerView = findViewById(R.id.readerView);
         TranslateAnimation outAnimation = new TranslateAnimation(ScreenUtils.getWidth(this)
                 - SizeUtils.dp2px(this, 40), 0, 0, 0);
-        outAnimation.setDuration(300);
+        outAnimation.setDuration(DURATION);
         readerView.startAnimation(outAnimation);
     }
 
@@ -1326,7 +1320,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
     private void closeFirstMenu() {
         // 缩放
         ScaleAnimation scaleAnimation = new ScaleAnimation(1, 1 / 0.75f, 1,
-                1 / 0.75f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                1 / 0.75f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.4f);
         scaleAnimation.setDuration(DURATION);
         myMainView.startAnimation(scaleAnimation);
         scaleAnimation.setAnimationListener(new Animation.AnimationListener() {
