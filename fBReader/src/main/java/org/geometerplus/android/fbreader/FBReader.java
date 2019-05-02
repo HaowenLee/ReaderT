@@ -64,6 +64,8 @@ import org.geometerplus.android.fbreader.httpd.DataService;
 import org.geometerplus.android.fbreader.libraryService.BookCollectionShadow;
 import org.geometerplus.android.fbreader.sync.SyncOperations;
 import org.geometerplus.android.fbreader.tips.TipsActivity;
+import org.geometerplus.android.fbreader.ui.BookLabelFragment;
+import org.geometerplus.android.fbreader.ui.BookNoteFragment;
 import org.geometerplus.android.fbreader.ui.CatalogFragment;
 import org.geometerplus.android.fbreader.util.ScreenUtils;
 import org.geometerplus.android.fbreader.util.SizeUtils;
@@ -1248,19 +1250,23 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
     }
 
     private boolean isLoad = false;
-    List<CatalogFragment> fragments = new ArrayList<>();
+    List<Fragment> fragments = new ArrayList<>();
+
+    public FBReaderApp getMyFBReaderApp() {
+        return myFBReaderApp;
+    }
 
     private void initFragment() {
         if (isLoad) {
-            fragments.get(0).initTree();
+            ((CatalogFragment) fragments.get(0)).initTree();
             return;
         }
         isLoad = true;
         ViewPager viewPager = findViewById(R.id.viewPager);
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         fragments.add(new CatalogFragment());
-        fragments.add(new CatalogFragment());
-        fragments.add(new CatalogFragment());
+        fragments.add(new BookLabelFragment());
+        fragments.add(new BookNoteFragment());
         final String[] titles = new String[]{"目录", "书签", "笔记"};
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override

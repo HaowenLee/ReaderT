@@ -25,8 +25,8 @@ import org.geometerplus.zlibrary.core.util.ZLColor;
 import org.geometerplus.zlibrary.ui.android.util.ZLAndroidColorUtil;
 import org.geometerplus.fbreader.book.HighlightingStyle;
 
-abstract class BookmarksUtil {
-	static void setupColorView(AmbilWarnaPrefWidgetView colorView, HighlightingStyle style) {
+public abstract class BookmarksUtil {
+	public static void setupColorView(AmbilWarnaPrefWidgetView colorView, HighlightingStyle style) {
 		Integer rgb = null;
 		if (style != null) {
 			final ZLColor color = style.getBackgroundColor();
