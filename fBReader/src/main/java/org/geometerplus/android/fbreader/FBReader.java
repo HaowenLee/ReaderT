@@ -33,7 +33,12 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -59,6 +64,7 @@ import org.geometerplus.android.fbreader.httpd.DataService;
 import org.geometerplus.android.fbreader.libraryService.BookCollectionShadow;
 import org.geometerplus.android.fbreader.sync.SyncOperations;
 import org.geometerplus.android.fbreader.tips.TipsActivity;
+import org.geometerplus.android.fbreader.ui.CatalogFragment;
 import org.geometerplus.android.fbreader.util.ScreenUtils;
 import org.geometerplus.android.fbreader.util.SizeUtils;
 import org.geometerplus.android.util.DeviceType;
@@ -1116,7 +1122,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         }
     }
 
-    private static final int DURATION = 350;
+    private static final int DURATION = 500;
 
     /**
      * 菜单动画
@@ -1217,6 +1223,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         firstMenu.findViewById(R.id.open_slid_menu).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                initFragment();
                 openSlideMenu();
             }
         });
@@ -1238,6 +1245,41 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                 return true;
             }
         });
+    }
+
+    private boolean isLoad = false;
+    List<CatalogFragment> fragments = new ArrayList<>();
+
+    private void initFragment() {
+        if (isLoad) {
+            fragments.get(0).initTree();
+            return;
+        }
+        isLoad = true;
+        ViewPager viewPager = findViewById(R.id.viewPager);
+        TabLayout tabLayout = findViewById(R.id.tabLayout);
+        fragments.add(new CatalogFragment());
+        fragments.add(new CatalogFragment());
+        fragments.add(new CatalogFragment());
+        final String[] titles = new String[]{"目录", "书签", "笔记"};
+        viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+            @Override
+            public Fragment getItem(int i) {
+                return fragments.get(i);
+            }
+
+            @Override
+            public int getCount() {
+                return fragments.size();
+            }
+
+            @Nullable
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return titles[position];
+            }
+        });
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     private void openSlideMenu() {
@@ -1264,7 +1306,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         closeFirstMenu();
     }
 
-    private void closeSlideMenu() {
+    public void closeSlideMenu() {
         final View slideView = findViewById(R.id.slideMenu);
         final TranslateAnimation inAnimation = new TranslateAnimation(0, -(ScreenUtils.getWidth(this) - SizeUtils.dp2px(this, 40)), 0, 0);
         inAnimation.setDuration(DURATION);

@@ -37,20 +37,31 @@
         android:visibility="gone" />
 
     <!-- 侧边栏菜单 -->
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:id="@+id/slideMenu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginRight="40dp"
+        android:orientation="vertical"
         android:visibility="gone">
 
         <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#FFFFFF"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#FFFFFF" />
 
-    </android.support.constraint.ConstraintLayout>
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:background="#ebecee"
+            app:tabIndicatorHeight="0dp"
+            app:tabSelectedTextColor="#FF6B00"
+            app:tabTextAppearance="@style/TabLayoutTextStyle"
+            app:tabTextColor="#999999" />
+
+    </LinearLayout>
 
 </RelativeLayout>
