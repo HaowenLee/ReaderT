@@ -41,6 +41,7 @@ import org.geometerplus.fbreader.util.FixedTextSnippet;
 import org.geometerplus.fbreader.util.TextSnippet;
 
 public final class FBView extends ZLTextView {
+
     private final FBReaderApp myReader;
     private final ViewOptions myViewOptions;
     private final BookElementManager myBookElementManager;
@@ -468,7 +469,7 @@ public final class FBView extends ZLTextView {
                 return;
             }
 
-            myTOCMarks = new ArrayList<TOCTree>();
+            myTOCMarks = new ArrayList<>();
             myMaxTOCMarksNumber = maxNumber;
 
             TOCTree toc = model.TOCTree;
@@ -509,7 +510,7 @@ public final class FBView extends ZLTextView {
             }
             if (footerOptions.showProgressAsPercentage() && pagePosition.Total != 0) {
                 maybeAddSeparator(info, separator);
-                info.append(String.valueOf(100 * pagePosition.Current / pagePosition.Total));
+                info.append(100 * pagePosition.Current / pagePosition.Total);
                 info.append("%");
             }
 
@@ -792,5 +793,21 @@ public final class FBView extends ZLTextView {
     @Override
     protected ExtensionElementManager getExtensionManager() {
         return myBookElementManager;
+    }
+
+    @Override
+    protected String getCurrentTOC() {
+        final TOCTree tocElement = myReader.getCurrentTOCElement();
+        return tocElement == null ? "" : tocElement.getText();
+    }
+
+    @Override
+    protected String getPageProgress() {
+        StringBuilder info = new StringBuilder();
+        PagePosition pagePosition = pagePosition();
+        info.append(pagePosition.Current);
+        info.append("/");
+        info.append(pagePosition.Total);
+        return info.toString();
     }
 }

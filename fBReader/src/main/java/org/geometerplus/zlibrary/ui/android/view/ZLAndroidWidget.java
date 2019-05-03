@@ -153,7 +153,7 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
             if (animator.getMode().Auto) {
                 postInvalidate();
             }
-            drawFooter(canvas, animator);
+            // drawFooter(canvas, animator);
         } else {
             switch (oldMode) {
                 case AnimatedScrollingForward: {
@@ -331,7 +331,7 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
             canvas.drawBitmap(myBitmapManager.getBitmap(ZLView.PageIndex.current), 0, 0, myPaint);
         }
 
-        drawFooter(canvas, null);
+        // drawFooter(canvas, null);
         post(new Runnable() {
             public void run() {
                 PrepareService.execute(new Runnable() {

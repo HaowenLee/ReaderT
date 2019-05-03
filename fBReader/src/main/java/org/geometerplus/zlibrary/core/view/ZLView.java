@@ -22,6 +22,7 @@ package org.geometerplus.zlibrary.core.view;
 import org.geometerplus.zlibrary.core.application.ZLApplication;
 
 abstract public class ZLView implements ZLViewEnums {
+
 	public final ZLApplication Application;
 	private ZLPaintContext myViewContext = new DummyPaintContext();
 
@@ -45,7 +46,7 @@ abstract public class ZLView implements ZLViewEnums {
 		return myViewContext.getHeight();
 	}
 
-	abstract public interface FooterArea {
+	public interface FooterArea {
 		int getHeight();
 		void paint(ZLPaintContext context);
 	}

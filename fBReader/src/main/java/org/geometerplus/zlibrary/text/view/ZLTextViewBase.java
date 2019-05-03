@@ -31,7 +31,8 @@ import org.geometerplus.zlibrary.text.model.ZLTextMetrics;
 import org.geometerplus.zlibrary.text.view.style.*;
 
 abstract class ZLTextViewBase extends ZLView {
-	public static enum ImageFitting {
+
+	public enum ImageFitting {
 		none, covers, all
 	}
 

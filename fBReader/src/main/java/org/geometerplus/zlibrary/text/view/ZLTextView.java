@@ -44,6 +44,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public abstract class ZLTextView extends ZLTextViewBase {
+
     public interface ScrollingMode {
         int NO_OVERLAPPING = 0;
         int KEEP_LINES = 1;
@@ -57,8 +58,6 @@ public abstract class ZLTextView extends ZLTextViewBase {
         int PIXEL_UNIT = 0;
         int LINE_UNIT = 1;
     }
-
-    ;
 
     private int myScrollingMode;
     private int myOverlappingValue;
@@ -534,7 +533,17 @@ public abstract class ZLTextView extends ZLTextViewBase {
 
         drawSelectionCursor(context, page, SelectionCursor.Which.Left);
         drawSelectionCursor(context, page, SelectionCursor.Which.Right);
+
+        // 绘制头部（章节标题）
+        context.setExtraFoot((int) (getTopMargin() * 0.375), 0xff999999);
+        String progressText = getPageProgress();
+        context.drawHeader(getLeftMargin(), (int) (getTopMargin() / 1.6), getCurrentTOC());
+        int footerX = getContextWidth() - getRightMargin() - context.getExtraStringWidth(progressText);
+        int footerY = (int) (getTopMargin() + getTextAreaHeight() + getBottomMargin() / 1.3);
+        context.drawFooter(footerX, footerY, progressText);
     }
+
+    protected abstract String getPageProgress();
 
     private ZLTextPage getPage(PageIndex pageIndex) {
         switch (pageIndex) {
@@ -1829,4 +1838,6 @@ public abstract class ZLTextView extends ZLTextViewBase {
     }
 
     protected abstract ExtensionElementManager getExtensionManager();
+
+    protected abstract String getCurrentTOC();
 }

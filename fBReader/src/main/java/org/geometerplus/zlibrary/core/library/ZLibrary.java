@@ -26,6 +26,7 @@ import org.geometerplus.zlibrary.core.options.ZLIntegerOption;
 import org.geometerplus.zlibrary.core.options.ZLStringOption;
 
 public abstract class ZLibrary {
+
 	public static ZLibrary Instance() {
 		return ourImplementation;
 	}
