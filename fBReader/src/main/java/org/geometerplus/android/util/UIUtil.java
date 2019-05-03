@@ -30,140 +30,141 @@ import android.os.Message;
 
 import org.fbreader.util.Pair;
 
+import org.geometerplus.android.fbreader.view.FBLoadingDialog;
 import org.geometerplus.zlibrary.core.application.ZLApplication;
 import org.geometerplus.zlibrary.core.resources.ZLResource;
 
 public abstract class UIUtil {
-	private static final Object ourMonitor = new Object();
-	private static ProgressDialog ourProgress;
-	private static final Queue<Pair<Runnable,String>> ourTaskQueue = new LinkedList<Pair<Runnable,String>>();
-	private static volatile Handler ourProgressHandler;
+    private static final Object ourMonitor = new Object();
+    private static ProgressDialog ourProgress;
+    private static final Queue<Pair<Runnable, String>> ourTaskQueue = new LinkedList<Pair<Runnable, String>>();
+    private static volatile Handler ourProgressHandler;
 
-	private static boolean init() {
-		if (ourProgressHandler != null) {
-			return true;
-		}
-		try {
-			ourProgressHandler = new Handler() {
-				public void handleMessage(Message message) {
-					try {
-						synchronized (ourMonitor) {
-							if (ourTaskQueue.isEmpty()) {
-								ourProgress.dismiss();
-								ourProgress = null;
-							} else {
-								ourProgress.setMessage(ourTaskQueue.peek().Second);
-							}
-							ourMonitor.notify();
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-						ourProgress = null;
-					}
-				}
-			};
-			return true;
-		} catch (Throwable t) {
-			t.printStackTrace();
-			return false;
-		}
-	}
+    private static boolean init() {
+        if (ourProgressHandler != null) {
+            return true;
+        }
+        try {
+            ourProgressHandler = new Handler() {
+                public void handleMessage(Message message) {
+                    try {
+                        synchronized (ourMonitor) {
+                            if (ourTaskQueue.isEmpty()) {
+                                ourProgress.dismiss();
+                                ourProgress = null;
+                            } else {
+                                ourProgress.setMessage(ourTaskQueue.peek().Second);
+                            }
+                            ourMonitor.notify();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        ourProgress = null;
+                    }
+                }
+            };
+            return true;
+        } catch (Throwable t) {
+            t.printStackTrace();
+            return false;
+        }
+    }
 
-	public static void wait(String key, String param, Runnable action, Context context) {
-		waitInternal(getWaitMessage(key).replace("%s", param), action, context);
-	}
+    public static void wait(String key, String param, Runnable action, Context context) {
+        waitInternal(getWaitMessage(key).replace("%s", param), action, context);
+    }
 
-	public static void wait(String key, Runnable action, Context context) {
-		waitInternal(getWaitMessage(key), action, context);
-	}
+    public static void wait(String key, Runnable action, Context context) {
+        waitInternal(getWaitMessage(key), action, context);
+    }
 
-	private static String getWaitMessage(String key) {
-		return ZLResource.resource("dialog").getResource("waitMessage").getResource(key).getValue();
-	}
+    private static String getWaitMessage(String key) {
+        return ZLResource.resource("dialog").getResource("waitMessage").getResource(key).getValue();
+    }
 
-	private static void waitInternal(String message, Runnable action, Context context) {
-		if (!init()) {
-			action.run();
-			return;
-		}
+    private static void waitInternal(String message, Runnable action, Context context) {
+        if (!init()) {
+            action.run();
+            return;
+        }
 
-		synchronized (ourMonitor) {
-			ourTaskQueue.offer(new Pair(action, message));
-			if (ourProgress == null) {
-				ourProgress = ProgressDialog.show(context, null, message, true, false);
-			} else {
-				return;
-			}
-		}
-		final ProgressDialog currentProgress = ourProgress;
-		new Thread(new Runnable() {
-			public void run() {
-				while (ourProgress == currentProgress && !ourTaskQueue.isEmpty()) {
-					final Pair<Runnable,String> p = ourTaskQueue.poll();
-					p.First.run();
-					synchronized (ourMonitor) {
-						ourProgressHandler.sendEmptyMessage(0);
-						try {
-							ourMonitor.wait();
-						} catch (InterruptedException e) {
-						}
-					}
-				}
-			}
-		}).start();
-	}
+        synchronized (ourMonitor) {
+            ourTaskQueue.offer(new Pair(action, message));
+            if (ourProgress == null) {
+                ourProgress = ProgressDialog.show(context, null, message, true, false);
+            } else {
+                return;
+            }
+        }
+        final ProgressDialog currentProgress = ourProgress;
+        new Thread(new Runnable() {
+            public void run() {
+                while (ourProgress == currentProgress && !ourTaskQueue.isEmpty()) {
+                    final Pair<Runnable, String> p = ourTaskQueue.poll();
+                    p.First.run();
+                    synchronized (ourMonitor) {
+                        ourProgressHandler.sendEmptyMessage(0);
+                        try {
+                            ourMonitor.wait();
+                        } catch (InterruptedException e) {
+                        }
+                    }
+                }
+            }
+        }).start();
+    }
 
-	public static ZLApplication.SynchronousExecutor createExecutor(final Activity activity, final String key) {
-		return new ZLApplication.SynchronousExecutor() {
-			private final ZLResource myResource =
-				ZLResource.resource("dialog").getResource("waitMessage");
-			private final String myMessage = myResource.getResource(key).getValue();
-			private volatile ProgressDialog myProgress;
+    public static ZLApplication.SynchronousExecutor createExecutor(final Activity activity, final String key) {
+        return new ZLApplication.SynchronousExecutor() {
+            private final ZLResource myResource =
+                    ZLResource.resource("dialog").getResource("waitMessage");
+            private final String myMessage = myResource.getResource(key).getValue();
+            private volatile FBLoadingDialog myProgress;
 
-			public void execute(final Runnable action, final Runnable uiPostAction) {
-				activity.runOnUiThread(new Runnable() {
-					public void run() {
-						myProgress = ProgressDialog.show(activity, null, myMessage, true, false);
-						final Thread runner = new Thread() {
-							public void run() {
-								action.run();
-								activity.runOnUiThread(new Runnable() {
-									public void run() {
-										try {
-											myProgress.dismiss();
-											myProgress = null;
-										} catch (Exception e) {
-											e.printStackTrace();
-										}
-										if (uiPostAction != null) {
-											uiPostAction.run();
-										}
-									}
-								});
-							}
-						};
-						runner.setPriority(Thread.MAX_PRIORITY);
-						runner.start();
-					}
-				});
-			}
+            public void execute(final Runnable action, final Runnable uiPostAction) {
+                activity.runOnUiThread(new Runnable() {
+                    public void run() {
+                        myProgress = FBLoadingDialog.show(activity, null, myMessage, true, false);
+                        final Thread runner = new Thread() {
+                            public void run() {
+                                action.run();
+                                activity.runOnUiThread(new Runnable() {
+                                    public void run() {
+                                        try {
+                                            myProgress.dismiss();
+                                            myProgress = null;
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                        if (uiPostAction != null) {
+                                            uiPostAction.run();
+                                        }
+                                    }
+                                });
+                            }
+                        };
+                        runner.setPriority(Thread.MAX_PRIORITY);
+                        runner.start();
+                    }
+                });
+            }
 
-			private void setMessage(final ProgressDialog progress, final String message) {
-				if (progress == null) {
-					return;
-				}
-				activity.runOnUiThread(new Runnable() {
-					public void run() {
-						progress.setMessage(message);
-					}
-				});
-			}
+            private void setMessage(final FBLoadingDialog progress, final String message) {
+                if (progress == null) {
+                    return;
+                }
+                activity.runOnUiThread(new Runnable() {
+                    public void run() {
+                        progress.setMessage(message);
+                    }
+                });
+            }
 
-			public void executeAux(String key, Runnable runnable) {
-				setMessage(myProgress, myResource.getResource(key).getValue());
-				runnable.run();
-				setMessage(myProgress, myMessage);
-			}
-		};
-	}
+            public void executeAux(String key, Runnable runnable) {
+                setMessage(myProgress, myResource.getResource(key).getValue());
+                runnable.run();
+                setMessage(myProgress, myMessage);
+            }
+        };
+    }
 }
