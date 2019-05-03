@@ -1148,7 +1148,10 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         menuView.setVisibility(View.VISIBLE);
     }
 
-    private static final int DURATION = 400;
+    /**
+     * 动画时长
+     */
+    private static final int DURATION = 300;
 
     /**
      * 菜单动画

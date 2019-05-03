@@ -27,14 +27,13 @@ import android.graphics.*;
 import android.util.AttributeSet;
 import android.view.*;
 
-import org.geometerplus.android.fbreader.util.SizeUtils;
+import org.geometerplus.android.fbreader.constant.PreviewConfig;
 import org.geometerplus.zlibrary.core.application.ZLApplication;
 import org.geometerplus.zlibrary.core.application.ZLKeyBindings;
 import org.geometerplus.zlibrary.core.util.SystemInfo;
 import org.geometerplus.zlibrary.core.view.ZLView;
 import org.geometerplus.zlibrary.core.view.ZLViewWidget;
 
-import org.geometerplus.zlibrary.ui.android.util.ImageUtils;
 import org.geometerplus.zlibrary.ui.android.view.animation.*;
 
 import org.geometerplus.fbreader.Paths;
@@ -75,8 +74,9 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
         setDrawingCacheEnabled(false);
         setOnLongClickListener(this);
 
-        linePaint.setColor(0xFFFF6B00);
-        linePaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        borderPaint.setColor(0xFFFF6B00);
+        borderPaint.setStrokeWidth(PreviewConfig.PREVIEW_STROKE_WIDTH * 2);
+        borderPaint.setStyle(Paint.Style.STROKE);
     }
 
     @Override
@@ -90,8 +90,25 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
         }
     }
 
+    /**
+     * 抗锯齿
+     */
+    private PaintFlagsDrawFilter paintFlagsDrawFilter = new PaintFlagsDrawFilter(0,
+            Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
+
+    /**
+     * 缩放比
+     */
+    private float mScale = 1f;
+
     @Override
     protected void onDraw(final Canvas canvas) {
+
+        canvas.setDrawFilter(paintFlagsDrawFilter);
+
+        // 画布缩放
+        canvas.scale(mScale, mScale, getWidth() * PreviewConfig.SCALE_VALUE_PX, getHeight() * PreviewConfig.SCALE_VALUE_PY);
+
         final Context context = getContext();
         if (context instanceof FBReader) {
             ((FBReader) context).createWakeLock();
@@ -99,9 +116,6 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
             System.err.println("A surprise: view's context is not an FBReader");
         }
         super.onDraw(canvas);
-
-//		final int w = getWidth();
-//		final int h = getMainAreaHeight();
 
         myBitmapManager.setSize(getWidth(), getMainAreaHeight());
         if (getAnimationProvider().inProgress()) {
@@ -299,9 +313,18 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
         }
     }
 
+    /**
+     * 是否是预览模式
+     */
     private boolean isPreview = false;
 
+    /**
+     * 设置是否是预览模式
+     *
+     * @param preview 预览
+     */
     public void setPreview(boolean preview) {
+        mScale = preview ? PreviewConfig.SCALE_VALUE : 1f;
         isPreview = preview;
         if (myAnimationProvider instanceof PreviewShiftAnimationProvider) {
             ((PreviewShiftAnimationProvider) myAnimationProvider).setPreview(isPreview);
@@ -309,29 +332,23 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
         postInvalidate();
     }
 
-    private Paint linePaint = new Paint();
+    /**
+     * 边框
+     */
+    private Paint borderPaint = new Paint();
 
     private void onDrawStatic(final Canvas canvas) {
 
         if (isPreview) {
-            Bitmap previousBitmap = ImageUtils.scale(myBitmapManager.getBitmap(ZLView.PageIndex.previous), 0.75f, false);
-            canvas.drawBitmap(previousBitmap, -getWidth() * 0.67f, getHeight() * 0.1f, myPaint);
-
-            Bitmap currentBitmap = ImageUtils.scale(myBitmapManager.getBitmap(ZLView.PageIndex.current), 0.75f, false);
-            float left = getWidth() * 0.125f - SizeUtils.dp2px(getContext(), 0.5f);
-            float top = getHeight() * 0.1f - SizeUtils.dp2px(getContext(), 0.5f);
-            float right = left + currentBitmap.getWidth() + SizeUtils.dp2px(getContext(), 0.75f);
-            float bottom = top + currentBitmap.getHeight() + SizeUtils.dp2px(getContext(), 0.75f);
-            canvas.drawRect(left, top, right, bottom, linePaint);
-            canvas.drawBitmap(currentBitmap, getWidth() * 0.125f, getHeight() * 0.1f, myPaint);
-
-            Bitmap nextBitmap = ImageUtils.scale(myBitmapManager.getBitmap(ZLView.PageIndex.next), 0.75f, false);
-            canvas.drawBitmap(nextBitmap, getWidth() * 0.92f, getHeight() * 0.1f, myPaint);
-        } else {
-            canvas.drawBitmap(myBitmapManager.getBitmap(ZLView.PageIndex.current), 0, 0, myPaint);
+            canvas.drawBitmap(myBitmapManager.getBitmap(ZLView.PageIndex.previous), -getWidth() - getWidth() * PreviewConfig.SCALE_MARGIN_VALUE, 0, myPaint);
+            // 绘制边框
+            canvas.drawRect(0, 0, getWidth(), getHeight(), borderPaint);
+        }
+        canvas.drawBitmap(myBitmapManager.getBitmap(ZLView.PageIndex.current), 0, 0, myPaint);
+        if (isPreview) {
+            canvas.drawBitmap(myBitmapManager.getBitmap(ZLView.PageIndex.next), getWidth() + getWidth() * PreviewConfig.SCALE_MARGIN_VALUE, 0, myPaint);
         }
 
-        // drawFooter(canvas, null);
         post(new Runnable() {
             public void run() {
                 PrepareService.execute(new Runnable() {

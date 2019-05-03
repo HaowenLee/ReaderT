@@ -21,6 +21,7 @@ package org.geometerplus.zlibrary.ui.android.view;
 
 import android.graphics.*;
 
+import org.geometerplus.android.fbreader.constant.PreviewConfig;
 import org.geometerplus.zlibrary.core.view.ZLView;
 import org.geometerplus.zlibrary.core.view.ZLViewEnums;
 import org.geometerplus.zlibrary.ui.android.util.ImageUtils;
@@ -81,18 +82,11 @@ final class BitmapManagerImpl implements BitmapManager {
 
     @Override
     public void drawPreviewBitmap(Canvas canvas, int x, int y, ZLViewEnums.PageIndex index, Paint paint) {
-        Bitmap bitmap = getBitmap(ZLView.PageIndex.previous);
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-
-        Bitmap previousBitmap = ImageUtils.scale(getBitmap(ZLView.PageIndex.previous), 0.75f, false);
-        canvas.drawBitmap(previousBitmap, x + -width * 0.67f, y + height * 0.1f, paint);
-
-        Bitmap currentBitmap = ImageUtils.scale(getBitmap(ZLView.PageIndex.current), 0.75f, false);
-        canvas.drawBitmap(currentBitmap, x + width * 0.125f, y + height * 0.1f, paint);
-
-        Bitmap nextBitmap = ImageUtils.scale(getBitmap(ZLView.PageIndex.next), 0.75f, false);
-        canvas.drawBitmap(nextBitmap, x + width * 0.92f, y + height * 0.1f, paint);
+        Bitmap previousBitmap = getBitmap(ZLView.PageIndex.previous);
+        int width = previousBitmap.getWidth();
+        canvas.drawBitmap(previousBitmap, x / PreviewConfig.SCALE_VALUE - width - width * PreviewConfig.SCALE_MARGIN_VALUE, y / PreviewConfig.SCALE_VALUE, paint);
+        canvas.drawBitmap(getBitmap(ZLView.PageIndex.current), x / PreviewConfig.SCALE_VALUE, y / PreviewConfig.SCALE_VALUE, paint);
+        canvas.drawBitmap(getBitmap(ZLView.PageIndex.next), x / PreviewConfig.SCALE_VALUE + width + width * PreviewConfig.SCALE_MARGIN_VALUE, y / PreviewConfig.SCALE_VALUE, paint);
     }
 
     private int getInternalIndex(ZLView.PageIndex index) {
