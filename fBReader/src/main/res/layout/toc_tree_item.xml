@@ -5,14 +5,15 @@
     android:layout_height="wrap_content"
     android:background="#F8F8F8"
     android:minHeight="48dp"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp">
 
     <ImageView
         android:id="@+id/toc_tree_item_icon"
         android:layout_width="10dp"
         android:layout_height="10dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="15dp"
         android:src="@drawable/ic_list_group_closed" />
 
     <TextView
@@ -21,7 +22,6 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="14dp"
         android:layout_marginTop="5dp"
-        android:layout_marginRight="5dp"
         android:layout_marginBottom="5dp"
         android:ellipsize="marquee"
         android:gravity="center_vertical"
