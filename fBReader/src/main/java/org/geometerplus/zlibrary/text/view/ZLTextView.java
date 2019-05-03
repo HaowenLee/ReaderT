@@ -19,21 +19,29 @@
 
 package org.geometerplus.zlibrary.text.view;
 
-import android.util.Log;
-
-import java.util.*;
-
 import org.geometerplus.zlibrary.core.application.ZLApplication;
 import org.geometerplus.zlibrary.core.filesystem.ZLFile;
-import org.geometerplus.zlibrary.core.image.ZLImageData;
-import org.geometerplus.zlibrary.core.library.ZLibrary;
 import org.geometerplus.zlibrary.core.util.RationalNumber;
 import org.geometerplus.zlibrary.core.util.ZLColor;
-import org.geometerplus.zlibrary.core.view.*;
+import org.geometerplus.zlibrary.core.view.Hull;
+import org.geometerplus.zlibrary.core.view.SelectionCursor;
+import org.geometerplus.zlibrary.core.view.ZLPaintContext;
+import org.geometerplus.zlibrary.text.hyphenation.ZLTextHyphenationInfo;
+import org.geometerplus.zlibrary.text.hyphenation.ZLTextHyphenator;
+import org.geometerplus.zlibrary.text.model.ZLTextAlignmentType;
+import org.geometerplus.zlibrary.text.model.ZLTextMark;
+import org.geometerplus.zlibrary.text.model.ZLTextModel;
+import org.geometerplus.zlibrary.text.model.ZLTextParagraph;
 
-import org.geometerplus.zlibrary.text.model.*;
-import org.geometerplus.zlibrary.text.hyphenation.*;
-import org.geometerplus.zlibrary.text.view.style.ZLTextStyleCollection;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public abstract class ZLTextView extends ZLTextViewBase {
     public interface ScrollingMode {
@@ -42,8 +50,6 @@ public abstract class ZLTextView extends ZLTextViewBase {
         int SCROLL_LINES = 2;
         int SCROLL_PERCENTAGE = 3;
     }
-
-    ;
 
     private ZLTextModel myModel;
 

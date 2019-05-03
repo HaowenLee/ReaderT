@@ -39,7 +39,6 @@ import org.geometerplus.zlibrary.ui.android.library.ZLAndroidLibrary;
 import org.geometerplus.zlibrary.ui.android.view.ZLAndroidPaintContext;
 
 import org.geometerplus.fbreader.Paths;
-import org.geometerplus.fbreader.bookmodel.FBTextKind;
 import org.geometerplus.fbreader.fbreader.*;
 import org.geometerplus.fbreader.fbreader.options.*;
 import org.geometerplus.fbreader.network.sync.SyncData;

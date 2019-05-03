@@ -20,7 +20,6 @@
 package org.geometerplus.zlibrary.ui.android.view.animation;
 
 import android.graphics.*;
-import android.util.FloatMath;
 
 import org.geometerplus.zlibrary.core.util.BitmapUtil;
 import org.geometerplus.zlibrary.core.view.ZLViewEnums;

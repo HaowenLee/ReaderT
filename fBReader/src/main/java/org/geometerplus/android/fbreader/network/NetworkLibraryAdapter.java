@@ -21,7 +21,6 @@ package org.geometerplus.android.fbreader.network;
 
 import android.view.*;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import org.geometerplus.zlibrary.ui.android.R;
 

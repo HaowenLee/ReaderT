@@ -19,19 +19,10 @@
 
 package org.geometerplus.android.util;
 
-import java.util.Map;
-
 import android.app.Activity;
 import android.content.*;
 import android.content.pm.*;
 import android.net.Uri;
-import android.telephony.TelephonyManager;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.CheckBox;
-
-import org.geometerplus.zlibrary.core.options.ZLBooleanOption;
-import org.geometerplus.zlibrary.core.resources.ZLResource;
 
 public abstract class PackageUtil {
 	private static Uri marketUri(String pkg) {

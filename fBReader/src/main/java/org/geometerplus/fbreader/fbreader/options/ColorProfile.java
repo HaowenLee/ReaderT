@@ -154,11 +154,11 @@ public class ColorProfile {
             FooterFillOption =
                     createOption(name, "FooterFillOption", 170, 170, 170);
             FooterNGBackgroundOption =
-                    createOption(name, "FooterNGBackgroundOption", 68, 68, 68);
+                    createOption(name, "FooterNGBackgroundOption", 248, 248, 248);
             FooterNGForegroundOption =
-                    createOption(name, "FooterNGForegroundOption", 187, 187, 187);
+                    createOption(name, "FooterNGForegroundOption", 154, 154, 154);
             FooterNGForegroundUnreadOption =
-                    createOption(name, "FooterNGForegroundUnreadOption", 119, 119, 119);
+                    createOption(name, "FooterNGForegroundUnreadOption", 248, 248, 248);
         }
     }
 }

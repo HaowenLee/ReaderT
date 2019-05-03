@@ -28,8 +28,6 @@ import com.github.johnpersano.supertoasts.SuperActivityToast;
 import com.github.johnpersano.supertoasts.SuperToast;
 import com.github.johnpersano.supertoasts.util.OnDismissWrapper;
 
-import org.geometerplus.zlibrary.core.resources.ZLResource;
-
 import org.geometerplus.android.fbreader.FBReaderMainActivity;
 import org.geometerplus.android.util.PackageUtil;
 

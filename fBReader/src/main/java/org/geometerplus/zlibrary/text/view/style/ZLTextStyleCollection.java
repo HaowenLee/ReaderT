@@ -26,7 +26,6 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import org.geometerplus.zlibrary.core.filesystem.ZLResourceFile;
 import org.geometerplus.zlibrary.core.util.XmlUtil;
-import org.geometerplus.zlibrary.text.model.ZLTextAlignmentType;
 
 public class ZLTextStyleCollection {
 	public final String Screen;

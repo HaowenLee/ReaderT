@@ -19,7 +19,6 @@
 
 package org.geometerplus.android.fbreader.bookmark;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;

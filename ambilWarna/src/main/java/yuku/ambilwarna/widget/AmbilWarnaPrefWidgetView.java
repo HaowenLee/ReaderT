@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.util.AttributeSet;
-import android.util.FloatMath;
 import android.view.View;
 
 public class AmbilWarnaPrefWidgetView extends View {

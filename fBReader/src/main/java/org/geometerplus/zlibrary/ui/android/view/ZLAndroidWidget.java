@@ -32,7 +32,6 @@ import org.geometerplus.zlibrary.core.application.ZLApplication;
 import org.geometerplus.zlibrary.core.application.ZLKeyBindings;
 import org.geometerplus.zlibrary.core.util.SystemInfo;
 import org.geometerplus.zlibrary.core.view.ZLView;
-import org.geometerplus.zlibrary.core.view.ZLViewEnums;
 import org.geometerplus.zlibrary.core.view.ZLViewWidget;
 
 import org.geometerplus.zlibrary.ui.android.util.ImageUtils;
@@ -134,6 +133,8 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
                     myAnimationProvider = new SlideOldStyleAnimationProvider(myBitmapManager);
                     break;
                 case shift:
+                    myAnimationProvider = new ShiftAnimationProvider(myBitmapManager);
+                case previewShift:
                     myAnimationProvider = new PreviewShiftAnimationProvider(myBitmapManager);
                     break;
             }

@@ -19,8 +19,6 @@
 
 package org.geometerplus.android.fbreader.network;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -29,7 +27,6 @@ import android.net.Uri;
 import org.geometerplus.zlibrary.core.network.ZLNetworkContext;
 import org.geometerplus.zlibrary.core.network.ZLNetworkException;
 import org.geometerplus.zlibrary.core.options.Config;
-import org.geometerplus.zlibrary.core.util.SystemInfo;
 
 import org.geometerplus.fbreader.Paths;
 import org.geometerplus.fbreader.network.*;
@@ -38,7 +35,6 @@ import org.geometerplus.fbreader.network.urlInfo.BookUrlInfo;
 import org.geometerplus.fbreader.network.urlInfo.UrlInfo;
 
 import org.geometerplus.android.util.UIUtil;
-import org.geometerplus.android.util.PackageUtil;
 
 public abstract class Util implements UserRegistrationConstants {
 	static final String AUTHORISATION_ACTION = "android.fbreader.action.network.AUTHORISATION";

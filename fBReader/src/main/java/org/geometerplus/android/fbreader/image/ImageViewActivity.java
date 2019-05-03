@@ -23,7 +23,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.*;
 import android.os.Bundle;
-import android.util.FloatMath;
 import android.view.*;
 
 import org.geometerplus.zlibrary.core.image.*;

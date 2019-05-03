@@ -23,7 +23,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.graphics.*;
-import android.util.FloatMath;
 
 import org.geometerplus.zlibrary.core.library.ZLibrary;
 import org.geometerplus.zlibrary.core.view.ZLViewEnums;

@@ -19,8 +19,6 @@
 
 package org.geometerplus.android.fbreader;
 
-import java.util.Map;
-
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;

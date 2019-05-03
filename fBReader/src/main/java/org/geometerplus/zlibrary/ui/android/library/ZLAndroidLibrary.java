@@ -25,7 +25,6 @@ import java.util.*;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;

@@ -7,14 +7,7 @@
 
 package group.pals.android.lib.ui.filechooser.io.localfile;
 
-import group.pals.android.lib.ui.filechooser.io.IFile;
-import group.pals.android.lib.ui.filechooser.utils.history.History;
-
 import java.io.File;
-import java.util.List;
-
-import android.os.Parcel;
-import android.os.Parcelable;
 
 /**
  * This is a wrapper for {@link File}.

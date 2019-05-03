@@ -63,7 +63,7 @@ public class ViewOptions {
 		ScrollbarType =
 			new ZLIntegerRangeOption("Options", "ScrollbarType", 0, 4, FBView.SCROLLBAR_SHOW_AS_FOOTER);
 		FooterHeight =
-			new ZLIntegerRangeOption("Options", "FooterHeight", 8, dpi / 8, dpi / 20);
+			new ZLIntegerRangeOption("Options", "FooterHeight", 8, dpi / 8, dpi / 8);
 		ColorProfileName =
 			new ZLStringOption("Options", "ColorProfile", ColorProfile.DAY);
 		ColorProfileName.setSpecialName("colorProfile");

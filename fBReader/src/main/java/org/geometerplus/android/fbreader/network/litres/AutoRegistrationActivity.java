@@ -19,9 +19,6 @@
 
 package org.geometerplus.android.fbreader.network.litres;
 
-import java.util.ArrayList;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.*;

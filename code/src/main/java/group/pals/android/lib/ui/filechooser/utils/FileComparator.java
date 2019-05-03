@@ -8,7 +8,6 @@
 package group.pals.android.lib.ui.filechooser.utils;
 
 import group.pals.android.lib.ui.filechooser.io.IFile;
-import group.pals.android.lib.ui.filechooser.io.localfile.ParentFile;
 import group.pals.android.lib.ui.filechooser.services.IFileProvider;
 
 import java.util.Comparator;

@@ -37,12 +37,12 @@ public class FooterOptions {
 	public final ZLStringOption Font;
 
 	public FooterOptions() {
-		ShowTOCMarks = new ZLBooleanOption("Options", "FooterShowTOCMarks", true);
+		ShowTOCMarks = new ZLBooleanOption("Options", "FooterShowTOCMarks", false);
 		MaxTOCMarks = new ZLIntegerRangeOption("Options", "FooterMaxTOCMarks", 10, 1000, 100);
-		ShowClock = new ZLBooleanOption("Options", "ShowClockInFooter", true);
-		ShowBattery = new ZLBooleanOption("Options", "ShowBatteryInFooter", true);
-		ShowProgress = new ZLEnumOption<ProgressDisplayType>(
-			"Options", "DisplayProgressInFooter", ProgressDisplayType.asPages
+		ShowClock = new ZLBooleanOption("Options", "ShowClockInFooter", false);
+		ShowBattery = new ZLBooleanOption("Options", "ShowBatteryInFooter", false);
+		ShowProgress = new ZLEnumOption<>(
+				"Options", "DisplayProgressInFooter", ProgressDisplayType.asPages
 		);
 		final ZLBooleanOption oldShowProgress =
 			new ZLBooleanOption("Options", "ShowProgressInFooter", true);

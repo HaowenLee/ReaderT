@@ -28,7 +28,6 @@ import android.net.Uri;
 import android.content.Intent;
 
 import org.geometerplus.zlibrary.core.util.MimeType;
-import org.geometerplus.fbreader.network.urlInfo.BookUrlInfo;
 
 public class BookDownloader extends Activity {
 	public static boolean acceptsUri(Uri uri, String mime) {

@@ -22,7 +22,6 @@ package org.geometerplus.zlibrary.text.view;
 import java.util.*;
 
 import org.geometerplus.zlibrary.core.view.Hull;
-import org.geometerplus.zlibrary.core.view.ZLPaintContext;
 
 public final class ZLTextRegion {
 	public static abstract class Soul implements Comparable<Soul> {

@@ -20,7 +20,6 @@
 package org.geometerplus.fbreader.network.urlInfo;
 
 import java.io.File;
-import java.util.Arrays;
 
 import android.net.Uri;
 

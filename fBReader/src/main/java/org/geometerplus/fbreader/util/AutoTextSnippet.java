@@ -19,8 +19,6 @@
 
 package org.geometerplus.fbreader.util;
 
-import java.util.*;
-
 import org.geometerplus.zlibrary.text.view.*;
 import org.geometerplus.fbreader.bookmodel.FBTextKind;
 

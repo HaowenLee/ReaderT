@@ -19,7 +19,6 @@
 
 package org.geometerplus.zlibrary.text.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.fbreader.util.Boolean3;

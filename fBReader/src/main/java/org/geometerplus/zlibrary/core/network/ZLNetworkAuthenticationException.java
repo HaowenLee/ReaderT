@@ -19,8 +19,6 @@
 
 package org.geometerplus.zlibrary.core.network;
 
-import org.geometerplus.zlibrary.core.resources.ZLResource;
-
 public class ZLNetworkAuthenticationException extends ZLNetworkException {
 	public static final String ERROR_AUTHENTICATION_FAILED = "authenticationFailed";
 

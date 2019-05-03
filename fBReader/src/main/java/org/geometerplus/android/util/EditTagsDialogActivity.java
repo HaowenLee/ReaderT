@@ -21,13 +21,10 @@ package org.geometerplus.android.util;
 
 import java.util.ArrayList;
 
-import android.app.AlertDialog;
-import android.app.ListActivity;
 import android.content.*;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
-import android.text.InputType;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 

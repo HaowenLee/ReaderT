@@ -27,7 +27,6 @@ import android.text.method.LinkMovementMethod;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.PopupWindow;
 import android.widget.*;
 
 import org.geometerplus.zlibrary.core.network.ZLNetworkException;

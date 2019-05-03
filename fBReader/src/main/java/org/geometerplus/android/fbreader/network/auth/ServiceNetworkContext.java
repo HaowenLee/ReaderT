@@ -27,7 +27,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
-import android.text.TextUtils;
 
 import org.geometerplus.zlibrary.core.resources.ZLResource;
 

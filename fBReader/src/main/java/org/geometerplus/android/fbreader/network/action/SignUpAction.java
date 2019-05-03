@@ -21,13 +21,11 @@ package org.geometerplus.android.fbreader.network.action;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
-import android.net.Uri;
 
 import org.geometerplus.fbreader.network.INetworkLink;
 import org.geometerplus.fbreader.network.NetworkTree;
 import org.geometerplus.fbreader.network.authentication.NetworkAuthenticationManager;
 import org.geometerplus.fbreader.network.tree.NetworkCatalogRootTree;
-import org.geometerplus.fbreader.network.urlInfo.UrlInfo;
 
 import org.geometerplus.android.fbreader.network.Util;
 import org.geometerplus.android.fbreader.network.litres.UserRegistrationActivity;

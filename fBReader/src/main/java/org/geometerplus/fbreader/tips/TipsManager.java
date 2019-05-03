@@ -25,7 +25,6 @@ import java.io.File;
 import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 import org.geometerplus.zlibrary.core.options.*;
 import org.geometerplus.zlibrary.core.network.QuietNetworkContext;
-import org.geometerplus.zlibrary.core.network.ZLNetworkException;
 import org.geometerplus.zlibrary.core.util.SystemInfo;
 
 import org.geometerplus.fbreader.network.NetworkLibrary;

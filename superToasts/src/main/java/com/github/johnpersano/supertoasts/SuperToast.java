@@ -20,7 +20,6 @@ package com.github.johnpersano.supertoasts;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;

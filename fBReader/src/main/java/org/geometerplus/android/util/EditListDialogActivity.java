@@ -27,10 +27,6 @@ import android.content.*;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
-import android.text.InputType;
-import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView.OnItemLongClickListener;
-import android.content.DialogInterface.OnClickListener;
 
 import org.geometerplus.zlibrary.core.resources.ZLResource;
 import org.geometerplus.zlibrary.ui.android.R;

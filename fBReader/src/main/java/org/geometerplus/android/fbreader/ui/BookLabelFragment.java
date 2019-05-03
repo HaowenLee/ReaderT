@@ -3,7 +3,6 @@ package org.geometerplus.android.fbreader.ui;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
