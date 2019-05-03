@@ -344,8 +344,10 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         myFBReaderApp.addAction(ActionCode.OPEN_WEB_HELP, new OpenWebHelpAction(this, myFBReaderApp));
         myFBReaderApp.addAction(ActionCode.INSTALL_PLUGINS, new InstallPluginsAction(this, myFBReaderApp));
 
-        myFBReaderApp.addAction(ActionCode.SWITCH_TO_DAY_PROFILE, new SwitchProfileAction(this, myFBReaderApp, ColorProfile.DAY));
-        myFBReaderApp.addAction(ActionCode.SWITCH_TO_NIGHT_PROFILE, new SwitchProfileAction(this, myFBReaderApp, ColorProfile.NIGHT));
+        myFBReaderApp.addAction(ActionCode.SWITCH_THEME_WHITE_PROFILE, new SwitchProfileAction(this, myFBReaderApp, ColorProfile.THEME_WHITE));
+        myFBReaderApp.addAction(ActionCode.SWITCH_THEME_YELLOW_PROFILE, new SwitchProfileAction(this, myFBReaderApp, ColorProfile.THEME_YELLOW));
+        myFBReaderApp.addAction(ActionCode.SWITCH_THEME_GREEN_PROFILE, new SwitchProfileAction(this, myFBReaderApp, ColorProfile.THEME_GREEN));
+        myFBReaderApp.addAction(ActionCode.SWITCH_THEME_BLACK_PROFILE, new SwitchProfileAction(this, myFBReaderApp, ColorProfile.THEME_BLACK));
 
         final Intent intent = getIntent();
         final String action = intent.getAction();
@@ -1106,7 +1108,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         } else {
             // 主题
             RadioGroup radioGroup = findViewById(R.id.book_menu_color_group);
-            if (myFBReaderApp.isActionVisible(ActionCode.SWITCH_TO_DAY_PROFILE)) {
+            if (myFBReaderApp.isActionVisible(ActionCode.SWITCH_THEME_WHITE_PROFILE)) {
                 radioGroup.check(R.id.color_black);
             } else {
                 radioGroup.check(R.id.color_white);
@@ -1194,10 +1196,10 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         firstMenu.findViewById(R.id.quick_theme_change).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (myFBReaderApp.isActionVisible(ActionCode.SWITCH_TO_NIGHT_PROFILE)) {
-                    myFBReaderApp.runAction(ActionCode.SWITCH_TO_NIGHT_PROFILE);
+                if (myFBReaderApp.isActionVisible(ActionCode.SWITCH_THEME_BLACK_PROFILE)) {
+                    myFBReaderApp.runAction(ActionCode.SWITCH_THEME_BLACK_PROFILE);
                 } else {
-                    myFBReaderApp.runAction(ActionCode.SWITCH_TO_DAY_PROFILE);
+                    myFBReaderApp.runAction(ActionCode.SWITCH_THEME_WHITE_PROFILE);
                 }
             }
         });
@@ -1322,14 +1324,16 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.color_white:
-                        myFBReaderApp.runAction(ActionCode.SWITCH_TO_DAY_PROFILE);
+                        myFBReaderApp.runAction(ActionCode.SWITCH_THEME_WHITE_PROFILE);
                         break;
                     case R.id.color_yellow:
+                        myFBReaderApp.runAction(ActionCode.SWITCH_THEME_YELLOW_PROFILE);
                         break;
                     case R.id.color_green:
+                        myFBReaderApp.runAction(ActionCode.SWITCH_THEME_GREEN_PROFILE);
                         break;
                     case R.id.color_black:
-                        myFBReaderApp.runAction(ActionCode.SWITCH_TO_NIGHT_PROFILE);
+                        myFBReaderApp.runAction(ActionCode.SWITCH_THEME_BLACK_PROFILE);
                         break;
                     default:
                         break;

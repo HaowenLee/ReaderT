@@ -535,7 +535,7 @@ public abstract class ZLTextView extends ZLTextViewBase {
         drawSelectionCursor(context, page, SelectionCursor.Which.Right);
 
         // 绘制头部（章节标题）
-        context.setExtraFoot((int) (getTopMargin() * 0.375), 0xff999999);
+        context.setExtraFoot((int) (getTopMargin() * 0.375), getExtraColor());
         String progressText = getPageProgress();
         context.drawHeader(getLeftMargin(), (int) (getTopMargin() / 1.6), getCurrentTOC());
         int footerX = getContextWidth() - getRightMargin() - context.getExtraStringWidth(progressText);
@@ -1840,4 +1840,6 @@ public abstract class ZLTextView extends ZLTextViewBase {
     protected abstract ExtensionElementManager getExtensionManager();
 
     protected abstract String getCurrentTOC();
+
+    protected abstract ZLColor getExtraColor();
 }

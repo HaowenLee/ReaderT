@@ -23,7 +23,7 @@ public class PreviewConfig {
     /**
      * 两边空白相对屏幕宽的比例
      */
-    public static final float SCALE_MARGIN_VALUE = 0.038f;
+    public static final float SCALE_MARGIN_VALUE = 0.037f / SCALE_VALUE;
 
     /**
      * 边框宽度

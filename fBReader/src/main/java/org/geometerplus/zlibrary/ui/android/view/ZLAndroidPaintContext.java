@@ -505,8 +505,8 @@ public final class ZLAndroidPaintContext extends ZLPaintContext {
     }
 
     @Override
-    public void setExtraFoot(int textSize, int color) {
+    public void setExtraFoot(int textSize, ZLColor color) {
         myExtraPaint.setTextSize(textSize);
-        myExtraPaint.setColor(color);
+        myExtraPaint.setARGB(255, color.Red, color.Green, color.Blue);
     }
 }

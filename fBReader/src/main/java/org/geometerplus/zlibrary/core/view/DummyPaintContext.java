@@ -63,7 +63,7 @@ final class DummyPaintContext extends ZLPaintContext {
     }
 
     @Override
-    public void setExtraFoot(int textSize, int color) {
+    public void setExtraFoot(int textSize, ZLColor color) {
 
     }
 

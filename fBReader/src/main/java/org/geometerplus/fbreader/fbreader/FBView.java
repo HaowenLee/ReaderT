@@ -774,7 +774,7 @@ public final class FBView extends ZLTextView {
     @Override
     protected ZLPaintContext.ColorAdjustingMode getAdjustingModeForImages() {
         if (myReader.ImageOptions.MatchBackground.getValue()) {
-            if (ColorProfile.DAY.equals(myViewOptions.getColorProfile().Name)) {
+            if (ColorProfile.THEME_WHITE.equals(myViewOptions.getColorProfile().Name)) {
                 return ZLPaintContext.ColorAdjustingMode.DARKEN_TO_BACKGROUND;
             } else {
                 return ZLPaintContext.ColorAdjustingMode.LIGHTEN_TO_BACKGROUND;
@@ -799,6 +799,12 @@ public final class FBView extends ZLTextView {
     protected String getCurrentTOC() {
         final TOCTree tocElement = myReader.getCurrentTOCElement();
         return tocElement == null ? "" : tocElement.getText();
+    }
+
+    @Override
+    protected ZLColor getExtraColor() {
+        ColorProfile profile = myViewOptions.getColorProfile();
+        return profile.HeaderAndFooterColorOption.getValue();
     }
 
     @Override

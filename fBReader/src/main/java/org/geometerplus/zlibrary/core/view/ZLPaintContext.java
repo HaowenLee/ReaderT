@@ -30,7 +30,6 @@ import org.geometerplus.zlibrary.core.util.ZLColor;
 abstract public class ZLPaintContext {
 
     private final SystemInfo mySystemInfo;
-    private final ArrayList<String> myFamilies = new ArrayList<String>();
 
     protected ZLPaintContext(SystemInfo systemInfo) {
         mySystemInfo = systemInfo;
@@ -102,7 +101,7 @@ abstract public class ZLPaintContext {
 
     abstract public void setTextColor(ZLColor color);
 
-    abstract public void setExtraFoot(int textSize, int color);
+    abstract public void setExtraFoot(int textSize, ZLColor color);
 
     abstract public void setLineColor(ZLColor color);
 

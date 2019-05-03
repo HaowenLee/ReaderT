@@ -66,7 +66,7 @@ public class ViewOptions {
         FooterHeight =
                 new ZLIntegerRangeOption("Options", "FooterHeight", 0, dpi / 8, 0);
         ColorProfileName =
-                new ZLStringOption("Options", "ColorProfile", ColorProfile.DAY);
+                new ZLStringOption("Options", "ColorProfile", ColorProfile.THEME_WHITE);
         ColorProfileName.setSpecialName("colorProfile");
     }
 

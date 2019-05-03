@@ -26,8 +26,11 @@ import org.geometerplus.zlibrary.core.options.*;
 import org.geometerplus.zlibrary.core.view.ZLPaintContext;
 
 public class ColorProfile {
-    public static final String DAY = "defaultLight";
-    public static final String NIGHT = "defaultDark";
+
+    public static final String THEME_WHITE = "themeWhite";
+    public static final String THEME_YELLOW = "themeYellow";
+    public static final String THEME_GREEN = "themeGreen";
+    public static final String THEME_BLACK = "themeBlack";
 
     private static final ArrayList<String> ourNames = new ArrayList<String>();
     private static final HashMap<String, ColorProfile> ourProfiles = new HashMap<String, ColorProfile>();
@@ -36,8 +39,10 @@ public class ColorProfile {
         if (ourNames.isEmpty()) {
             final int size = new ZLIntegerOption("Colors", "NumberOfSchemes", 0).getValue();
             if (size == 0) {
-                ourNames.add(DAY);
-                ourNames.add(NIGHT);
+                ourNames.add(THEME_WHITE);
+                ourNames.add(THEME_YELLOW);
+                ourNames.add(THEME_GREEN);
+                ourNames.add(THEME_BLACK);
             } else {
                 for (int i = 0; i < size; ++i) {
                     ourNames.add(new ZLStringOption("Colors", "Scheme" + i, "").getValue());
@@ -72,6 +77,7 @@ public class ColorProfile {
     public final ZLColorOption FooterNGBackgroundOption;
     public final ZLColorOption FooterNGForegroundOption;
     public final ZLColorOption FooterNGForegroundUnreadOption;
+    public final ZLColorOption HeaderAndFooterColorOption;
 
     private ColorProfile(String name, ColorProfile base) {
         this(name);
@@ -89,6 +95,7 @@ public class ColorProfile {
         FooterNGBackgroundOption.setValue(base.FooterNGBackgroundOption.getValue());
         FooterNGForegroundOption.setValue(base.FooterNGForegroundOption.getValue());
         FooterNGForegroundUnreadOption.setValue(base.FooterNGForegroundUnreadOption.getValue());
+        HeaderAndFooterColorOption.setValue(base.HeaderAndFooterColorOption.getValue());
     }
 
     private static ZLColorOption createOption(String profileName, String optionName, int r, int g, int b) {
@@ -101,64 +108,135 @@ public class ColorProfile {
 
     private ColorProfile(String name) {
         Name = name;
-        if (NIGHT.equals(name)) {
-            WallpaperOption =
-                    new ZLStringOption("Colors", name + ":Wallpaper", "");
-            FillModeOption =
-                    new ZLEnumOption<>("Colors", name + ":FillMode", ZLPaintContext.FillMode.tile);
-            BackgroundOption =
-                    createOption(name, "Background", 52, 56, 60);
-            SelectionBackgroundOption =
-                    createOption(name, "SelectionBackground", 82, 131, 194);
-            SelectionForegroundOption =
-                    createNullOption(name, "SelectionForeground");
-            HighlightingBackgroundOption =
-                    createOption(name, "Highlighting", 96, 96, 128);
-            HighlightingForegroundOption =
-                    createNullOption(name, "HighlightingForeground");
-            RegularTextOption =
-                    createOption(name, "Text", 193, 213, 232);
-            HyperlinkTextOption =
-                    createOption(name, "Hyperlink", 60, 142, 224);
-            VisitedHyperlinkTextOption =
-                    createOption(name, "VisitedHyperlink", 200, 139, 255);
-            FooterFillOption =
-                    createOption(name, "FooterFillOption", 85, 85, 85);
-            FooterNGBackgroundOption =
-                    createOption(name, "FooterNGBackgroundOption", 68, 68, 68);
-            FooterNGForegroundOption =
-                    createOption(name, "FooterNGForegroundOption", 187, 187, 187);
-            FooterNGForegroundUnreadOption =
-                    createOption(name, "FooterNGForegroundUnreadOption", 119, 119, 119);
-        } else {
-            WallpaperOption =
-                    new ZLStringOption("Colors", name + ":Wallpaper", "");
-            FillModeOption =
-                    new ZLEnumOption<>("Colors", name + ":FillMode", ZLPaintContext.FillMode.tile);
-            BackgroundOption =
-                    createOption(name, "Background", 248, 248, 248);
-            SelectionBackgroundOption =
-                    createOption(name, "SelectionBackground", 82, 131, 194);
-            SelectionForegroundOption =
-                    createNullOption(name, "SelectionForeground");
-            HighlightingBackgroundOption =
-                    createOption(name, "Highlighting", 255, 192, 128);
-            HighlightingForegroundOption =
-                    createNullOption(name, "HighlightingForeground");
-            RegularTextOption =
-                    createOption(name, "Text", 62, 42, 23);
-            HyperlinkTextOption =
-                    createOption(name, "Hyperlink", 60, 139, 255);
-            VisitedHyperlinkTextOption =
-                    createOption(name, "VisitedHyperlink", 200, 139, 255);
-            FooterFillOption =
-                    createOption(name, "FooterFillOption", 170, 170, 170);
-            FooterNGBackgroundOption =
-                    createOption(name, "FooterNGBackgroundOption", 248, 248, 248);
-            FooterNGForegroundOption =
-                    createOption(name, "FooterNGForegroundOption", 154, 154, 154);
-            FooterNGForegroundUnreadOption =
-                    createOption(name, "FooterNGForegroundUnreadOption", 248, 248, 248);
+        switch (name) {
+            case THEME_YELLOW:
+                WallpaperOption =
+                        new ZLStringOption("Colors", name + ":Wallpaper", "");
+                FillModeOption =
+                        new ZLEnumOption<>("Colors", name + ":FillMode", ZLPaintContext.FillMode.tile);
+                BackgroundOption =
+                        createOption(name, "Background", 228, 223, 204);
+                SelectionBackgroundOption =
+                        createOption(name, "SelectionBackground", 82, 131, 194);
+                SelectionForegroundOption =
+                        createNullOption(name, "SelectionForeground");
+                HighlightingBackgroundOption =
+                        createOption(name, "Highlighting", 255, 192, 128);
+                HighlightingForegroundOption =
+                        createNullOption(name, "HighlightingForeground");
+                RegularTextOption =
+                        createOption(name, "Text", 62, 42, 23);
+                HyperlinkTextOption =
+                        createOption(name, "Hyperlink", 60, 139, 255);
+                VisitedHyperlinkTextOption =
+                        createOption(name, "VisitedHyperlink", 200, 139, 255);
+                FooterFillOption =
+                        createOption(name, "FooterFillOption", 170, 170, 170);
+                FooterNGBackgroundOption =
+                        createOption(name, "FooterNGBackgroundOption", 248, 248, 248);
+                FooterNGForegroundOption =
+                        createOption(name, "FooterNGForegroundOption", 154, 154, 154);
+                FooterNGForegroundUnreadOption =
+                        createOption(name, "FooterNGForegroundUnreadOption", 248, 248, 248);
+                HeaderAndFooterColorOption =
+                        createOption(name, "HeaderAndFooterColorOption", 145, 130, 115);
+                break;
+            case THEME_GREEN:
+                WallpaperOption =
+                        new ZLStringOption("Colors", name + ":Wallpaper", "");
+                FillModeOption =
+                        new ZLEnumOption<>("Colors", name + ":FillMode", ZLPaintContext.FillMode.tile);
+                BackgroundOption =
+                        createOption(name, "Background", 166, 201, 171);
+                SelectionBackgroundOption =
+                        createOption(name, "SelectionBackground", 82, 131, 194);
+                SelectionForegroundOption =
+                        createNullOption(name, "SelectionForeground");
+                HighlightingBackgroundOption =
+                        createOption(name, "Highlighting", 255, 192, 128);
+                HighlightingForegroundOption =
+                        createNullOption(name, "HighlightingForeground");
+                RegularTextOption =
+                        createOption(name, "Text", 62, 42, 23);
+                HyperlinkTextOption =
+                        createOption(name, "Hyperlink", 60, 139, 255);
+                VisitedHyperlinkTextOption =
+                        createOption(name, "VisitedHyperlink", 200, 139, 255);
+                FooterFillOption =
+                        createOption(name, "FooterFillOption", 170, 170, 170);
+                FooterNGBackgroundOption =
+                        createOption(name, "FooterNGBackgroundOption", 248, 248, 248);
+                FooterNGForegroundOption =
+                        createOption(name, "FooterNGForegroundOption", 154, 154, 154);
+                FooterNGForegroundUnreadOption =
+                        createOption(name, "FooterNGForegroundUnreadOption", 248, 248, 248);
+                HeaderAndFooterColorOption =
+                        createOption(name, "HeaderAndFooterColorOption", 145, 130, 115);
+                break;
+            case THEME_BLACK:
+                WallpaperOption =
+                        new ZLStringOption("Colors", name + ":Wallpaper", "");
+                FillModeOption =
+                        new ZLEnumOption<>("Colors", name + ":FillMode", ZLPaintContext.FillMode.tile);
+                BackgroundOption =
+                        createOption(name, "Background", 52, 56, 60);
+                SelectionBackgroundOption =
+                        createOption(name, "SelectionBackground", 82, 131, 194);
+                SelectionForegroundOption =
+                        createNullOption(name, "SelectionForeground");
+                HighlightingBackgroundOption =
+                        createOption(name, "Highlighting", 96, 96, 128);
+                HighlightingForegroundOption =
+                        createNullOption(name, "HighlightingForeground");
+                RegularTextOption =
+                        createOption(name, "Text", 193, 213, 232);
+                HyperlinkTextOption =
+                        createOption(name, "Hyperlink", 60, 142, 224);
+                VisitedHyperlinkTextOption =
+                        createOption(name, "VisitedHyperlink", 200, 139, 255);
+                FooterFillOption =
+                        createOption(name, "FooterFillOption", 85, 85, 85);
+                FooterNGBackgroundOption =
+                        createOption(name, "FooterNGBackgroundOption", 68, 68, 68);
+                FooterNGForegroundOption =
+                        createOption(name, "FooterNGForegroundOption", 187, 187, 187);
+                FooterNGForegroundUnreadOption =
+                        createOption(name, "FooterNGForegroundUnreadOption", 119, 119, 119);
+                HeaderAndFooterColorOption =
+                        createOption(name, "HeaderAndFooterColorOption", 126, 137, 148);
+                break;
+            default:
+                WallpaperOption =
+                        new ZLStringOption("Colors", name + ":Wallpaper", "");
+                FillModeOption =
+                        new ZLEnumOption<>("Colors", name + ":FillMode", ZLPaintContext.FillMode.tile);
+                BackgroundOption =
+                        createOption(name, "Background", 248, 248, 248);
+                SelectionBackgroundOption =
+                        createOption(name, "SelectionBackground", 82, 131, 194);
+                SelectionForegroundOption =
+                        createNullOption(name, "SelectionForeground");
+                HighlightingBackgroundOption =
+                        createOption(name, "Highlighting", 255, 192, 128);
+                HighlightingForegroundOption =
+                        createNullOption(name, "HighlightingForeground");
+                RegularTextOption =
+                        createOption(name, "Text", 62, 42, 23);
+                HyperlinkTextOption =
+                        createOption(name, "Hyperlink", 60, 139, 255);
+                VisitedHyperlinkTextOption =
+                        createOption(name, "VisitedHyperlink", 200, 139, 255);
+                FooterFillOption =
+                        createOption(name, "FooterFillOption", 170, 170, 170);
+                FooterNGBackgroundOption =
+                        createOption(name, "FooterNGBackgroundOption", 248, 248, 248);
+                FooterNGForegroundOption =
+                        createOption(name, "FooterNGForegroundOption", 154, 154, 154);
+                FooterNGForegroundUnreadOption =
+                        createOption(name, "FooterNGForegroundUnreadOption", 248, 248, 248);
+                HeaderAndFooterColorOption =
+                        createOption(name, "HeaderAndFooterColorOption", 154, 154, 154);
+                break;
         }
     }
 }
