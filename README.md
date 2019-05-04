@@ -7,6 +7,12 @@
 - ~~语音朗读（语音合成）~~
 - ~~丰富的图书库（网络抓取）~~
 
+### 应用截图
+
+<img src="https://github.com/HaowenLee/FBReader_AS/blob/master/images/theme_white.png" width="360" alt="效果图"/>
+<img src="https://github.com/HaowenLee/FBReader_AS/blob/master/images/theme_green.png" width="360" alt="效果图"/>
+<img src="https://github.com/HaowenLee/FBReader_AS/blob/master/images/theme_black.png" width="360" alt="效果图"/>
+
 ### TODO LIST
 
 - 动画效果统一处理
