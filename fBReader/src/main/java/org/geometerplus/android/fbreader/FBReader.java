@@ -60,6 +60,7 @@ import org.geometerplus.android.fbreader.api.ApiServerImplementation;
 import org.geometerplus.android.fbreader.api.FBReaderIntents;
 import org.geometerplus.android.fbreader.api.MenuNode;
 import org.geometerplus.android.fbreader.api.PluginApi;
+import org.geometerplus.android.fbreader.api.TextPosition;
 import org.geometerplus.android.fbreader.dict.DictionaryUtil;
 import org.geometerplus.android.fbreader.formatPlugin.PluginUtil;
 import org.geometerplus.android.fbreader.httpd.DataService;
@@ -80,6 +81,7 @@ import org.geometerplus.fbreader.book.Book;
 import org.geometerplus.fbreader.book.BookUtil;
 import org.geometerplus.fbreader.book.Bookmark;
 import org.geometerplus.fbreader.bookmodel.BookModel;
+import org.geometerplus.fbreader.bookmodel.TOCTree;
 import org.geometerplus.fbreader.fbreader.ActionCode;
 import org.geometerplus.fbreader.fbreader.DictionaryHighlighting;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
@@ -95,8 +97,12 @@ import org.geometerplus.zlibrary.core.library.ZLibrary;
 import org.geometerplus.zlibrary.core.options.Config;
 import org.geometerplus.zlibrary.core.resources.ZLResource;
 import org.geometerplus.zlibrary.core.view.ZLViewWidget;
+import org.geometerplus.zlibrary.text.view.ZLTextElement;
+import org.geometerplus.zlibrary.text.view.ZLTextParagraphCursor;
 import org.geometerplus.zlibrary.text.view.ZLTextRegion;
 import org.geometerplus.zlibrary.text.view.ZLTextView;
+import org.geometerplus.zlibrary.text.view.ZLTextWord;
+import org.geometerplus.zlibrary.text.view.ZLTextWordCursor;
 import org.geometerplus.zlibrary.ui.android.R;
 import org.geometerplus.zlibrary.ui.android.error.ErrorKeys;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
@@ -1351,9 +1357,38 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         findViewById(R.id.goto_tts_play).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // TODO: 2019/5/4 获取文本测试
+                final TOCTree tocElement = myFBReaderApp.getCurrentTOCElement();
+                int paragraphIndex = tocElement.getReference().ParagraphIndex;
+                String paragraphText = getParagraphText(paragraphIndex);
+                System.out.println(paragraphText);
                 Toast.makeText(FBReader.this, "敬请期待", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public String getParagraphText(int paragraphIndex) {
+        System.out.println("段落索引" + paragraphIndex);
+        final StringBuilder builder = new StringBuilder();
+        ZLTextParagraphCursor zlTextParagraphCursor = new ZLTextParagraphCursor(myFBReaderApp.Model.getTextModel(), paragraphIndex);
+        while (!zlTextParagraphCursor.isEndOfSection()) {
+            getParagraphText(builder, zlTextParagraphCursor.Index);
+            zlTextParagraphCursor = zlTextParagraphCursor.next();
+        }
+        return builder.toString();
+    }
+
+    private void getParagraphText(StringBuilder builder, int index) {
+        final ZLTextWordCursor cursor = new ZLTextWordCursor(myFBReaderApp.getTextView().getStartCursor());
+        cursor.moveToParagraph(index);
+        cursor.moveToParagraphStart();
+        while (!cursor.isEndOfParagraph()) {
+            ZLTextElement element = cursor.getElement();
+            if (element instanceof ZLTextWord) {
+                builder.append(element.toString());
+            }
+            cursor.nextWord();
+        }
     }
 
     private boolean isLoad = false;
