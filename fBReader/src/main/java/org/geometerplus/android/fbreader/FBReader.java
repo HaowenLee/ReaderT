@@ -1108,10 +1108,17 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         } else {
             // 主题
             RadioGroup radioGroup = findViewById(R.id.book_menu_color_group);
-            if (myFBReaderApp.isActionVisible(ActionCode.SWITCH_THEME_WHITE_PROFILE)) {
-                radioGroup.check(R.id.color_black);
-            } else {
+            if (!myFBReaderApp.isActionVisible(ActionCode.SWITCH_THEME_WHITE_PROFILE)) {
                 radioGroup.check(R.id.color_white);
+            }
+            if (!myFBReaderApp.isActionVisible(ActionCode.SWITCH_THEME_YELLOW_PROFILE)) {
+                radioGroup.check(R.id.color_yellow);
+            }
+            if (!myFBReaderApp.isActionVisible(ActionCode.SWITCH_THEME_GREEN_PROFILE)) {
+                radioGroup.check(R.id.color_green);
+            }
+            if (!myFBReaderApp.isActionVisible(ActionCode.SWITCH_THEME_BLACK_PROFILE)) {
+                radioGroup.check(R.id.color_black);
             }
             openMenu(false, menuView);
             closeMenu(false, firstMenu);
@@ -1379,7 +1386,6 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                 return fragments.size();
             }
 
-            @Nullable
             @Override
             public CharSequence getPageTitle(int position) {
                 return titles[position];
