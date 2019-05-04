@@ -1206,6 +1206,12 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
     private View firstMenu;
 
     private void initListener() {
+        firstMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Empty body.
+            }
+        });
         firstMenu.findViewById(R.id.quick_theme_change).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
