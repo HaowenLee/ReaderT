@@ -33,7 +33,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -60,7 +59,6 @@ import org.geometerplus.android.fbreader.api.ApiServerImplementation;
 import org.geometerplus.android.fbreader.api.FBReaderIntents;
 import org.geometerplus.android.fbreader.api.MenuNode;
 import org.geometerplus.android.fbreader.api.PluginApi;
-import org.geometerplus.android.fbreader.api.TextPosition;
 import org.geometerplus.android.fbreader.dict.DictionaryUtil;
 import org.geometerplus.android.fbreader.formatPlugin.PluginUtil;
 import org.geometerplus.android.fbreader.httpd.DataService;
@@ -70,6 +68,7 @@ import org.geometerplus.android.fbreader.tips.TipsActivity;
 import org.geometerplus.android.fbreader.ui.BookLabelFragment;
 import org.geometerplus.android.fbreader.ui.BookNoteFragment;
 import org.geometerplus.android.fbreader.ui.CatalogFragment;
+import org.geometerplus.android.fbreader.util.AnimationHelper;
 import org.geometerplus.android.fbreader.util.ScreenUtils;
 import org.geometerplus.android.fbreader.util.SizeUtils;
 import org.geometerplus.android.util.DeviceType;
@@ -1139,11 +1138,16 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         final View settingMenu = findViewById(R.id.readerSetting);
         if (firstMenu.getVisibility() == View.VISIBLE) {
             closeMenu(true, firstMenu);
+            // 关闭-->顶部菜单
+            AnimationHelper.closeDropMenu(findViewById(R.id.menuTop));
         } else if (settingMenu.getVisibility() == View.VISIBLE) {
             closeMenu(false, settingMenu);
+            // 关闭-->顶部菜单
+            AnimationHelper.closeDropMenu(findViewById(R.id.menuTop));
         } else {
             openMenu(true, firstMenu);
-
+            // 显示-->顶部菜单
+            AnimationHelper.openDropMenu(findViewById(R.id.menuTop));
             // Setup book progress
             SeekBar seekBar = firstMenu.findViewById(R.id.bookProgress);
 
@@ -1220,6 +1224,20 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                 } else {
                     myFBReaderApp.runAction(ActionCode.SWITCH_THEME_WHITE_PROFILE);
                 }
+            }
+        });
+
+        findViewById(R.id.menuTop).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Empty body.
+            }
+        });
+
+        findViewById(R.id.ivMore).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 更多
             }
         });
 
@@ -1457,6 +1475,8 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         readerView.startAnimation(outAnimation);
 
         closeMenu(true, firstMenu);
+        // 关闭-->顶部菜单
+        AnimationHelper.closeDropMenu(findViewById(R.id.menuTop));
     }
 
     public void closeSlideMenu() {
