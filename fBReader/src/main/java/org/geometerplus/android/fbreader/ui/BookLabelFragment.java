@@ -52,14 +52,12 @@ public class BookLabelFragment extends BaseFragment implements IBookCollection.L
 
     @Override
     protected int initLayoutRes() {
-        return R.layout.bookmarks;
+        return R.layout.reader_book_label;
     }
 
     private static final int OPEN_ITEM_ID = 0;
     private static final int EDIT_ITEM_ID = 1;
     private static final int DELETE_ITEM_ID = 2;
-
-    private TabHost myTabHost;
 
     private final Map<Integer, HighlightingStyle> myStyles =
             Collections.synchronizedMap(new HashMap<Integer, HighlightingStyle>());
@@ -71,17 +69,10 @@ public class BookLabelFragment extends BaseFragment implements IBookCollection.L
     private final Comparator<Bookmark> myComparator = new Bookmark.ByTimeComparator();
 
     private volatile BookmarksAdapter myThisBookAdapter;
-    private volatile BookmarksAdapter myAllBooksAdapter;
-    private volatile BookmarksAdapter mySearchResultsAdapter;
 
     private final ZLResource myResource = ZLResource.resource("bookmarksView");
     private final ZLStringOption myBookmarkSearchPatternOption =
             new ZLStringOption("BookmarkSearch", "Pattern", "");
-
-    private void createTab(String tag, int id) {
-        final String label = myResource.getResource(tag).getValue();
-        myTabHost.addTab(myTabHost.newTabSpec(tag).setIndicator(label).setContent(id));
-    }
 
     @Override
     protected void initData() {
@@ -93,23 +84,6 @@ public class BookLabelFragment extends BaseFragment implements IBookCollection.L
         final SearchManager manager = (SearchManager) mActivity.getSystemService(Activity.SEARCH_SERVICE);
         manager.setOnCancelListener(null);
 
-        myTabHost = getView().findViewById(R.id.bookmarks_tabhost);
-
-        myTabHost.setup();
-
-        createTab("thisBook", R.id.bookmarks_this_book);
-        createTab("allBooks", R.id.bookmarks_all_books);
-        createTab("search", R.id.bookmarks_search);
-
-        myTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
-            public void onTabChanged(String tabId) {
-                if ("search".equals(tabId)) {
-                    getView().findViewById(R.id.bookmarks_search_results).setVisibility(View.GONE);
-                    onSearchRequested();
-                }
-            }
-        });
-
         myBook = ((FBReader) mActivity).getMyFBReaderApp().getCurrentBook();
         if (myBook == null) {
             ((FBReader) mActivity).closeSlideMenu();
@@ -118,14 +92,7 @@ public class BookLabelFragment extends BaseFragment implements IBookCollection.L
 
         myCollection.bindToService(mActivity, new Runnable() {
             public void run() {
-                if (myAllBooksAdapter != null) {
-                    return;
-                }
-
-                myThisBookAdapter =
-                        new BookmarksAdapter((ListView) getView().findViewById(R.id.bookmarks_this_book), myBookmark != null);
-                myAllBooksAdapter =
-                        new BookmarksAdapter((ListView) getView().findViewById(R.id.bookmarks_all_books), false);
+                myThisBookAdapter = new BookmarksAdapter((ListView) getView().findViewById(R.id.listView), myBookmark != null);
                 myCollection.addListener(BookLabelFragment.this);
 
                 updateStyles();
@@ -155,14 +122,6 @@ public class BookLabelFragment extends BaseFragment implements IBookCollection.L
                             break;
                         }
                         myThisBookAdapter.addAll(thisBookBookmarks);
-                        myAllBooksAdapter.addAll(thisBookBookmarks);
-                    }
-                    for (BookmarkQuery query = new BookmarkQuery(50); ; query = query.next()) {
-                        final List<Bookmark> allBookmarks = myCollection.bookmarks(query);
-                        if (allBookmarks.isEmpty()) {
-                            break;
-                        }
-                        myAllBooksAdapter.addAll(allBookmarks);
                     }
                 }
             }
@@ -174,18 +133,11 @@ public class BookLabelFragment extends BaseFragment implements IBookCollection.L
             public void run() {
                 synchronized (myBookmarksLock) {
                     final boolean flagThisBookTab = book.getId() == myBook.getId();
-                    final boolean flagSearchTab = mySearchResultsAdapter != null;
 
-                    final Map<String, Bookmark> oldBookmarks = new HashMap<String, Bookmark>();
+                    final Map<String, Bookmark> oldBookmarks = new HashMap<>();
                     if (flagThisBookTab) {
                         for (Bookmark b : myThisBookAdapter.bookmarks()) {
                             oldBookmarks.put(b.Uid, b);
-                        }
-                    } else {
-                        for (Bookmark b : myAllBooksAdapter.bookmarks()) {
-                            if (b.BookId == book.getId()) {
-                                oldBookmarks.put(b.Uid, b);
-                            }
                         }
                     }
                     final String pattern = myBookmarkSearchPatternOption.getValue().toLowerCase();
@@ -197,21 +149,13 @@ public class BookLabelFragment extends BaseFragment implements IBookCollection.L
                         }
                         for (Bookmark b : loaded) {
                             final Bookmark old = oldBookmarks.remove(b.Uid);
-                            myAllBooksAdapter.replace(old, b);
                             if (flagThisBookTab) {
                                 myThisBookAdapter.replace(old, b);
                             }
-                            if (flagSearchTab && MiscUtil.matchesIgnoreCase(b.getText(), pattern)) {
-                                mySearchResultsAdapter.replace(old, b);
-                            }
                         }
                     }
-                    myAllBooksAdapter.removeAll(oldBookmarks.values());
                     if (flagThisBookTab) {
                         myThisBookAdapter.removeAll(oldBookmarks.values());
-                    }
-                    if (flagSearchTab) {
-                        mySearchResultsAdapter.removeAll(oldBookmarks.values());
                     }
                 }
             }
@@ -226,26 +170,6 @@ public class BookLabelFragment extends BaseFragment implements IBookCollection.L
         }
         String pattern = intent.getStringExtra(SearchManager.QUERY);
         myBookmarkSearchPatternOption.setValue(pattern);
-
-        final LinkedList<Bookmark> bookmarks = new LinkedList<Bookmark>();
-        pattern = pattern.toLowerCase();
-        for (Bookmark b : myAllBooksAdapter.bookmarks()) {
-            if (MiscUtil.matchesIgnoreCase(b.getText(), pattern)) {
-                bookmarks.add(b);
-            }
-        }
-        if (!bookmarks.isEmpty()) {
-            final ListView resultsView = getView().findViewById(R.id.bookmarks_search_results);
-            resultsView.setVisibility(View.VISIBLE);
-            if (mySearchResultsAdapter == null) {
-                mySearchResultsAdapter = new BookmarksAdapter(resultsView, false);
-            } else {
-                mySearchResultsAdapter.clear();
-            }
-            mySearchResultsAdapter.addAll(bookmarks);
-        } else {
-            UIMessageUtil.showErrorMessage(mActivity, "bookmarkNotFound");
-        }
     }
 
     @Override
@@ -254,31 +178,10 @@ public class BookLabelFragment extends BaseFragment implements IBookCollection.L
         super.onDestroyView();
     }
 
-    public boolean onSearchRequested() {
-        if (DeviceType.Instance().hasStandardSearchDialog()) {
-            mActivity.startSearch(myBookmarkSearchPatternOption.getValue(), true, null, false);
-        } else {
-            SearchDialogUtil.showDialog(mActivity, BookmarksActivity.class, myBookmarkSearchPatternOption.getValue(), null);
-        }
-        return true;
-    }
-
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         final int position = ((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).position;
-        final String tag = myTabHost.getCurrentTabTag();
-        final BookmarksAdapter adapter;
-        if ("thisBook".equals(tag)) {
-            adapter = myThisBookAdapter;
-        } else if ("allBooks".equals(tag)) {
-            adapter = myAllBooksAdapter;
-        } else if ("search".equals(tag)) {
-            adapter = mySearchResultsAdapter;
-        } else {
-            throw new RuntimeException("Unknown tab tag: " + tag);
-        }
-
-        final Bookmark bookmark = adapter.getItem(position);
+        final Bookmark bookmark = myThisBookAdapter.getItem(position);
         switch (item.getItemId()) {
             case OPEN_ITEM_ID:
                 gotoBookmark(bookmark);
@@ -477,11 +380,7 @@ public class BookLabelFragment extends BaseFragment implements IBookCollection.L
                 mActivity.runOnUiThread(new Runnable() {
                     public void run() {
                         updateStyles();
-                        myAllBooksAdapter.notifyDataSetChanged();
                         myThisBookAdapter.notifyDataSetChanged();
-                        if (mySearchResultsAdapter != null) {
-                            mySearchResultsAdapter.notifyDataSetChanged();
-                        }
                     }
                 });
                 break;

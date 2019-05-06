@@ -28,6 +28,7 @@ import org.geometerplus.zlibrary.text.view.*;
 import org.geometerplus.fbreader.util.TextSnippet;
 
 public final class Bookmark extends ZLTextFixedPosition {
+
 	public enum DateType {
 		Creation,
 		Modification,

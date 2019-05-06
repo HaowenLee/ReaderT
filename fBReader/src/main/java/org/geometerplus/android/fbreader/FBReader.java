@@ -22,6 +22,7 @@ package org.geometerplus.android.fbreader;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.Application;
 import android.app.SearchManager;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
@@ -1237,7 +1238,9 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         findViewById(R.id.ivMore).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 更多
+                // 生成标签
+                getCollection().saveBookmark(myFBReaderApp.createBookmark(80, true));
+                Toast.makeText(FBReader.this, "标签添加", Toast.LENGTH_SHORT).show();
             }
         });
 
