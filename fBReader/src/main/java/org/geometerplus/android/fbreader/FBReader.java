@@ -67,7 +67,7 @@ import org.geometerplus.android.fbreader.sync.SyncOperations;
 import org.geometerplus.android.fbreader.tips.TipsActivity;
 import org.geometerplus.android.fbreader.ui.BookLabelFragment;
 import org.geometerplus.android.fbreader.ui.BookNoteFragment;
-import org.geometerplus.android.fbreader.ui.CatalogFragment;
+import org.geometerplus.android.fbreader.ui.TOCFragment;
 import org.geometerplus.android.fbreader.util.AnimationHelper;
 import org.geometerplus.android.fbreader.util.ScreenUtils;
 import org.geometerplus.android.fbreader.util.SizeUtils;
@@ -95,7 +95,6 @@ import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 import org.geometerplus.zlibrary.core.library.ZLibrary;
 import org.geometerplus.zlibrary.core.options.Config;
 import org.geometerplus.zlibrary.core.resources.ZLResource;
-import org.geometerplus.zlibrary.core.view.ZLViewEnums;
 import org.geometerplus.zlibrary.core.view.ZLViewWidget;
 import org.geometerplus.zlibrary.text.view.ZLTextElement;
 import org.geometerplus.zlibrary.text.view.ZLTextParagraphCursor;
@@ -1452,13 +1451,13 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 
     private void initFragment() {
         if (isLoad) {
-            ((CatalogFragment) fragments.get(0)).initTree();
+            ((TOCFragment) fragments.get(0)).initTree();
             return;
         }
         isLoad = true;
         ViewPager viewPager = findViewById(R.id.viewPager);
         TabLayout tabLayout = findViewById(R.id.tabLayout);
-        fragments.add(new CatalogFragment());
+        fragments.add(new TOCFragment());
         fragments.add(new BookLabelFragment());
         fragments.add(new BookNoteFragment());
         final String[] titles = new String[]{"目录", "书签", "笔记"};

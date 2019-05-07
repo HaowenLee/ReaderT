@@ -19,41 +19,53 @@ import org.geometerplus.zlibrary.core.resources.ZLResource;
 import org.geometerplus.zlibrary.core.tree.ZLTree;
 import org.geometerplus.zlibrary.ui.android.R;
 
-public class CatalogFragment extends BaseFragment {
+/**
+ * 目录索引
+ */
+public class TOCFragment extends BaseFragment {
+
+    /**
+     * PROCESS_TREE_ITEM_ID --> 展开目录
+     * READ_BOOK_ITEM_ID --> 跳转页面
+     */
+    private static final int PROCESS_TREE_ITEM_ID = 0;
+    private static final int READ_BOOK_ITEM_ID = 1;
 
     private TOCAdapter myAdapter;
     private ZLTree<?> mySelectedItem;
     private ListView listView;
 
     @Override
+    protected int initLayoutRes() {
+        return R.layout.reader_fragment_toc;
+    }
+
+    @Override
     protected void initViews() {
         super.initViews();
+
+        // 异常捕获
+        Thread.setDefaultUncaughtExceptionHandler(new org.geometerplus.zlibrary.ui.android.library.UncaughtExceptionHandler(mActivity));
 
         if (getView() != null) {
             listView = getView().findViewById(R.id.listView);
         }
 
-        Thread.setDefaultUncaughtExceptionHandler(new org.geometerplus.zlibrary.ui.android.library.UncaughtExceptionHandler(mActivity));
-
         initTree();
     }
 
+    /**
+     * 初始化目录索引树
+     */
     public void initTree() {
         final FBReaderApp fbReader = (FBReaderApp) ZLApplication.Instance();
+        // 获取目录索引树
         final TOCTree root = fbReader.Model.TOCTree;
         myAdapter = new TOCAdapter(root);
-        TOCTree treeToSelect = fbReader.getCurrentTOCElement();
-        myAdapter.selectItem(treeToSelect);
-        mySelectedItem = treeToSelect;
+        // 获取当前的目录索引
+        mySelectedItem = fbReader.getCurrentTOCElement();
+        myAdapter.selectItem(mySelectedItem);
     }
-
-    @Override
-    protected int initLayoutRes() {
-        return R.layout.reader_fragment_catalog;
-    }
-
-    private static final int PROCESS_TREE_ITEM_ID = 0;
-    private static final int READ_BOOK_ITEM_ID = 1;
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
@@ -70,6 +82,9 @@ public class CatalogFragment extends BaseFragment {
         return super.onContextItemSelected(item);
     }
 
+    /**
+     * 目录索引列表数据适配器
+     */
     private final class TOCAdapter extends ZLTreeAdapter {
 
         TOCAdapter(TOCTree root) {
