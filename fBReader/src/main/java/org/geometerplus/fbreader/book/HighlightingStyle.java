@@ -1,64 +1,49 @@
-/*
- * Copyright (C) 2007-2015 FBReader.ORG Limited <contact@fbreader.org>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
- * 02110-1301, USA.
- */
-
 package org.geometerplus.fbreader.book;
 
 import org.geometerplus.zlibrary.core.util.ZLColor;
 
+/**
+ * 标记样式
+ */
 public class HighlightingStyle {
-	public final int Id;
-	public final long LastUpdateTimestamp;
 
-	private String myName;
-	private ZLColor myBackgroundColor;
-	private ZLColor myForegroundColor;
+    public final int Id;
+    public final long LastUpdateTimestamp;
 
-	HighlightingStyle(int id, long timestamp, String name, ZLColor bgColor, ZLColor fgColor) {
-		Id = id;
-		LastUpdateTimestamp = timestamp;
+    private String myName;
+    private ZLColor myBackgroundColor;
+    private ZLColor myForegroundColor;
 
-		myName = name;
-		myBackgroundColor = bgColor;
-		myForegroundColor = fgColor;
-	}
+    HighlightingStyle(int id, long timestamp, String name, ZLColor bgColor, ZLColor fgColor) {
+        Id = id;
+        LastUpdateTimestamp = timestamp;
 
-	public String getNameOrNull() {
-		return "".equals(myName) ? null : myName;
-	}
+        myName = name;
+        myBackgroundColor = bgColor;
+        myForegroundColor = fgColor;
+    }
 
-	void setName(String name) {
-		myName = name;
-	}
+    public String getNameOrNull() {
+        return "".equals(myName) ? null : myName;
+    }
 
-	public ZLColor getBackgroundColor() {
-		return myBackgroundColor;
-	}
+    void setName(String name) {
+        myName = name;
+    }
 
-	public void setBackgroundColor(ZLColor bgColor) {
-		myBackgroundColor = bgColor;
-	}
+    public ZLColor getBackgroundColor() {
+        return myBackgroundColor;
+    }
 
-	public ZLColor getForegroundColor() {
-		return myForegroundColor;
-	}
+    public void setBackgroundColor(ZLColor bgColor) {
+        myBackgroundColor = bgColor;
+    }
 
-	public void setForegroundColor(ZLColor fgColor) {
-		myForegroundColor = fgColor;
-	}
+    public ZLColor getForegroundColor() {
+        return myForegroundColor;
+    }
+
+    public void setForegroundColor(ZLColor fgColor) {
+        myForegroundColor = fgColor;
+    }
 }

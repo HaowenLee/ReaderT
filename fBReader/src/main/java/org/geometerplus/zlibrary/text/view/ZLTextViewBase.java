@@ -98,6 +98,7 @@ abstract class ZLTextViewBase extends ZLView {
 	public abstract ZLPaintContext.FillMode getFillMode();
 	public abstract ZLColor getBackgroundColor();
 	public abstract ZLColor getSelectionBackgroundColor();
+	public abstract ZLColor getSelectionCursorColor();
 	public abstract ZLColor getSelectionForegroundColor();
 	public abstract ZLColor getHighlightingBackgroundColor();
 	public abstract ZLColor getHighlightingForegroundColor();

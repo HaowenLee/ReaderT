@@ -24,6 +24,7 @@ package org.geometerplus.zlibrary.core.util;
  * Each component should be in the range 0..255
  */
 public final class ZLColor {
+
 	public final short Red;
 	public final short Green;
 	public final short Blue;
@@ -65,10 +66,9 @@ public final class ZLColor {
 
 	@Override
 	public String toString() {
-		return new StringBuilder("ZLColor(")
-			.append(String.valueOf(Red)).append(", ")
-			.append(String.valueOf(Green)).append(", ")
-			.append(String.valueOf(Blue)).append(")")
-			.toString();
+		return "ZLColor(" +
+				Red + ", " +
+				Green + ", " +
+				Blue + ")";
 	}
 }

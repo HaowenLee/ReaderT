@@ -19,7 +19,6 @@
 
 package org.geometerplus.android.fbreader;
 
-import com.didichuxing.doraemonkit.DoraemonKit;
 import com.facebook.stetho.Stetho;
 
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
@@ -30,7 +29,5 @@ public class FBReaderApplication extends ZLAndroidApplication {
     public void onCreate() {
         super.onCreate();
         Stetho.initializeWithDefaults(this);
-
-        DoraemonKit.install(this);
     }
 }

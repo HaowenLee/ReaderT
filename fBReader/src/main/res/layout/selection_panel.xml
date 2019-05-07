@@ -1,70 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.geometerplus.android.fbreader.SimplePopupWindow
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/selection_panel"
-	android:layout_width="wrap_content"
-	android:layout_height="wrap_content"
-	android:layout_alignParentBottom="true"
-	android:layout_centerHorizontal="true"
-	android:visibility="gone"
-	android:focusable="false"
->
-	<FrameLayout
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="25dp"
-		android:layout_marginBottom="25dp"
-		android:paddingLeft="15dp"
-		android:paddingRight="15dp"
-		android:background="@drawable/panel"
-	>
-		<LinearLayout
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:orientation="horizontal"
-			android:paddingTop="12dp"
-			android:paddingBottom="12dp"
-		>
-			<ImageView
-				android:id="@+id/selection_panel_bookmark"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:src="@drawable/popup_bookmark"
-				android:layout_marginLeft="8dp"
-				android:layout_marginRight="8dp"
-			/>
-			<ImageView
-				android:id="@+id/selection_panel_translate"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:src="@drawable/popup_translate"
-				android:layout_marginLeft="8dp"
-				android:layout_marginRight="8dp"
-			/>
-			<ImageView
-				android:id="@+id/selection_panel_share"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:src="@drawable/popup_share"
-				android:layout_marginLeft="8dp"
-				android:layout_marginRight="8dp"
-			/>
-			<ImageView
-				android:id="@+id/selection_panel_copy"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:src="@drawable/popup_copy"
-				android:layout_marginLeft="8dp"
-				android:layout_marginRight="8dp"
-			/>
-			<ImageView
-				android:id="@+id/selection_panel_close"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:src="@drawable/popup_close"
-				android:layout_marginLeft="8dp"
-				android:layout_marginRight="8dp"
-			/>
-		</LinearLayout>
-	</FrameLayout>
+<org.geometerplus.android.fbreader.SimplePopupWindow xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/selection_panel"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_centerHorizontal="true"
+    android:focusable="false"
+    android:visibility="gone"
+    tools:visibility="visible">
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/reader_window_background"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp">
+
+            <ImageView
+                android:id="@+id/selection_panel_bookmark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:src="@drawable/popup_bookmark" />
+
+            <ImageView
+                android:id="@+id/selection_panel_translate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:src="@drawable/popup_translate" />
+
+            <ImageView
+                android:id="@+id/selection_panel_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:src="@drawable/popup_share" />
+
+            <ImageView
+                android:id="@+id/selection_panel_copy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:src="@drawable/popup_copy" />
+
+            <ImageView
+                android:id="@+id/selection_panel_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:src="@drawable/popup_close" />
+        </LinearLayout>
+    </FrameLayout>
 </org.geometerplus.android.fbreader.SimplePopupWindow>

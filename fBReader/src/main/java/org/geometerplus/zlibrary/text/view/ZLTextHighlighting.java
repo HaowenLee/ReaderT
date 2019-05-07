@@ -25,6 +25,7 @@ import org.geometerplus.zlibrary.core.util.ZLColor;
 import org.geometerplus.zlibrary.core.view.Hull;
 
 public abstract class ZLTextHighlighting implements Comparable<ZLTextHighlighting> {
+
 	public abstract boolean isEmpty();
 
 	public abstract ZLTextPosition getStartPosition();

@@ -367,6 +367,7 @@ public class BookNoteFragment extends BaseFragment implements IBookCollection.Li
         public final void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             final Bookmark bookmark = getItem(position);
             if (bookmark != null) {
+                ((FBReader) mActivity).closeSlideMenu();
                 gotoBookmark(bookmark);
             } else if (myShowAddBookmarkItem) {
                 myShowAddBookmarkItem = false;

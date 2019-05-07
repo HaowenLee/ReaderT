@@ -42,9 +42,17 @@ import org.geometerplus.fbreader.util.TextSnippet;
 
 public final class FBView extends ZLTextView {
 
+    public static final int SCROLLBAR_SHOW_AS_FOOTER = 3;
+    public static final int SCROLLBAR_SHOW_AS_FOOTER_OLD_STYLE = 4;
     private final FBReaderApp myReader;
     private final ViewOptions myViewOptions;
     private final BookElementManager myBookElementManager;
+    private int myStartY;
+    private boolean myIsBrightnessAdjustmentInProgress;
+    private int myStartBrightness;
+
+    private TapZoneMap myZoneMap;
+    private Footer myFooter;
 
     FBView(FBReaderApp reader) {
         super(reader);
@@ -60,287 +68,63 @@ public final class FBView extends ZLTextView {
         }
     }
 
-    private int myStartY;
-    private boolean myIsBrightnessAdjustmentInProgress;
-    private int myStartBrightness;
-
-    private TapZoneMap myZoneMap;
-
-    private TapZoneMap getZoneMap() {
-        final PageTurningOptions prefs = myReader.PageTurningOptions;
-        String id = prefs.TapZoneMap.getValue();
-        if ("".equals(id)) {
-            id = prefs.Horizontal.getValue() ? "right_to_left" : "up";
-        }
-        if (myZoneMap == null || !id.equals(myZoneMap.Name)) {
-            myZoneMap = TapZoneMap.zoneMap(id);
-        }
-        return myZoneMap;
-    }
-
-    private void onFingerSingleTapLastResort(int x, int y) {
-        myReader.runAction(getZoneMap().getActionByCoordinates(
-                x, y, getContextWidth(), getContextHeight(),
-                isDoubleTapSupported() ? TapZoneMap.Tap.singleNotDoubleTap : TapZoneMap.Tap.singleTap
-        ), x, y);
+    @Override
+    public synchronized void onScrollingFinished(PageIndex pageIndex) {
+        super.onScrollingFinished(pageIndex);
+        myReader.storePosition();
     }
 
     @Override
-    public void onFingerSingleTap(int x, int y) {
-        final ZLTextRegion hyperlinkRegion = findRegion(x, y, maxSelectionDistance(), ZLTextRegion.HyperlinkFilter);
-        if (hyperlinkRegion != null) {
-            outlineRegion(hyperlinkRegion);
-            myReader.getViewWidget().reset();
-            myReader.getViewWidget().repaint();
-            myReader.runAction(ActionCode.PROCESS_HYPERLINK);
-            return;
+    protected void releaseSelectionCursor() {
+        super.releaseSelectionCursor();
+        if (getCountOfSelectedWords() > 0) {
+            myReader.runAction(ActionCode.SELECTION_SHOW_PANEL);
         }
-
-        final ZLTextRegion bookRegion = findRegion(x, y, 0, ZLTextRegion.ExtensionFilter);
-        if (bookRegion != null) {
-            myReader.runAction(ActionCode.DISPLAY_BOOK_POPUP, bookRegion);
-            return;
-        }
-
-        final ZLTextRegion videoRegion = findRegion(x, y, 0, ZLTextRegion.VideoFilter);
-        if (videoRegion != null) {
-            outlineRegion(videoRegion);
-            myReader.getViewWidget().reset();
-            myReader.getViewWidget().repaint();
-            myReader.runAction(ActionCode.OPEN_VIDEO, (ZLTextVideoRegionSoul) videoRegion.getSoul());
-            return;
-        }
-
-        final ZLTextHighlighting highlighting = findHighlighting(x, y, maxSelectionDistance());
-        if (highlighting instanceof BookmarkHighlighting) {
-            myReader.runAction(
-                    ActionCode.SELECTION_BOOKMARK,
-                    ((BookmarkHighlighting) highlighting).Bookmark
-            );
-            return;
-        }
-
-        if (myReader.isActionEnabled(ActionCode.HIDE_TOAST)) {
-            myReader.runAction(ActionCode.HIDE_TOAST);
-            return;
-        }
-
-        onFingerSingleTapLastResort(x, y);
     }
 
     @Override
-    public boolean isDoubleTapSupported() {
-        return myReader.MiscOptions.EnableDoubleTap.getValue();
+    protected String getPageProgress() {
+        StringBuilder info = new StringBuilder();
+        PagePosition pagePosition = pagePosition();
+        info.append(pagePosition.Current);
+        info.append("/");
+        info.append(pagePosition.Total);
+        return info.toString();
     }
 
     @Override
-    public void onFingerDoubleTap(int x, int y) {
-        myReader.runAction(ActionCode.HIDE_TOAST);
-
-        myReader.runAction(getZoneMap().getActionByCoordinates(
-                x, y, getContextWidth(), getContextHeight(), TapZoneMap.Tap.doubleTap
-        ), x, y);
+    public int scrollbarType() {
+        return myViewOptions.ScrollbarType.getValue();
     }
 
     @Override
-    public void onFingerPress(int x, int y) {
-        myReader.runAction(ActionCode.HIDE_TOAST);
-
-        final float maxDist = ZLibrary.Instance().getDisplayDPI() / 4;
-        final SelectionCursor.Which cursor = findSelectionCursor(x, y, maxDist * maxDist);
-        if (cursor != null) {
-            myReader.runAction(ActionCode.SELECTION_HIDE_PANEL);
-            moveSelectionCursorTo(cursor, x, y);
-            return;
-        }
-
-        if (myReader.MiscOptions.AllowScreenBrightnessAdjustment.getValue() && x < getContextWidth() / 10) {
-            myIsBrightnessAdjustmentInProgress = true;
-            myStartY = y;
-            myStartBrightness = myReader.getViewWidget().getScreenBrightness();
-            return;
-        }
-
-        startManualScrolling(x, y);
-    }
-
-    private boolean isFlickScrollingEnabled() {
-        final PageTurningOptions.FingerScrollingType fingerScrolling =
-                myReader.PageTurningOptions.FingerScrolling.getValue();
-        return
-                fingerScrolling == PageTurningOptions.FingerScrollingType.byFlick ||
-                        fingerScrolling == PageTurningOptions.FingerScrollingType.byTapAndFlick;
-    }
-
-    private void startManualScrolling(int x, int y) {
-        if (!isFlickScrollingEnabled()) {
-            return;
-        }
-
-        final boolean horizontal = myReader.PageTurningOptions.Horizontal.getValue();
-        final Direction direction = horizontal ? Direction.rightToLeft : Direction.up;
-        myReader.getViewWidget().startManualScrolling(x, y, direction);
-    }
-
-    @Override
-    public void onFingerMove(int x, int y) {
-        final SelectionCursor.Which cursor = getSelectionCursorInMovement();
-        if (cursor != null) {
-            moveSelectionCursorTo(cursor, x, y);
-            return;
-        }
-
-        synchronized (this) {
-            if (myIsBrightnessAdjustmentInProgress) {
-                if (x >= getContextWidth() / 5) {
-                    myIsBrightnessAdjustmentInProgress = false;
-                    startManualScrolling(x, y);
-                } else {
-                    final int delta = (myStartBrightness + 30) * (myStartY - y) / getContextHeight();
-                    myReader.getViewWidget().setScreenBrightness(myStartBrightness + delta);
-                    return;
-                }
+    protected ZLPaintContext.ColorAdjustingMode getAdjustingModeForImages() {
+        if (myReader.ImageOptions.MatchBackground.getValue()) {
+            if (ColorProfile.THEME_WHITE.equals(myViewOptions.getColorProfile().Name)) {
+                return ZLPaintContext.ColorAdjustingMode.DARKEN_TO_BACKGROUND;
+            } else {
+                return ZLPaintContext.ColorAdjustingMode.LIGHTEN_TO_BACKGROUND;
             }
-
-            if (isFlickScrollingEnabled()) {
-                myReader.getViewWidget().scrollManuallyTo(x, y);
-            }
+        } else {
+            return ZLPaintContext.ColorAdjustingMode.NONE;
         }
     }
 
     @Override
-    public void onFingerRelease(int x, int y) {
-        final SelectionCursor.Which cursor = getSelectionCursorInMovement();
-        if (cursor != null) {
-            releaseSelectionCursor();
-        } else if (myIsBrightnessAdjustmentInProgress) {
-            myIsBrightnessAdjustmentInProgress = false;
-        } else if (isFlickScrollingEnabled()) {
-            myReader.getViewWidget().startAnimatedScrolling(
-                    x, y, myReader.PageTurningOptions.AnimationSpeed.getValue()
-            );
-        }
+    protected ExtensionElementManager getExtensionManager() {
+        return myBookElementManager;
     }
 
     @Override
-    public boolean onFingerLongPress(int x, int y) {
-        myReader.runAction(ActionCode.HIDE_TOAST);
-
-        final ZLTextRegion region = findRegion(x, y, maxSelectionDistance(), ZLTextRegion.AnyRegionFilter);
-        if (region != null) {
-            final ZLTextRegion.Soul soul = region.getSoul();
-            boolean doSelectRegion = false;
-            if (soul instanceof ZLTextWordRegionSoul) {
-                switch (myReader.MiscOptions.WordTappingAction.getValue()) {
-                    case startSelecting:
-                        myReader.runAction(ActionCode.SELECTION_HIDE_PANEL);
-                        initSelection(x, y);
-                        final SelectionCursor.Which cursor = findSelectionCursor(x, y);
-                        if (cursor != null) {
-                            moveSelectionCursorTo(cursor, x, y);
-                        }
-                        return true;
-                    case selectSingleWord:
-                    case openDictionary:
-                        doSelectRegion = true;
-                        break;
-                }
-            } else if (soul instanceof ZLTextImageRegionSoul) {
-                doSelectRegion =
-                        myReader.ImageOptions.TapAction.getValue() !=
-                                ImageOptions.TapActionEnum.doNothing;
-            } else if (soul instanceof ZLTextHyperlinkRegionSoul) {
-                doSelectRegion = true;
-            }
-
-            if (doSelectRegion) {
-                outlineRegion(region);
-                myReader.getViewWidget().reset();
-                myReader.getViewWidget().repaint();
-                return true;
-            }
-        }
-        return false;
+    protected String getCurrentTOC() {
+        final TOCTree tocElement = myReader.getCurrentTOCElement();
+        return tocElement == null ? "" : tocElement.getText();
     }
 
     @Override
-    public void onFingerMoveAfterLongPress(int x, int y) {
-        final SelectionCursor.Which cursor = getSelectionCursorInMovement();
-        if (cursor != null) {
-            moveSelectionCursorTo(cursor, x, y);
-            return;
-        }
-
-        ZLTextRegion region = getOutlinedRegion();
-        if (region != null) {
-            ZLTextRegion.Soul soul = region.getSoul();
-            if (soul instanceof ZLTextHyperlinkRegionSoul ||
-                    soul instanceof ZLTextWordRegionSoul) {
-                if (myReader.MiscOptions.WordTappingAction.getValue() !=
-                        MiscOptions.WordTappingActionEnum.doNothing) {
-                    region = findRegion(x, y, maxSelectionDistance(), ZLTextRegion.AnyRegionFilter);
-                    if (region != null) {
-                        soul = region.getSoul();
-                        if (soul instanceof ZLTextHyperlinkRegionSoul
-                                || soul instanceof ZLTextWordRegionSoul) {
-                            outlineRegion(region);
-                            myReader.getViewWidget().reset();
-                            myReader.getViewWidget().repaint();
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    @Override
-    public void onFingerReleaseAfterLongPress(int x, int y) {
-        final SelectionCursor.Which cursor = getSelectionCursorInMovement();
-        if (cursor != null) {
-            releaseSelectionCursor();
-            return;
-        }
-
-        final ZLTextRegion region = getOutlinedRegion();
-        if (region != null) {
-            final ZLTextRegion.Soul soul = region.getSoul();
-
-            boolean doRunAction = false;
-            if (soul instanceof ZLTextWordRegionSoul) {
-                doRunAction =
-                        myReader.MiscOptions.WordTappingAction.getValue() ==
-                                MiscOptions.WordTappingActionEnum.openDictionary;
-            } else if (soul instanceof ZLTextImageRegionSoul) {
-                doRunAction =
-                        myReader.ImageOptions.TapAction.getValue() ==
-                                ImageOptions.TapActionEnum.openImageView;
-            }
-
-            if (doRunAction) {
-                myReader.runAction(ActionCode.PROCESS_HYPERLINK);
-            }
-        }
-    }
-
-    @Override
-    public void onFingerEventCancelled() {
-        final SelectionCursor.Which cursor = getSelectionCursorInMovement();
-        if (cursor != null) {
-            releaseSelectionCursor();
-        }
-    }
-
-    public boolean onTrackballRotated(int diffX, int diffY) {
-        if (diffX == 0 && diffY == 0) {
-            return true;
-        }
-
-        final Direction direction = (diffY != 0) ?
-                (diffY > 0 ? Direction.down : Direction.up) :
-                (diffX > 0 ? Direction.leftToRight : Direction.rightToLeft);
-
-        new MoveCursorAction(myReader, direction).run();
-        return true;
+    protected ZLColor getExtraColor() {
+        ColorProfile profile = myViewOptions.getColorProfile();
+        return profile.HeaderAndFooterColorOption.getValue();
     }
 
     @Override
@@ -415,8 +199,23 @@ public final class FBView extends ZLTextView {
     }
 
     @Override
+    public ZLColor getSelectionCursorColor() {
+        return myViewOptions.getColorProfile().SelectionCursorOption.getValue();
+    }
+
+    @Override
     public ZLColor getSelectionForegroundColor() {
         return myViewOptions.getColorProfile().SelectionForegroundOption.getValue();
+    }
+
+    @Override
+    public ZLColor getHighlightingBackgroundColor() {
+        return myViewOptions.getColorProfile().HighlightingBackgroundOption.getValue();
+    }
+
+    @Override
+    public ZLColor getHighlightingForegroundColor() {
+        return myViewOptions.getColorProfile().HighlightingForegroundOption.getValue();
     }
 
     @Override
@@ -437,24 +236,348 @@ public final class FBView extends ZLTextView {
     }
 
     @Override
-    public ZLColor getHighlightingBackgroundColor() {
-        return myViewOptions.getColorProfile().HighlightingBackgroundOption.getValue();
+    public Footer getFooterArea() {
+        switch (myViewOptions.ScrollbarType.getValue()) {
+            case SCROLLBAR_SHOW_AS_FOOTER:
+                if (!(myFooter instanceof FooterNewStyle)) {
+                    if (myFooter != null) {
+                        myReader.removeTimerTask(myFooter.UpdateTask);
+                    }
+                    myFooter = new FooterNewStyle();
+                    myReader.addTimerTask(myFooter.UpdateTask, 15000);
+                }
+                break;
+            case SCROLLBAR_SHOW_AS_FOOTER_OLD_STYLE:
+                if (!(myFooter instanceof FooterOldStyle)) {
+                    if (myFooter != null) {
+                        myReader.removeTimerTask(myFooter.UpdateTask);
+                    }
+                    myFooter = new FooterOldStyle();
+                    myReader.addTimerTask(myFooter.UpdateTask, 15000);
+                }
+                break;
+            default:
+                if (myFooter != null) {
+                    myReader.removeTimerTask(myFooter.UpdateTask);
+                    myFooter = null;
+                }
+                break;
+        }
+        return myFooter;
     }
 
     @Override
-    public ZLColor getHighlightingForegroundColor() {
-        return myViewOptions.getColorProfile().HighlightingForegroundOption.getValue();
+    public Animation getAnimationType() {
+        return myReader.PageTurningOptions.Animation.getValue();
+    }
+
+    @Override
+    public void onFingerPress(int x, int y) {
+        myReader.runAction(ActionCode.HIDE_TOAST);
+
+        final float maxDist = ZLibrary.Instance().getDisplayDPI() / 4;
+        final SelectionCursor.Which cursor = findSelectionCursor(x, y, maxDist * maxDist);
+        if (cursor != null) {
+            myReader.runAction(ActionCode.SELECTION_HIDE_PANEL);
+            moveSelectionCursorTo(cursor, x, y);
+            return;
+        }
+
+        if (myReader.MiscOptions.AllowScreenBrightnessAdjustment.getValue() && x < getContextWidth() / 10) {
+            myIsBrightnessAdjustmentInProgress = true;
+            myStartY = y;
+            myStartBrightness = myReader.getViewWidget().getScreenBrightness();
+            return;
+        }
+
+        startManualScrolling(x, y);
+    }
+
+    private void startManualScrolling(int x, int y) {
+        if (!isFlickScrollingEnabled()) {
+            return;
+        }
+
+        final boolean horizontal = myReader.PageTurningOptions.Horizontal.getValue();
+        final Direction direction = horizontal ? Direction.rightToLeft : Direction.up;
+        myReader.getViewWidget().startManualScrolling(x, y, direction);
+    }
+
+    private boolean isFlickScrollingEnabled() {
+        final PageTurningOptions.FingerScrollingType fingerScrolling =
+                myReader.PageTurningOptions.FingerScrolling.getValue();
+        return
+                fingerScrolling == PageTurningOptions.FingerScrollingType.byFlick ||
+                        fingerScrolling == PageTurningOptions.FingerScrollingType.byTapAndFlick;
+    }
+
+    @Override
+    public void onFingerRelease(int x, int y) {
+        final SelectionCursor.Which cursor = getSelectionCursorInMovement();
+        if (cursor != null) {
+            releaseSelectionCursor();
+        } else if (myIsBrightnessAdjustmentInProgress) {
+            myIsBrightnessAdjustmentInProgress = false;
+        } else if (isFlickScrollingEnabled()) {
+            myReader.getViewWidget().startAnimatedScrolling(
+                    x, y, myReader.PageTurningOptions.AnimationSpeed.getValue()
+            );
+        }
+    }
+
+    @Override
+    public void onFingerMove(int x, int y) {
+        final SelectionCursor.Which cursor = getSelectionCursorInMovement();
+        if (cursor != null) {
+            moveSelectionCursorTo(cursor, x, y);
+            return;
+        }
+
+        synchronized (this) {
+            if (myIsBrightnessAdjustmentInProgress) {
+                if (x >= getContextWidth() / 5) {
+                    myIsBrightnessAdjustmentInProgress = false;
+                    startManualScrolling(x, y);
+                } else {
+                    final int delta = (myStartBrightness + 30) * (myStartY - y) / getContextHeight();
+                    myReader.getViewWidget().setScreenBrightness(myStartBrightness + delta);
+                    return;
+                }
+            }
+
+            if (isFlickScrollingEnabled()) {
+                myReader.getViewWidget().scrollManuallyTo(x, y);
+            }
+        }
+    }
+
+    @Override
+    public boolean onFingerLongPress(int x, int y) {
+        myReader.runAction(ActionCode.HIDE_TOAST);
+
+        final ZLTextRegion region = findRegion(x, y, maxSelectionDistance(), ZLTextRegion.AnyRegionFilter);
+        if (region != null) {
+            final ZLTextRegion.Soul soul = region.getSoul();
+            boolean doSelectRegion = false;
+            if (soul instanceof ZLTextWordRegionSoul) {
+                switch (myReader.MiscOptions.WordTappingAction.getValue()) {
+                    case startSelecting:
+                        myReader.runAction(ActionCode.SELECTION_HIDE_PANEL);
+                        initSelection(x, y);
+                        final SelectionCursor.Which cursor = findSelectionCursor(x, y);
+                        if (cursor != null) {
+                            moveSelectionCursorTo(cursor, x, y);
+                        }
+                        return true;
+                    case selectSingleWord:
+                    case openDictionary:
+                        doSelectRegion = true;
+                        break;
+                }
+            } else if (soul instanceof ZLTextImageRegionSoul) {
+                doSelectRegion =
+                        myReader.ImageOptions.TapAction.getValue() !=
+                                ImageOptions.TapActionEnum.doNothing;
+            } else if (soul instanceof ZLTextHyperlinkRegionSoul) {
+                doSelectRegion = true;
+            }
+
+            if (doSelectRegion) {
+                outlineRegion(region);
+                myReader.getViewWidget().reset();
+                myReader.getViewWidget().repaint();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void onFingerReleaseAfterLongPress(int x, int y) {
+        final SelectionCursor.Which cursor = getSelectionCursorInMovement();
+        if (cursor != null) {
+            releaseSelectionCursor();
+            return;
+        }
+
+        final ZLTextRegion region = getOutlinedRegion();
+        if (region != null) {
+            final ZLTextRegion.Soul soul = region.getSoul();
+
+            boolean doRunAction = false;
+            if (soul instanceof ZLTextWordRegionSoul) {
+                doRunAction =
+                        myReader.MiscOptions.WordTappingAction.getValue() ==
+                                MiscOptions.WordTappingActionEnum.openDictionary;
+            } else if (soul instanceof ZLTextImageRegionSoul) {
+                doRunAction =
+                        myReader.ImageOptions.TapAction.getValue() ==
+                                ImageOptions.TapActionEnum.openImageView;
+            }
+
+            if (doRunAction) {
+                myReader.runAction(ActionCode.PROCESS_HYPERLINK);
+            }
+        }
+    }
+
+    @Override
+    public void onFingerMoveAfterLongPress(int x, int y) {
+        final SelectionCursor.Which cursor = getSelectionCursorInMovement();
+        if (cursor != null) {
+            moveSelectionCursorTo(cursor, x, y);
+            return;
+        }
+
+        ZLTextRegion region = getOutlinedRegion();
+        if (region != null) {
+            ZLTextRegion.Soul soul = region.getSoul();
+            if (soul instanceof ZLTextHyperlinkRegionSoul ||
+                    soul instanceof ZLTextWordRegionSoul) {
+                if (myReader.MiscOptions.WordTappingAction.getValue() !=
+                        MiscOptions.WordTappingActionEnum.doNothing) {
+                    region = findRegion(x, y, maxSelectionDistance(), ZLTextRegion.AnyRegionFilter);
+                    if (region != null) {
+                        soul = region.getSoul();
+                        if (soul instanceof ZLTextHyperlinkRegionSoul
+                                || soul instanceof ZLTextWordRegionSoul) {
+                            outlineRegion(region);
+                            myReader.getViewWidget().reset();
+                            myReader.getViewWidget().repaint();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onFingerSingleTap(int x, int y) {
+        final ZLTextRegion hyperlinkRegion = findRegion(x, y, maxSelectionDistance(), ZLTextRegion.HyperlinkFilter);
+        if (hyperlinkRegion != null) {
+            outlineRegion(hyperlinkRegion);
+            myReader.getViewWidget().reset();
+            myReader.getViewWidget().repaint();
+            myReader.runAction(ActionCode.PROCESS_HYPERLINK);
+            return;
+        }
+
+        final ZLTextRegion bookRegion = findRegion(x, y, 0, ZLTextRegion.ExtensionFilter);
+        if (bookRegion != null) {
+            myReader.runAction(ActionCode.DISPLAY_BOOK_POPUP, bookRegion);
+            return;
+        }
+
+        final ZLTextRegion videoRegion = findRegion(x, y, 0, ZLTextRegion.VideoFilter);
+        if (videoRegion != null) {
+            outlineRegion(videoRegion);
+            myReader.getViewWidget().reset();
+            myReader.getViewWidget().repaint();
+            myReader.runAction(ActionCode.OPEN_VIDEO, (ZLTextVideoRegionSoul) videoRegion.getSoul());
+            return;
+        }
+
+        final ZLTextHighlighting highlighting = findHighlighting(x, y, maxSelectionDistance());
+        if (highlighting instanceof BookmarkHighlighting) {
+            myReader.runAction(
+                    ActionCode.SELECTION_BOOKMARK,
+                    ((BookmarkHighlighting) highlighting).Bookmark
+            );
+            return;
+        }
+
+        if (myReader.isActionEnabled(ActionCode.HIDE_TOAST)) {
+            myReader.runAction(ActionCode.HIDE_TOAST);
+            return;
+        }
+
+        onFingerSingleTapLastResort(x, y);
+    }
+
+    private void onFingerSingleTapLastResort(int x, int y) {
+        myReader.runAction(getZoneMap().getActionByCoordinates(
+                x, y, getContextWidth(), getContextHeight(),
+                isDoubleTapSupported() ? TapZoneMap.Tap.singleNotDoubleTap : TapZoneMap.Tap.singleTap
+        ), x, y);
+    }
+
+    private TapZoneMap getZoneMap() {
+        final PageTurningOptions prefs = myReader.PageTurningOptions;
+        String id = prefs.TapZoneMap.getValue();
+        if ("".equals(id)) {
+            id = prefs.Horizontal.getValue() ? "right_to_left" : "up";
+        }
+        if (myZoneMap == null || !id.equals(myZoneMap.Name)) {
+            myZoneMap = TapZoneMap.zoneMap(id);
+        }
+        return myZoneMap;
+    }
+
+    @Override
+    public void onFingerDoubleTap(int x, int y) {
+        myReader.runAction(ActionCode.HIDE_TOAST);
+
+        myReader.runAction(getZoneMap().getActionByCoordinates(
+                x, y, getContextWidth(), getContextHeight(), TapZoneMap.Tap.doubleTap
+        ), x, y);
+    }
+
+    @Override
+    public void onFingerEventCancelled() {
+        final SelectionCursor.Which cursor = getSelectionCursorInMovement();
+        if (cursor != null) {
+            releaseSelectionCursor();
+        }
+    }
+
+    @Override
+    public boolean isDoubleTapSupported() {
+        return myReader.MiscOptions.EnableDoubleTap.getValue();
+    }
+
+    public boolean onTrackballRotated(int diffX, int diffY) {
+        if (diffX == 0 && diffY == 0) {
+            return true;
+        }
+
+        final Direction direction = (diffY != 0) ?
+                (diffY > 0 ? Direction.down : Direction.up) :
+                (diffX > 0 ? Direction.leftToRight : Direction.rightToLeft);
+
+        new MoveCursorAction(myReader, direction).run();
+        return true;
+    }
+
+    public int getCountOfSelectedWords() {
+        final WordCountTraverser traverser = new WordCountTraverser(this);
+        if (!isSelectionEmpty()) {
+            traverser.traverse(getSelectionStartPosition(), getSelectionEndPosition());
+        }
+        return traverser.getCount();
+    }
+
+    public TextSnippet getSelectedSnippet() {
+        final ZLTextPosition start = getSelectionStartPosition();
+        final ZLTextPosition end = getSelectionEndPosition();
+        if (start == null || end == null) {
+            return null;
+        }
+        final TextBuildTraverser traverser = new TextBuildTraverser(this);
+        traverser.traverse(start, end);
+        return new FixedTextSnippet(start, end, traverser.getText());
     }
 
     private abstract class Footer implements FooterArea {
+        protected ArrayList<TOCTree> myTOCMarks;
         private Runnable UpdateTask = new Runnable() {
             public void run() {
                 myReader.getViewWidget().repaint();
             }
         };
-
-        protected ArrayList<TOCTree> myTOCMarks;
         private int myMaxTOCMarksNumber = -1;
+        private List<FontEntry> myFontEntry;
+        private Map<String, Integer> myHeightMap = new HashMap<String, Integer>();
+        private Map<String, Integer> myCharHeightMap = new HashMap<String, Integer>();
 
         public int getHeight() {
             return myViewOptions.FooterHeight.getValue();
@@ -531,10 +654,6 @@ public final class FBView extends ZLTextView {
                 info.append(separator);
             }
         }
-
-        private List<FontEntry> myFontEntry;
-        private Map<String, Integer> myHeightMap = new HashMap<String, Integer>();
-        private Map<String, Integer> myCharHeightMap = new HashMap<String, Integer>();
 
         protected synchronized int setFont(ZLPaintContext context, int height, boolean bold) {
             final String family = myViewOptions.getFooterOptions().Font.getValue();
@@ -696,124 +815,5 @@ public final class FBView extends ZLTextView {
                 }
             }
         }
-    }
-
-    private Footer myFooter;
-
-    @Override
-    public Footer getFooterArea() {
-        switch (myViewOptions.ScrollbarType.getValue()) {
-            case SCROLLBAR_SHOW_AS_FOOTER:
-                if (!(myFooter instanceof FooterNewStyle)) {
-                    if (myFooter != null) {
-                        myReader.removeTimerTask(myFooter.UpdateTask);
-                    }
-                    myFooter = new FooterNewStyle();
-                    myReader.addTimerTask(myFooter.UpdateTask, 15000);
-                }
-                break;
-            case SCROLLBAR_SHOW_AS_FOOTER_OLD_STYLE:
-                if (!(myFooter instanceof FooterOldStyle)) {
-                    if (myFooter != null) {
-                        myReader.removeTimerTask(myFooter.UpdateTask);
-                    }
-                    myFooter = new FooterOldStyle();
-                    myReader.addTimerTask(myFooter.UpdateTask, 15000);
-                }
-                break;
-            default:
-                if (myFooter != null) {
-                    myReader.removeTimerTask(myFooter.UpdateTask);
-                    myFooter = null;
-                }
-                break;
-        }
-        return myFooter;
-    }
-
-    @Override
-    protected void releaseSelectionCursor() {
-        super.releaseSelectionCursor();
-        if (getCountOfSelectedWords() > 0) {
-            myReader.runAction(ActionCode.SELECTION_SHOW_PANEL);
-        }
-    }
-
-    public TextSnippet getSelectedSnippet() {
-        final ZLTextPosition start = getSelectionStartPosition();
-        final ZLTextPosition end = getSelectionEndPosition();
-        if (start == null || end == null) {
-            return null;
-        }
-        final TextBuildTraverser traverser = new TextBuildTraverser(this);
-        traverser.traverse(start, end);
-        return new FixedTextSnippet(start, end, traverser.getText());
-    }
-
-    public int getCountOfSelectedWords() {
-        final WordCountTraverser traverser = new WordCountTraverser(this);
-        if (!isSelectionEmpty()) {
-            traverser.traverse(getSelectionStartPosition(), getSelectionEndPosition());
-        }
-        return traverser.getCount();
-    }
-
-    public static final int SCROLLBAR_SHOW_AS_FOOTER = 3;
-    public static final int SCROLLBAR_SHOW_AS_FOOTER_OLD_STYLE = 4;
-
-    @Override
-    public int scrollbarType() {
-        return myViewOptions.ScrollbarType.getValue();
-    }
-
-    @Override
-    public Animation getAnimationType() {
-        return myReader.PageTurningOptions.Animation.getValue();
-    }
-
-    @Override
-    protected ZLPaintContext.ColorAdjustingMode getAdjustingModeForImages() {
-        if (myReader.ImageOptions.MatchBackground.getValue()) {
-            if (ColorProfile.THEME_WHITE.equals(myViewOptions.getColorProfile().Name)) {
-                return ZLPaintContext.ColorAdjustingMode.DARKEN_TO_BACKGROUND;
-            } else {
-                return ZLPaintContext.ColorAdjustingMode.LIGHTEN_TO_BACKGROUND;
-            }
-        } else {
-            return ZLPaintContext.ColorAdjustingMode.NONE;
-        }
-    }
-
-    @Override
-    public synchronized void onScrollingFinished(PageIndex pageIndex) {
-        super.onScrollingFinished(pageIndex);
-        myReader.storePosition();
-    }
-
-    @Override
-    protected ExtensionElementManager getExtensionManager() {
-        return myBookElementManager;
-    }
-
-    @Override
-    protected String getCurrentTOC() {
-        final TOCTree tocElement = myReader.getCurrentTOCElement();
-        return tocElement == null ? "" : tocElement.getText();
-    }
-
-    @Override
-    protected ZLColor getExtraColor() {
-        ColorProfile profile = myViewOptions.getColorProfile();
-        return profile.HeaderAndFooterColorOption.getValue();
-    }
-
-    @Override
-    protected String getPageProgress() {
-        StringBuilder info = new StringBuilder();
-        PagePosition pagePosition = pagePosition();
-        info.append(pagePosition.Current);
-        info.append("/");
-        info.append(pagePosition.Total);
-        return info.toString();
     }
 }

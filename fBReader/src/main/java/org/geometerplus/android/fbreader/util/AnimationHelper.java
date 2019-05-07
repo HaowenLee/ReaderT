@@ -6,12 +6,13 @@ import android.view.animation.TranslateAnimation;
 
 public class AnimationHelper {
 
-    public static void openDropMenu(View targetView) {
+    /**
+     * 打开顶部菜单
+     *
+     * @param targetView 目标
+     */
+    public static void openTopMenu(View targetView) {
         openMenu(targetView, 0, 0, -1, 0);
-    }
-
-    public static void closeDropMenu(View targetView) {
-        closeMenu(targetView, 0, 0, 0, -1);
     }
 
     public static void openMenu(View targetView, float fromXValue, float toXValue, float fromYValue, float toYValue) {
@@ -20,6 +21,15 @@ public class AnimationHelper {
         animation.setDuration(200);
         targetView.startAnimation(animation);
         targetView.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 关闭顶部菜单
+     *
+     * @param targetView 目标
+     */
+    public static void closeTopMenu(View targetView) {
+        closeMenu(targetView, 0, 0, 0, -1);
     }
 
     public static void closeMenu(final View targetView, float fromXValue, float toXValue, float fromYValue, float toYValue) {
@@ -44,5 +54,23 @@ public class AnimationHelper {
             }
         });
         targetView.startAnimation(animation);
+    }
+
+    /**
+     * 打开底部菜单
+     *
+     * @param targetView 目标
+     */
+    public static void openBottomMenu(View targetView) {
+        openMenu(targetView, 0, 0, 1, 0);
+    }
+
+    /**
+     * 关闭底部菜单
+     *
+     * @param targetView 目标
+     */
+    public static void closeBottomMenu(View targetView) {
+        closeMenu(targetView, 0, 0, 0, 1);
     }
 }

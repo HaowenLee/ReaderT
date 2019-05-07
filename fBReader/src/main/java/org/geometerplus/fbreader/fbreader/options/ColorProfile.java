@@ -34,40 +34,13 @@ public class ColorProfile {
 
     private static final ArrayList<String> ourNames = new ArrayList<String>();
     private static final HashMap<String, ColorProfile> ourProfiles = new HashMap<String, ColorProfile>();
-
-    public static List<String> names() {
-        if (ourNames.isEmpty()) {
-            final int size = new ZLIntegerOption("Colors", "NumberOfSchemes", 0).getValue();
-            if (size == 0) {
-                ourNames.add(THEME_WHITE);
-                ourNames.add(THEME_YELLOW);
-                ourNames.add(THEME_GREEN);
-                ourNames.add(THEME_BLACK);
-            } else {
-                for (int i = 0; i < size; ++i) {
-                    ourNames.add(new ZLStringOption("Colors", "Scheme" + i, "").getValue());
-                }
-            }
-        }
-        return Collections.unmodifiableList(ourNames);
-    }
-
-    public static ColorProfile get(String name) {
-        ColorProfile profile = ourProfiles.get(name);
-        if (profile == null) {
-            profile = new ColorProfile(name);
-            ourProfiles.put(name, profile);
-        }
-        return profile;
-    }
-
     public final String Name;
-
     public final ZLStringOption WallpaperOption;
     public final ZLEnumOption<ZLPaintContext.FillMode> FillModeOption;
     public final ZLColorOption BackgroundOption;
     public final ZLColorOption SelectionBackgroundOption;
     public final ZLColorOption SelectionForegroundOption;
+    public final ZLColorOption SelectionCursorOption;
     public final ZLColorOption HighlightingForegroundOption;
     public final ZLColorOption HighlightingBackgroundOption;
     public final ZLColorOption RegularTextOption;
@@ -86,6 +59,7 @@ public class ColorProfile {
         BackgroundOption.setValue(base.BackgroundOption.getValue());
         SelectionBackgroundOption.setValue(base.SelectionBackgroundOption.getValue());
         SelectionForegroundOption.setValue(base.SelectionForegroundOption.getValue());
+        SelectionCursorOption.setValue(base.SelectionCursorOption.getValue());
         HighlightingForegroundOption.setValue(base.HighlightingForegroundOption.getValue());
         HighlightingBackgroundOption.setValue(base.HighlightingBackgroundOption.getValue());
         RegularTextOption.setValue(base.RegularTextOption.getValue());
@@ -96,14 +70,6 @@ public class ColorProfile {
         FooterNGForegroundOption.setValue(base.FooterNGForegroundOption.getValue());
         FooterNGForegroundUnreadOption.setValue(base.FooterNGForegroundUnreadOption.getValue());
         HeaderAndFooterColorOption.setValue(base.HeaderAndFooterColorOption.getValue());
-    }
-
-    private static ZLColorOption createOption(String profileName, String optionName, int r, int g, int b) {
-        return new ZLColorOption("Colors", profileName + ':' + optionName, new ZLColor(r, g, b));
-    }
-
-    private static ZLColorOption createNullOption(String profileName, String optionName) {
-        return new ZLColorOption("Colors", profileName + ':' + optionName, null);
     }
 
     private ColorProfile(String name) {
@@ -120,6 +86,8 @@ public class ColorProfile {
                         createOption(name, "SelectionBackground", 82, 131, 194);
                 SelectionForegroundOption =
                         createNullOption(name, "SelectionForeground");
+                SelectionCursorOption =
+                        createOption(name, "SelectionCursorOption", 82, 131, 194);
                 HighlightingBackgroundOption =
                         createOption(name, "Highlighting", 255, 192, 128);
                 HighlightingForegroundOption =
@@ -152,6 +120,8 @@ public class ColorProfile {
                         createOption(name, "SelectionBackground", 82, 131, 194);
                 SelectionForegroundOption =
                         createNullOption(name, "SelectionForeground");
+                SelectionCursorOption =
+                        createOption(name, "SelectionCursorOption", 82, 131, 194);
                 HighlightingBackgroundOption =
                         createOption(name, "Highlighting", 255, 192, 128);
                 HighlightingForegroundOption =
@@ -184,6 +154,8 @@ public class ColorProfile {
                         createOption(name, "SelectionBackground", 82, 131, 194);
                 SelectionForegroundOption =
                         createNullOption(name, "SelectionForeground");
+                SelectionCursorOption =
+                        createOption(name, "SelectionCursorOption", 82, 131, 194);
                 HighlightingBackgroundOption =
                         createOption(name, "Highlighting", 96, 96, 128);
                 HighlightingForegroundOption =
@@ -213,9 +185,11 @@ public class ColorProfile {
                 BackgroundOption =
                         createOption(name, "Background", 248, 248, 248);
                 SelectionBackgroundOption =
-                        createOption(name, "SelectionBackground", 82, 131, 194);
+                        createOption(name, "SelectionBackground", 217, 237, 249);
                 SelectionForegroundOption =
                         createNullOption(name, "SelectionForeground");
+                SelectionCursorOption =
+                        createOption(name, "SelectionCursorOption", 0, 131, 216);
                 HighlightingBackgroundOption =
                         createOption(name, "Highlighting", 255, 192, 128);
                 HighlightingForegroundOption =
@@ -238,5 +212,39 @@ public class ColorProfile {
                         createOption(name, "HeaderAndFooterColorOption", 154, 154, 154);
                 break;
         }
+    }
+
+    private static ZLColorOption createOption(String profileName, String optionName, int r, int g, int b) {
+        return new ZLColorOption("Colors", profileName + ':' + optionName, new ZLColor(r, g, b));
+    }
+
+    private static ZLColorOption createNullOption(String profileName, String optionName) {
+        return new ZLColorOption("Colors", profileName + ':' + optionName, null);
+    }
+
+    public static List<String> names() {
+        if (ourNames.isEmpty()) {
+            final int size = new ZLIntegerOption("Colors", "NumberOfSchemes", 0).getValue();
+            if (size == 0) {
+                ourNames.add(THEME_WHITE);
+                ourNames.add(THEME_YELLOW);
+                ourNames.add(THEME_GREEN);
+                ourNames.add(THEME_BLACK);
+            } else {
+                for (int i = 0; i < size; ++i) {
+                    ourNames.add(new ZLStringOption("Colors", "Scheme" + i, "").getValue());
+                }
+            }
+        }
+        return Collections.unmodifiableList(ourNames);
+    }
+
+    public static ColorProfile get(String name) {
+        ColorProfile profile = ourProfiles.get(name);
+        if (profile == null) {
+            profile = new ColorProfile(name);
+            ourProfiles.put(name, profile);
+        }
+        return profile;
     }
 }
