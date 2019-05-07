@@ -95,6 +95,7 @@ import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 import org.geometerplus.zlibrary.core.library.ZLibrary;
 import org.geometerplus.zlibrary.core.options.Config;
 import org.geometerplus.zlibrary.core.resources.ZLResource;
+import org.geometerplus.zlibrary.core.view.ZLViewEnums;
 import org.geometerplus.zlibrary.core.view.ZLViewWidget;
 import org.geometerplus.zlibrary.text.view.ZLTextElement;
 import org.geometerplus.zlibrary.text.view.ZLTextParagraphCursor;
@@ -1080,7 +1081,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
      * 显示一级菜单
      */
     public void openOrCloseSettingMenu() {
-        final View menuView = findViewById(R.id.readerSetting);
+        final View menuView = findViewById(R.id.menuSetting);
         if (menuView.getVisibility() == View.VISIBLE) {
             closeMenu(false, menuView);
         } else {
@@ -1111,9 +1112,12 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             AnimationHelper.closeTopMenu(findViewById(R.id.menuTop));
             AnimationHelper.closeBottomMenu(findViewById(R.id.firstMenu));
             scaleReader(false);
-        } else if (findViewById(R.id.readerSetting).getVisibility() == View.VISIBLE) {
+        } else if (findViewById(R.id.menuSetting).getVisibility() == View.VISIBLE) {
             AnimationHelper.closeTopMenu(findViewById(R.id.menuTop));
-            AnimationHelper.closeBottomMenu(findViewById(R.id.readerSetting));
+            AnimationHelper.closeBottomMenu(findViewById(R.id.menuSetting));
+        } else if (findViewById(R.id.menuMore).getVisibility() == View.VISIBLE) {
+            AnimationHelper.closeTopMenu(findViewById(R.id.menuTop));
+            AnimationHelper.closeBottomMenu(findViewById(R.id.menuMore));
         } else {
             AnimationHelper.openTopMenu(findViewById(R.id.menuTop));
             AnimationHelper.openBottomMenu(findViewById(R.id.firstMenu));
@@ -1248,7 +1252,18 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             }
         });
 
+        // 更多菜单
         findViewById(R.id.ivMore).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AnimationHelper.openBottomMenu(findViewById(R.id.menuMore));
+                AnimationHelper.closeBottomMenu(findViewById(R.id.firstMenu));
+                AnimationHelper.closeBottomMenu(findViewById(R.id.menuSetting));
+                scaleReader(false);
+            }
+        });
+
+        findViewById(R.id.book_mark).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // 生成标签

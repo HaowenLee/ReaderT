@@ -32,6 +32,8 @@
 
             <include layout="@layout/reader_menu_setting" />
 
+            <include layout="@layout/reader_menu_more" />
+
         </FrameLayout>
 
     </FrameLayout>

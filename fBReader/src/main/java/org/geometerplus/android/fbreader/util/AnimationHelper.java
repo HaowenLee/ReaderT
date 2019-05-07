@@ -16,6 +16,9 @@ public class AnimationHelper {
     }
 
     public static void openMenu(View targetView, float fromXValue, float toXValue, float fromYValue, float toYValue) {
+        if (targetView.getVisibility() == View.VISIBLE) {
+            return;
+        }
         TranslateAnimation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF,
                 fromXValue, Animation.RELATIVE_TO_SELF, toXValue, Animation.RELATIVE_TO_SELF, fromYValue, Animation.RELATIVE_TO_SELF, toYValue);
         animation.setDuration(200);
@@ -33,7 +36,9 @@ public class AnimationHelper {
     }
 
     public static void closeMenu(final View targetView, float fromXValue, float toXValue, float fromYValue, float toYValue) {
-        targetView.setVisibility(View.VISIBLE);
+        if (targetView.getVisibility() != View.VISIBLE) {
+            return;
+        }
         TranslateAnimation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF,
                 fromXValue, Animation.RELATIVE_TO_SELF, toXValue, Animation.RELATIVE_TO_SELF, fromYValue, Animation.RELATIVE_TO_SELF, toYValue);
         animation.setDuration(200);
