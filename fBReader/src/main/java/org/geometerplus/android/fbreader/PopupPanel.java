@@ -30,6 +30,7 @@ import org.geometerplus.zlibrary.text.view.ZLTextWordCursor;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
 
 abstract class PopupPanel extends ZLApplication.PopupPanel {
+
 	public ZLTextWordCursor StartPosition;
 
 	protected volatile SimplePopupWindow myWindow;

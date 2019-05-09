@@ -21,19 +21,21 @@
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:paddingLeft="16dp"
-            android:paddingTop="8dp"
-            android:paddingRight="8dp"
-            android:paddingBottom="8dp">
+            android:paddingTop="12dp"
+            android:paddingRight="12dp"
+            android:paddingBottom="12dp">
 
             <ImageView
                 android:id="@+id/selection_panel_bookmark"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
                 android:src="@drawable/popup_bookmark" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:includeFontPadding="false"
                 android:text="笔记"
                 android:textColor="#cccccc"
                 android:textSize="12dp" />
@@ -45,20 +47,22 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:paddingLeft="8dp"
-            android:paddingTop="8dp"
-            android:paddingRight="8dp"
-            android:paddingBottom="8dp">
+            android:paddingLeft="12dp"
+            android:paddingTop="12dp"
+            android:paddingRight="12dp"
+            android:paddingBottom="12dp">
 
             <ImageView
                 android:id="@+id/selection_panel_translate"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
                 android:src="@drawable/popup_translate" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:includeFontPadding="false"
                 android:text="翻译"
                 android:textColor="#cccccc"
                 android:textSize="12dp" />
@@ -70,20 +74,22 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:paddingLeft="8dp"
-            android:paddingTop="8dp"
-            android:paddingRight="8dp"
-            android:paddingBottom="8dp">
+            android:paddingLeft="12dp"
+            android:paddingTop="12dp"
+            android:paddingRight="12dp"
+            android:paddingBottom="12dp">
 
             <ImageView
                 android:id="@+id/selection_panel_share"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
                 android:src="@drawable/popup_share" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:includeFontPadding="false"
                 android:text="分享"
                 android:textColor="#cccccc"
                 android:textSize="12dp" />
@@ -95,20 +101,22 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:paddingLeft="8dp"
-            android:paddingTop="8dp"
+            android:paddingLeft="12dp"
+            android:paddingTop="12dp"
             android:paddingRight="16dp"
-            android:paddingBottom="8dp">
+            android:paddingBottom="12dp">
 
             <ImageView
                 android:id="@+id/selection_panel_copy"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
                 android:src="@drawable/popup_copy" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:includeFontPadding="false"
                 android:text="复制"
                 android:textColor="#cccccc"
                 android:textSize="12dp" />

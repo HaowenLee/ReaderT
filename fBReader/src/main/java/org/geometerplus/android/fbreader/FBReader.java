@@ -477,7 +477,8 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
     @Override
     protected void onStop() {
         ApiServerImplementation.sendEvent(this, ApiListener.EVENT_READ_MODE_CLOSED);
-        PopupPanel.removeAllWindows(myFBReaderApp, this);
+        // TODO: 2019/5/9 移除后状态恢复有问题
+        // PopupPanel.removeAllWindows(myFBReaderApp, this);
         super.onStop();
     }
 
@@ -750,9 +751,10 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 
     public void showSelectionPanel() {
         final ZLTextView view = myFBReaderApp.getTextView();
-        ((SelectionPopup) myFBReaderApp.getPopupById(SelectionPopup.ID))
-                .move(view.getSelectionStartY(), view.getSelectionEndY());
+        // 显示弹框
         myFBReaderApp.showPopup(SelectionPopup.ID);
+        // 位置移动
+        ((SelectionPopup) myFBReaderApp.getPopupById(SelectionPopup.ID)).move(view.getSelectionStartY(), view.getSelectionEndY());
     }
 
     public void hideSelectionPanel() {

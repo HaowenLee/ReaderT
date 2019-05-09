@@ -3,10 +3,12 @@ package org.geometerplus.android.fbreader;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import org.geometerplus.zlibrary.core.library.ZLibrary;
 import org.geometerplus.zlibrary.core.resources.ZLResource;
 import org.geometerplus.fbreader.fbreader.ActionCode;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
 import org.geometerplus.zlibrary.ui.android.R;
+import org.geometerplus.zlibrary.ui.android.library.ZLAndroidLibrary;
 
 /**
  * 选中动作弹框
@@ -47,6 +49,7 @@ class SelectionPopup extends PopupPanel implements View.OnClickListener {
     }
 
     public void move(int selectionStartY, int selectionEndY) {
+
         if (myWindow == null) {
             return;
         }
@@ -57,12 +60,20 @@ class SelectionPopup extends PopupPanel implements View.OnClickListener {
         );
         layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
 
-        int startY = selectionStartY - myWindow.getMeasuredHeight();
+        // Popup的高度
+        int popupHeight = (int) (ZLibrary.Instance().getDisplayDPI() / 160f * 65 + 57);
+        myWindow.post(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });
+        int startY = selectionStartY - popupHeight;
         if (startY > 0) {
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
             layoutParams.topMargin = startY;
             myWindow.setBackgroundResource(R.drawable.reader_window_background_above);
-        } else if (selectionEndY + myWindow.getMeasuredHeight() < ((View) myWindow.getParent()).getHeight()) {
+        } else if (selectionEndY + popupHeight < ((View) myWindow.getParent()).getHeight()) {
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
             layoutParams.topMargin = selectionEndY;
             myWindow.setBackgroundResource(R.drawable.reader_window_background_below);
