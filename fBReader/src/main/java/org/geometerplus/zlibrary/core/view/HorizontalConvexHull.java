@@ -24,7 +24,8 @@ import java.util.*;
 import android.graphics.Rect;
 
 public final class HorizontalConvexHull implements Hull {
-    private final LinkedList<Rect> myRectangles = new LinkedList<Rect>();
+
+    private final LinkedList<Rect> myRectangles = new LinkedList<>();
 
     public HorizontalConvexHull(Collection<Rect> rects) {
         for (Rect r : rects) {
@@ -40,8 +41,8 @@ public final class HorizontalConvexHull implements Hull {
         }
         final int top = rectangle.top;
         final int bottom = rectangle.bottom;
-        for (ListIterator<Rect> iter = myRectangles.listIterator(); iter.hasNext(); ) {
-            Rect r = iter.next();
+        for (ListIterator<Rect> iterator = myRectangles.listIterator(); iterator.hasNext(); ) {
+            Rect r = iterator.next();
             if (r.bottom <= top) {
                 continue;
             }
@@ -52,15 +53,15 @@ public final class HorizontalConvexHull implements Hull {
                 final Rect before = new Rect(r);
                 before.bottom = top;
                 r.top = top;
-                iter.previous();
-                iter.add(before);
-                iter.next();
+                iterator.previous();
+                iterator.add(before);
+                iterator.next();
             }
             if (r.bottom > bottom) {
                 final Rect after = new Rect(r);
                 after.top = bottom;
                 r.bottom = bottom;
-                iter.add(after);
+                iterator.add(after);
             }
             r.left = Math.min(r.left, rectangle.left);
             r.right = Math.max(r.right, rectangle.right);
@@ -79,25 +80,25 @@ public final class HorizontalConvexHull implements Hull {
 
     private void normalize() {
         Rect previous = null;
-        for (ListIterator<Rect> iter = myRectangles.listIterator(); iter.hasNext(); ) {
-            final Rect current = iter.next();
+        for (ListIterator<Rect> iterator = myRectangles.listIterator(); iterator.hasNext(); ) {
+            final Rect current = iterator.next();
             if (previous != null) {
                 if ((previous.left == current.left) && (previous.right == current.right)) {
                     previous.bottom = current.bottom;
-                    iter.remove();
+                    iterator.remove();
                     continue;
                 }
                 if ((previous.bottom != current.top) &&
                         (current.left <= previous.right) &&
                         (previous.left <= current.right)) {
-                    iter.previous();
-                    iter.add(new Rect(
+                    iterator.previous();
+                    iterator.add(new Rect(
                             Math.max(previous.left, current.left),
                             previous.bottom,
                             Math.min(previous.right, current.right),
                             current.top
                     ));
-                    iter.next();
+                    iterator.next();
                 }
             }
             previous = current;
@@ -131,9 +132,9 @@ public final class HorizontalConvexHull implements Hull {
             return;
         }
 
-        final LinkedList<Rect> rectangles = new LinkedList<Rect>(myRectangles);
+        final LinkedList<Rect> rectangles = new LinkedList<>(myRectangles);
         while (!rectangles.isEmpty()) {
-            final LinkedList<Rect> connected = new LinkedList<Rect>();
+            final LinkedList<Rect> connected = new LinkedList<>();
             Rect previous = null;
             for (final Iterator<Rect> iterator = rectangles.iterator(); iterator.hasNext(); ) {
                 final Rect current = iterator.next();
@@ -199,6 +200,7 @@ public final class HorizontalConvexHull implements Hull {
                 ys[count++] = yy;
             }
 
+            // 绘制选中区域
             if ((mode & DrawMode.Fill) == DrawMode.Fill) {
                 context.fillPolygon(xs, ys);
             }

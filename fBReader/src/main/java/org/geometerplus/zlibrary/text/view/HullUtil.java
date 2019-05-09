@@ -32,8 +32,8 @@ abstract class HullUtil {
     }
 
     static Hull hull(List<ZLTextElementArea> areas) {
-        final List<Rect> rectangles0 = new ArrayList<Rect>(areas.size());
-        final List<Rect> rectangles1 = new ArrayList<Rect>(areas.size());
+        final List<Rect> rectangles0 = new ArrayList<>(areas.size());
+        final List<Rect> rectangles1 = new ArrayList<>(areas.size());
         for (ZLTextElementArea a : areas) {
             final Rect rect = new Rect(a.XStart, a.YStart, a.XEnd, a.YEnd);
             if (a.ColumnIndex == 0) {
@@ -47,10 +47,7 @@ abstract class HullUtil {
         } else if (rectangles1.isEmpty()) {
             return new HorizontalConvexHull(rectangles0);
         } else {
-            return new UnionHull(
-                    new HorizontalConvexHull(rectangles0),
-                    new HorizontalConvexHull(rectangles1)
-            );
+            return new UnionHull(new HorizontalConvexHull(rectangles0), new HorizontalConvexHull(rectangles1));
         }
     }
 }

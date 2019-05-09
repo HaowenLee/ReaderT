@@ -19,13 +19,25 @@
 
 package org.geometerplus.fbreader.fbreader;
 
-public class SelectionClearAction extends FBAction {
-	SelectionClearAction(FBReaderApp fbreader) {
-		super(fbreader);
-	}
+import org.geometerplus.fbreader.util.TextSnippet;
 
-	@Override
-	protected void run(Object ... params) {
-		Reader.getTextView().clearSelection();
-	}
+/**
+ * 选中清除
+ */
+public class SelectionClearAction extends FBAction {
+
+    SelectionClearAction(FBReaderApp fbReader) {
+        super(fbReader);
+    }
+
+    @Override
+    public boolean isEnabled() {
+        TextSnippet selectedSnippet = Reader.getTextView().getSelectedSnippet();
+        return selectedSnippet != null;
+    }
+
+    @Override
+    protected void run(Object... params) {
+        Reader.getTextView().clearSelection();
+    }
 }

@@ -42,7 +42,7 @@ public abstract class ZLApplication {
     private volatile ZLApplicationWindow myWindow;
     private volatile ZLView myView;
 
-    private final HashMap<String, ZLAction> myIdToActionMap = new HashMap<String, ZLAction>();
+    private final HashMap<String, ZLAction> myIdToActionMap = new HashMap<>();
 
     protected ZLApplication(SystemInfo systemInfo) {
         SystemInfo = systemInfo;

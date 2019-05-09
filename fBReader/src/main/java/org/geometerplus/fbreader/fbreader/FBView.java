@@ -271,11 +271,18 @@ public final class FBView extends ZLTextView {
         return myReader.PageTurningOptions.Animation.getValue();
     }
 
+    /**
+     * 手指按下状态
+     *
+     * @param x x坐标
+     * @param y y坐标
+     */
     @Override
     public void onFingerPress(int x, int y) {
+        // 隐藏Toast
         myReader.runAction(ActionCode.HIDE_TOAST);
 
-        final float maxDist = ZLibrary.Instance().getDisplayDPI() / 4;
+        final float maxDist = ZLibrary.Instance().getDisplayDPI() / 4f;
         final SelectionCursor.Which cursor = findSelectionCursor(x, y, maxDist * maxDist);
         if (cursor != null) {
             myReader.runAction(ActionCode.SELECTION_HIDE_PANEL);
@@ -283,6 +290,8 @@ public final class FBView extends ZLTextView {
             return;
         }
 
+        // 如果允许屏幕亮度调节（手势），并且按下位置在内容宽度的 1 / 10，
+        // --> (1). 标识屏幕亮度调节，(2). 记录起始Y，(3). 记录当前屏幕亮度
         if (myReader.MiscOptions.AllowScreenBrightnessAdjustment.getValue() && x < getContextWidth() / 10) {
             myIsBrightnessAdjustmentInProgress = true;
             myStartY = y;
@@ -290,25 +299,39 @@ public final class FBView extends ZLTextView {
             return;
         }
 
+        // 开启手动滑动模式
         startManualScrolling(x, y);
     }
 
+    /**
+     * 开启手动滑动模式
+     *
+     * @param x x坐标
+     * @param y y坐标
+     */
     private void startManualScrolling(int x, int y) {
+        // 如果滑动翻页不可用，直接返回
         if (!isFlickScrollingEnabled()) {
             return;
         }
 
+        // 获取翻页的方向
         final boolean horizontal = myReader.PageTurningOptions.Horizontal.getValue();
         final Direction direction = horizontal ? Direction.rightToLeft : Direction.up;
         myReader.getViewWidget().startManualScrolling(x, y, direction);
     }
 
+    /**
+     * 滑动翻页是否可用
+     * {@link org.geometerplus.fbreader.fbreader.options.PageTurningOptions.FingerScrollingType#byFlick}
+     * {@link org.geometerplus.fbreader.fbreader.options.PageTurningOptions.FingerScrollingType#byTapAndFlick}
+     *
+     * @return 滑动翻页是否可用
+     */
     private boolean isFlickScrollingEnabled() {
-        final PageTurningOptions.FingerScrollingType fingerScrolling =
-                myReader.PageTurningOptions.FingerScrolling.getValue();
-        return
-                fingerScrolling == PageTurningOptions.FingerScrollingType.byFlick ||
-                        fingerScrolling == PageTurningOptions.FingerScrollingType.byTapAndFlick;
+        final PageTurningOptions.FingerScrollingType fingerScrolling = myReader.PageTurningOptions.FingerScrolling.getValue();
+        return fingerScrolling == PageTurningOptions.FingerScrollingType.byFlick ||
+                fingerScrolling == PageTurningOptions.FingerScrollingType.byTapAndFlick;
     }
 
     @Override
@@ -453,6 +476,14 @@ public final class FBView extends ZLTextView {
 
     @Override
     public void onFingerSingleTap(int x, int y) {
+
+        // 如果有选中，则(1). 清除选中，(2). 隐藏选中动作弹框
+        if (myReader.isActionEnabled(ActionCode.SELECTION_CLEAR)) {
+            myReader.runAction(ActionCode.SELECTION_CLEAR);
+            myReader.runAction(ActionCode.SELECTION_HIDE_PANEL);
+            return;
+        }
+
         final ZLTextRegion hyperlinkRegion = findRegion(x, y, maxSelectionDistance(), ZLTextRegion.HyperlinkFilter);
         if (hyperlinkRegion != null) {
             outlineRegion(hyperlinkRegion);
