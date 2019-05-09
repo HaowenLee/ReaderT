@@ -25,6 +25,7 @@ import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 import org.geometerplus.zlibrary.core.filesystem.ZLResourceFile;
 import org.geometerplus.zlibrary.core.fonts.FontEntry;
 import org.geometerplus.zlibrary.core.library.ZLibrary;
+import org.geometerplus.zlibrary.core.util.RationalNumber;
 import org.geometerplus.zlibrary.core.util.ZLColor;
 import org.geometerplus.zlibrary.core.view.SelectionCursor;
 import org.geometerplus.zlibrary.core.view.ZLPaintContext;
@@ -85,10 +86,10 @@ public final class FBView extends ZLTextView {
     @Override
     protected String getPageProgress() {
         StringBuilder info = new StringBuilder();
-        PagePosition pagePosition = pagePosition();
-        info.append(pagePosition.Current);
-        info.append("/");
-        info.append(pagePosition.Total);
+        RationalNumber progress = getProgress();
+        info.append(progress.Numerator);
+        info.append(" / ");
+        info.append(progress.Denominator);
         return info.toString();
     }
 
@@ -116,10 +117,23 @@ public final class FBView extends ZLTextView {
     }
 
     @Override
-    protected String getCurrentTOC() {
-        final TOCTree tocElement = myReader.getCurrentTOCElement();
-        System.out.println("获取当前的章节名" + (tocElement == null ? "" : tocElement.getText()));
-        return tocElement == null ? "" : tocElement.getText();
+    protected String getTOCText(ZLTextWordCursor cursor) {
+        int index = cursor.getParagraphIndex();
+        if (cursor.isEndOfParagraph()) {
+            ++index;
+        }
+        TOCTree treeToSelect = null;
+        for (TOCTree tree : myReader.Model.TOCTree) {
+            final TOCTree.Reference reference = tree.getReference();
+            if (reference == null) {
+                continue;
+            }
+            if (reference.ParagraphIndex > index) {
+                break;
+            }
+            treeToSelect = tree;
+        }
+        return treeToSelect == null ? "" : treeToSelect.getText();
     }
 
     @Override

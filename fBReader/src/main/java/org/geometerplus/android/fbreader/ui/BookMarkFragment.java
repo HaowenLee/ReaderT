@@ -43,7 +43,7 @@ import java.util.Map;
 
 import yuku.ambilwarna.widget.AmbilWarnaPrefWidgetView;
 
-public class BookLabelFragment extends BaseFragment implements IBookCollection.Listener<Book> {
+public class BookMarkFragment extends BaseFragment implements IBookCollection.Listener<Book> {
 
     private static final int OPEN_ITEM_ID = 0;
     private static final int EDIT_ITEM_ID = 1;
@@ -53,8 +53,6 @@ public class BookLabelFragment extends BaseFragment implements IBookCollection.L
     private final BookCollectionShadow myCollection = new BookCollectionShadow();
     private final Comparator<Bookmark> myComparator = new Bookmark.ByTimeComparator();
     private final ZLResource myResource = ZLResource.resource("bookmarksView");
-    private final ZLStringOption myBookmarkSearchPatternOption =
-            new ZLStringOption("BookmarkSearch", "Pattern", "");
     private final Object myBookmarksLock = new Object();
     private volatile Book myBook;
     private volatile Bookmark myBookmark;
@@ -74,12 +72,12 @@ public class BookLabelFragment extends BaseFragment implements IBookCollection.L
         if (myBook == null) {
             ((FBReader) mActivity).closeSlideMenu();
         }
-        myBookmark = ((FBReader) mActivity).getMyFBReaderApp().createBookmark(80, true);
+        myBookmark = ((FBReader) mActivity).getMyFBReaderApp().createBookmark(80, false);
 
         myCollection.bindToService(mActivity, new Runnable() {
             public void run() {
                 myThisBookAdapter = new BookmarksAdapter((ListView) getView().findViewById(R.id.listView), myBookmark != null);
-                myCollection.addListener(BookLabelFragment.this);
+                myCollection.addListener(BookMarkFragment.this);
 
                 updateStyles();
                 loadBookmarks();
@@ -115,16 +113,6 @@ public class BookLabelFragment extends BaseFragment implements IBookCollection.L
                 }
             }
         }).start();
-    }
-
-    protected void onNewIntent(Intent intent) {
-        OrientationUtil.setOrientation(mActivity, intent);
-
-        if (!Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            return;
-        }
-        String pattern = intent.getStringExtra(SearchManager.QUERY);
-        myBookmarkSearchPatternOption.setValue(pattern);
     }
 
     @Override
@@ -164,22 +152,9 @@ public class BookLabelFragment extends BaseFragment implements IBookCollection.L
         }
     }
 
-    // method from IBookCollection.Listener
     public void onBookEvent(BookEvent event, Book book) {
-        switch (event) {
-            default:
-                break;
-            case BookNoteStyleChanged:
-                mActivity.runOnUiThread(new Runnable() {
-                    public void run() {
-                        updateStyles();
-                        myThisBookAdapter.notifyDataSetChanged();
-                    }
-                });
-                break;
-            case BookNoteUpdated:
-                updateBookmarks(book);
-                break;
+        if (event == BookEvent.BookMarkUpdated) {
+            updateBookmarks(book);
         }
     }
 
@@ -195,7 +170,6 @@ public class BookLabelFragment extends BaseFragment implements IBookCollection.L
                             oldBookmarks.put(b.Uid, b);
                         }
                     }
-                    final String pattern = myBookmarkSearchPatternOption.getValue().toLowerCase();
 
                     for (BookmarkQuery query = new BookmarkQuery(book, false, 50); ; query = query.next()) {
                         final List<Bookmark> loaded = myCollection.bookmarks(query);

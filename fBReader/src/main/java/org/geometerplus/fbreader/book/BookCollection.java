@@ -720,10 +720,13 @@ public class BookCollection extends AbstractBookCollection<DbBook> {
         if (bookmark != null) {
             bookmark.setId(myDatabase.saveBookmark(bookmark));
             final DbBook book = getBookById(bookmark.BookId);
-            // 通知更新
             if (book != null) {
-                book.HasBookmark = true;
-                fireBookEvent(BookEvent.BookNoteUpdated, book);
+                if (bookmark.IsVisible) {
+                    book.HasBookmark = true;
+                    fireBookEvent(BookEvent.BookNoteUpdated, book);
+                } else {
+                    fireBookEvent(BookEvent.BookMarkUpdated, book);
+                }
             }
         }
     }

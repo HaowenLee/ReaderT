@@ -447,14 +447,14 @@ public abstract class ZLTextView extends ZLTextViewBase {
             return;
         }
 
-        final ArrayList<ZLTextLineInfo> lineInfos = page.LineInfos;
-        final int[] labels = new int[lineInfos.size() + 1];
+        final ArrayList<ZLTextLineInfo> lineInfoList = page.LineInfos;
+        final int[] labels = new int[lineInfoList.size() + 1];
         int x = getLeftMargin();
         int y = getTopMargin();
         int index = 0;
         int columnIndex = 0;
         ZLTextLineInfo previousInfo = null;
-        for (ZLTextLineInfo info : lineInfos) {
+        for (ZLTextLineInfo info : lineInfoList) {
             info.adjust(previousInfo);
             prepareTextLine(page, info, x, y, columnIndex);
             y += info.Height + info.Descent + info.VSpaceAfter;
@@ -500,7 +500,7 @@ public abstract class ZLTextView extends ZLTextViewBase {
         x = getLeftMargin();
         y = getTopMargin();
         index = 0;
-        for (ZLTextLineInfo info : lineInfos) {
+        for (ZLTextLineInfo info : lineInfoList) {
             drawTextLine(page, highlightingList, info, labels[index], labels[index + 1]);
             y += info.Height + info.Descent + info.VSpaceAfter;
             ++index;
@@ -523,7 +523,7 @@ public abstract class ZLTextView extends ZLTextViewBase {
         // 绘制头部（章节标题）
         context.setExtraFoot((int) (getTopMargin() * 0.375), getExtraColor());
         String progressText = getPageProgress();
-        context.drawHeader(getLeftMargin(), (int) (getTopMargin() / 1.6), getCurrentTOC());
+        context.drawHeader(getLeftMargin(), (int) (getTopMargin() / 1.6), getTOCText(page.StartCursor));
         int footerX = getContextWidth() - getRightMargin() - context.getExtraStringWidth(progressText);
         int footerY = (int) (getTopMargin() + getTextAreaHeight() + getBottomMargin() / 1.3);
         context.drawFooter(footerX, footerY, progressText);
@@ -642,7 +642,7 @@ public abstract class ZLTextView extends ZLTextViewBase {
         return myModel != null ? myModel.getTextLength(paragraphIndex - 1) : 0;
     }
 
-    private final synchronized int getCurrentCharNumber(PageIndex pageIndex, boolean startNotEndOfPage) {
+    private synchronized int getCurrentCharNumber(PageIndex pageIndex, boolean startNotEndOfPage) {
         if (myModel == null || myModel.getParagraphsNumber() == 0) {
             return 0;
         }
@@ -676,7 +676,11 @@ public abstract class ZLTextView extends ZLTextViewBase {
         return sizeOfText;
     }
 
-    // Can be called only when (myModel.getParagraphsNumber() != 0)
+    /**
+     * 计算一页的字符数
+     *
+     * @return 一页的字符数
+     */
     private synchronized float computeCharsPerPage() {
         setTextStyle(getTextStyleCollection().getBaseStyle());
 
@@ -704,6 +708,11 @@ public abstract class ZLTextView extends ZLTextViewBase {
         return charsPerLine * linesPerPage;
     }
 
+    /**
+     * 计算页数
+     *
+     * @return 页数
+     */
     private synchronized int computeTextPageNumber(int textSize) {
         if (myModel == null || myModel.getParagraphsNumber() == 0) {
             return 1;
@@ -714,7 +723,7 @@ public abstract class ZLTextView extends ZLTextViewBase {
         return Math.max((int) (pages + 1.0f - 0.5f * factor), 1);
     }
 
-    private final float computeCharWidth() {
+    private float computeCharWidth() {
         if (myLettersModel != myModel) {
             myLettersModel = myModel;
             myLettersBufferLength = 0;
@@ -751,7 +760,7 @@ public abstract class ZLTextView extends ZLTextViewBase {
         return myCharWidth;
     }
 
-    private final float computeCharWidth(char[] pattern, int length) {
+    private float computeCharWidth(char[] pattern, int length) {
         return getContext().getStringWidth(pattern, 0, length) / ((float) length);
     }
 
@@ -765,7 +774,7 @@ public abstract class ZLTextView extends ZLTextViewBase {
 
         preparePaintInfo(myCurrentPage);
         ZLTextWordCursor cursor = myCurrentPage.StartCursor;
-        if (cursor == null || cursor.isNull()) {
+        if (cursor.isNull()) {
             return new PagePosition(current, total);
         }
 
@@ -773,29 +782,27 @@ public abstract class ZLTextView extends ZLTextViewBase {
             current = 1;
         } else {
             ZLTextWordCursor prevCursor = myPreviousPage.StartCursor;
-            if (prevCursor == null || prevCursor.isNull()) {
+            if (prevCursor.isNull()) {
                 preparePaintInfo(myPreviousPage);
                 prevCursor = myPreviousPage.StartCursor;
             }
-            if (prevCursor != null && !prevCursor.isNull()) {
+            if (!prevCursor.isNull()) {
                 current = prevCursor.isStartOfText() ? 2 : 3;
             }
         }
 
         total = current;
         cursor = myCurrentPage.EndCursor;
-        if (cursor == null || cursor.isNull()) {
+        if (cursor.isNull()) {
             return new PagePosition(current, total);
         }
         if (!cursor.isEndOfText()) {
             ZLTextWordCursor nextCursor = myNextPage.EndCursor;
-            if (nextCursor == null || nextCursor.isNull()) {
+            if (nextCursor.isNull()) {
                 preparePaintInfo(myNextPage);
                 nextCursor = myNextPage.EndCursor;
             }
-            if (nextCursor != null) {
-                total += nextCursor.isEndOfText() ? 1 : 2;
-            }
+            total += nextCursor.isEndOfText() ? 1 : 2;
         }
 
         return new PagePosition(current, total);
@@ -1827,7 +1834,13 @@ public abstract class ZLTextView extends ZLTextViewBase {
         return myCursorManager.get(index);
     }
 
-    protected abstract String getCurrentTOC();
+    /**
+     * 获取该页章节名
+     *
+     * @param cursor 该页的StartCursor
+     * @return 该页章节名
+     */
+    protected abstract String getTOCText(ZLTextWordCursor cursor);
 
     protected abstract ZLColor getExtraColor();
 
@@ -1843,8 +1856,17 @@ public abstract class ZLTextView extends ZLTextViewBase {
         int LINE_UNIT = 1;
     }
 
+    /**
+     * 页面位置
+     */
     public static class PagePosition {
+        /**
+         * 当前页数
+         */
         public final int Current;
+        /**
+         * 总页数
+         */
         public final int Total;
 
         PagePosition(int current, int total) {
