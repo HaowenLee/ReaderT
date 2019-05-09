@@ -4,67 +4,115 @@
     android:id="@+id/selection_panel"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
     android:layout_centerHorizontal="true"
+    android:background="@drawable/reader_window_background_above"
     android:focusable="false"
     android:visibility="gone"
     tools:visibility="visible">
 
-    <FrameLayout
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="25dp"
-        android:background="@drawable/reader_window_background"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp">
+        android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp">
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingTop="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="8dp">
 
             <ImageView
                 android:id="@+id/selection_panel_bookmark"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/popup_bookmark" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:src="@drawable/popup_bookmark" />
+                android:text="笔记"
+                android:textColor="#cccccc"
+                android:textSize="12dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingLeft="8dp"
+            android:paddingTop="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="8dp">
 
             <ImageView
                 android:id="@+id/selection_panel_translate"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/popup_translate" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:src="@drawable/popup_translate" />
+                android:text="翻译"
+                android:textColor="#cccccc"
+                android:textSize="12dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingLeft="8dp"
+            android:paddingTop="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="8dp">
 
             <ImageView
                 android:id="@+id/selection_panel_share"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/popup_share" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:src="@drawable/popup_share" />
+                android:text="分享"
+                android:textColor="#cccccc"
+                android:textSize="12dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingLeft="8dp"
+            android:paddingTop="8dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="8dp">
 
             <ImageView
                 android:id="@+id/selection_panel_copy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:src="@drawable/popup_copy" />
 
-            <ImageView
-                android:id="@+id/selection_panel_close"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:src="@drawable/popup_close" />
+                android:text="复制"
+                android:textColor="#cccccc"
+                android:textSize="12dp" />
+
         </LinearLayout>
-    </FrameLayout>
+    </LinearLayout>
 </org.geometerplus.android.fbreader.SimplePopupWindow>

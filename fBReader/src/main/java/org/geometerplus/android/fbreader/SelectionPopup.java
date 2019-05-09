@@ -38,7 +38,6 @@ class SelectionPopup extends PopupPanel implements View.OnClickListener {
         setupButton(R.id.selection_panel_share, resource.getResource("share").getValue());
         setupButton(R.id.selection_panel_translate, resource.getResource("translate").getValue());
         setupButton(R.id.selection_panel_bookmark, resource.getResource("bookmark").getValue());
-        setupButton(R.id.selection_panel_close, resource.getResource("close").getValue());
     }
 
     private void setupButton(int buttonId, String description) {
@@ -58,19 +57,21 @@ class SelectionPopup extends PopupPanel implements View.OnClickListener {
         );
         layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
 
-        final int verticalPosition;
-        final int screenHeight = ((View) myWindow.getParent()).getHeight();
-        final int diffTop = screenHeight - selectionEndY;
-        final int diffBottom = selectionStartY;
-        if (diffTop > diffBottom) {
-            verticalPosition = diffTop > myWindow.getHeight() + 20
-                    ? RelativeLayout.ALIGN_PARENT_BOTTOM : RelativeLayout.CENTER_VERTICAL;
+        int startY = selectionStartY - myWindow.getMeasuredHeight();
+        if (startY > 0) {
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+            layoutParams.topMargin = startY;
+            myWindow.setBackgroundResource(R.drawable.reader_window_background_above);
+        } else if (selectionEndY + myWindow.getMeasuredHeight() < ((View) myWindow.getParent()).getHeight()) {
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+            layoutParams.topMargin = selectionEndY;
+            myWindow.setBackgroundResource(R.drawable.reader_window_background_below);
         } else {
-            verticalPosition = diffBottom > myWindow.getHeight() + 20
-                    ? RelativeLayout.ALIGN_PARENT_TOP : RelativeLayout.CENTER_VERTICAL;
+            layoutParams.topMargin = 0;
+            layoutParams.addRule(RelativeLayout.CENTER_VERTICAL);
+            myWindow.setBackgroundResource(R.drawable.reader_window_background_above);
         }
 
-        layoutParams.addRule(verticalPosition);
         myWindow.setLayoutParams(layoutParams);
     }
 
@@ -80,20 +81,17 @@ class SelectionPopup extends PopupPanel implements View.OnClickListener {
 
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.selection_panel_copy:
-                Application.runAction(ActionCode.SELECTION_COPY_TO_CLIPBOARD);
-                break;
-            case R.id.selection_panel_share:
-                Application.runAction(ActionCode.SELECTION_SHARE);
+            case R.id.selection_panel_bookmark:
+                Application.runAction(ActionCode.SELECTION_BOOKMARK);
                 break;
             case R.id.selection_panel_translate:
                 Application.runAction(ActionCode.SELECTION_TRANSLATE);
                 break;
-            case R.id.selection_panel_bookmark:
-                Application.runAction(ActionCode.SELECTION_BOOKMARK);
+            case R.id.selection_panel_share:
+                Application.runAction(ActionCode.SELECTION_SHARE);
                 break;
-            case R.id.selection_panel_close:
-                Application.runAction(ActionCode.SELECTION_CLEAR);
+            case R.id.selection_panel_copy:
+                Application.runAction(ActionCode.SELECTION_COPY_TO_CLIPBOARD);
                 break;
         }
         Application.hideActivePopup();

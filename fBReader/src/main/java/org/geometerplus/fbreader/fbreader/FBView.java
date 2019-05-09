@@ -336,6 +336,7 @@ public final class FBView extends ZLTextView {
 
     @Override
     public void onFingerRelease(int x, int y) {
+        mCanMagnifier = false;
         final SelectionCursor.Which cursor = getSelectionCursorInMovement();
         if (cursor != null) {
             releaseSelectionCursor();
@@ -352,6 +353,7 @@ public final class FBView extends ZLTextView {
     public void onFingerMove(int x, int y) {
         final SelectionCursor.Which cursor = getSelectionCursorInMovement();
         if (cursor != null) {
+            mCanMagnifier = true;
             moveSelectionCursorTo(cursor, x, y);
             return;
         }
@@ -377,6 +379,8 @@ public final class FBView extends ZLTextView {
     @Override
     public boolean onFingerLongPress(int x, int y) {
         myReader.runAction(ActionCode.HIDE_TOAST);
+
+        mCanMagnifier = true;
 
         final ZLTextRegion region = findRegion(x, y, maxSelectionDistance(), ZLTextRegion.AnyRegionFilter);
         if (region != null) {
@@ -417,6 +421,7 @@ public final class FBView extends ZLTextView {
 
     @Override
     public void onFingerReleaseAfterLongPress(int x, int y) {
+        mCanMagnifier = false;
         final SelectionCursor.Which cursor = getSelectionCursorInMovement();
         if (cursor != null) {
             releaseSelectionCursor();
@@ -577,6 +582,16 @@ public final class FBView extends ZLTextView {
 
         new MoveCursorAction(myReader, direction).run();
         return true;
+    }
+
+    /**
+     * 是否显示放大镜
+     */
+    private boolean mCanMagnifier = false;
+
+    @Override
+    public boolean canMagnifier() {
+        return mCanMagnifier;
     }
 
     public int getCountOfSelectedWords() {

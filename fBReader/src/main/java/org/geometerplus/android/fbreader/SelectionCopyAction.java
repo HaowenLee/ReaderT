@@ -20,7 +20,8 @@
 package org.geometerplus.android.fbreader;
 
 import android.app.Application;
-import android.text.ClipboardManager;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 
 import org.geometerplus.zlibrary.core.resources.ZLResource;
 
@@ -30,28 +31,35 @@ import org.geometerplus.fbreader.util.TextSnippet;
 
 import org.geometerplus.android.util.UIMessageUtil;
 
+/**
+ * 复制选中内容
+ */
 public class SelectionCopyAction extends FBAndroidAction {
-	SelectionCopyAction(FBReader baseActivity, FBReaderApp fbreader) {
-		super(baseActivity, fbreader);
-	}
 
-	@Override
-	protected void run(Object ... params) {
-		final FBView fbview = Reader.getTextView();
-		final TextSnippet snippet = fbview.getSelectedSnippet();
-		if (snippet == null) {
-			return;
-		}
+    SelectionCopyAction(FBReader baseActivity, FBReaderApp fbReader) {
+        super(baseActivity, fbReader);
+    }
 
-		final String text = snippet.getText();
-		fbview.clearSelection();
+    @Override
+    protected void run(Object... params) {
+        // 判断是否有选中内容
+        final FBView fbview = Reader.getTextView();
+        final TextSnippet snippet = fbview.getSelectedSnippet();
+        if (snippet == null) {
+            return;
+        }
+        // 获取选中内容
+        final String text = snippet.getText();
 
-		final ClipboardManager clipboard =
-			(ClipboardManager)BaseActivity.getApplication().getSystemService(Application.CLIPBOARD_SERVICE);
-		clipboard.setText(text);
-		UIMessageUtil.showMessageText(
-			BaseActivity,
-			ZLResource.resource("selection").getResource("textInBuffer").getValue().replace("%s", clipboard.getText())
-		);
-	}
+        // 复制到剪切板
+        final ClipboardManager clipboard = (ClipboardManager) BaseActivity.getApplication().getSystemService(Application.CLIPBOARD_SERVICE);
+        clipboard.setPrimaryClip(ClipData.newPlainText(null, text));
+        UIMessageUtil.showMessageText(
+                BaseActivity,
+                ZLResource.resource("selection").getResource("textInBuffer").getValue().replace("%s", "")
+        );
+
+        // 清除选中
+        fbview.clearSelection();
+    }
 }

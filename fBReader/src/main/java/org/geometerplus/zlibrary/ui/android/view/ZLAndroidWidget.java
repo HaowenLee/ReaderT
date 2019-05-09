@@ -39,6 +39,7 @@ import org.geometerplus.fbreader.Paths;
 import org.geometerplus.zlibrary.core.application.ZLApplication;
 import org.geometerplus.zlibrary.core.application.ZLKeyBindings;
 import org.geometerplus.zlibrary.core.util.SystemInfo;
+import org.geometerplus.zlibrary.core.view.SelectionCursor;
 import org.geometerplus.zlibrary.core.view.ZLView;
 import org.geometerplus.zlibrary.core.view.ZLViewWidget;
 import org.geometerplus.zlibrary.ui.android.R;
@@ -382,7 +383,7 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
             canvas.drawBitmap(myBitmapManager.getBitmap(ZLView.PageIndex.next), getWidth() + getWidth() * PreviewConfig.SCALE_MARGIN_VALUE, 0, myPaint);
         }
 
-        if(isShowMagnifier) {
+        if (ZLApplication.Instance().getCurrentView().canMagnifier()) {
             drawMagnifier(canvas, bitmap);
         }
 
@@ -497,7 +498,6 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
         final ZLView view = ZLApplication.Instance().getCurrentView();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                isShowMagnifier = false;
                 if (myPendingShortClickRunnable != null) {
                     removeCallbacks(myPendingShortClickRunnable);
                     myPendingShortClickRunnable = null;
@@ -511,7 +511,6 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
                 myPressedY = y;
                 break;
             case MotionEvent.ACTION_CANCEL:
-                isShowMagnifier = false;
                 myPendingDoubleTap = false;
                 myPendingPress = false;
                 myScreenIsTouched = false;
@@ -527,7 +526,6 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
                 view.onFingerEventCancelled();
                 break;
             case MotionEvent.ACTION_UP:
-                isShowMagnifier = false;
                 if (myPendingDoubleTap) {
                     view.onFingerDoubleTap(x, y);
                 } else if (myLongClickPerformed) {
@@ -556,8 +554,7 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
                 break;
             case MotionEvent.ACTION_MOVE: {
                 final int slop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
-                final boolean isAMove =
-                        Math.abs(myPressedX - x) > slop || Math.abs(myPressedY - y) > slop;
+                final boolean isAMove = Math.abs(myPressedX - x) > slop || Math.abs(myPressedY - y) > slop;
                 if (isAMove) {
                     myPendingDoubleTap = false;
                 }
@@ -588,15 +585,9 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
         return true;
     }
 
-    /**
-     * 是否显示放大镜功能
-     */
-    private boolean isShowMagnifier = false;
-
     @Override
     public boolean onLongClick(View v) {
         final ZLView view = ZLApplication.Instance().getCurrentView();
-        isShowMagnifier = true;
         return view.onFingerLongPress(myPressedX, myPressedY);
     }
 
