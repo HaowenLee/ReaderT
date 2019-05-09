@@ -19,25 +19,39 @@
 
 package org.geometerplus.zlibrary.ui.android.view;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ExecutorService;
-
 import android.content.Context;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.PaintFlagsDrawFilter;
+import android.graphics.Path;
 import android.util.AttributeSet;
-import android.view.*;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewConfiguration;
 
+import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.android.fbreader.constant.PreviewConfig;
+import org.geometerplus.fbreader.Paths;
 import org.geometerplus.zlibrary.core.application.ZLApplication;
 import org.geometerplus.zlibrary.core.application.ZLKeyBindings;
 import org.geometerplus.zlibrary.core.util.SystemInfo;
 import org.geometerplus.zlibrary.core.view.ZLView;
 import org.geometerplus.zlibrary.core.view.ZLViewWidget;
+import org.geometerplus.zlibrary.ui.android.R;
+import org.geometerplus.zlibrary.ui.android.view.animation.AnimationProvider;
+import org.geometerplus.zlibrary.ui.android.view.animation.CurlAnimationProvider;
+import org.geometerplus.zlibrary.ui.android.view.animation.NoneAnimationProvider;
+import org.geometerplus.zlibrary.ui.android.view.animation.PreviewShiftAnimationProvider;
+import org.geometerplus.zlibrary.ui.android.view.animation.ShiftAnimationProvider;
+import org.geometerplus.zlibrary.ui.android.view.animation.SlideAnimationProvider;
+import org.geometerplus.zlibrary.ui.android.view.animation.SlideOldStyleAnimationProvider;
 
-import org.geometerplus.zlibrary.ui.android.view.animation.*;
-
-import org.geometerplus.fbreader.Paths;
-import org.geometerplus.android.fbreader.FBReader;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLongClickListener {
 
@@ -77,6 +91,12 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
         borderPaint.setColor(0xFFFF6B00);
         borderPaint.setStrokeWidth(PreviewConfig.PREVIEW_STROKE_WIDTH * 2);
         borderPaint.setStyle(Paint.Style.STROKE);
+
+        mPath.addCircle(RADIUS, RADIUS, RADIUS, Path.Direction.CCW);
+        matrix.setScale(FACTOR, FACTOR);
+
+        ovalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.reader_oval);
+        ovalBitmap = scaleBitmap(ovalBitmap);
     }
 
     @Override
@@ -100,6 +120,18 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
      * 缩放比
      */
     private float mScale = 1f;
+
+    private Path mPath = new Path();
+    private Matrix matrix = new Matrix();
+    private Bitmap ovalBitmap;
+    // 放大镜的半径
+    private static final float RADIUS = 124;
+    private static final float TARGET_DIAMETER = 2 * RADIUS * 333 / 293;
+    private static final float MAGNIFIER_MARGIN = 144;
+    // 放大倍数
+    private static final float FACTOR = 1f;
+    private float mCurrentX;
+    private float mCurrentY;
 
     @Override
     protected void onDraw(final Canvas canvas) {
@@ -344,9 +376,14 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
             // 绘制边框
             canvas.drawRect(0, 0, getWidth(), getHeight(), borderPaint);
         }
-        canvas.drawBitmap(myBitmapManager.getBitmap(ZLView.PageIndex.current), 0, 0, myPaint);
+        Bitmap bitmap = myBitmapManager.getBitmap(ZLView.PageIndex.current);
+        canvas.drawBitmap(bitmap, 0, 0, myPaint);
         if (isPreview) {
             canvas.drawBitmap(myBitmapManager.getBitmap(ZLView.PageIndex.next), getWidth() + getWidth() * PreviewConfig.SCALE_MARGIN_VALUE, 0, myPaint);
+        }
+
+        if(isShowMagnifier) {
+            drawMagnifier(canvas, bitmap);
         }
 
         post(new Runnable() {
@@ -372,6 +409,34 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
                 });
             }
         });
+    }
+
+    /**
+     * 放大镜功能
+     */
+    private void drawMagnifier(Canvas canvas, Bitmap bitmap) {
+        // 剪切
+        canvas.save();
+        canvas.translate(mCurrentX - RADIUS, mCurrentY - RADIUS - MAGNIFIER_MARGIN);
+        canvas.clipPath(mPath);
+        // 画放大后的图
+        canvas.translate(RADIUS - mCurrentX * FACTOR, RADIUS - mCurrentY * FACTOR);
+        canvas.drawBitmap(bitmap, matrix, null);
+        canvas.restore();
+        canvas.save();
+        canvas.translate(mCurrentX - TARGET_DIAMETER / 2, mCurrentY - TARGET_DIAMETER / 2 - MAGNIFIER_MARGIN);
+        canvas.drawBitmap(ovalBitmap, 0, 0, null);
+        canvas.restore();
+    }
+
+    private Bitmap scaleBitmap(Bitmap bitmap) {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        float scaleX = TARGET_DIAMETER / ((float) width);
+        float scaleY = TARGET_DIAMETER / ((float) height);
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleX, scaleY);
+        return Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
     }
 
     @Override
@@ -426,10 +491,27 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
     public boolean onTouchEvent(MotionEvent event) {
         int x = (int) event.getX();
         int y = (int) event.getY();
+        mCurrentX = x;
+        mCurrentY = y;
 
         final ZLView view = ZLApplication.Instance().getCurrentView();
         switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                isShowMagnifier = false;
+                if (myPendingShortClickRunnable != null) {
+                    removeCallbacks(myPendingShortClickRunnable);
+                    myPendingShortClickRunnable = null;
+                    myPendingDoubleTap = true;
+                } else {
+                    postLongClickRunnable();
+                    myPendingPress = true;
+                }
+                myScreenIsTouched = true;
+                myPressedX = x;
+                myPressedY = y;
+                break;
             case MotionEvent.ACTION_CANCEL:
+                isShowMagnifier = false;
                 myPendingDoubleTap = false;
                 myPendingPress = false;
                 myScreenIsTouched = false;
@@ -445,6 +527,7 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
                 view.onFingerEventCancelled();
                 break;
             case MotionEvent.ACTION_UP:
+                isShowMagnifier = false;
                 if (myPendingDoubleTap) {
                     view.onFingerDoubleTap(x, y);
                 } else if (myLongClickPerformed) {
@@ -470,19 +553,6 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
                 myPendingDoubleTap = false;
                 myPendingPress = false;
                 myScreenIsTouched = false;
-                break;
-            case MotionEvent.ACTION_DOWN:
-                if (myPendingShortClickRunnable != null) {
-                    removeCallbacks(myPendingShortClickRunnable);
-                    myPendingShortClickRunnable = null;
-                    myPendingDoubleTap = true;
-                } else {
-                    postLongClickRunnable();
-                    myPendingPress = true;
-                }
-                myScreenIsTouched = true;
-                myPressedX = x;
-                myPressedY = y;
                 break;
             case MotionEvent.ACTION_MOVE: {
                 final int slop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
@@ -518,9 +588,15 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
         return true;
     }
 
+    /**
+     * 是否显示放大镜功能
+     */
+    private boolean isShowMagnifier = false;
+
     @Override
     public boolean onLongClick(View v) {
         final ZLView view = ZLApplication.Instance().getCurrentView();
+        isShowMagnifier = true;
         return view.onFingerLongPress(myPressedX, myPressedY);
     }
 

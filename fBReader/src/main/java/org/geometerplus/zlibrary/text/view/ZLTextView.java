@@ -386,7 +386,7 @@ public abstract class ZLTextView extends ZLTextViewBase {
     private void drawSelectionCursor(ZLPaintContext context, ZLTextPage page, SelectionCursor.Which which) {
         final ZLTextSelection.Point pt = getSelectionCursorPoint(page, which);
         if (pt != null) {
-            SelectionCursor.draw(context, which, pt.X, pt.Y, getSelectionBackgroundColor(), getSelectionCursorColor());
+            SelectionCursor.draw(context, which, pt.X, pt.Y, getSelectionCursorColor());
         }
     }
 
@@ -463,25 +463,12 @@ public abstract class ZLTextView extends ZLTextViewBase {
 
         final List<ZLTextHighlighting> hilites = findHilites(page);
 
-        x = getLeftMargin();
-        y = getTopMargin();
-        index = 0;
-        for (ZLTextLineInfo info : lineInfos) {
-            drawTextLine(page, hilites, info, labels[index], labels[index + 1]);
-            y += info.Height + info.Descent + info.VSpaceAfter;
-            ++index;
-            if (index == page.Column0Height) {
-                y = getTopMargin();
-                x += page.getTextWidth() + getSpaceBetweenColumns();
-            }
-        }
-
         for (ZLTextHighlighting h : hilites) {
             int mode = Hull.DrawMode.None;
 
             final ZLColor bgColor = h.getBackgroundColor();
             if (bgColor != null) {
-                context.setFillColor(bgColor, 128);
+                context.setFillColor(bgColor);
                 mode |= Hull.DrawMode.Fill;
             }
 
@@ -496,12 +483,26 @@ public abstract class ZLTextView extends ZLTextViewBase {
             }
         }
 
+        x = getLeftMargin();
+        y = getTopMargin();
+        index = 0;
+        for (ZLTextLineInfo info : lineInfos) {
+            drawTextLine(page, hilites, info, labels[index], labels[index + 1]);
+            y += info.Height + info.Descent + info.VSpaceAfter;
+            ++index;
+            if (index == page.Column0Height) {
+                y = getTopMargin();
+                x += page.getTextWidth() + getSpaceBetweenColumns();
+            }
+        }
+
         final ZLTextRegion outlinedElementRegion = getOutlinedRegion(page);
         if (outlinedElementRegion != null && myShowOutline) {
             context.setLineColor(getSelectionBackgroundColor());
             outlinedElementRegion.hull().draw(context, Hull.DrawMode.Outline);
         }
 
+        // 绘制选中的左右光标
         drawSelectionCursor(context, page, SelectionCursor.Which.Left);
         drawSelectionCursor(context, page, SelectionCursor.Which.Right);
 
