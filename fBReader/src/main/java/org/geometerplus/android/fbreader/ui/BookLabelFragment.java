@@ -12,19 +12,15 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TabHost;
 import android.widget.TextView;
 
 import org.geometerplus.android.fbreader.BaseFragment;
 import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.android.fbreader.api.FBReaderIntents;
-import org.geometerplus.android.fbreader.bookmark.BookmarksActivity;
 import org.geometerplus.android.fbreader.bookmark.BookmarksUtil;
 import org.geometerplus.android.fbreader.bookmark.EditBookmarkActivity;
 import org.geometerplus.android.fbreader.libraryService.BookCollectionShadow;
-import org.geometerplus.android.util.DeviceType;
 import org.geometerplus.android.util.OrientationUtil;
-import org.geometerplus.android.util.SearchDialogUtil;
 import org.geometerplus.android.util.UIMessageUtil;
 import org.geometerplus.android.util.ViewUtil;
 import org.geometerplus.fbreader.book.Book;
@@ -35,7 +31,6 @@ import org.geometerplus.fbreader.book.HighlightingStyle;
 import org.geometerplus.fbreader.book.IBookCollection;
 import org.geometerplus.zlibrary.core.options.ZLStringOption;
 import org.geometerplus.zlibrary.core.resources.ZLResource;
-import org.geometerplus.zlibrary.core.util.MiscUtil;
 import org.geometerplus.zlibrary.ui.android.R;
 
 import java.util.Collection;
@@ -174,7 +169,7 @@ public class BookLabelFragment extends BaseFragment implements IBookCollection.L
         switch (event) {
             default:
                 break;
-            case BookmarkStyleChanged:
+            case BookNoteStyleChanged:
                 mActivity.runOnUiThread(new Runnable() {
                     public void run() {
                         updateStyles();
@@ -182,7 +177,7 @@ public class BookLabelFragment extends BaseFragment implements IBookCollection.L
                     }
                 });
                 break;
-            case BookmarksUpdated:
+            case BookNoteUpdated:
                 updateBookmarks(book);
                 break;
         }

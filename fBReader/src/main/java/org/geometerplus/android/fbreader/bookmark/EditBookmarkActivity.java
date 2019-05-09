@@ -180,7 +180,7 @@ public class EditBookmarkActivity extends Activity implements IBookCollection.Li
 
 	// method from IBookCollection.Listener
 	public void onBookEvent(BookEvent event, Book book) {
-		if (event == BookEvent.BookmarkStyleChanged) {
+		if (event == BookEvent.BookNoteStyleChanged) {
 			myStylesAdapter.setStyleList(myCollection.highlightingStyles());
 		}
 	}

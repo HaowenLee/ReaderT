@@ -165,4 +165,9 @@ final class DummyPaintContext extends ZLPaintContext {
     @Override
     public void fillCircle(int x, int y, int radius) {
     }
+
+    @Override
+    public void drawBookMark(int x0, int y0, int x1, int y1) {
+
+    }
 }

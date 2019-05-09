@@ -471,7 +471,7 @@ public class BookmarksActivity extends Activity implements IBookCollection.Liste
 		switch (event) {
 			default:
 				break;
-			case BookmarkStyleChanged:
+			case BookNoteStyleChanged:
 				runOnUiThread(new Runnable() {
 					public void run() {
 						updateStyles();
@@ -483,7 +483,7 @@ public class BookmarksActivity extends Activity implements IBookCollection.Liste
 					}
 				});
 				break;
-			case BookmarksUpdated:
+			case BookNoteUpdated:
 				updateBookmarks(book);
 				break;
 		}

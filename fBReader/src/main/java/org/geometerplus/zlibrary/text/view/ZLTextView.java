@@ -52,8 +52,8 @@ public abstract class ZLTextView extends ZLTextViewBase {
     private static final char[] SPACE = new char[]{' '};
     private final HashMap<ZLTextLineInfo, ZLTextLineInfo> myLineInfoCache = new HashMap<ZLTextLineInfo, ZLTextLineInfo>();
     private final ZLTextSelection mySelection = new ZLTextSelection(this);
-    private final Set<ZLTextHighlighting> myHighlightings =
-            Collections.synchronizedSet(new TreeSet<ZLTextHighlighting>());
+    private final Set<ZLTextHighlighting> myHighlightingList = Collections.synchronizedSet(new TreeSet<ZLTextHighlighting>());
+    private final Set<ZLTextHighlighting> myBookMarkList = Collections.synchronizedSet(new TreeSet<ZLTextHighlighting>());
     private final char[] myLettersBuffer = new char[512];
     private ZLTextModel myModel;
     private int myScrollingMode;
@@ -82,7 +82,7 @@ public abstract class ZLTextView extends ZLTextViewBase {
         myCursorManager = model != null ? new CursorManager(model, getExtensionManager()) : null;
 
         mySelection.clear();
-        myHighlightings.clear();
+        myHighlightingList.clear();
 
         myModel = model;
         myCurrentPage.reset();
@@ -276,8 +276,8 @@ public abstract class ZLTextView extends ZLTextViewBase {
 
     public boolean removeHighlightings(Class<? extends ZLTextHighlighting> type) {
         boolean result = false;
-        synchronized (myHighlightings) {
-            for (Iterator<ZLTextHighlighting> it = myHighlightings.iterator(); it.hasNext(); ) {
+        synchronized (myHighlightingList) {
+            for (Iterator<ZLTextHighlighting> it = myHighlightingList.iterator(); it.hasNext(); ) {
                 final ZLTextHighlighting h = it.next();
                 if (type.isInstance(h)) {
                     it.remove();
@@ -288,14 +288,20 @@ public abstract class ZLTextView extends ZLTextViewBase {
         return result;
     }
 
+    public final void addBookMark(ZLTextHighlighting h) {
+        myBookMarkList.add(h);
+        Application.getViewWidget().reset();
+        Application.getViewWidget().repaint();
+    }
+
     public final void addHighlighting(ZLTextHighlighting h) {
-        myHighlightings.add(h);
+        myHighlightingList.add(h);
         Application.getViewWidget().reset();
         Application.getViewWidget().repaint();
     }
 
     public final void addHighlightings(Collection<ZLTextHighlighting> hilites) {
-        myHighlightings.addAll(hilites);
+        myHighlightingList.addAll(hilites);
         Application.getViewWidget().reset();
         Application.getViewWidget().repaint();
     }
@@ -461,9 +467,17 @@ public abstract class ZLTextView extends ZLTextViewBase {
             previousInfo = info;
         }
 
-        final List<ZLTextHighlighting> hilites = findHilites(page);
+        // 绘制书签
+        final List<ZLTextHighlighting> bookMarkList = findBookMarkList(page);
+        context.setFillColor(new ZLColor(243, 65, 65));
+        for (ZLTextHighlighting h : bookMarkList) {
+            context.drawBookMark(getContextWidth() - 100, 0, getContextWidth() - 60, 90);
+        }
 
-        for (ZLTextHighlighting h : hilites) {
+        // 绘制高亮
+        final List<ZLTextHighlighting> highlightingList = findHighlightingList(page);
+
+        for (ZLTextHighlighting h : highlightingList) {
             int mode = Hull.DrawMode.None;
 
             final ZLColor bgColor = h.getBackgroundColor();
@@ -487,7 +501,7 @@ public abstract class ZLTextView extends ZLTextViewBase {
         y = getTopMargin();
         index = 0;
         for (ZLTextLineInfo info : lineInfos) {
-            drawTextLine(page, hilites, info, labels[index], labels[index + 1]);
+            drawTextLine(page, highlightingList, info, labels[index], labels[index + 1]);
             y += info.Height + info.Descent + info.VSpaceAfter;
             ++index;
             if (index == page.Column0Height) {
@@ -839,19 +853,31 @@ public abstract class ZLTextView extends ZLTextViewBase {
         preparePaintInfo();
     }
 
-    private List<ZLTextHighlighting> findHilites(ZLTextPage page) {
-        final LinkedList<ZLTextHighlighting> hilites = new LinkedList<ZLTextHighlighting>();
-        if (mySelection.intersects(page)) {
-            hilites.add(mySelection);
-        }
-        synchronized (myHighlightings) {
-            for (ZLTextHighlighting h : myHighlightings) {
+    private List<ZLTextHighlighting> findBookMarkList(ZLTextPage page) {
+        final LinkedList<ZLTextHighlighting> bookMarkList = new LinkedList<>();
+        synchronized (myBookMarkList) {
+            for (ZLTextHighlighting h : myBookMarkList) {
                 if (h.intersects(page)) {
-                    hilites.add(h);
+                    bookMarkList.add(h);
                 }
             }
         }
-        return hilites;
+        return bookMarkList;
+    }
+
+    private List<ZLTextHighlighting> findHighlightingList(ZLTextPage page) {
+        final LinkedList<ZLTextHighlighting> highlightingList = new LinkedList<>();
+        if (mySelection.intersects(page)) {
+            highlightingList.add(mySelection);
+        }
+        synchronized (myHighlightingList) {
+            for (ZLTextHighlighting h : myHighlightingList) {
+                if (h.intersects(page)) {
+                    highlightingList.add(h);
+                }
+            }
+        }
+        return highlightingList;
     }
 
     protected abstract ZLPaintContext.ColorAdjustingMode getAdjustingModeForImages();
@@ -1689,8 +1715,8 @@ public abstract class ZLTextView extends ZLTextViewBase {
         if (region == null) {
             return null;
         }
-        synchronized (myHighlightings) {
-            for (ZLTextHighlighting h : myHighlightings) {
+        synchronized (myHighlightingList) {
+            for (ZLTextHighlighting h : myHighlightingList) {
                 if (h.getBackgroundColor() != null && h.intersects(region)) {
                     return h;
                 }

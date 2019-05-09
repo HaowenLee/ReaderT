@@ -118,6 +118,7 @@ public final class FBView extends ZLTextView {
     @Override
     protected String getCurrentTOC() {
         final TOCTree tocElement = myReader.getCurrentTOCElement();
+        System.out.println("获取当前的章节名" + (tocElement == null ? "" : tocElement.getText()));
         return tocElement == null ? "" : tocElement.getText();
     }
 

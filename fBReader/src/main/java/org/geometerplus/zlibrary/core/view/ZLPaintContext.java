@@ -246,4 +246,6 @@ abstract public class ZLPaintContext {
     abstract public void drawOutline(int[] xs, int[] ys);
 
     abstract public void fillCircle(int x, int y, int radius);
+
+    abstract public void drawBookMark(int x0, int y0, int x1, int y1);
 }

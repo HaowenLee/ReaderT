@@ -58,6 +58,7 @@ public final class ZLAndroidPaintContext extends ZLPaintContext {
     private final Paint myOutlinePaint = new Paint();
 
     private final Paint myExtraPaint = new Paint();
+    private final Path myPath = new Path();
 
     public static final class Geometry {
         final Size ScreenSize;
@@ -502,6 +503,18 @@ public final class ZLAndroidPaintContext extends ZLPaintContext {
     @Override
     public void fillCircle(int x, int y, int radius) {
         myCanvas.drawCircle(x, y, radius, myFillPaint);
+    }
+
+    @Override
+    public void drawBookMark(int x0, int y0, int x1, int y1) {
+        myPath.reset();
+        myPath.moveTo(x0, y0);
+        myPath.lineTo(x1, y0);
+        myPath.lineTo(x1, y1);
+        myPath.lineTo((x1 + x0) / 2f, y1 - (y1 - y0) / 5f);
+        myPath.lineTo(x0, y1);
+        myPath.close();
+        myCanvas.drawPath(myPath, myFillPaint);
     }
 
     @Override
