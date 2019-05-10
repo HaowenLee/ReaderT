@@ -196,8 +196,10 @@ public class BookMarkFragment extends BaseFragment implements IBookCollection.Li
         new Thread(new Runnable() {
             public void run() {
                 synchronized (myBookmarksLock) {
+                    // 是否是当前的书
                     final boolean flagThisBookTab = book.getId() == myBook.getId();
 
+                    // 暂存列表里旧数据
                     final Map<String, Bookmark> oldBookmarks = new HashMap<>();
                     if (flagThisBookTab) {
                         for (Bookmark b : myThisBookAdapter.bookmarks()) {
@@ -205,19 +207,24 @@ public class BookMarkFragment extends BaseFragment implements IBookCollection.Li
                         }
                     }
 
+                    // 查询数据库的书签数据
                     for (BookmarkQuery query = new BookmarkQuery(book, Bookmark.Type.BookMark.ordinal(), 50); ; query = query.next()) {
                         final List<Bookmark> loaded = myCollection.bookmarks(query);
                         if (loaded.isEmpty()) {
                             break;
                         }
                         for (Bookmark b : loaded) {
+                            // 暂存数据移除远程数据里的标签
                             final Bookmark old = oldBookmarks.remove(b.Uid);
                             if (flagThisBookTab) {
+                                // 更新列表书签数据
                                 myThisBookAdapter.replace(old, b);
                             }
                         }
                     }
+
                     if (flagThisBookTab) {
+                        // 移除列表里，远程数据已移除数据
                         myThisBookAdapter.removeAll(oldBookmarks.values());
                     }
                 }
@@ -259,26 +266,46 @@ public class BookMarkFragment extends BaseFragment implements IBookCollection.Li
             });
         }
 
+        /**
+         * 更新数据
+         *
+         * @param old 旧数据
+         * @param b   新数据
+         */
         public void replace(final Bookmark old, final Bookmark b) {
+            // 如果有旧数据，并且相同 --> 返回
             if (old != null && areEqualsForView(old, b)) {
                 return;
             }
             mActivity.runOnUiThread(new Runnable() {
                 public void run() {
                     synchronized (myBookmarksList) {
+                        // 有旧数据则移除
                         if (old != null) {
                             myBookmarksList.remove(old);
                         }
+                        // 查找新数据在列表里的位置，如果不存在则添加该数据到列表集合
                         final int position = Collections.binarySearch(myBookmarksList, b, myComparator);
                         if (position < 0) {
+                            // 查询章节标题，并设置
+                            String tocText = getTocText(b.ParagraphIndex);
+                            b.setTocText(tocText);
                             myBookmarksList.add(-position - 1, b);
                         }
                     }
+                    // 通知UI更新
                     notifyDataSetChanged();
                 }
             });
         }
 
+        /**
+         * 比对书签是否相同
+         *
+         * @param b0 书签0
+         * @param b1 书签1
+         * @return 书签是否相同
+         */
         private boolean areEqualsForView(Bookmark b0, Bookmark b1) {
             return
                     b0.getStyleId() == b1.getStyleId() &&
@@ -363,7 +390,7 @@ public class BookMarkFragment extends BaseFragment implements IBookCollection.Li
 
             // 章节标题和内容的判读逻辑（如果和上一条的章节标题一样，就认为是同一章节内容）
             if (bookmark != null) {
-                if (position > 1) {
+                if (position > 0) {
                     Bookmark item = getItem(position - 1);
                     if (item != null && TextUtils.equals(item.getTocText(), bookmark.getTocText())) {
                         layoutTitle.setVisibility(View.GONE);

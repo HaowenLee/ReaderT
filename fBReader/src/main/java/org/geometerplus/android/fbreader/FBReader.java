@@ -266,6 +266,11 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 
         myFBReaderApp.setExternalFileOpener(new ExternalFileOpener(this));
 
+        getWindow().setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                myShowStatusBarFlag ? 0 : WindowManager.LayoutParams.FLAG_FULLSCREEN
+        );
+
         if (myFBReaderApp.getPopupById(TextSearchPopup.ID) == null) {
             new TextSearchPopup(myFBReaderApp);
         }

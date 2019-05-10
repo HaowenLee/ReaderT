@@ -19,6 +19,8 @@
 
 package org.geometerplus.fbreader.book;
 
+import com.facebook.stetho.common.LogUtil;
+
 import java.io.File;
 import java.util.*;
 
@@ -519,17 +521,22 @@ public class BookCollection extends AbstractBookCollection<DbBook> {
         return myDatabase.loadBookmarks(query);
     }
 
+    /**
+     * 书籍标记存储
+     *
+     * @param bookmark 标记信息
+     */
     public void saveBookmark(Bookmark bookmark) {
         if (bookmark != null) {
-            System.out.println(" 书签类型 2 ==> " + bookmark.MarkType);
             bookmark.setId(myDatabase.saveBookmark(bookmark));
             final DbBook book = getBookById(bookmark.BookId);
             if (book != null) {
-                if (bookmark.IsVisible) {
-                    book.HasBookmark = true;
-                    fireBookEvent(BookEvent.BookNoteUpdated, book);
-                } else {
+                book.HasBookmark = true;
+                // 通知更新
+                if (bookmark.MarkType == Bookmark.Type.BookMark.ordinal()) {
                     fireBookEvent(BookEvent.BookMarkUpdated, book);
+                } else if (bookmark.MarkType == Bookmark.Type.BookNote.ordinal()) {
+                    fireBookEvent(BookEvent.BookNoteUpdated, book);
                 }
             }
         }
@@ -571,7 +578,7 @@ public class BookCollection extends AbstractBookCollection<DbBook> {
 
     public List<HighlightingStyle> highlightingStyles() {
         initStylesTable();
-        return new ArrayList<HighlightingStyle>(myStyles.values());
+        return new ArrayList<>(myStyles.values());
     }
 
     public synchronized void saveHighlightingStyle(HighlightingStyle style) {

@@ -337,9 +337,7 @@ public class LibraryService extends Service {
         }
 
         public String saveBookmark(String serialized) {
-            System.out.println(" 书签类型 2.1 ==> " + serialized);
             final Bookmark bookmark = SerializerUtil.deserializeBookmark(serialized);
-            System.out.println(" 书签类型 2.2 ==> " + bookmark.MarkType);
             myCollection.saveBookmark(bookmark);
             return SerializerUtil.serialize(bookmark);
         }

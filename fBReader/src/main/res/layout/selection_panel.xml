@@ -16,6 +16,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/selection_panel_bookmark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
@@ -26,7 +27,6 @@
             android:paddingBottom="12dp">
 
             <ImageView
-                android:id="@+id/selection_panel_bookmark"
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:src="@drawable/popup_bookmark" />
@@ -43,6 +43,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/selection_panel_translate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
@@ -53,7 +54,6 @@
             android:paddingBottom="12dp">
 
             <ImageView
-                android:id="@+id/selection_panel_translate"
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:src="@drawable/popup_translate" />
@@ -70,6 +70,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/selection_panel_share"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
@@ -80,7 +81,6 @@
             android:paddingBottom="12dp">
 
             <ImageView
-                android:id="@+id/selection_panel_share"
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:src="@drawable/popup_share" />
@@ -97,6 +97,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/selection_panel_copy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
@@ -107,7 +108,6 @@
             android:paddingBottom="12dp">
 
             <ImageView
-                android:id="@+id/selection_panel_copy"
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:src="@drawable/popup_copy" />

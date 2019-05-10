@@ -3,6 +3,7 @@ package org.geometerplus.android.fbreader.ui;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -10,14 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import org.geometerplus.android.fbreader.BaseFragment;
 import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.android.fbreader.api.FBReaderIntents;
-import org.geometerplus.android.fbreader.bookmark.BookmarksUtil;
 import org.geometerplus.android.fbreader.bookmark.EditBookmarkActivity;
 import org.geometerplus.android.fbreader.libraryService.BookCollectionShadow;
 import org.geometerplus.android.util.OrientationUtil;
@@ -29,7 +28,9 @@ import org.geometerplus.fbreader.book.Bookmark;
 import org.geometerplus.fbreader.book.BookmarkQuery;
 import org.geometerplus.fbreader.book.HighlightingStyle;
 import org.geometerplus.fbreader.book.IBookCollection;
-import org.geometerplus.zlibrary.core.options.ZLStringOption;
+import org.geometerplus.fbreader.bookmodel.TOCTree;
+import org.geometerplus.fbreader.fbreader.FBReaderApp;
+import org.geometerplus.zlibrary.core.application.ZLApplication;
 import org.geometerplus.zlibrary.core.resources.ZLResource;
 import org.geometerplus.zlibrary.ui.android.R;
 
@@ -41,8 +42,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import yuku.ambilwarna.widget.AmbilWarnaPrefWidgetView;
-
 public class BookNoteFragment extends BaseFragment implements IBookCollection.Listener<Book> {
 
     private static final int OPEN_ITEM_ID = 0;
@@ -53,42 +52,40 @@ public class BookNoteFragment extends BaseFragment implements IBookCollection.Li
     private final BookCollectionShadow myCollection = new BookCollectionShadow();
     private final Comparator<Bookmark> myComparator = new Bookmark.ByTimeComparator();
     private final ZLResource myResource = ZLResource.resource("bookmarksView");
-    private final ZLStringOption myBookmarkSearchPatternOption =
-            new ZLStringOption("BookmarkSearch", "Pattern", "");
     private final Object myBookmarksLock = new Object();
     private volatile Book myBook;
-    private volatile Bookmark myBookmark;
     private volatile BookmarksAdapter myThisBookAdapter;
+
+    private TOCTree root;
 
     @Override
     protected void initData() {
         super.initData();
-
-        // 异常捕获
         Thread.setDefaultUncaughtExceptionHandler(new org.geometerplus.zlibrary.ui.android.library.UncaughtExceptionHandler(mActivity));
-        // 启动本地搜索
+
         mActivity.setDefaultKeyMode(Activity.DEFAULT_KEYS_SEARCH_LOCAL);
-        // 搜索服务
+
         final SearchManager manager = (SearchManager) mActivity.getSystemService(Activity.SEARCH_SERVICE);
         manager.setOnCancelListener(null);
 
-        // 获取当前图书对象
         myBook = ((FBReader) mActivity).getMyFBReaderApp().getCurrentBook();
         if (myBook == null) {
             ((FBReader) mActivity).closeSlideMenu();
         }
 
-        myBookmark = ((FBReader) mActivity).getMyFBReaderApp().createBookmark(80, true, Bookmark.Type.BookNote);
-
         myCollection.bindToService(mActivity, new Runnable() {
             public void run() {
-                myThisBookAdapter = new BookmarksAdapter((ListView) getView().findViewById(R.id.listView), myBookmark != null);
+                myThisBookAdapter = new BookmarksAdapter((ListView) getView().findViewById(R.id.listView));
                 myCollection.addListener(BookNoteFragment.this);
 
                 updateStyles();
                 loadBookmarks();
             }
         });
+
+        final FBReaderApp fbReader = (FBReaderApp) ZLApplication.Instance();
+        // 获取目录索引树
+        root = fbReader.Model.TOCTree;
     }
 
     @Override
@@ -114,6 +111,13 @@ public class BookNoteFragment extends BaseFragment implements IBookCollection.Li
                         if (thisBookBookmarks.isEmpty()) {
                             break;
                         }
+                        // 根据段落索引获取章节标题，并赋值
+                        for (int i = 0; i < thisBookBookmarks.size(); i++) {
+                            Bookmark bookmark = thisBookBookmarks.get(i);
+                            int paragraphIndex = bookmark.getParagraphIndex();
+                            String tocText = getTocText(paragraphIndex);
+                            bookmark.setTocText(tocText);
+                        }
                         myThisBookAdapter.addAll(thisBookBookmarks);
                     }
                 }
@@ -121,14 +125,28 @@ public class BookNoteFragment extends BaseFragment implements IBookCollection.Li
         }).start();
     }
 
-    protected void onNewIntent(Intent intent) {
-        OrientationUtil.setOrientation(mActivity, intent);
-
-        if (!Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            return;
+    /**
+     * 根据段落索引获取章节标题
+     *
+     * @param paragraphIndex 段落索引
+     * @return 章节标题
+     */
+    private String getTocText(int paragraphIndex) {
+        if (root == null) {
+            return "";
         }
-        String pattern = intent.getStringExtra(SearchManager.QUERY);
-        myBookmarkSearchPatternOption.setValue(pattern);
+        TOCTree treeToSelect = null;
+        for (TOCTree tree : root) {
+            final TOCTree.Reference reference = tree.getReference();
+            if (reference == null) {
+                continue;
+            }
+            if (reference.ParagraphIndex > paragraphIndex) {
+                break;
+            }
+            treeToSelect = tree;
+        }
+        return treeToSelect == null ? "" : treeToSelect.getText();
     }
 
     @Override
@@ -168,22 +186,9 @@ public class BookNoteFragment extends BaseFragment implements IBookCollection.Li
         }
     }
 
-    // method from IBookCollection.Listener
     public void onBookEvent(BookEvent event, Book book) {
-        switch (event) {
-            default:
-                break;
-            case BookNoteStyleChanged:
-                mActivity.runOnUiThread(new Runnable() {
-                    public void run() {
-                        updateStyles();
-                        myThisBookAdapter.notifyDataSetChanged();
-                    }
-                });
-                break;
-            case BookNoteUpdated:
-                updateBookmarks(book);
-                break;
+        if (event == BookEvent.BookNoteUpdated) {
+            updateBookmarks(book);
         }
     }
 
@@ -191,8 +196,10 @@ public class BookNoteFragment extends BaseFragment implements IBookCollection.Li
         new Thread(new Runnable() {
             public void run() {
                 synchronized (myBookmarksLock) {
+                    // 是否是当前的书
                     final boolean flagThisBookTab = book.getId() == myBook.getId();
 
+                    // 暂存列表里旧数据
                     final Map<String, Bookmark> oldBookmarks = new HashMap<>();
                     if (flagThisBookTab) {
                         for (Bookmark b : myThisBookAdapter.bookmarks()) {
@@ -200,19 +207,24 @@ public class BookNoteFragment extends BaseFragment implements IBookCollection.Li
                         }
                     }
 
+                    // 查询数据库的书签数据
                     for (BookmarkQuery query = new BookmarkQuery(book, Bookmark.Type.BookNote.ordinal(), 50); ; query = query.next()) {
                         final List<Bookmark> loaded = myCollection.bookmarks(query);
                         if (loaded.isEmpty()) {
                             break;
                         }
                         for (Bookmark b : loaded) {
+                            // 暂存数据移除远程数据里的标签
                             final Bookmark old = oldBookmarks.remove(b.Uid);
                             if (flagThisBookTab) {
+                                // 更新列表书签数据
                                 myThisBookAdapter.replace(old, b);
                             }
                         }
                     }
+
                     if (flagThisBookTab) {
+                        // 移除列表里，远程数据已移除数据
                         myThisBookAdapter.removeAll(oldBookmarks.values());
                     }
                 }
@@ -227,10 +239,8 @@ public class BookNoteFragment extends BaseFragment implements IBookCollection.Li
     private final class BookmarksAdapter extends BaseAdapter implements AdapterView.OnItemClickListener, View.OnCreateContextMenuListener {
         private final List<Bookmark> myBookmarksList =
                 Collections.synchronizedList(new LinkedList<Bookmark>());
-        private volatile boolean myShowAddBookmarkItem;
 
-        BookmarksAdapter(ListView listView, boolean showAddBookmarkItem) {
-            myShowAddBookmarkItem = showAddBookmarkItem;
+        BookmarksAdapter(ListView listView) {
             listView.setAdapter(this);
             listView.setOnItemClickListener(this);
             listView.setOnCreateContextMenuListener(this);
@@ -256,26 +266,46 @@ public class BookNoteFragment extends BaseFragment implements IBookCollection.Li
             });
         }
 
+        /**
+         * 更新数据
+         *
+         * @param old 旧数据
+         * @param b   新数据
+         */
         public void replace(final Bookmark old, final Bookmark b) {
+            // 如果有旧数据，并且相同 --> 返回
             if (old != null && areEqualsForView(old, b)) {
                 return;
             }
             mActivity.runOnUiThread(new Runnable() {
                 public void run() {
                     synchronized (myBookmarksList) {
+                        // 有旧数据则移除
                         if (old != null) {
                             myBookmarksList.remove(old);
                         }
+                        // 查找新数据在列表里的位置，如果不存在则添加该数据到列表集合
                         final int position = Collections.binarySearch(myBookmarksList, b, myComparator);
                         if (position < 0) {
+                            // 查询章节标题，并设置
+                            String tocText = getTocText(b.ParagraphIndex);
+                            b.setTocText(tocText);
                             myBookmarksList.add(-position - 1, b);
                         }
                     }
+                    // 通知UI更新
                     notifyDataSetChanged();
                 }
             });
         }
 
+        /**
+         * 比对书签是否相同
+         *
+         * @param b0 书签0
+         * @param b1 书签1
+         * @return 书签是否相同
+         */
         private boolean areEqualsForView(Bookmark b0, Bookmark b1) {
             return
                     b0.getStyleId() == b1.getStyleId() &&
@@ -323,16 +353,21 @@ public class BookNoteFragment extends BaseFragment implements IBookCollection.Li
             return true;
         }
 
+        public final void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            final Bookmark bookmark = getItem(position);
+            if (bookmark != null) {
+                ((FBReader) mActivity).closeSlideMenu();
+                gotoBookmark(bookmark);
+            }
+        }
+
         @Override
         public final int getCount() {
-            return myShowAddBookmarkItem ? myBookmarksList.size() + 1 : myBookmarksList.size();
+            return myBookmarksList.size();
         }
 
         @Override
         public final Bookmark getItem(int position) {
-            if (myShowAddBookmarkItem) {
-                --position;
-            }
             return position >= 0 ? myBookmarksList.get(position) : null;
         }
 
@@ -345,45 +380,41 @@ public class BookNoteFragment extends BaseFragment implements IBookCollection.Li
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             final View view = (convertView != null) ? convertView :
-                    LayoutInflater.from(parent.getContext()).inflate(R.layout.bookmark_item, parent, false);
-            final ImageView imageView = ViewUtil.findImageView(view, R.id.bookmark_item_icon);
-            final View colorContainer = ViewUtil.findView(view, R.id.bookmark_item_color_container);
-            final AmbilWarnaPrefWidgetView colorView =
-                    (AmbilWarnaPrefWidgetView) ViewUtil.findView(view, R.id.bookmark_item_color);
-            final TextView textView = ViewUtil.findTextView(view, R.id.bookmark_item_text);
-            final TextView bookTitleView = ViewUtil.findTextView(view, R.id.bookmark_item_booktitle);
+                    LayoutInflater.from(parent.getContext()).inflate(R.layout.reader_item_list_book_mark, parent, false);
+            final View layoutTitle = ViewUtil.findView(view, R.id.llTitle);
+            final TextView tvTitle = ViewUtil.findTextView(view, R.id.tvTitle);
+            final TextView tvContent = ViewUtil.findTextView(view, R.id.tvContent);
+            final TextView tvNote = ViewUtil.findTextView(view, R.id.tvNote);
+            final View viewDivider = ViewUtil.findView(view, R.id.viewDivider);
 
             final Bookmark bookmark = getItem(position);
-            if (bookmark == null) {
-                imageView.setVisibility(View.VISIBLE);
-                imageView.setImageResource(R.drawable.ic_list_plus);
-                colorContainer.setVisibility(View.GONE);
-                textView.setText(myResource.getResource("new").getValue());
-                bookTitleView.setVisibility(View.GONE);
-            } else {
-                imageView.setVisibility(View.GONE);
-                colorContainer.setVisibility(View.VISIBLE);
-                BookmarksUtil.setupColorView(colorView, myStyles.get(bookmark.getStyleId()));
-                textView.setText(bookmark.getText());
-                if (myShowAddBookmarkItem) {
-                    bookTitleView.setVisibility(View.GONE);
+
+            // 章节标题和内容的判读逻辑（如果和上一条的章节标题一样，就认为是同一章节内容）
+            if (bookmark != null) {
+                if (position > 0) {
+                    Bookmark item = getItem(position - 1);
+                    if (item != null && TextUtils.equals(item.getTocText(), bookmark.getTocText())) {
+                        layoutTitle.setVisibility(View.GONE);
+                        viewDivider.setVisibility(View.GONE);
+                    } else {
+                        layoutTitle.setVisibility(View.VISIBLE);
+                        viewDivider.setVisibility(View.VISIBLE);
+                    }
                 } else {
-                    bookTitleView.setVisibility(View.VISIBLE);
-                    bookTitleView.setText(bookmark.BookTitle);
+                    layoutTitle.setVisibility(View.VISIBLE);
+                    viewDivider.setVisibility(View.VISIBLE);
+                }
+                tvTitle.setText(bookmark.getTocText());
+                if (TextUtils.isEmpty(bookmark.getOriginalText())) {
+                    tvContent.setText(bookmark.getText());
+                    tvNote.setVisibility(View.GONE);
+                } else {
+                    tvContent.setText(bookmark.getOriginalText());
+                    tvNote.setText(bookmark.getText());
+                    tvNote.setVisibility(View.VISIBLE);
                 }
             }
             return view;
-        }
-
-        public final void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            final Bookmark bookmark = getItem(position);
-            if (bookmark != null) {
-                ((FBReader) mActivity).closeSlideMenu();
-                gotoBookmark(bookmark);
-            } else if (myShowAddBookmarkItem) {
-                myShowAddBookmarkItem = false;
-                myCollection.saveBookmark(myBookmark);
-            }
         }
     }
 }

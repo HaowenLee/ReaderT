@@ -467,13 +467,6 @@ public abstract class ZLTextView extends ZLTextViewBase {
             previousInfo = info;
         }
 
-        // 绘制书签
-        final List<ZLTextHighlighting> bookMarkList = findBookMarkList(page);
-        context.setFillColor(new ZLColor(243, 65, 65));
-        for (ZLTextHighlighting h : bookMarkList) {
-            context.drawBookMark(getContextWidth() - 100, 0, getContextWidth() - 60, 90);
-        }
-
         // 绘制高亮
         final List<ZLTextHighlighting> highlightingList = findHighlightingList(page);
 
@@ -527,6 +520,13 @@ public abstract class ZLTextView extends ZLTextViewBase {
         int footerX = getContextWidth() - getRightMargin() - context.getExtraStringWidth(progressText);
         int footerY = (int) (getTopMargin() + getTextAreaHeight() + getBottomMargin() / 1.3);
         context.drawFooter(footerX, footerY, progressText);
+
+        // 绘制书签
+        final List<ZLTextHighlighting> bookMarkList = findBookMarkList(page);
+        context.setFillColor(new ZLColor(255, 107, 0));
+        if (bookMarkList != null && !bookMarkList.isEmpty()) {
+            context.drawBookMark(getContextWidth() - 100, 0, getContextWidth() - 60, 90);
+        }
     }
 
     @Override
