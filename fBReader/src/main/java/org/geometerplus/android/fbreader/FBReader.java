@@ -134,7 +134,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
     /**
      * 动画时长
      */
-    private static final int DURATION = 300;
+    private static final int DURATION = 250;
     final DataService.Connection DataConnection = new DataService.Connection();
     private final FBReaderApp.Notifier myNotifier = new AppNotifier(this);
     private final List<PluginApi.ActionInfo> myPluginActions =
@@ -1447,6 +1447,9 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
      */
     private void initMoreBookInfoView() {
         final Book book = myFBReaderApp.getCurrentBook();
+        if (book == null) {
+            return;
+        }
         final TextView tvBookName = findViewById(R.id.book_name);
         tvBookName.setText(book.getTitle());
         final TextView tvAuthor = findViewById(R.id.author);
@@ -1502,6 +1505,9 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
      */
     private void initBookInfoView() {
         Book book = myFBReaderApp.getCurrentBook();
+        if (book == null) {
+            return;
+        }
         String title = book.getTitle();
 
         TextView tvTitle = findViewById(R.id.tvTitle);
