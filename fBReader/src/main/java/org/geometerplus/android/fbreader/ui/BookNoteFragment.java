@@ -45,29 +45,20 @@ import yuku.ambilwarna.widget.AmbilWarnaPrefWidgetView;
 
 public class BookNoteFragment extends BaseFragment implements IBookCollection.Listener<Book> {
 
-    @Override
-    protected int initLayoutRes() {
-        return R.layout.reader_fragment_book_mark_list;
-    }
-
     private static final int OPEN_ITEM_ID = 0;
     private static final int EDIT_ITEM_ID = 1;
     private static final int DELETE_ITEM_ID = 2;
-
     private final Map<Integer, HighlightingStyle> myStyles =
             Collections.synchronizedMap(new HashMap<Integer, HighlightingStyle>());
-
     private final BookCollectionShadow myCollection = new BookCollectionShadow();
-    private volatile Book myBook;
-    private volatile Bookmark myBookmark;
-
     private final Comparator<Bookmark> myComparator = new Bookmark.ByTimeComparator();
-
-    private volatile BookmarksAdapter myThisBookAdapter;
-
     private final ZLResource myResource = ZLResource.resource("bookmarksView");
     private final ZLStringOption myBookmarkSearchPatternOption =
             new ZLStringOption("BookmarkSearch", "Pattern", "");
+    private final Object myBookmarksLock = new Object();
+    private volatile Book myBook;
+    private volatile Bookmark myBookmark;
+    private volatile BookmarksAdapter myThisBookAdapter;
 
     @Override
     protected void initData() {
@@ -87,7 +78,7 @@ public class BookNoteFragment extends BaseFragment implements IBookCollection.Li
             ((FBReader) mActivity).closeSlideMenu();
         }
 
-        myBookmark = ((FBReader) mActivity).getMyFBReaderApp().createBookmark(80, true);
+        myBookmark = ((FBReader) mActivity).getMyFBReaderApp().createBookmark(80, true, Bookmark.Type.BookNote);
 
         myCollection.bindToService(mActivity, new Runnable() {
             public void run() {
@@ -100,6 +91,11 @@ public class BookNoteFragment extends BaseFragment implements IBookCollection.Li
         });
     }
 
+    @Override
+    protected int initLayoutRes() {
+        return R.layout.reader_fragment_book_mark_list;
+    }
+
     private void updateStyles() {
         synchronized (myStyles) {
             myStyles.clear();
@@ -109,52 +105,16 @@ public class BookNoteFragment extends BaseFragment implements IBookCollection.Li
         }
     }
 
-    private final Object myBookmarksLock = new Object();
-
     private void loadBookmarks() {
         new Thread(new Runnable() {
             public void run() {
                 synchronized (myBookmarksLock) {
-                    for (BookmarkQuery query = new BookmarkQuery(myBook, 50); ; query = query.next()) {
+                    for (BookmarkQuery query = new BookmarkQuery(myBook, Bookmark.Type.BookNote.ordinal(), 50); ; query = query.next()) {
                         final List<Bookmark> thisBookBookmarks = myCollection.bookmarks(query);
                         if (thisBookBookmarks.isEmpty()) {
                             break;
                         }
                         myThisBookAdapter.addAll(thisBookBookmarks);
-                    }
-                }
-            }
-        }).start();
-    }
-
-    private void updateBookmarks(final Book book) {
-        new Thread(new Runnable() {
-            public void run() {
-                synchronized (myBookmarksLock) {
-                    final boolean flagThisBookTab = book.getId() == myBook.getId();
-
-                    final Map<String, Bookmark> oldBookmarks = new HashMap<>();
-                    if (flagThisBookTab) {
-                        for (Bookmark b : myThisBookAdapter.bookmarks()) {
-                            oldBookmarks.put(b.Uid, b);
-                        }
-                    }
-                    final String pattern = myBookmarkSearchPatternOption.getValue().toLowerCase();
-
-                    for (BookmarkQuery query = new BookmarkQuery(book, 50); ; query = query.next()) {
-                        final List<Bookmark> loaded = myCollection.bookmarks(query);
-                        if (loaded.isEmpty()) {
-                            break;
-                        }
-                        for (Bookmark b : loaded) {
-                            final Bookmark old = oldBookmarks.remove(b.Uid);
-                            if (flagThisBookTab) {
-                                myThisBookAdapter.replace(old, b);
-                            }
-                        }
-                    }
-                    if (flagThisBookTab) {
-                        myThisBookAdapter.removeAll(oldBookmarks.values());
                     }
                 }
             }
@@ -208,6 +168,62 @@ public class BookNoteFragment extends BaseFragment implements IBookCollection.Li
         }
     }
 
+    // method from IBookCollection.Listener
+    public void onBookEvent(BookEvent event, Book book) {
+        switch (event) {
+            default:
+                break;
+            case BookNoteStyleChanged:
+                mActivity.runOnUiThread(new Runnable() {
+                    public void run() {
+                        updateStyles();
+                        myThisBookAdapter.notifyDataSetChanged();
+                    }
+                });
+                break;
+            case BookNoteUpdated:
+                updateBookmarks(book);
+                break;
+        }
+    }
+
+    private void updateBookmarks(final Book book) {
+        new Thread(new Runnable() {
+            public void run() {
+                synchronized (myBookmarksLock) {
+                    final boolean flagThisBookTab = book.getId() == myBook.getId();
+
+                    final Map<String, Bookmark> oldBookmarks = new HashMap<>();
+                    if (flagThisBookTab) {
+                        for (Bookmark b : myThisBookAdapter.bookmarks()) {
+                            oldBookmarks.put(b.Uid, b);
+                        }
+                    }
+
+                    for (BookmarkQuery query = new BookmarkQuery(book, Bookmark.Type.BookNote.ordinal(), 50); ; query = query.next()) {
+                        final List<Bookmark> loaded = myCollection.bookmarks(query);
+                        if (loaded.isEmpty()) {
+                            break;
+                        }
+                        for (Bookmark b : loaded) {
+                            final Bookmark old = oldBookmarks.remove(b.Uid);
+                            if (flagThisBookTab) {
+                                myThisBookAdapter.replace(old, b);
+                            }
+                        }
+                    }
+                    if (flagThisBookTab) {
+                        myThisBookAdapter.removeAll(oldBookmarks.values());
+                    }
+                }
+            }
+        }).start();
+    }
+
+    // method from IBookCollection.Listener
+    public void onBuildEvent(IBookCollection.Status status) {
+    }
+
     private final class BookmarksAdapter extends BaseAdapter implements AdapterView.OnItemClickListener, View.OnCreateContextMenuListener {
         private final List<Bookmark> myBookmarksList =
                 Collections.synchronizedList(new LinkedList<Bookmark>());
@@ -240,13 +256,6 @@ public class BookNoteFragment extends BaseFragment implements IBookCollection.Li
             });
         }
 
-        private boolean areEqualsForView(Bookmark b0, Bookmark b1) {
-            return
-                    b0.getStyleId() == b1.getStyleId() &&
-                            b0.getText().equals(b1.getText()) &&
-                            b0.getTimestamp(Bookmark.DateType.Latest).equals(b1.getTimestamp(Bookmark.DateType.Latest));
-        }
-
         public void replace(final Bookmark old, final Bookmark b) {
             if (old != null && areEqualsForView(old, b)) {
                 return;
@@ -265,6 +274,13 @@ public class BookNoteFragment extends BaseFragment implements IBookCollection.Li
                     notifyDataSetChanged();
                 }
             });
+        }
+
+        private boolean areEqualsForView(Bookmark b0, Bookmark b1) {
+            return
+                    b0.getStyleId() == b1.getStyleId() &&
+                            b0.getText().equals(b1.getText()) &&
+                            b0.getTimestamp(Bookmark.DateType.Latest).equals(b1.getTimestamp(Bookmark.DateType.Latest));
         }
 
         public void removeAll(final Collection<Bookmark> bookmarks) {
@@ -295,6 +311,35 @@ public class BookNoteFragment extends BaseFragment implements IBookCollection.Li
                 menu.add(0, EDIT_ITEM_ID, 0, myResource.getResource("editBookmark").getValue());
                 menu.add(0, DELETE_ITEM_ID, 0, myResource.getResource("deleteBookmark").getValue());
             }
+        }
+
+        @Override
+        public final boolean areAllItemsEnabled() {
+            return true;
+        }
+
+        @Override
+        public final boolean isEnabled(int position) {
+            return true;
+        }
+
+        @Override
+        public final int getCount() {
+            return myShowAddBookmarkItem ? myBookmarksList.size() + 1 : myBookmarksList.size();
+        }
+
+        @Override
+        public final Bookmark getItem(int position) {
+            if (myShowAddBookmarkItem) {
+                --position;
+            }
+            return position >= 0 ? myBookmarksList.get(position) : null;
+        }
+
+        @Override
+        public final long getItemId(int position) {
+            final Bookmark item = getItem(position);
+            return item != null ? item.getId() : -1;
         }
 
         @Override
@@ -330,35 +375,6 @@ public class BookNoteFragment extends BaseFragment implements IBookCollection.Li
             return view;
         }
 
-        @Override
-        public final boolean areAllItemsEnabled() {
-            return true;
-        }
-
-        @Override
-        public final boolean isEnabled(int position) {
-            return true;
-        }
-
-        @Override
-        public final long getItemId(int position) {
-            final Bookmark item = getItem(position);
-            return item != null ? item.getId() : -1;
-        }
-
-        @Override
-        public final Bookmark getItem(int position) {
-            if (myShowAddBookmarkItem) {
-                --position;
-            }
-            return position >= 0 ? myBookmarksList.get(position) : null;
-        }
-
-        @Override
-        public final int getCount() {
-            return myShowAddBookmarkItem ? myBookmarksList.size() + 1 : myBookmarksList.size();
-        }
-
         public final void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             final Bookmark bookmark = getItem(position);
             if (bookmark != null) {
@@ -369,28 +385,5 @@ public class BookNoteFragment extends BaseFragment implements IBookCollection.Li
                 myCollection.saveBookmark(myBookmark);
             }
         }
-    }
-
-    // method from IBookCollection.Listener
-    public void onBookEvent(BookEvent event, Book book) {
-        switch (event) {
-            default:
-                break;
-            case BookNoteStyleChanged:
-                mActivity.runOnUiThread(new Runnable() {
-                    public void run() {
-                        updateStyles();
-                        myThisBookAdapter.notifyDataSetChanged();
-                    }
-                });
-                break;
-            case BookNoteUpdated:
-                updateBookmarks(book);
-                break;
-        }
-    }
-
-    // method from IBookCollection.Listener
-    public void onBuildEvent(IBookCollection.Status status) {
     }
 }

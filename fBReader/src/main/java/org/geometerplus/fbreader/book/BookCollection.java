@@ -33,13 +33,11 @@ import org.geometerplus.fbreader.formats.*;
 
 public class BookCollection extends AbstractBookCollection<DbBook> {
     private static final String ZERO_HASH = String.format("%040d", 0);
-
-    private final SystemInfo mySystemInfo;
+    private final static String DEFAULT_STYLE_ID_KEY = "defaultStyle";
     public final PluginCollection PluginCollection;
-    private final BooksDatabase myDatabase;
     public final List<String> BookDirectories;
-    private Set<String> myActiveFormats;
-
+    private final SystemInfo mySystemInfo;
+    private final BooksDatabase myDatabase;
     private final Map<ZLFile, DbBook> myBooksByFile =
             Collections.synchronizedMap(new LinkedHashMap<ZLFile, DbBook>());
     private final Map<Long, DbBook> myBooksById =
@@ -47,11 +45,10 @@ public class BookCollection extends AbstractBookCollection<DbBook> {
     private final List<String> myFilesToRescan =
             Collections.synchronizedList(new LinkedList<String>());
     private final DuplicateResolver myDuplicateResolver = new DuplicateResolver();
-
-    private volatile Status myStatus = Status.NotStarted;
-
     private final Map<Integer, HighlightingStyle> myStyles =
             Collections.synchronizedMap(new TreeMap<Integer, HighlightingStyle>());
+    private Set<String> myActiveFormats;
+    private volatile Status myStatus = Status.NotStarted;
 
     public BookCollection(SystemInfo systemInfo, BooksDatabase db, List<String> bookDirectories) {
         mySystemInfo = systemInfo;
@@ -65,8 +62,102 @@ public class BookCollection extends AbstractBookCollection<DbBook> {
         }
     }
 
+    public Status status() {
+        return myStatus;
+    }
+
     public int size() {
         return myBooksByFile.size();
+    }
+
+    public List<DbBook> books(BookQuery query) {
+        if (query == null) {
+            return Collections.emptyList();
+        }
+
+        final List<DbBook> allBooks;
+        synchronized (myBooksByFile) {
+            //allBooks = new ArrayList<DbBook>(new LinkedHashSet<DbBook>(myBooksByFile.values()));
+            allBooks = new ArrayList<DbBook>(myBooksByFile.values());
+        }
+        final int start = query.Page * query.Limit;
+        if (start >= allBooks.size()) {
+            return Collections.emptyList();
+        }
+        final int end = start + query.Limit;
+        if (query.Filter instanceof Filter.Empty) {
+            return allBooks.subList(start, Math.min(end, allBooks.size()));
+        } else {
+            int count = 0;
+            final List<DbBook> filtered = new ArrayList<DbBook>(query.Limit);
+            for (DbBook b : allBooks) {
+                if (query.Filter.matches(b)) {
+                    if (count >= start) {
+                        filtered.add(b);
+                    }
+                    if (++count == end) {
+                        break;
+                    }
+                }
+            }
+            return filtered;
+        }
+    }
+
+    public boolean hasBooks(Filter filter) {
+        final List<DbBook> allBooks;
+        synchronized (myBooksByFile) {
+            allBooks = new ArrayList<DbBook>(myBooksByFile.values());
+        }
+        for (DbBook b : allBooks) {
+            if (filter.matches(b)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public List<String> titles(BookQuery query) {
+        final List<DbBook> books = books(query);
+        final List<String> titles = new ArrayList<String>(books.size());
+        for (DbBook b : books) {
+            titles.add(b.getTitle());
+        }
+        return titles;
+    }
+
+    public List<DbBook> recentlyOpenedBooks(int count) {
+        return books(myDatabase.loadRecentBookIds(BooksDatabase.HistoryEvent.Opened, count));
+    }
+
+    public List<DbBook> recentlyAddedBooks(int count) {
+        return books(myDatabase.loadRecentBookIds(BooksDatabase.HistoryEvent.Added, count));
+    }
+
+    private List<DbBook> books(List<Long> ids) {
+        final List<DbBook> bookList = new ArrayList<DbBook>(ids.size());
+        for (long id : ids) {
+            final DbBook book = getBookById(id);
+            if (book != null) {
+                bookList.add(book);
+            }
+        }
+        return bookList;
+    }
+
+    public DbBook getRecentBook(int index) {
+        final List<Long> recentIds = myDatabase.loadRecentBookIds(BooksDatabase.HistoryEvent.Opened, index + 1);
+        return recentIds.size() > index ? getBookById(recentIds.get(index)) : null;
+    }
+
+    public void addToRecentlyOpened(DbBook book) {
+        myDatabase.addBookHistoryEvent(book.getId(), BooksDatabase.HistoryEvent.Opened);
+        fireBookEvent(BookEvent.Opened, book);
+    }
+
+    public void removeFromRecentlyOpened(DbBook book) {
+        myDatabase.removeBookHistoryEvents(book.getId(), BooksDatabase.HistoryEvent.Opened);
+        fireBookEvent(BookEvent.Updated, book);
     }
 
     public DbBook getBookByFile(String path) {
@@ -137,6 +228,50 @@ public class BookCollection extends AbstractBookCollection<DbBook> {
         return book;
     }
 
+    private boolean isFormatActive(FormatPlugin plugin) {
+        return myActiveFormats == null || myActiveFormats.contains(plugin.supportedFileType());
+    }
+
+    private boolean addBook(DbBook book, boolean force) {
+        if (book == null) {
+            return false;
+        }
+
+        synchronized (myBooksByFile) {
+            final DbBook existing = myBooksByFile.get(book.File);
+            if (existing == null) {
+                if (book.getId() == -1 && book.save(myDatabase, true) == DbBook.WhatIsSaved.Nothing) {
+                    return false;
+                }
+
+                final ZLFile duplicate = myDuplicateResolver.findDuplicate(book.File);
+                final DbBook original = duplicate != null ? myBooksByFile.get(duplicate) : null;
+                if (original != null) {
+                    if (new BookMergeHelper(this).merge(original, book)) {
+                        fireBookEvent(BookEvent.Updated, original);
+                    }
+                } else {
+                    myBooksByFile.put(book.File, book);
+                    myDuplicateResolver.addFile(book.File);
+                    myBooksById.put(book.getId(), book);
+                    fireBookEvent(BookEvent.Added, book);
+                }
+                return true;
+            } else if (force) {
+                existing.updateFrom(book);
+                switch (existing.save(myDatabase, false)) {
+                    case Everything:
+                        fireBookEvent(BookEvent.Updated, existing);
+                        return true;
+                    case Progress:
+                        fireBookEvent(BookEvent.ProgressUpdated, existing);
+                        return true;
+                }
+            }
+            return false;
+        }
+    }
+
     public DbBook getBookById(long id) {
         DbBook book = myBooksById.get(id);
         if (book != null) {
@@ -202,160 +337,8 @@ public class BookCollection extends AbstractBookCollection<DbBook> {
         return null;
     }
 
-    private boolean addBook(DbBook book, boolean force) {
-        if (book == null) {
-            return false;
-        }
-
-        synchronized (myBooksByFile) {
-            final DbBook existing = myBooksByFile.get(book.File);
-            if (existing == null) {
-                if (book.getId() == -1 && book.save(myDatabase, true) == DbBook.WhatIsSaved.Nothing) {
-                    return false;
-                }
-
-                final ZLFile duplicate = myDuplicateResolver.findDuplicate(book.File);
-                final DbBook original = duplicate != null ? myBooksByFile.get(duplicate) : null;
-                if (original != null) {
-                    if (new BookMergeHelper(this).merge(original, book)) {
-                        fireBookEvent(BookEvent.Updated, original);
-                    }
-                } else {
-                    myBooksByFile.put(book.File, book);
-                    myDuplicateResolver.addFile(book.File);
-                    myBooksById.put(book.getId(), book);
-                    fireBookEvent(BookEvent.Added, book);
-                }
-                return true;
-            } else if (force) {
-                existing.updateFrom(book);
-                switch (existing.save(myDatabase, false)) {
-                    case Everything:
-                        fireBookEvent(BookEvent.Updated, existing);
-                        return true;
-                    case Progress:
-                        fireBookEvent(BookEvent.ProgressUpdated, existing);
-                        return true;
-                }
-            }
-            return false;
-        }
-    }
-
-    public synchronized boolean saveBook(DbBook book) {
-        return addBook(book, true);
-    }
-
-    public void removeBook(DbBook book, boolean deleteFromDisk) {
-        synchronized (myBooksByFile) {
-            myBooksByFile.remove(book.File);
-            myDuplicateResolver.removeFile(book.File);
-            myBooksById.remove(book.getId());
-
-            if (deleteFromDisk) {
-                book.File.getPhysicalFile().delete();
-            }
-            myDatabase.deleteBook(book.getId());
-        }
-        fireBookEvent(BookEvent.Removed, book);
-    }
-
-    public boolean canRemoveBook(DbBook book, boolean deleteFromDisk) {
-        if (deleteFromDisk) {
-            ZLFile file = book.File;
-            if (file.getPhysicalFile() == null) {
-                return false;
-            }
-            while (file instanceof ZLArchiveEntryFile) {
-                file = file.getParent();
-                if (file.children().size() != 1) {
-                    return false;
-                }
-            }
-            return true;
-        } else {
-            // TODO: implement
-            return false;
-        }
-    }
-
-    public Status status() {
-        return myStatus;
-    }
-
-    public List<DbBook> books(BookQuery query) {
-        if (query == null) {
-            return Collections.emptyList();
-        }
-
-        final List<DbBook> allBooks;
-        synchronized (myBooksByFile) {
-            //allBooks = new ArrayList<DbBook>(new LinkedHashSet<DbBook>(myBooksByFile.values()));
-            allBooks = new ArrayList<DbBook>(myBooksByFile.values());
-        }
-        final int start = query.Page * query.Limit;
-        if (start >= allBooks.size()) {
-            return Collections.emptyList();
-        }
-        final int end = start + query.Limit;
-        if (query.Filter instanceof Filter.Empty) {
-            return allBooks.subList(start, Math.min(end, allBooks.size()));
-        } else {
-            int count = 0;
-            final List<DbBook> filtered = new ArrayList<DbBook>(query.Limit);
-            for (DbBook b : allBooks) {
-                if (query.Filter.matches(b)) {
-                    if (count >= start) {
-                        filtered.add(b);
-                    }
-                    if (++count == end) {
-                        break;
-                    }
-                }
-            }
-            return filtered;
-        }
-    }
-
-    public boolean hasBooks(Filter filter) {
-        final List<DbBook> allBooks;
-        synchronized (myBooksByFile) {
-            allBooks = new ArrayList<DbBook>(myBooksByFile.values());
-        }
-        for (DbBook b : allBooks) {
-            if (filter.matches(b)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public List<String> titles(BookQuery query) {
-        final List<DbBook> books = books(query);
-        final List<String> titles = new ArrayList<String>(books.size());
-        for (DbBook b : books) {
-            titles.add(b.getTitle());
-        }
-        return titles;
-    }
-
-    public List<DbBook> recentlyAddedBooks(int count) {
-        return books(myDatabase.loadRecentBookIds(BooksDatabase.HistoryEvent.Added, count));
-    }
-
-    public List<DbBook> recentlyOpenedBooks(int count) {
-        return books(myDatabase.loadRecentBookIds(BooksDatabase.HistoryEvent.Opened, count));
-    }
-
-    private List<DbBook> books(List<Long> ids) {
-        final List<DbBook> bookList = new ArrayList<DbBook>(ids.size());
-        for (long id : ids) {
-            final DbBook book = getBookById(id);
-            if (book != null) {
-                bookList.add(book);
-            }
-        }
-        return bookList;
+    public List<String> labels() {
+        return myDatabase.listLabels();
     }
 
     public List<Author> authors() {
@@ -371,29 +354,6 @@ public class BookCollection extends AbstractBookCollection<DbBook> {
             }
         }
         return new ArrayList<Author>(authors);
-    }
-
-    public List<Tag> tags() {
-        final Set<Tag> tags = new HashSet<Tag>();
-        synchronized (myBooksByFile) {
-            for (DbBook book : myBooksByFile.values()) {
-                final List<Tag> bookTags = book.tags();
-                if (bookTags.isEmpty()) {
-                    tags.add(Tag.NULL);
-                } else {
-                    for (Tag t : bookTags) {
-                        for (; t != null; t = t.Parent) {
-                            tags.add(t);
-                        }
-                    }
-                }
-            }
-        }
-        return new ArrayList<Tag>(tags);
-    }
-
-    public List<String> labels() {
-        return myDatabase.listLabels();
     }
 
     public boolean hasSeries() {
@@ -420,6 +380,25 @@ public class BookCollection extends AbstractBookCollection<DbBook> {
         return new ArrayList<String>(series);
     }
 
+    public List<Tag> tags() {
+        final Set<Tag> tags = new HashSet<Tag>();
+        synchronized (myBooksByFile) {
+            for (DbBook book : myBooksByFile.values()) {
+                final List<Tag> bookTags = book.tags();
+                if (bookTags.isEmpty()) {
+                    tags.add(Tag.NULL);
+                } else {
+                    for (Tag t : bookTags) {
+                        for (; t != null; t = t.Parent) {
+                            tags.add(t);
+                        }
+                    }
+                }
+            }
+        }
+        return new ArrayList<Tag>(tags);
+    }
+
     public List<String> firstTitleLetters() {
         synchronized (myBooksByFile) {
             final TreeSet<String> letters = new TreeSet<String>();
@@ -433,19 +412,223 @@ public class BookCollection extends AbstractBookCollection<DbBook> {
         }
     }
 
-    public DbBook getRecentBook(int index) {
-        final List<Long> recentIds = myDatabase.loadRecentBookIds(BooksDatabase.HistoryEvent.Opened, index + 1);
-        return recentIds.size() > index ? getBookById(recentIds.get(index)) : null;
+    public synchronized boolean saveBook(DbBook book) {
+        return addBook(book, true);
     }
 
-    public void addToRecentlyOpened(DbBook book) {
-        myDatabase.addBookHistoryEvent(book.getId(), BooksDatabase.HistoryEvent.Opened);
-        fireBookEvent(BookEvent.Opened, book);
+    public boolean canRemoveBook(DbBook book, boolean deleteFromDisk) {
+        if (deleteFromDisk) {
+            ZLFile file = book.File;
+            if (file.getPhysicalFile() == null) {
+                return false;
+            }
+            while (file instanceof ZLArchiveEntryFile) {
+                file = file.getParent();
+                if (file.children().size() != 1) {
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            // TODO: implement
+            return false;
+        }
     }
 
-    public void removeFromRecentlyOpened(DbBook book) {
-        myDatabase.removeBookHistoryEvents(book.getId(), BooksDatabase.HistoryEvent.Opened);
-        fireBookEvent(BookEvent.Updated, book);
+    public void removeBook(DbBook book, boolean deleteFromDisk) {
+        synchronized (myBooksByFile) {
+            myBooksByFile.remove(book.File);
+            myDuplicateResolver.removeFile(book.File);
+            myBooksById.remove(book.getId());
+
+            if (deleteFromDisk) {
+                book.File.getPhysicalFile().delete();
+            }
+            myDatabase.deleteBook(book.getId());
+        }
+        fireBookEvent(BookEvent.Removed, book);
+    }
+
+    public String getHash(DbBook book, boolean force) {
+        final ZLPhysicalFile file = book.File.getPhysicalFile();
+        if (file == null) {
+            return ZERO_HASH;
+        }
+        String hash = null;
+        try {
+            hash = myDatabase.getHash(book.getId(), file.javaFile().lastModified());
+        } catch (BooksDatabase.NotAvailable e) {
+            if (!force) {
+                return null;
+            }
+        }
+        if (hash == null) {
+            final UID uid = BookUtil.createUid(book.File, "SHA-1");
+            if (uid == null) {
+                return null;
+            }
+            hash = uid.Id.toLowerCase();
+            try {
+                myDatabase.setHash(book.getId(), hash);
+            } catch (BooksDatabase.NotAvailable e) {
+                // ignore
+            }
+        }
+        return hash;
+    }
+
+    public void setHash(DbBook book, String hash) {
+        try {
+            myDatabase.setHash(book.getId(), hash);
+        } catch (BooksDatabase.NotAvailable e) {
+            // ignore
+        }
+    }
+
+    public ZLTextFixedPosition.WithTimestamp getStoredPosition(long bookId) {
+        return myDatabase.getStoredPosition(bookId);
+    }
+
+    public void storePosition(long bookId, ZLTextPosition position) {
+        if (bookId != -1) {
+            myDatabase.storePosition(bookId, position);
+        }
+    }
+
+    public boolean isHyperlinkVisited(DbBook book, String linkId) {
+        return book.isHyperlinkVisited(myDatabase, linkId);
+    }
+
+    public void markHyperlinkAsVisited(DbBook book, String linkId) {
+        book.markHyperlinkAsVisited(myDatabase, linkId);
+    }
+
+    @Override
+    public String getCoverUrl(DbBook book) {
+        // not implemented in non-shadow collection
+        return null;
+    }
+
+    @Override
+    public String getDescription(DbBook book) {
+        // not implemented in non-shadow collection
+        return null;
+    }
+
+    public List<Bookmark> bookmarks(BookmarkQuery query) {
+        return myDatabase.loadBookmarks(query);
+    }
+
+    public void saveBookmark(Bookmark bookmark) {
+        if (bookmark != null) {
+            System.out.println(" 书签类型 2 ==> " + bookmark.MarkType);
+            bookmark.setId(myDatabase.saveBookmark(bookmark));
+            final DbBook book = getBookById(bookmark.BookId);
+            if (book != null) {
+                if (bookmark.IsVisible) {
+                    book.HasBookmark = true;
+                    fireBookEvent(BookEvent.BookNoteUpdated, book);
+                } else {
+                    fireBookEvent(BookEvent.BookMarkUpdated, book);
+                }
+            }
+        }
+    }
+
+    public void deleteBookmark(Bookmark bookmark) {
+        if (bookmark != null && bookmark.getId() != -1) {
+            myDatabase.deleteBookmark(bookmark);
+            if (bookmark.IsVisible) {
+                final DbBook book = getBookById(bookmark.BookId);
+                if (book != null) {
+                    book.HasBookmark = myDatabase.hasVisibleBookmark(bookmark.BookId);
+                    fireBookEvent(BookEvent.BookNoteUpdated, book);
+                }
+            }
+        }
+    }
+
+    public List<String> deletedBookmarkUids() {
+        return myDatabase.deletedBookmarkUids();
+    }
+
+    public void purgeBookmarks(List<String> uids) {
+        myDatabase.purgeBookmarks(uids);
+    }
+
+    public HighlightingStyle getHighlightingStyle(int styleId) {
+        initStylesTable();
+        return myStyles.get(styleId);
+    }
+
+    private synchronized void initStylesTable() {
+        if (myStyles.isEmpty()) {
+            for (HighlightingStyle style : myDatabase.loadStyles()) {
+                myStyles.put(style.Id, style);
+            }
+        }
+    }
+
+    public List<HighlightingStyle> highlightingStyles() {
+        initStylesTable();
+        return new ArrayList<HighlightingStyle>(myStyles.values());
+    }
+
+    public synchronized void saveHighlightingStyle(HighlightingStyle style) {
+        myDatabase.saveStyle(style);
+        myStyles.clear();
+        fireBookEvent(BookEvent.BookNoteStyleChanged, null);
+    }
+
+    public int getDefaultHighlightingStyleId() {
+        try {
+            return Integer.parseInt(myDatabase.getOptionValue(DEFAULT_STYLE_ID_KEY));
+        } catch (Throwable t) {
+            return 1;
+        }
+    }
+
+    public void setDefaultHighlightingStyleId(int styleId) {
+        myDatabase.setOptionValue(DEFAULT_STYLE_ID_KEY, String.valueOf(styleId));
+    }
+
+    public List<FormatDescriptor> formats() {
+        final List<FormatPlugin> plugins = PluginCollection.plugins();
+        final List<FormatDescriptor> descriptors = new ArrayList<FormatDescriptor>(plugins.size());
+        for (FormatPlugin p : plugins) {
+            final FormatDescriptor d = new FormatDescriptor();
+            d.Id = p.supportedFileType();
+            d.Name = p.name();
+            d.IsActive = myActiveFormats == null || myActiveFormats.contains(d.Id);
+            descriptors.add(d);
+        }
+        return descriptors;
+    }
+
+    public boolean setActiveFormats(List<String> formatIds) {
+        final Set<String> activeFormats = new HashSet<String>(formatIds);
+        if (activeFormats.equals(myActiveFormats)) {
+            return false;
+        }
+
+        myActiveFormats = activeFormats;
+        myDatabase.setOptionValue("formats", MiscUtil.join(formatIds, "\000"));
+        return true;
+    }
+
+    public void rescan(String path) {
+        synchronized (myFilesToRescan) {
+            myFilesToRescan.add(path);
+            processFilesQueue();
+        }
+    }
+
+    private boolean isBookFormatActive(DbBook book) {
+        try {
+            return isFormatActive(BookUtil.getPlugin(PluginCollection, book));
+        } catch (BookReadingException e) {
+            return false;
+        }
     }
 
     private void setStatus(Status status) {
@@ -479,13 +662,6 @@ public class BookCollection extends AbstractBookCollection<DbBook> {
         };
         builder.setPriority(Thread.MIN_PRIORITY);
         builder.start();
-    }
-
-    public void rescan(String path) {
-        synchronized (myFilesToRescan) {
-            myFilesToRescan.add(path);
-            processFilesQueue();
-        }
     }
 
     private void processFilesQueue() {
@@ -697,186 +873,6 @@ public class BookCollection extends AbstractBookCollection<DbBook> {
                         doReadMetaInfo
                 );
             }
-        }
-    }
-
-    @Override
-    public String getCoverUrl(DbBook book) {
-        // not implemented in non-shadow collection
-        return null;
-    }
-
-    @Override
-    public String getDescription(DbBook book) {
-        // not implemented in non-shadow collection
-        return null;
-    }
-
-    public List<Bookmark> bookmarks(BookmarkQuery query) {
-        return myDatabase.loadBookmarks(query);
-    }
-
-    public void saveBookmark(Bookmark bookmark) {
-        if (bookmark != null) {
-            bookmark.setId(myDatabase.saveBookmark(bookmark));
-            final DbBook book = getBookById(bookmark.BookId);
-            if (book != null) {
-                if (bookmark.IsVisible) {
-                    book.HasBookmark = true;
-                    fireBookEvent(BookEvent.BookNoteUpdated, book);
-                } else {
-                    fireBookEvent(BookEvent.BookMarkUpdated, book);
-                }
-            }
-        }
-    }
-
-    public void deleteBookmark(Bookmark bookmark) {
-        if (bookmark != null && bookmark.getId() != -1) {
-            myDatabase.deleteBookmark(bookmark);
-            if (bookmark.IsVisible) {
-                final DbBook book = getBookById(bookmark.BookId);
-                if (book != null) {
-                    book.HasBookmark = myDatabase.hasVisibleBookmark(bookmark.BookId);
-                    fireBookEvent(BookEvent.BookNoteUpdated, book);
-                }
-            }
-        }
-    }
-
-    public List<String> deletedBookmarkUids() {
-        return myDatabase.deletedBookmarkUids();
-    }
-
-    public void purgeBookmarks(List<String> uids) {
-        myDatabase.purgeBookmarks(uids);
-    }
-
-    public ZLTextFixedPosition.WithTimestamp getStoredPosition(long bookId) {
-        return myDatabase.getStoredPosition(bookId);
-    }
-
-    public void storePosition(long bookId, ZLTextPosition position) {
-        if (bookId != -1) {
-            myDatabase.storePosition(bookId, position);
-        }
-    }
-
-    public boolean isHyperlinkVisited(DbBook book, String linkId) {
-        return book.isHyperlinkVisited(myDatabase, linkId);
-    }
-
-    public void markHyperlinkAsVisited(DbBook book, String linkId) {
-        book.markHyperlinkAsVisited(myDatabase, linkId);
-    }
-
-    private synchronized void initStylesTable() {
-        if (myStyles.isEmpty()) {
-            for (HighlightingStyle style : myDatabase.loadStyles()) {
-                myStyles.put(style.Id, style);
-            }
-        }
-    }
-
-    public HighlightingStyle getHighlightingStyle(int styleId) {
-        initStylesTable();
-        return myStyles.get(styleId);
-    }
-
-    public List<HighlightingStyle> highlightingStyles() {
-        initStylesTable();
-        return new ArrayList<HighlightingStyle>(myStyles.values());
-    }
-
-    public synchronized void saveHighlightingStyle(HighlightingStyle style) {
-        myDatabase.saveStyle(style);
-        myStyles.clear();
-        fireBookEvent(BookEvent.BookNoteStyleChanged, null);
-    }
-
-    private final static String DEFAULT_STYLE_ID_KEY = "defaultStyle";
-
-    public int getDefaultHighlightingStyleId() {
-        try {
-            return Integer.parseInt(myDatabase.getOptionValue(DEFAULT_STYLE_ID_KEY));
-        } catch (Throwable t) {
-            return 1;
-        }
-    }
-
-    public void setDefaultHighlightingStyleId(int styleId) {
-        myDatabase.setOptionValue(DEFAULT_STYLE_ID_KEY, String.valueOf(styleId));
-    }
-
-    public String getHash(DbBook book, boolean force) {
-        final ZLPhysicalFile file = book.File.getPhysicalFile();
-        if (file == null) {
-            return ZERO_HASH;
-        }
-        String hash = null;
-        try {
-            hash = myDatabase.getHash(book.getId(), file.javaFile().lastModified());
-        } catch (BooksDatabase.NotAvailable e) {
-            if (!force) {
-                return null;
-            }
-        }
-        if (hash == null) {
-            final UID uid = BookUtil.createUid(book.File, "SHA-1");
-            if (uid == null) {
-                return null;
-            }
-            hash = uid.Id.toLowerCase();
-            try {
-                myDatabase.setHash(book.getId(), hash);
-            } catch (BooksDatabase.NotAvailable e) {
-                // ignore
-            }
-        }
-        return hash;
-    }
-
-    public void setHash(DbBook book, String hash) {
-        try {
-            myDatabase.setHash(book.getId(), hash);
-        } catch (BooksDatabase.NotAvailable e) {
-            // ignore
-        }
-    }
-
-    public List<FormatDescriptor> formats() {
-        final List<FormatPlugin> plugins = PluginCollection.plugins();
-        final List<FormatDescriptor> descriptors = new ArrayList<FormatDescriptor>(plugins.size());
-        for (FormatPlugin p : plugins) {
-            final FormatDescriptor d = new FormatDescriptor();
-            d.Id = p.supportedFileType();
-            d.Name = p.name();
-            d.IsActive = myActiveFormats == null || myActiveFormats.contains(d.Id);
-            descriptors.add(d);
-        }
-        return descriptors;
-    }
-
-    public boolean setActiveFormats(List<String> formatIds) {
-        final Set<String> activeFormats = new HashSet<String>(formatIds);
-        if (activeFormats.equals(myActiveFormats)) {
-            return false;
-        }
-
-        myActiveFormats = activeFormats;
-        myDatabase.setOptionValue("formats", MiscUtil.join(formatIds, "\000"));
-        return true;
-    }
-
-    private boolean isFormatActive(FormatPlugin plugin) {
-        return myActiveFormats == null || myActiveFormats.contains(plugin.supportedFileType());
-    }
-
-    private boolean isBookFormatActive(DbBook book) {
-        try {
-            return isFormatActive(BookUtil.getPlugin(PluginCollection, book));
-        } catch (BookReadingException e) {
-            return false;
         }
     }
 

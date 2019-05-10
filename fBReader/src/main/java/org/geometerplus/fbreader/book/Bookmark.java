@@ -35,6 +35,10 @@ public final class Bookmark extends ZLTextFixedPosition {
     public final long CreationTimestamp;
     public final String ModelId;
     public final boolean IsVisible;
+    /**
+     * 标记类型
+     */
+    public final int MarkType;
     private long myId;
     private String myVersionUid;
     private String myText;
@@ -66,6 +70,7 @@ public final class Bookmark extends ZLTextFixedPosition {
         myStyleId = original.myStyleId;
         ModelId = original.ModelId;
         IsVisible = original.IsVisible;
+        MarkType = original.MarkType;
     }
 
     private static String newUUID() {
@@ -82,6 +87,7 @@ public final class Bookmark extends ZLTextFixedPosition {
             int start_paragraphIndex, int start_elementIndex, int start_charIndex,
             int end_paragraphIndex, int end_elementIndex, int end_charIndex,
             boolean isVisible,
+            int markType,
             int styleId
     ) {
         super(start_paragraphIndex, start_elementIndex, start_charIndex);
@@ -99,6 +105,7 @@ public final class Bookmark extends ZLTextFixedPosition {
         myAccessTimestamp = accessTimestamp;
         ModelId = modelId;
         IsVisible = isVisible;
+        MarkType = markType;
 
         if (end_charIndex >= 0) {
             myEnd = new ZLTextFixedPosition(end_paragraphIndex, end_elementIndex, end_charIndex);
@@ -117,7 +124,7 @@ public final class Bookmark extends ZLTextFixedPosition {
     }
 
     // creates new bookmark
-    public Bookmark(IBookCollection collection, Book book, String modelId, TextSnippet snippet, boolean visible) {
+    public Bookmark(IBookCollection collection, Book book, String modelId, TextSnippet snippet, boolean visible, Bookmark.Type markType) {
         super(snippet.getStart());
 
         myId = -1;
@@ -129,6 +136,7 @@ public final class Bookmark extends ZLTextFixedPosition {
         CreationTimestamp = System.currentTimeMillis();
         ModelId = modelId;
         IsVisible = visible;
+        MarkType = markType.ordinal();
         myEnd = new ZLTextFixedPosition(snippet.getEnd());
         myStyleId = collection.getDefaultHighlightingStyleId();
     }
@@ -248,6 +256,15 @@ public final class Bookmark extends ZLTextFixedPosition {
 
     public void setTocText(String tocText) {
         this.tocText = tocText;
+    }
+
+    /**
+     * 标记类型
+     */
+    public enum Type {
+        BookMark,
+        BookNote,
+        BookOther
     }
 
     public enum DateType {

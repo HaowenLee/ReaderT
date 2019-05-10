@@ -28,80 +28,80 @@ import org.geometerplus.zlibrary.core.resources.ZLResource;
 import org.geometerplus.fbreader.book.*;
 
 public class CancelMenuHelper {
-	private final static String GROUP_NAME = "CancelMenu";
+    private final static String GROUP_NAME = "CancelMenu";
 
-	public final ZLBooleanOption ShowLibraryItemOption =
-		new ZLBooleanOption(GROUP_NAME, "library", true);
-	public final ZLBooleanOption ShowNetworkLibraryItemOption =
-		new ZLBooleanOption(GROUP_NAME, "networkLibrary", true);
-	public final ZLBooleanOption ShowPreviousBookItemOption =
-		new ZLBooleanOption(GROUP_NAME, "previousBook", false);
-	public final ZLBooleanOption ShowPositionItemsOption =
-		new ZLBooleanOption(GROUP_NAME, "positions", true);
+    public final ZLBooleanOption ShowLibraryItemOption =
+            new ZLBooleanOption(GROUP_NAME, "library", true);
+    public final ZLBooleanOption ShowNetworkLibraryItemOption =
+            new ZLBooleanOption(GROUP_NAME, "networkLibrary", true);
+    public final ZLBooleanOption ShowPreviousBookItemOption =
+            new ZLBooleanOption(GROUP_NAME, "previousBook", false);
+    public final ZLBooleanOption ShowPositionItemsOption =
+            new ZLBooleanOption(GROUP_NAME, "positions", true);
 
-	public CancelMenuHelper() {
-		Config.Instance().requestAllValuesForGroup(GROUP_NAME);
-	}
+    public CancelMenuHelper() {
+        Config.Instance().requestAllValuesForGroup(GROUP_NAME);
+    }
 
-	public static enum ActionType {
-		library,
-		networkLibrary,
-		previousBook,
-		returnTo,
-		close
-	}
+    public List<ActionDescription> getActionsList(IBookCollection<Book> collection) {
+        final List<ActionDescription> list = new ArrayList<ActionDescription>();
 
-	public static class ActionDescription {
-		public final ActionType Type;
-		public final String Title;
-		public final String Summary;
+        if (ShowLibraryItemOption.getValue()) {
+            list.add(new ActionDescription(ActionType.library, null));
+        }
+        if (ShowNetworkLibraryItemOption.getValue()) {
+            list.add(new ActionDescription(ActionType.networkLibrary, null));
+        }
+        if (ShowPreviousBookItemOption.getValue()) {
+            final Book previousBook = collection.getRecentBook(1);
+            if (previousBook != null) {
+                list.add(new ActionDescription(ActionType.previousBook, previousBook.getTitle()));
+            }
+        }
+        if (ShowPositionItemsOption.getValue()) {
+            final Book currentBook = collection.getRecentBook(0);
+            if (currentBook != null) {
+                final List<Bookmark> bookmarks = collection.bookmarks(
+                        new BookmarkQuery(currentBook, Bookmark.Type.BookOther.ordinal(), false, 3)
+                );
+                Collections.sort(bookmarks, new Bookmark.ByTimeComparator());
+                for (Bookmark b : bookmarks) {
+                    list.add(new BookmarkDescription(b));
+                }
+            }
+        }
+        list.add(new ActionDescription(ActionType.close, null));
 
-		ActionDescription(ActionType type, String summary) {
-			final ZLResource resource = ZLResource.resource("cancelMenu");
-			Type = type;
-			Title = resource.getResource(type.toString()).getValue();
-			Summary = summary;
-		}
-	}
+        return list;
+    }
 
-	public static class BookmarkDescription extends ActionDescription {
-		public final Bookmark Bookmark;
+    public static enum ActionType {
+        library,
+        networkLibrary,
+        previousBook,
+        returnTo,
+        close
+    }
 
-		BookmarkDescription(Bookmark b) {
-			super(ActionType.returnTo, b.getText());
-			Bookmark = b;
-		}
-	}
+    public static class ActionDescription {
+        public final ActionType Type;
+        public final String Title;
+        public final String Summary;
 
-	public List<ActionDescription> getActionsList(IBookCollection<Book> collection) {
-		final List<ActionDescription> list = new ArrayList<ActionDescription>();
+        ActionDescription(ActionType type, String summary) {
+            final ZLResource resource = ZLResource.resource("cancelMenu");
+            Type = type;
+            Title = resource.getResource(type.toString()).getValue();
+            Summary = summary;
+        }
+    }
 
-		if (ShowLibraryItemOption.getValue()) {
-			list.add(new ActionDescription(ActionType.library, null));
-		}
-		if (ShowNetworkLibraryItemOption.getValue()) {
-			list.add(new ActionDescription(ActionType.networkLibrary, null));
-		}
-		if (ShowPreviousBookItemOption.getValue()) {
-			final Book previousBook = collection.getRecentBook(1);
-			if (previousBook != null) {
-				list.add(new ActionDescription(ActionType.previousBook, previousBook.getTitle()));
-			}
-		}
-		if (ShowPositionItemsOption.getValue()) {
-			final Book currentBook = collection.getRecentBook(0);
-			if (currentBook != null) {
-				final List<Bookmark> bookmarks = collection.bookmarks(
-					new BookmarkQuery(currentBook, false, 3)
-				);
-				Collections.sort(bookmarks, new Bookmark.ByTimeComparator());
-				for (Bookmark b : bookmarks) {
-					list.add(new BookmarkDescription(b));
-				}
-			}
-		}
-		list.add(new ActionDescription(ActionType.close, null));
+    public static class BookmarkDescription extends ActionDescription {
+        public final Bookmark Bookmark;
 
-		return list;
-	}
+        BookmarkDescription(Bookmark b) {
+            super(ActionType.returnTo, b.getText());
+            Bookmark = b;
+        }
+    }
 }

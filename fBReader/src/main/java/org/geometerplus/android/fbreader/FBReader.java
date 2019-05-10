@@ -1135,6 +1135,39 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         }
     }
 
+    private void scaleReader(boolean isScale) {
+        if (isScale) {
+            // 缩放
+            ScaleAnimation animation = new ScaleAnimation(1 / 0.75f, 1, 1 / 0.75f,
+                    1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.4f);
+            animation.setDuration(DURATION);
+            myMainView.startAnimation(animation);
+            myMainView.setPreview(true);
+        } else {
+            // 缩放
+            ScaleAnimation scaleAnimation = new ScaleAnimation(1, 1 / 0.75f, 1,
+                    1 / 0.75f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.4f);
+            scaleAnimation.setDuration(DURATION + 100);
+            myMainView.startAnimation(scaleAnimation);
+            scaleAnimation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    myMainView.setPreview(false);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+        }
+    }
+
     /**
      * 关闭菜单
      */
@@ -1167,39 +1200,6 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 
         menuView.startAnimation(getMenuAnim(true));
         menuView.setVisibility(View.VISIBLE);
-    }
-
-    private void scaleReader(boolean isScale) {
-        if (isScale) {
-            // 缩放
-            ScaleAnimation animation = new ScaleAnimation(1 / 0.75f, 1, 1 / 0.75f,
-                    1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.4f);
-            animation.setDuration(DURATION);
-            myMainView.startAnimation(animation);
-            myMainView.setPreview(true);
-        } else {
-            // 缩放
-            ScaleAnimation scaleAnimation = new ScaleAnimation(1, 1 / 0.75f, 1,
-                    1 / 0.75f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.4f);
-            scaleAnimation.setDuration(DURATION + 100);
-            myMainView.startAnimation(scaleAnimation);
-            scaleAnimation.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    myMainView.setPreview(false);
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-        }
     }
 
     /**
@@ -1268,7 +1268,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             @Override
             public void onClick(View v) {
                 // 添加书签
-                getCollection().saveBookmark(myFBReaderApp.createBookmark(20, false));
+                getCollection().saveBookmark(myFBReaderApp.createBookmark(20, Bookmark.Type.BookMark));
                 Toast.makeText(FBReader.this, "书签已添加", Toast.LENGTH_SHORT).show();
             }
         });

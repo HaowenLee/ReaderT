@@ -385,7 +385,7 @@ class BookmarkSyncUtil {
 	private static abstract class ChangeRequest extends Request {
 		ChangeRequest(String action, Bookmark bookmark, String bookHash) {
 			super(action);
-			final Map<String,Object> bmk = new HashMap<String,Object>();
+			final Map<String,Object> bmk = new HashMap<>();
 			bmk.put("book_hash", bookHash);
 			bmk.put("uid", bookmark.Uid);
 			bmk.put("version_uid", bookmark.getVersionUid());
@@ -458,6 +458,7 @@ class BookmarkSyncUtil {
 			getInt(data, "para_start"), getInt(data, "elmt_start"), getInt(data, "char_start"),
 			getInt(data, "para_end"), getInt(data, "elmt_end"), getInt(data, "char_end"),
 			true,
+			getInt(data,"mark_type"),
 			getInt(data, "style_id")
 		);
 	}

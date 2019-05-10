@@ -191,7 +191,7 @@ public class ColorProfile {
                 SelectionCursorOption =
                         createOption(name, "SelectionCursorOption", 0, 131, 216);
                 HighlightingBackgroundOption =
-                        createOption(name, "Highlighting", 255, 192, 128);
+                        createOption(name, "Highlighting", 217, 237, 249);
                 HighlightingForegroundOption =
                         createNullOption(name, "HighlightingForeground");
                 RegularTextOption =

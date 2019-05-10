@@ -106,7 +106,7 @@ public class BookMarkFragment extends BaseFragment implements IBookCollection.Li
         new Thread(new Runnable() {
             public void run() {
                 synchronized (myBookmarksLock) {
-                    for (BookmarkQuery query = new BookmarkQuery(myBook, false, 50); ; query = query.next()) {
+                    for (BookmarkQuery query = new BookmarkQuery(myBook, Bookmark.Type.BookMark.ordinal(), 50); ; query = query.next()) {
                         final List<Bookmark> thisBookBookmarks = myCollection.bookmarks(query);
                         if (thisBookBookmarks.isEmpty()) {
                             break;
@@ -205,7 +205,7 @@ public class BookMarkFragment extends BaseFragment implements IBookCollection.Li
                         }
                     }
 
-                    for (BookmarkQuery query = new BookmarkQuery(book, false, 50); ; query = query.next()) {
+                    for (BookmarkQuery query = new BookmarkQuery(book, Bookmark.Type.BookMark.ordinal(), 50); ; query = query.next()) {
                         final List<Bookmark> loaded = myCollection.bookmarks(query);
                         if (loaded.isEmpty()) {
                             break;
