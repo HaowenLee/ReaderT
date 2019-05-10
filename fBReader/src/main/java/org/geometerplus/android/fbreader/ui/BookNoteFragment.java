@@ -47,7 +47,7 @@ public class BookNoteFragment extends BaseFragment implements IBookCollection.Li
 
     @Override
     protected int initLayoutRes() {
-        return R.layout.reader_book_label;
+        return R.layout.reader_fragment_book_mark_list;
     }
 
     private static final int OPEN_ITEM_ID = 0;
