@@ -1267,9 +1267,9 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         findViewById(R.id.book_mark).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 生成标签
-                getCollection().saveBookmark(myFBReaderApp.createBookmark(80, false));
-                Toast.makeText(FBReader.this, "标签添加", Toast.LENGTH_SHORT).show();
+                // 添加书签
+                getCollection().saveBookmark(myFBReaderApp.createBookmark(20, false));
+                Toast.makeText(FBReader.this, "书签已添加", Toast.LENGTH_SHORT).show();
             }
         });
 
