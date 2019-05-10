@@ -39,7 +39,7 @@
         android:gravity="center"
         android:lines="1"
         android:singleLine="true"
-        android:textColor="#ffcccccc"
+        android:textColor="#333333"
         android:textSize="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

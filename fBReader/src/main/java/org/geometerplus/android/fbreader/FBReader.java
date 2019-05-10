@@ -29,6 +29,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -38,6 +39,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -49,9 +51,11 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.geometerplus.android.fbreader.api.ApiListener;
@@ -68,6 +72,7 @@ import org.geometerplus.android.fbreader.tips.TipsActivity;
 import org.geometerplus.android.fbreader.ui.BookMarkFragment;
 import org.geometerplus.android.fbreader.ui.BookNoteFragment;
 import org.geometerplus.android.fbreader.ui.TOCFragment;
+import org.geometerplus.android.fbreader.util.AndroidImageSynchronizer;
 import org.geometerplus.android.fbreader.util.AnimationHelper;
 import org.geometerplus.android.fbreader.util.ScreenUtils;
 import org.geometerplus.android.fbreader.util.SizeUtils;
@@ -79,6 +84,7 @@ import org.geometerplus.fbreader.Paths;
 import org.geometerplus.fbreader.book.Book;
 import org.geometerplus.fbreader.book.BookUtil;
 import org.geometerplus.fbreader.book.Bookmark;
+import org.geometerplus.fbreader.book.CoverUtil;
 import org.geometerplus.fbreader.bookmodel.BookModel;
 import org.geometerplus.fbreader.bookmodel.TOCTree;
 import org.geometerplus.fbreader.fbreader.ActionCode;
@@ -92,6 +98,8 @@ import org.geometerplus.fbreader.formats.PluginCollection;
 import org.geometerplus.fbreader.tips.TipsManager;
 import org.geometerplus.zlibrary.core.application.ZLApplicationWindow;
 import org.geometerplus.zlibrary.core.filesystem.ZLFile;
+import org.geometerplus.zlibrary.core.image.ZLImage;
+import org.geometerplus.zlibrary.core.image.ZLImageProxy;
 import org.geometerplus.zlibrary.core.library.ZLibrary;
 import org.geometerplus.zlibrary.core.options.Config;
 import org.geometerplus.zlibrary.core.resources.ZLResource;
@@ -104,6 +112,8 @@ import org.geometerplus.zlibrary.text.view.ZLTextWord;
 import org.geometerplus.zlibrary.text.view.ZLTextWordCursor;
 import org.geometerplus.zlibrary.ui.android.R;
 import org.geometerplus.zlibrary.ui.android.error.ErrorKeys;
+import org.geometerplus.zlibrary.ui.android.image.ZLAndroidImageData;
+import org.geometerplus.zlibrary.ui.android.image.ZLAndroidImageManager;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidLibrary;
 import org.geometerplus.zlibrary.ui.android.view.AndroidFontUtil;
@@ -1125,6 +1135,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             AnimationHelper.closeTopMenu(findViewById(R.id.menuTop));
             AnimationHelper.closeBottomMenu(findViewById(R.id.menuMore));
         } else {
+            initBookInfoView();
             AnimationHelper.openTopMenu(findViewById(R.id.menuTop));
             AnimationHelper.openBottomMenu(findViewById(R.id.firstMenu));
             scaleReader(true);
@@ -1262,6 +1273,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         findViewById(R.id.ivMore).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                initMoreBookInfoView();
                 AnimationHelper.openBottomMenu(findViewById(R.id.menuMore));
                 AnimationHelper.closeBottomMenu(findViewById(R.id.firstMenu));
                 AnimationHelper.closeBottomMenu(findViewById(R.id.menuSetting));
@@ -1426,6 +1438,74 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                 Toast.makeText(FBReader.this, "敬请期待", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private final AndroidImageSynchronizer myImageSynchronizer = new AndroidImageSynchronizer(this);
+
+    /**
+     * 初始化点击more后的图书信息
+     */
+    private void initMoreBookInfoView() {
+        final Book book = myFBReaderApp.getCurrentBook();
+        final TextView tvBookName = findViewById(R.id.book_name);
+        tvBookName.setText(book.getTitle());
+        final TextView tvAuthor = findViewById(R.id.author);
+        tvAuthor.setText(book.authorsString(""));
+        final ImageView coverView = findViewById(R.id.book_img);
+        final PluginCollection pluginCollection =
+                PluginCollection.Instance(Paths.systemInfo(this));
+        final ZLImage image = CoverUtil.getCover(book, pluginCollection);
+
+        if (image == null) {
+            return;
+        }
+
+        if (image instanceof ZLImageProxy) {
+            ((ZLImageProxy) image).startSynchronization(myImageSynchronizer, new Runnable() {
+                public void run() {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            setCover(coverView, image);
+                        }
+                    });
+                }
+            });
+        } else {
+            setCover(coverView, image);
+        }
+    }
+
+    /**
+     * 设置封面
+     */
+    private void setCover(ImageView coverView, ZLImage image) {
+        final ZLAndroidImageData data =
+                ((ZLAndroidImageManager) ZLAndroidImageManager.Instance()).getImageData(image);
+        if (data == null) {
+            return;
+        }
+
+        final DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        final Bitmap coverBitmap = data.getBitmap((int) getResources().getDisplayMetrics().density * 56,
+                (int) getResources().getDisplayMetrics().density * 74);
+        if (coverBitmap == null) {
+            return;
+        }
+
+        coverView.setImageBitmap(coverBitmap);
+    }
+
+    /**
+     * 初始化书籍信息
+     */
+    private void initBookInfoView() {
+        Book book = myFBReaderApp.getCurrentBook();
+        String title = book.getTitle();
+
+        TextView tvTitle = findViewById(R.id.tvTitle);
+        tvTitle.setText(title);
     }
 
     public String getParagraphText(int paragraphIndex) {
