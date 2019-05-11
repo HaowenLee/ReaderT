@@ -43,6 +43,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import hugo.weaving.DebugLog;
+
 public abstract class ZLTextView extends ZLTextViewBase {
 
     public static final int SCROLLBAR_HIDE = 0;
@@ -1474,24 +1476,32 @@ public abstract class ZLTextView extends ZLTextViewBase {
         preparePaintInfo(myCurrentPage);
     }
 
+    /**
+     * 准备绘制信息
+     *
+     * @param page 页面
+     */
     private synchronized void preparePaintInfo(ZLTextPage page) {
+
         page.setSize(getTextColumnWidth(), getTextAreaHeight(), twoColumnView(), page == myPreviousPage);
 
         if (page.PaintState == PaintStateEnum.NOTHING_TO_PAINT || page.PaintState == PaintStateEnum.READY) {
             return;
         }
+
         final int oldState = page.PaintState;
 
-        final HashMap<ZLTextLineInfo, ZLTextLineInfo> cache = myLineInfoCache;
         for (ZLTextLineInfo info : page.LineInfos) {
-            cache.put(info, info);
+            myLineInfoCache.put(info, info);
         }
 
         switch (page.PaintState) {
             default:
                 break;
             case PaintStateEnum.TO_SCROLL_FORWARD:
+                // 滑动到下一页
                 if (!page.EndCursor.isEndOfText()) {
+                    // 起始游标
                     final ZLTextWordCursor startCursor = new ZLTextWordCursor();
                     switch (myScrollingMode) {
                         case ScrollingMode.NO_OVERLAPPING:
@@ -1579,7 +1589,7 @@ public abstract class ZLTextView extends ZLTextViewBase {
                 break;
         }
         page.PaintState = PaintStateEnum.READY;
-        // TODO: cache?
+
         myLineInfoCache.clear();
 
         if (page == myCurrentPage) {

@@ -55,6 +55,9 @@ import java.util.concurrent.Executors;
 
 public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLongClickListener {
 
+    /**
+     * 预加载线程
+     */
     public final ExecutorService PrepareService = Executors.newSingleThreadExecutor();
 
     private final Paint myPaint = new Paint();
@@ -404,6 +407,7 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
                                 ),
                                 view.isScrollbarShown() ? getVerticalScrollbarWidth() : 0
                         );
+                        // 准备下一页
                         view.preparePage(context, ZLView.PageIndex.next);
                     }
                 });
