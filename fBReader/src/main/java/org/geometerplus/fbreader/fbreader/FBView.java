@@ -89,6 +89,10 @@ public final class FBView extends ZLTextView {
     @Override
     public synchronized void onScrollingFinished(PageIndex pageIndex) {
         super.onScrollingFinished(pageIndex);
+        if (myReader.PageTurningOptions.Animation.getValue() == Animation.previewNone) {
+            // 恢复原来的动画
+            myReader.PageTurningOptions.Animation.setValue(Animation.previewShift);
+        }
         myReader.storePosition();
     }
 

@@ -80,6 +80,6 @@ public interface ZLViewEnums {
     }
 
     enum Animation {
-        none, curl, slide, slideOldStyle, shift, previewShift
+        none, curl, slide, slideOldStyle, shift, previewNone, previewShift
     }
 }

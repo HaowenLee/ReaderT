@@ -174,6 +174,7 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
             myAnimationType = type;
             switch (type) {
                 case none:
+                case previewNone:
                     myAnimationProvider = new NoneAnimationProvider(myBitmapManager);
                     break;
                 case curl:
