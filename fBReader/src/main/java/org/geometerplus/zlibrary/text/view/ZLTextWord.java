@@ -21,92 +21,108 @@ package org.geometerplus.zlibrary.text.view;
 
 import org.geometerplus.zlibrary.core.view.ZLPaintContext;
 
+/**
+ * 文本文字
+ */
 public final class ZLTextWord extends ZLTextElement {
-	public final char[] Data;
-	public final int Offset;
-	public final int Length;
-	private int myWidth = -1;
-	private Mark myMark;
-	private int myParagraphOffset;
 
-	class Mark {
-		public final int Start;
-		public final int Length;
-		private Mark myNext;
+    public final char[] Data;
+    public final int Offset;
+    public final int Length;
+    private int myWidth = -1;
+    private Mark myMark;
+    private int myParagraphOffset;
 
-		private Mark(int start, int length) {
-			Start = start;
-			Length = length;
-			myNext = null;
-		}
+    /**
+     * 标记
+     */
+    class Mark {
+        /**
+         * 起始
+         */
+        public final int Start;
+        /**
+         * c长度
+         */
+        public final int Length;
+        /**
+         * 下一个标记
+         */
+        private Mark myNext;
 
-		public Mark getNext() {
-			return myNext;
-		}
+        private Mark(int start, int length) {
+            Start = start;
+            Length = length;
+            myNext = null;
+        }
 
-		private void setNext(Mark mark) {
-			myNext = mark;
-		}
-	}
+        public Mark getNext() {
+            return myNext;
+        }
 
-	ZLTextWord(String word, int paragraphOffset) {
-		this(word.toCharArray(), 0, word.length(), paragraphOffset);
-	}
+        private void setNext(Mark mark) {
+            myNext = mark;
+        }
+    }
 
-	ZLTextWord(char[] data, int offset, int length, int paragraphOffset) {
-		Data = data;
-		Offset = offset;
-		Length = length;
-		myParagraphOffset = paragraphOffset;
-	}
+    ZLTextWord(String word, int paragraphOffset) {
+        this(word.toCharArray(), 0, word.length(), paragraphOffset);
+    }
 
-	public boolean isASpace() {
-		for (int i = Offset; i < Offset + Length; ++i) {
-			if (!Character.isWhitespace(Data[i])) {
-				return false;
-			}
-		}
-		return true;
-	}
+    ZLTextWord(char[] data, int offset, int length, int paragraphOffset) {
+        Data = data;
+        Offset = offset;
+        Length = length;
+        myParagraphOffset = paragraphOffset;
+    }
 
-	public Mark getMark() {
-		return myMark;
-	}
+    public boolean isASpace() {
+        for (int i = Offset; i < Offset + Length; ++i) {
+            if (!Character.isWhitespace(Data[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
 
-	public int getParagraphOffset() {
-		return myParagraphOffset;
-	}
+    public Mark getMark() {
+        return myMark;
+    }
 
-	public void addMark(int start, int length) {
-		Mark existingMark = myMark;
-		Mark mark = new Mark(start, length);
-		if ((existingMark == null) || (existingMark.Start > start)) {
-			mark.setNext(existingMark);
-			myMark = mark;
-		} else {
-			while ((existingMark.getNext() != null) && (existingMark.getNext().Start < start)) {
-				existingMark = existingMark.getNext();
-			}
-			mark.setNext(existingMark.getNext());
-			existingMark.setNext(mark);
-		}
-	}
+    public int getParagraphOffset() {
+        return myParagraphOffset;
+    }
 
-	public int getWidth(ZLPaintContext context) {
-		int width = myWidth;
-		if (width <= 1) {
-			width = context.getStringWidth(Data, Offset, Length);
-			myWidth = width;
-		}
-		return width;
-	}
+    public void addMark(int start, int length) {
+        Mark existingMark = myMark;
+        Mark mark = new Mark(start, length);
+        if ((existingMark == null) || (existingMark.Start > start)) {
+            mark.setNext(existingMark);
+            myMark = mark;
+        } else {
+            while ((existingMark.getNext() != null) && (existingMark.getNext().Start < start)) {
+                existingMark = existingMark.getNext();
+            }
+            mark.setNext(existingMark.getNext());
+            existingMark.setNext(mark);
+        }
+    }
 
-	@Override
-	public String toString() {
-		return getString();
-	}
+    public int getWidth(ZLPaintContext context) {
+        int width = myWidth;
+        if (width <= 1) {
+            width = context.getStringWidth(Data, Offset, Length);
+            myWidth = width;
+        }
+        return width;
+    }
 
-	public String getString() {
-		return new String(Data, Offset, Length);
-	}
+    @Override
+    public String toString() {
+        return getString();
+    }
+
+    public String getString() {
+        return new String(Data, Offset, Length);
+    }
 }

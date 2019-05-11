@@ -32,341 +32,381 @@ import org.geometerplus.zlibrary.text.view.style.*;
 
 abstract class ZLTextViewBase extends ZLView {
 
-	public enum ImageFitting {
-		none, covers, all
-	}
+    public enum ImageFitting {
+        none, covers, all
+    }
 
-	private ZLTextStyle myTextStyle;
-	private int myWordHeight = -1;
-	private ZLTextMetrics myMetrics;
+    private ZLTextStyle myTextStyle;
+    private int myWordHeight = -1;
+    private ZLTextMetrics myMetrics;
 
-	ZLTextViewBase(ZLApplication application) {
-		super(application);
-	}
+    ZLTextViewBase(ZLApplication application) {
+        super(application);
+    }
 
-	private int myMaxSelectionDistance = 0;
-	protected final int maxSelectionDistance() {
-		if (myMaxSelectionDistance == 0) {
-			myMaxSelectionDistance = ZLibrary.Instance().getDisplayDPI() / 20;
-		}
-		return myMaxSelectionDistance;
-	}
+    private int myMaxSelectionDistance = 0;
 
-	protected void resetMetrics() {
-		myMetrics = null;
-	}
+    protected final int maxSelectionDistance() {
+        if (myMaxSelectionDistance == 0) {
+            myMaxSelectionDistance = ZLibrary.Instance().getDisplayDPI() / 20;
+        }
+        return myMaxSelectionDistance;
+    }
 
-	protected ZLTextMetrics metrics() {
-		// this local variable is used to guarantee null will not
-		// be returned from this method enen in multi-thread environment
-		ZLTextMetrics m = myMetrics;
-		if (m == null) {
-			m = new ZLTextMetrics(
-				ZLibrary.Instance().getDisplayDPI(),
-				// TODO: screen area width
-				100,
-				// TODO: screen area height
-				100,
-				getTextStyleCollection().getBaseStyle().getFontSize()
-			);
-			myMetrics = m;
-		}
-		return m;
-	}
+    protected void resetMetrics() {
+        myMetrics = null;
+    }
 
-	final int getWordHeight() {
-		if (myWordHeight == -1) {
-			final ZLTextStyle textStyle = myTextStyle;
-			myWordHeight = getContext().getStringHeight() * textStyle.getLineSpacePercent() / 100 + textStyle.getVerticalAlign(metrics());
-		}
-		return myWordHeight;
-	}
+    protected ZLTextMetrics metrics() {
+        // this local variable is used to guarantee null will not
+        // be returned from this method enen in multi-thread environment
+        ZLTextMetrics m = myMetrics;
+        if (m == null) {
+            m = new ZLTextMetrics(
+                    ZLibrary.Instance().getDisplayDPI(),
+                    // TODO: screen area width
+                    100,
+                    // TODO: screen area height
+                    100,
+                    getTextStyleCollection().getBaseStyle().getFontSize()
+            );
+            myMetrics = m;
+        }
+        return m;
+    }
 
-	public abstract ZLTextStyleCollection getTextStyleCollection();
+    final int getWordHeight() {
+        if (myWordHeight == -1) {
+            final ZLTextStyle textStyle = myTextStyle;
+            myWordHeight = getContext().getStringHeight() * textStyle.getLineSpacePercent() / 100 + textStyle.getVerticalAlign(metrics());
+        }
+        return myWordHeight;
+    }
 
-	public abstract ImageFitting getImageFitting();
+    public abstract ZLTextStyleCollection getTextStyleCollection();
 
-	public abstract int getLeftMargin();
-	public abstract int getRightMargin();
-	public abstract int getTopMargin();
-	public abstract int getBottomMargin();
-	public abstract int getSpaceBetweenColumns();
+    public abstract ImageFitting getImageFitting();
 
-	public abstract boolean twoColumnView();
+    public abstract int getLeftMargin();
 
-	public abstract ZLFile getWallpaperFile();
-	public abstract ZLPaintContext.FillMode getFillMode();
-	public abstract ZLColor getBackgroundColor();
-	public abstract ZLColor getSelectionBackgroundColor();
-	public abstract ZLColor getSelectionCursorColor();
-	public abstract ZLColor getSelectionForegroundColor();
-	public abstract ZLColor getHighlightingBackgroundColor();
-	public abstract ZLColor getHighlightingForegroundColor();
-	public abstract ZLColor getTextColor(ZLTextHyperlink hyperlink);
+    public abstract int getRightMargin();
 
-	ZLPaintContext.Size getTextAreaSize() {
-		return new ZLPaintContext.Size(getTextColumnWidth(), getTextAreaHeight());
-	}
+    public abstract int getTopMargin();
 
-	int getTextAreaHeight() {
-		return getContextHeight() - getTopMargin() - getBottomMargin();
-	}
+    public abstract int getBottomMargin();
 
-	protected int getColumnIndex(int x) {
-		if (!twoColumnView()) {
-			return -1;
-		}
-		return 2 * x <= getContextWidth() + getLeftMargin() - getRightMargin() ? 0 : 1;
-	}
+    public abstract int getSpaceBetweenColumns();
 
-	public int getTextColumnWidth() {
-		return twoColumnView()
-			? (getContextWidth() - getLeftMargin() - getSpaceBetweenColumns() - getRightMargin()) / 2
-			: getContextWidth() - getLeftMargin() - getRightMargin();
-	}
+    public abstract boolean twoColumnView();
 
-	final ZLTextStyle getTextStyle() {
-		if (myTextStyle == null) {
-			resetTextStyle();
-		}
-		return myTextStyle;
-	}
+    public abstract ZLFile getWallpaperFile();
 
-	final void setTextStyle(ZLTextStyle style) {
-		if (myTextStyle != style) {
-			myTextStyle = style;
-			myWordHeight = -1;
-		}
-		getContext().setFont(style.getFontEntries(), style.getFontSize(metrics()), style.isBold(), style.isItalic(), style.isUnderline(), style.isStrikeThrough());
-	}
+    public abstract ZLPaintContext.FillMode getFillMode();
 
-	final void resetTextStyle() {
-		setTextStyle(getTextStyleCollection().getBaseStyle());
-	}
+    public abstract ZLColor getBackgroundColor();
 
-	boolean isStyleChangeElement(ZLTextElement element) {
-		return
-			element == ZLTextElement.StyleClose ||
-			element instanceof ZLTextStyleElement ||
-			element instanceof ZLTextControlElement;
-	}
+    public abstract ZLColor getSelectionBackgroundColor();
 
-	void applyStyleChangeElement(ZLTextElement element) {
-		if (element == ZLTextElement.StyleClose) {
-			applyStyleClose();
-		} else if (element instanceof ZLTextStyleElement) {
-			applyStyle((ZLTextStyleElement)element);
-		} else if (element instanceof ZLTextControlElement) {
-			applyControl((ZLTextControlElement)element);
-		}
-	}
+    public abstract ZLColor getSelectionCursorColor();
 
-	void applyStyleChanges(ZLTextParagraphCursor cursor, int index, int end) {
-		for (; index != end; ++index) {
-			applyStyleChangeElement(cursor.getElement(index));
-		}
-	}
+    public abstract ZLColor getSelectionForegroundColor();
 
-	private void applyControl(ZLTextControlElement control) {
-		if (control.IsStart) {
-			final ZLTextHyperlink hyperlink = control instanceof ZLTextHyperlinkControlElement
-				? ((ZLTextHyperlinkControlElement)control).Hyperlink : null;
-			final ZLTextNGStyleDescription description =
-				getTextStyleCollection().getDescription(control.Kind);
-			if (description != null) {
-				setTextStyle(new ZLTextNGStyle(myTextStyle, description, hyperlink));
-			}
-		} else {
-			setTextStyle(myTextStyle.Parent);
-		}
-	}
+    public abstract ZLColor getHighlightingBackgroundColor();
 
-	private void applyStyle(ZLTextStyleElement element) {
-		setTextStyle(new ZLTextExplicitlyDecoratedStyle(myTextStyle, element.Entry));
-	}
+    public abstract ZLColor getHighlightingForegroundColor();
 
-	private void applyStyleClose() {
-		setTextStyle(myTextStyle.Parent);
-	}
+    public abstract ZLColor getTextColor(ZLTextHyperlink hyperlink);
 
-	protected final ZLPaintContext.ScalingType getScalingType(ZLTextImageElement imageElement) {
-		switch (getImageFitting()) {
-			default:
-			case none:
-				return ZLPaintContext.ScalingType.IntegerCoefficient;
-			case covers:
-				return imageElement.IsCover
-					? ZLPaintContext.ScalingType.FitMaximum
-					: ZLPaintContext.ScalingType.IntegerCoefficient;
-			case all:
-				return ZLPaintContext.ScalingType.FitMaximum;
-		}
-	}
+    ZLPaintContext.Size getTextAreaSize() {
+        return new ZLPaintContext.Size(getTextColumnWidth(), getTextAreaHeight());
+    }
 
-	final int getElementWidth(ZLTextElement element, int charIndex) {
-		if (element instanceof ZLTextWord) {
-			return getWordWidth((ZLTextWord)element, charIndex);
-		} else if (element instanceof ZLTextImageElement) {
-			final ZLTextImageElement imageElement = (ZLTextImageElement)element;
-			final ZLPaintContext.Size size = getContext().imageSize(
-				imageElement.ImageData,
-				getTextAreaSize(),
-				getScalingType(imageElement)
-			);
-			return size != null ? size.Width : 0;
-		} else if (element instanceof ZLTextVideoElement) {
-			return Math.min(300, getTextColumnWidth());
-		} else if (element instanceof ExtensionElement) {
-			return ((ExtensionElement)element).getWidth();
-		} else if (element == ZLTextElement.NBSpace) {
-			return getContext().getSpaceWidth();
-		} else if (element == ZLTextElement.Indent) {
-			return myTextStyle.getFirstLineIndent(metrics());
-		} else if (element instanceof ZLTextFixedHSpaceElement) {
-			return getContext().getSpaceWidth() * ((ZLTextFixedHSpaceElement)element).Length;
-		}
-		return 0;
-	}
+    int getTextAreaHeight() {
+        return getContextHeight() - getTopMargin() - getBottomMargin();
+    }
 
-	final int getElementHeight(ZLTextElement element) {
-		if (element == ZLTextElement.NBSpace ||
-			element instanceof ZLTextWord ||
-			element instanceof ZLTextFixedHSpaceElement) {
-			return getWordHeight();
-		} else if (element instanceof ZLTextImageElement) {
-			final ZLTextImageElement imageElement = (ZLTextImageElement)element;
-			final ZLPaintContext.Size size = getContext().imageSize(
-				imageElement.ImageData,
-				getTextAreaSize(),
-				getScalingType(imageElement)
-			);
-			return (size != null ? size.Height : 0) +
-				Math.max(getContext().getStringHeight() * (myTextStyle.getLineSpacePercent() - 100) / 100, 3);
-		} else if (element instanceof ZLTextVideoElement) {
-			return Math.min(Math.min(200, getTextAreaHeight()), getTextColumnWidth() * 2 / 3);
-		} else if (element instanceof ExtensionElement) {
-			return ((ExtensionElement)element).getHeight();
-		}
-		return 0;
-	}
+    protected int getColumnIndex(int x) {
+        if (!twoColumnView()) {
+            return -1;
+        }
+        return 2 * x <= getContextWidth() + getLeftMargin() - getRightMargin() ? 0 : 1;
+    }
 
-	final int getElementDescent(ZLTextElement element) {
-		return element instanceof ZLTextWord ? getContext().getDescent() : 0;
-	}
+    public int getTextColumnWidth() {
+        return twoColumnView()
+                ? (getContextWidth() - getLeftMargin() - getSpaceBetweenColumns() - getRightMargin()) / 2
+                : getContextWidth() - getLeftMargin() - getRightMargin();
+    }
 
-	final int getWordWidth(ZLTextWord word, int start) {
-		return
-			start == 0 ?
-				word.getWidth(getContext()) :
-				getContext().getStringWidth(word.Data, word.Offset + start, word.Length - start);
-	}
+    final ZLTextStyle getTextStyle() {
+        if (myTextStyle == null) {
+            resetTextStyle();
+        }
+        return myTextStyle;
+    }
 
-	final int getWordWidth(ZLTextWord word, int start, int length) {
-		return getContext().getStringWidth(word.Data, word.Offset + start, length);
-	}
+    final void setTextStyle(ZLTextStyle style) {
+        if (myTextStyle != style) {
+            myTextStyle = style;
+            myWordHeight = -1;
+        }
+        getContext().setFont(style.getFontEntries(), style.getFontSize(metrics()), style.isBold(), style.isItalic(), style.isUnderline(), style.isStrikeThrough());
+    }
 
-	private char[] myWordPartArray = new char[20];
+    final void resetTextStyle() {
+        setTextStyle(getTextStyleCollection().getBaseStyle());
+    }
 
-	final int getWordWidth(ZLTextWord word, int start, int length, boolean addHyphenationSign) {
-		if (length == -1) {
-			if (start == 0) {
-				return word.getWidth(getContext());
-			}
-			length = word.Length - start;
-		}
-		if (!addHyphenationSign) {
-			return getContext().getStringWidth(word.Data, word.Offset + start, length);
-		}
-		char[] part = myWordPartArray;
-		if (length + 1 > part.length) {
-			part = new char[length + 1];
-			myWordPartArray = part;
-		}
-		System.arraycopy(word.Data, word.Offset + start, part, 0, length);
-		part[length] = '-';
-		return getContext().getStringWidth(part, 0, length + 1);
-	}
+    boolean isStyleChangeElement(ZLTextElement element) {
+        return
+                element == ZLTextElement.StyleClose ||
+                        element instanceof ZLTextStyleElement ||
+                        element instanceof ZLTextControlElement;
+    }
 
-	int getAreaLength(ZLTextParagraphCursor paragraph, ZLTextElementArea area, int toCharIndex) {
-		setTextStyle(area.Style);
-		final ZLTextWord word = (ZLTextWord)paragraph.getElement(area.ElementIndex);
-		int length = toCharIndex - area.CharIndex;
-		boolean selectHyphenationSign = false;
-		if (length >= area.Length) {
-			selectHyphenationSign = area.AddHyphenationSign;
-			length = area.Length;
-		}
-		if (length > 0) {
-			return getWordWidth(word, area.CharIndex, length, selectHyphenationSign);
-		}
-		return 0;
-	}
+    void applyStyleChangeElement(ZLTextElement element) {
+        if (element == ZLTextElement.StyleClose) {
+            applyStyleClose();
+        } else if (element instanceof ZLTextStyleElement) {
+            applyStyle((ZLTextStyleElement) element);
+        } else if (element instanceof ZLTextControlElement) {
+            applyControl((ZLTextControlElement) element);
+        }
+    }
 
-	final void drawWord(int x, int y, ZLTextWord word, int start, int length, boolean addHyphenationSign, ZLColor color) {
-		final ZLPaintContext context = getContext();
-		if (start == 0 && length == -1) {
-			drawString(context, x, y, word.Data, word.Offset, word.Length, word.getMark(), color, 0);
-		} else {
-			if (length == -1) {
-				length = word.Length - start;
-			}
-			if (!addHyphenationSign) {
-				drawString(context, x, y, word.Data, word.Offset + start, length, word.getMark(), color, start);
-			} else {
-				char[] part = myWordPartArray;
-				if (length + 1 > part.length) {
-					part = new char[length + 1];
-					myWordPartArray = part;
-				}
-				System.arraycopy(word.Data, word.Offset + start, part, 0, length);
-				part[length] = '-';
-				drawString(context, x, y, part, 0, length + 1, word.getMark(), color, start);
-			}
-		}
-	}
+    void applyStyleChanges(ZLTextParagraphCursor cursor, int index, int end) {
+        for (; index != end; ++index) {
+            applyStyleChangeElement(cursor.getElement(index));
+        }
+    }
 
-	private final void drawString(ZLPaintContext context, int x, int y, char[] str, int offset, int length, ZLTextWord.Mark mark, ZLColor color, int shift) {
-		if (mark == null) {
-			context.setTextColor(color);
-			context.drawString(x, y, str, offset, length);
-		} else {
-			int pos = 0;
-			for (; (mark != null) && (pos < length); mark = mark.getNext()) {
-				int markStart = mark.Start - shift;
-				int markLen = mark.Length;
+    private void applyControl(ZLTextControlElement control) {
+        if (control.IsStart) {
+            final ZLTextHyperlink hyperlink = control instanceof ZLTextHyperlinkControlElement
+                    ? ((ZLTextHyperlinkControlElement) control).Hyperlink : null;
+            final ZLTextNGStyleDescription description =
+                    getTextStyleCollection().getDescription(control.Kind);
+            if (description != null) {
+                setTextStyle(new ZLTextNGStyle(myTextStyle, description, hyperlink));
+            }
+        } else {
+            setTextStyle(myTextStyle.Parent);
+        }
+    }
 
-				if (markStart < pos) {
-					markLen += markStart - pos;
-					markStart = pos;
-				}
+    private void applyStyle(ZLTextStyleElement element) {
+        setTextStyle(new ZLTextExplicitlyDecoratedStyle(myTextStyle, element.Entry));
+    }
 
-				if (markLen <= 0) {
-					continue;
-				}
+    private void applyStyleClose() {
+        setTextStyle(myTextStyle.Parent);
+    }
 
-				if (markStart > pos) {
-					int endPos = Math.min(markStart, length);
-					context.setTextColor(color);
-					context.drawString(x, y, str, offset + pos, endPos - pos);
-					x += context.getStringWidth(str, offset + pos, endPos - pos);
-				}
+    protected final ZLPaintContext.ScalingType getScalingType(ZLTextImageElement imageElement) {
+        switch (getImageFitting()) {
+            default:
+            case none:
+                return ZLPaintContext.ScalingType.IntegerCoefficient;
+            case covers:
+                return imageElement.IsCover
+                        ? ZLPaintContext.ScalingType.FitMaximum
+                        : ZLPaintContext.ScalingType.IntegerCoefficient;
+            case all:
+                return ZLPaintContext.ScalingType.FitMaximum;
+        }
+    }
 
-				if (markStart < length) {
-					context.setFillColor(getHighlightingBackgroundColor());
-					int endPos = Math.min(markStart + markLen, length);
-					final int endX = x + context.getStringWidth(str, offset + markStart, endPos - markStart);
-					context.fillRectangle(x, y - context.getStringHeight(), endX - 1, y + context.getDescent());
-					context.setTextColor(getHighlightingForegroundColor());
-					context.drawString(x, y, str, offset + markStart, endPos - markStart);
-					x = endX;
-				}
-				pos = markStart + markLen;
-			}
+    final int getElementWidth(ZLTextElement element, int charIndex) {
+        if (element instanceof ZLTextWord) {
+            return getWordWidth((ZLTextWord) element, charIndex);
+        } else if (element instanceof ZLTextImageElement) {
+            final ZLTextImageElement imageElement = (ZLTextImageElement) element;
+            final ZLPaintContext.Size size = getContext().imageSize(
+                    imageElement.ImageData,
+                    getTextAreaSize(),
+                    getScalingType(imageElement)
+            );
+            return size != null ? size.Width : 0;
+        } else if (element instanceof ZLTextVideoElement) {
+            return Math.min(300, getTextColumnWidth());
+        } else if (element instanceof ExtensionElement) {
+            return ((ExtensionElement) element).getWidth();
+        } else if (element == ZLTextElement.NBSpace) {
+            return getContext().getSpaceWidth();
+        } else if (element == ZLTextElement.Indent) {
+            return myTextStyle.getFirstLineIndent(metrics());
+        } else if (element instanceof ZLTextFixedHSpaceElement) {
+            return getContext().getSpaceWidth() * ((ZLTextFixedHSpaceElement) element).Length;
+        }
+        return 0;
+    }
 
-			if (pos < length) {
-				context.setTextColor(color);
-				context.drawString(x, y, str, offset + pos, length - pos);
-			}
-		}
-	}
+    final int getElementHeight(ZLTextElement element) {
+        if (element == ZLTextElement.NBSpace ||
+                element instanceof ZLTextWord ||
+                element instanceof ZLTextFixedHSpaceElement) {
+            return getWordHeight();
+        } else if (element instanceof ZLTextImageElement) {
+            final ZLTextImageElement imageElement = (ZLTextImageElement) element;
+            final ZLPaintContext.Size size = getContext().imageSize(
+                    imageElement.ImageData,
+                    getTextAreaSize(),
+                    getScalingType(imageElement)
+            );
+            return (size != null ? size.Height : 0) +
+                    Math.max(getContext().getStringHeight() * (myTextStyle.getLineSpacePercent() - 100) / 100, 3);
+        } else if (element instanceof ZLTextVideoElement) {
+            return Math.min(Math.min(200, getTextAreaHeight()), getTextColumnWidth() * 2 / 3);
+        } else if (element instanceof ExtensionElement) {
+            return ((ExtensionElement) element).getHeight();
+        }
+        return 0;
+    }
+
+    final int getElementDescent(ZLTextElement element) {
+        return element instanceof ZLTextWord ? getContext().getDescent() : 0;
+    }
+
+    final int getWordWidth(ZLTextWord word, int start) {
+        return
+                start == 0 ?
+                        word.getWidth(getContext()) :
+                        getContext().getStringWidth(word.Data, word.Offset + start, word.Length - start);
+    }
+
+    final int getWordWidth(ZLTextWord word, int start, int length) {
+        return getContext().getStringWidth(word.Data, word.Offset + start, length);
+    }
+
+    private char[] myWordPartArray = new char[20];
+
+    final int getWordWidth(ZLTextWord word, int start, int length, boolean addHyphenationSign) {
+        if (length == -1) {
+            if (start == 0) {
+                return word.getWidth(getContext());
+            }
+            length = word.Length - start;
+        }
+        if (!addHyphenationSign) {
+            return getContext().getStringWidth(word.Data, word.Offset + start, length);
+        }
+        char[] part = myWordPartArray;
+        if (length + 1 > part.length) {
+            part = new char[length + 1];
+            myWordPartArray = part;
+        }
+        System.arraycopy(word.Data, word.Offset + start, part, 0, length);
+        part[length] = '-';
+        return getContext().getStringWidth(part, 0, length + 1);
+    }
+
+    int getAreaLength(ZLTextParagraphCursor paragraph, ZLTextElementArea area, int toCharIndex) {
+        setTextStyle(area.Style);
+        final ZLTextWord word = (ZLTextWord) paragraph.getElement(area.ElementIndex);
+        int length = toCharIndex - area.CharIndex;
+        boolean selectHyphenationSign = false;
+        if (length >= area.Length) {
+            selectHyphenationSign = area.AddHyphenationSign;
+            length = area.Length;
+        }
+        if (length > 0) {
+            return getWordWidth(word, area.CharIndex, length, selectHyphenationSign);
+        }
+        return 0;
+    }
+
+    /**
+     * 绘制文字
+     *
+     * @param x                  X坐标
+     * @param y                  Y坐标
+     * @param word               文字
+     * @param start              字符起始索引
+     * @param length             长度
+     * @param addHyphenationSign 是否断字连接
+     * @param color              高亮颜色
+     */
+    final void drawWord(int x, int y, ZLTextWord word, int start, int length, boolean addHyphenationSign, ZLColor color) {
+        final ZLPaintContext context = getContext();
+        if (start == 0 && length == -1) { // 绘制整个
+            drawString(context, x, y, word.Data, word.Offset, word.Length, word.getMark(), color, 0);
+        } else {
+            if (length == -1) {
+                length = word.Length - start;
+            }
+            if (!addHyphenationSign) { // 无断字连接
+                drawString(context, x, y, word.Data, word.Offset + start, length, word.getMark(), color, start);
+            } else { // 有断字连接
+                char[] part = myWordPartArray;
+                if (length + 1 > part.length) {
+                    part = new char[length + 1];
+                    myWordPartArray = part;
+                }
+                // 添加断字连接符
+                System.arraycopy(word.Data, word.Offset + start, part, 0, length);
+                part[length] = '-';
+                drawString(context, x, y, part, 0, length + 1, word.getMark(), color, start);
+            }
+        }
+    }
+
+    /**
+     * 绘制字符串
+     *
+     * @param context 画笔上下文
+     * @param x       X坐标
+     * @param y       Y坐标
+     * @param str     字符串
+     * @param offset  位移
+     * @param length  长度
+     * @param mark    标记信息
+     * @param color   高亮前景色
+     * @param shift   变换
+     */
+    private void drawString(ZLPaintContext context, int x, int y, char[] str, int offset, int length, ZLTextWord.Mark mark, ZLColor color, int shift) {
+        if (mark == null) { // 无标记
+            context.setTextColor(color);
+            context.drawString(x, y, str, offset, length);
+        } else { // 有标记
+            int pos = 0;
+            for (; (mark != null) && (pos < length); mark = mark.getNext()) {
+                // 标记的起始
+                int markStart = mark.Start - shift;
+                // 标记的长度
+                int markLen = mark.Length;
+
+                if (markStart < pos) {
+                    markLen += markStart - pos;
+                    markStart = pos;
+                }
+
+                if (markLen <= 0) {
+                    continue;
+                }
+
+                if (markStart > pos) {
+                    int endPos = Math.min(markStart, length);
+                    context.setTextColor(color);
+                    context.drawString(x, y, str, offset + pos, endPos - pos);
+                    x += context.getStringWidth(str, offset + pos, endPos - pos);
+                }
+
+                if (markStart < length) {
+                    context.setFillColor(getHighlightingBackgroundColor());
+                    int endPos = Math.min(markStart + markLen, length);
+                    final int endX = x + context.getStringWidth(str, offset + markStart, endPos - markStart);
+                    context.fillRectangle(x, y - context.getStringHeight(), endX - 1, y + context.getDescent());
+                    context.setTextColor(getHighlightingForegroundColor());
+                    context.drawString(x, y, str, offset + markStart, endPos - markStart);
+                    x = endX;
+                }
+                pos = markStart + markLen;
+            }
+
+            if (pos < length) {
+                context.setTextColor(color);
+                context.drawString(x, y, str, offset + pos, length - pos);
+            }
+        }
+    }
 }

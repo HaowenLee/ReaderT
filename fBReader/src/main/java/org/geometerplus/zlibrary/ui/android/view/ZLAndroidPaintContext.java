@@ -44,6 +44,8 @@ import org.geometerplus.zlibrary.ui.android.util.ZLAndroidColorUtil;
 
 import java.util.List;
 
+import hugo.weaving.DebugLog;
+
 public final class ZLAndroidPaintContext extends ZLPaintContext {
 
     public static ZLBooleanOption AntiAliasOption = new ZLBooleanOption("Fonts", "AntiAlias", true);

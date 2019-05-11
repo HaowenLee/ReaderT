@@ -43,8 +43,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import hugo.weaving.DebugLog;
-
 public abstract class ZLTextView extends ZLTextViewBase {
 
     public static final int SCROLLBAR_HIDE = 0;
@@ -891,7 +889,16 @@ public abstract class ZLTextView extends ZLTextViewBase {
 
     protected abstract ZLPaintContext.ColorAdjustingMode getAdjustingModeForImages();
 
-    private void drawTextLine(ZLTextPage page, List<ZLTextHighlighting> hilites, ZLTextLineInfo info, int from, int to) {
+    /**
+     * 绘制文本行
+     *
+     * @param page             页面
+     * @param highlightingList 高亮列表
+     * @param info             文本行信息
+     * @param from             起始索引
+     * @param to               结束索引
+     */
+    private void drawTextLine(ZLTextPage page, List<ZLTextHighlighting> highlightingList, ZLTextLineInfo info, int from, int to) {
         final ZLPaintContext context = getContext();
         final ZLTextParagraphCursor paragraph = info.ParagraphCursor;
         int index = from;
@@ -909,13 +916,19 @@ public abstract class ZLTextView extends ZLTextViewBase {
                 if (area.ChangeStyle) {
                     setTextStyle(area.Style);
                 }
+                // 起始X坐标
                 final int areaX = area.XStart;
+                // 起始Y坐标
                 final int areaY = area.YEnd - getElementDescent(element) - getTextStyle().getVerticalAlign(metrics());
-                if (element instanceof ZLTextWord) {
-                    final ZLTextPosition pos =
-                            new ZLTextFixedPosition(info.ParagraphCursor.Index, wordIndex, 0);
-                    final ZLTextHighlighting hl = getWordHilite(pos, hilites);
+                // 根据元素类型处理
+                if (element instanceof ZLTextWord) { // 文本文字
+                    // 文本位置信息
+                    final ZLTextPosition pos = new ZLTextFixedPosition(info.ParagraphCursor.Index, wordIndex, 0);
+                    // 文本高亮信息
+                    final ZLTextHighlighting hl = getWordHighlighting(pos, highlightingList);
+                    // 高亮前景色
                     final ZLColor hlColor = hl != null ? hl.getForegroundColor() : null;
+                    // 绘制文字
                     drawWord(
                             areaX, areaY, (ZLTextWord) element, charIndex, -1, false,
                             hlColor != null ? hlColor : getTextColor(getTextStyle().Hyperlink)
@@ -930,7 +943,6 @@ public abstract class ZLTextView extends ZLTextViewBase {
                             getAdjustingModeForImages()
                     );
                 } else if (element instanceof ZLTextVideoElement) {
-                    // TODO: draw
                     context.setLineColor(getTextColor(ZLTextHyperlink.NO_LINK));
                     context.setFillColor(new ZLColor(127, 127, 127));
                     final int xStart = area.XStart + 10;
@@ -970,7 +982,7 @@ public abstract class ZLTextView extends ZLTextViewBase {
             final ZLTextWord word = (ZLTextWord) paragraph.getElement(info.EndElementIndex);
             final ZLTextPosition pos =
                     new ZLTextFixedPosition(info.ParagraphCursor.Index, info.EndElementIndex, 0);
-            final ZLTextHighlighting hl = getWordHilite(pos, hilites);
+            final ZLTextHighlighting hl = getWordHighlighting(pos, highlightingList);
             final ZLColor hlColor = hl != null ? hl.getForegroundColor() : null;
             drawWord(
                     area.XStart, area.YEnd - context.getDescent() - getTextStyle().getVerticalAlign(metrics()),
@@ -980,10 +992,17 @@ public abstract class ZLTextView extends ZLTextViewBase {
         }
     }
 
-    private ZLTextHighlighting getWordHilite(ZLTextPosition pos, List<ZLTextHighlighting> hilites) {
-        for (ZLTextHighlighting h : hilites) {
-            if (h.getStartPosition().compareToIgnoreChar(pos) <= 0
-                    && pos.compareToIgnoreChar(h.getEndPosition()) <= 0) {
+    /**
+     * 获取文字高亮
+     *
+     * @param pos              位置信息
+     * @param highlightingList 高亮列表
+     * @return 文字高亮信息
+     */
+    private ZLTextHighlighting getWordHighlighting(ZLTextPosition pos, List<ZLTextHighlighting> highlightingList) {
+        for (ZLTextHighlighting h : highlightingList) {
+            // 如果文本位置在高亮列表的位置里，返回该高亮信息
+            if (h.getStartPosition().compareToIgnoreChar(pos) <= 0 && pos.compareToIgnoreChar(h.getEndPosition()) <= 0) {
                 return h;
             }
         }
@@ -1309,6 +1328,7 @@ public abstract class ZLTextView extends ZLTextViewBase {
     }
 
     private void prepareTextLine(ZLTextPage page, ZLTextLineInfo info, int x, int y, int columnIndex) {
+
         y = Math.min(y + info.Height, getTopMargin() + page.getTextHeight() - 1);
 
         final ZLPaintContext context = getContext();
