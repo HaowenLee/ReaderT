@@ -22,7 +22,6 @@ package org.geometerplus.fbreader.fbreader;
 import java.util.*;
 
 import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import org.geometerplus.zlibrary.core.filesystem.ZLFile;

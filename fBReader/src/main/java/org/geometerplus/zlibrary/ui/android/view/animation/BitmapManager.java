@@ -23,6 +23,9 @@ import android.graphics.*;
 
 import org.geometerplus.zlibrary.core.view.ZLViewEnums;
 
+/**
+ * Bitmap管理（绘制后的图）
+ */
 public interface BitmapManager {
 
     Bitmap getBitmap(ZLViewEnums.PageIndex index);

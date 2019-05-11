@@ -19,8 +19,6 @@
 
 package org.geometerplus.zlibrary.text.view;
 
-import android.widget.Scroller;
-
 import org.geometerplus.zlibrary.core.util.ZLColor;
 import org.geometerplus.zlibrary.core.view.SelectionCursor;
 

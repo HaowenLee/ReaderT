@@ -1,7 +1,6 @@
 package org.geometerplus.android.fbreader.view;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;

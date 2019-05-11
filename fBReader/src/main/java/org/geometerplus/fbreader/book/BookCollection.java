@@ -19,8 +19,6 @@
 
 package org.geometerplus.fbreader.book;
 
-import com.facebook.stetho.common.LogUtil;
-
 import java.io.File;
 import java.util.*;
 

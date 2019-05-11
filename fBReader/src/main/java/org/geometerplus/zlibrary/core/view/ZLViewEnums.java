@@ -22,6 +22,7 @@ package org.geometerplus.zlibrary.core.view;
 public interface ZLViewEnums {
     
     enum PageIndex {
+
         previous, current, next;
 
         public PageIndex getNext() {

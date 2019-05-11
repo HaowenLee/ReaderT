@@ -19,15 +19,23 @@
 
 package org.geometerplus.zlibrary.ui.android.view;
 
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 
 import org.geometerplus.android.fbreader.constant.PreviewConfig;
 import org.geometerplus.zlibrary.core.view.ZLView;
 import org.geometerplus.zlibrary.core.view.ZLViewEnums;
-import org.geometerplus.zlibrary.ui.android.util.ImageUtils;
 import org.geometerplus.zlibrary.ui.android.view.animation.BitmapManager;
 
+/**
+ * Bitmap管理（绘制后的图）的实现
+ */
 final class BitmapManagerImpl implements BitmapManager {
+
+    /**
+     * 缓存Bitmap大小
+     */
     private final int SIZE = 2;
     private final Bitmap[] myBitmaps = new Bitmap[SIZE];
     private final ZLView.PageIndex[] myIndexes = new ZLView.PageIndex[SIZE];
@@ -41,6 +49,12 @@ final class BitmapManagerImpl implements BitmapManager {
         myWidget = widget;
     }
 
+    /**
+     * 设置绘制Bitmap的宽高（即阅读器内容区域）
+     *
+     * @param w 宽
+     * @param h 高
+     */
     void setSize(int w, int h) {
         if (myWidth != w || myHeight != h) {
             myWidth = w;
@@ -55,31 +69,60 @@ final class BitmapManagerImpl implements BitmapManager {
         }
     }
 
+    /**
+     * 获取阅读器内容Bitmap
+     *
+     * @param index 页索引
+     * @return 阅读器内容Bitmap
+     */
     public Bitmap getBitmap(ZLView.PageIndex index) {
         for (int i = 0; i < SIZE; ++i) {
             if (index == myIndexes[i]) {
                 return myBitmaps[i];
             }
         }
-        final int iIndex = getInternalIndex(index);
+        final int iIndex = getInternalIndex();
         myIndexes[iIndex] = index;
+
+        // 如果该位置的Bitmap为null就创建一个
         if (myBitmaps[iIndex] == null) {
             try {
                 myBitmaps[iIndex] = Bitmap.createBitmap(myWidth, myHeight, Bitmap.Config.RGB_565);
             } catch (OutOfMemoryError e) {
+                // 内存溢出后，调用gc，再创建
                 System.gc();
                 System.gc();
                 myBitmaps[iIndex] = Bitmap.createBitmap(myWidth, myHeight, Bitmap.Config.RGB_565);
             }
         }
+
+        // 绘制出Bitmap
         myWidget.drawOnBitmap(myBitmaps[iIndex], index);
         return myBitmaps[iIndex];
     }
 
+    /**
+     * 绘制页面（主要应用与动画） {@link org.geometerplus.zlibrary.ui.android.view.animation.AnimationProvider}
+     *
+     * @param canvas 画布
+     * @param x      x坐标
+     * @param y      y坐标
+     * @param index  页面索引
+     * @param paint  画笔
+     */
     public void drawBitmap(Canvas canvas, int x, int y, ZLView.PageIndex index, Paint paint) {
         canvas.drawBitmap(getBitmap(index), x, y, paint);
     }
 
+    /**
+     * 绘制预览页面（主要应用与动画） {@link org.geometerplus.zlibrary.ui.android.view.animation.AnimationProvider}
+     *
+     * @param canvas 画布
+     * @param x      x坐标
+     * @param y      y坐标
+     * @param index  页面索引
+     * @param paint  画笔
+     */
     @Override
     public void drawPreviewBitmap(Canvas canvas, int x, int y, ZLViewEnums.PageIndex index, Paint paint) {
         Bitmap previousBitmap = getBitmap(ZLView.PageIndex.previous);
@@ -89,12 +132,19 @@ final class BitmapManagerImpl implements BitmapManager {
         canvas.drawBitmap(getBitmap(ZLView.PageIndex.next), x / PreviewConfig.SCALE_VALUE + width + width * PreviewConfig.SCALE_MARGIN_VALUE, y / PreviewConfig.SCALE_VALUE, paint);
     }
 
-    private int getInternalIndex(ZLView.PageIndex index) {
+    /**
+     * 获取一个内部索引位置，用于存储Bitmap
+     *
+     * @return 索引位置
+     */
+    private int getInternalIndex() {
+        // 寻找没有存储内容的位置
         for (int i = 0; i < SIZE; ++i) {
             if (myIndexes[i] == null) {
                 return i;
             }
         }
+        // 如果没有，找一个不是当前的位置
         for (int i = 0; i < SIZE; ++i) {
             if (myIndexes[i] != ZLView.PageIndex.current) {
                 return i;
