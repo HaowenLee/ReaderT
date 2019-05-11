@@ -134,7 +134,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
     /**
      * 动画时长
      */
-    private static final int DURATION = 250;
+    private static final int DURATION = 200;
     final DataService.Connection DataConnection = new DataService.Connection();
     private final FBReaderApp.Notifier myNotifier = new AppNotifier(this);
     private final List<PluginApi.ActionInfo> myPluginActions =

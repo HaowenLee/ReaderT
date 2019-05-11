@@ -139,6 +139,7 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
     private float mCurrentX;
     private float mCurrentY;
 
+    @DebugLog
     @Override
     protected void onDraw(final Canvas canvas) {
 

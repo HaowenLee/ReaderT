@@ -98,6 +98,12 @@ final class BitmapManagerImpl implements BitmapManager {
             }
         }
 
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < SIZE; ++i) {
+            builder.append(" | ").append(myIndexes[i]);
+        }
+        System.out.println(builder.toString());
+
         // 绘制出Bitmap
         myWidget.drawOnBitmap(myBitmaps[iIndex], index);
         return myBitmaps[iIndex];
@@ -155,12 +161,21 @@ final class BitmapManagerImpl implements BitmapManager {
         throw new RuntimeException("That's impossible");
     }
 
+    /**
+     * 重置索引缓存
+     * TODO: 需要精确rest（避免不必要的缓存失效）
+     */
     void reset() {
         for (int i = 0; i < SIZE; ++i) {
             myIndexes[i] = null;
         }
     }
 
+    /**
+     * 位移操作（所有索引位移至下一状态）
+     *
+     * @param forward 是否向前
+     */
     void shift(boolean forward) {
         for (int i = 0; i < SIZE; ++i) {
             if (myIndexes[i] == null) {
