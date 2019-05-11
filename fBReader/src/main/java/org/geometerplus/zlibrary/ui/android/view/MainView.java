@@ -22,10 +22,11 @@ package org.geometerplus.zlibrary.ui.android.view;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.SurfaceView;
+import android.view.View;
 
 import org.geometerplus.android.fbreader.FBReaderMainActivity;
 
-public abstract class MainView extends SurfaceView {
+public abstract class MainView extends View {
 
     protected Integer myColorLevel;
 
