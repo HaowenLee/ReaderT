@@ -1438,6 +1438,16 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                 Toast.makeText(FBReader.this, "敬请期待", Toast.LENGTH_SHORT).show();
             }
         });
+
+        // 本地书库
+        findViewById(R.id.book_library).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AnimationHelper.closeBottomMenu(findViewById(R.id.menuMore));
+                AnimationHelper.closeBottomMenu(findViewById(R.id.menuTop));
+                myFBReaderApp.runAction(ActionCode.SHOW_LIBRARY);
+            }
+        });
     }
 
     private final AndroidImageSynchronizer myImageSynchronizer = new AndroidImageSynchronizer(this);

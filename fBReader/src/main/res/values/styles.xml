@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="FBReader.Activity" parent="Theme.AppCompat.Light.DarkActionBar" />
+    <style name="FBReader.Activity" parent="Theme.AppCompat.Light.NoActionBar" />
 
     <style name="FBReader.Activity.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar" />
 

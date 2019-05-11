@@ -184,4 +184,38 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="#26000000" />
+
+    <LinearLayout
+        android:id="@+id/book_library"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp">
+
+        <ImageView
+            android:id="@+id/book_library_icon"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/reader_book_library_icon" />
+
+        <TextView
+            android:id="@+id/book_library_txt"
+            android:layout_width="80dp"
+            android:layout_height="21dp"
+            android:layout_marginLeft="45dp"
+            android:text="本地书库"
+            android:textColor="#666666"
+            android:textSize="14dp" />
+
+    </LinearLayout>
+
 </LinearLayout>
