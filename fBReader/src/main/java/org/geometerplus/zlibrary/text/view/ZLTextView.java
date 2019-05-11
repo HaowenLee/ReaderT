@@ -540,17 +540,16 @@ public abstract class ZLTextView extends ZLTextViewBase {
                 myCurrentPage = myPreviousPage;
                 myPreviousPage = swap;
                 myPreviousPage.reset();
-                if (myCurrentPage.PaintState == PaintStateEnum.NOTHING_TO_PAINT) {
-                    preparePaintInfo(myNextPage);
-                    myCurrentPage.EndCursor.setCursor(myNextPage.StartCursor);
-                    myCurrentPage.PaintState = PaintStateEnum.END_IS_KNOWN;
-                } else if (!myCurrentPage.EndCursor.isNull() &&
-                        !myNextPage.StartCursor.isNull() &&
-                        !myCurrentPage.EndCursor.samePositionAs(myNextPage.StartCursor)) {
-                    myNextPage.reset();
-                    myNextPage.StartCursor.setCursor(myCurrentPage.EndCursor);
-                    myNextPage.PaintState = PaintStateEnum.START_IS_KNOWN;
-                    Application.getViewWidget().reset();
+                switch (myCurrentPage.PaintState) {
+                    case PaintStateEnum.NOTHING_TO_PAINT:
+                        preparePaintInfo(myNextPage);
+                        myCurrentPage.EndCursor.setCursor(myNextPage.StartCursor);
+                        myCurrentPage.PaintState = PaintStateEnum.END_IS_KNOWN;
+                        break;
+                    case PaintStateEnum.READY:
+                        myCurrentPage.EndCursor.setCursor(myNextPage.StartCursor);
+                        myCurrentPage.PaintState = PaintStateEnum.END_IS_KNOWN;
+                        break;
                 }
                 break;
             }
