@@ -20,28 +20,49 @@
 package org.geometerplus.zlibrary.core.view;
 
 public interface ZLViewEnums {
-    
+
+    /**
+     * 页面索引（前两页，前一页，当前页，下一页，下两页）
+     */
     enum PageIndex {
 
-        previous, current, next;
+        previous2, previous, current, next, next2;
 
+        /**
+         * 获取下一页对应索引
+         *
+         * @return 下一页对应索引
+         */
         public PageIndex getNext() {
             switch (this) {
+                case previous2:
+                    return previous2;
                 case previous:
                     return current;
                 case current:
                     return next;
+                case next:
+                    return next2;
                 default:
                     return null;
             }
         }
 
+        /**
+         * 获取上一页对应索引
+         *
+         * @return 上一页对应索引
+         */
         public PageIndex getPrevious() {
             switch (this) {
+                case next2:
+                    return next;
                 case next:
                     return current;
                 case current:
                     return previous;
+                case previous:
+                    return previous2;
                 default:
                     return null;
             }

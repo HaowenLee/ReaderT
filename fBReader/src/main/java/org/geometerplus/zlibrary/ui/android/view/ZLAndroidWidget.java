@@ -40,6 +40,7 @@ import org.geometerplus.zlibrary.core.application.ZLApplication;
 import org.geometerplus.zlibrary.core.application.ZLKeyBindings;
 import org.geometerplus.zlibrary.core.util.SystemInfo;
 import org.geometerplus.zlibrary.core.view.ZLView;
+import org.geometerplus.zlibrary.core.view.ZLViewEnums;
 import org.geometerplus.zlibrary.core.view.ZLViewWidget;
 import org.geometerplus.zlibrary.ui.android.R;
 import org.geometerplus.zlibrary.ui.android.view.animation.AnimationProvider;
@@ -52,6 +53,8 @@ import org.geometerplus.zlibrary.ui.android.view.animation.SlideOldStyleAnimatio
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import hugo.weaving.DebugLog;
 
 public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLongClickListener {
 
@@ -287,6 +290,12 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
         postInvalidate();
     }
 
+    /**
+     * 在Bitmap上绘制
+     *
+     * @param bitmap Bitmap
+     * @param index  页面索引
+     */
     void drawOnBitmap(Bitmap bitmap, ZLView.PageIndex index) {
         final ZLView view = ZLApplication.Instance().getCurrentView();
         if (view == null) {
@@ -393,26 +402,37 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
             public void run() {
                 PrepareService.execute(new Runnable() {
                     public void run() {
-                        final ZLView view = ZLApplication.Instance().getCurrentView();
-                        final ZLAndroidPaintContext context = new ZLAndroidPaintContext(
-                                mySystemInfo,
-                                canvas,
-                                new ZLAndroidPaintContext.Geometry(
-                                        getWidth(),
-                                        getHeight(),
-                                        getWidth(),
-                                        getMainAreaHeight(),
-                                        0,
-                                        0
-                                ),
-                                view.isScrollbarShown() ? getVerticalScrollbarWidth() : 0
-                        );
-                        // 准备下一页
-                        view.preparePage(context, ZLView.PageIndex.next);
+                        preparePage(ZLViewEnums.PageIndex.previous);
+                        preparePage(ZLViewEnums.PageIndex.next);
                     }
                 });
             }
         });
+    }
+
+    /**
+     * 准备前后页面
+     *
+     * @param pageIndex 页面
+     */
+    private void preparePage(ZLViewEnums.PageIndex pageIndex) {
+        final ZLView view = ZLApplication.Instance().getCurrentView();
+        final ZLAndroidPaintContext context = new ZLAndroidPaintContext(
+                mySystemInfo,
+                new Canvas(),
+                new ZLAndroidPaintContext.Geometry(
+                        getWidth(),
+                        getHeight(),
+                        getWidth(),
+                        getMainAreaHeight(),
+                        0,
+                        0
+                ),
+                view.isScrollbarShown() ? getVerticalScrollbarWidth() : 0
+        );
+        // 准备下一页
+        view.preparePage(context, pageIndex);
+        myBitmapManager.getBitmap(pageIndex);
     }
 
     /**

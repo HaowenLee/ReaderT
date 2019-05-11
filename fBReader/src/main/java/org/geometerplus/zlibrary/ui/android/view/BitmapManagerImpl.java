@@ -28,6 +28,8 @@ import org.geometerplus.zlibrary.core.view.ZLView;
 import org.geometerplus.zlibrary.core.view.ZLViewEnums;
 import org.geometerplus.zlibrary.ui.android.view.animation.BitmapManager;
 
+import hugo.weaving.DebugLog;
+
 /**
  * Bitmap管理（绘制后的图）的实现
  */
@@ -36,7 +38,7 @@ final class BitmapManagerImpl implements BitmapManager {
     /**
      * 缓存Bitmap大小
      */
-    private final int SIZE = 2;
+    private final int SIZE = 4;
     private final Bitmap[] myBitmaps = new Bitmap[SIZE];
     private final ZLView.PageIndex[] myIndexes = new ZLView.PageIndex[SIZE];
 
@@ -81,7 +83,7 @@ final class BitmapManagerImpl implements BitmapManager {
                 return myBitmaps[i];
             }
         }
-        final int iIndex = getInternalIndex();
+        final int iIndex = getInternalIndex(index);
         myIndexes[iIndex] = index;
 
         // 如果该位置的Bitmap为null就创建一个
@@ -133,11 +135,11 @@ final class BitmapManagerImpl implements BitmapManager {
     }
 
     /**
-     * 获取一个内部索引位置，用于存储Bitmap
+     * 获取一个内部索引位置，用于存储Bitmap（原则是：先寻找空的，再寻找非当前使用的）
      *
      * @return 索引位置
      */
-    private int getInternalIndex() {
+    private int getInternalIndex(ZLViewEnums.PageIndex index) {
         // 寻找没有存储内容的位置
         for (int i = 0; i < SIZE; ++i) {
             if (myIndexes[i] == null) {
@@ -146,7 +148,7 @@ final class BitmapManagerImpl implements BitmapManager {
         }
         // 如果没有，找一个不是当前的位置
         for (int i = 0; i < SIZE; ++i) {
-            if (myIndexes[i] != ZLView.PageIndex.current) {
+            if (myIndexes[i] != ZLView.PageIndex.current && myIndexes[i] != ZLView.PageIndex.previous && myIndexes[i] != ZLView.PageIndex.next) {
                 return i;
             }
         }
