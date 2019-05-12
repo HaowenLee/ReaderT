@@ -1258,8 +1258,10 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             public void onClick(View v) {
                 if (myFBReaderApp.isActionVisible(ActionCode.SWITCH_THEME_BLACK_PROFILE)) {
                     myFBReaderApp.runAction(ActionCode.SWITCH_THEME_BLACK_PROFILE);
+                    SkinCompatManager.getInstance().loadSkin("themeBlack", SkinCompatManager.SKIN_LOADER_STRATEGY_BUILD_IN);
                 } else {
                     myFBReaderApp.runAction(ActionCode.SWITCH_THEME_WHITE_PROFILE);
+                    SkinCompatManager.getInstance().loadSkin("themeWhite", SkinCompatManager.SKIN_LOADER_STRATEGY_BUILD_IN);
                 }
             }
         });
