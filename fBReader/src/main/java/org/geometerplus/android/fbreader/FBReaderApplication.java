@@ -25,6 +25,7 @@ import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
 
 import skin.support.SkinCompatManager;
 import skin.support.constraint.app.SkinConstraintViewInflater;
+import skin.support.design.app.SkinMaterialViewInflater;
 
 public class FBReaderApplication extends ZLAndroidApplication {
 
@@ -34,6 +35,7 @@ public class FBReaderApplication extends ZLAndroidApplication {
         Stetho.initializeWithDefaults(this);
 
         SkinCompatManager.withoutActivity(this)                         // 基础控件换肤初始化
+                .addInflater(new SkinMaterialViewInflater())            // material design 控件换肤初始化[可选]
                 .addInflater(new SkinConstraintViewInflater())          // ConstraintLayout 控件换肤初始化[可选]
                 .setSkinStatusBarColorEnable(false)                     // 关闭状态栏换肤，默认打开[可选]
                 .setSkinWindowBackgroundEnable(false)                   // 关闭windowBackground换肤，默认打开[可选]

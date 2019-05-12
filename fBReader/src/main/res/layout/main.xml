@@ -65,11 +65,11 @@
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="42dp"
-            android:background="#ebecee"
+            android:background="@color/reader_menu_bg"
             app:tabIndicatorHeight="0dp"
-            app:tabSelectedTextColor="#FF6B00"
+            app:tabSelectedTextColor="@color/reader_font_checked"
             app:tabTextAppearance="@style/TabLayoutTextStyle"
-            app:tabTextColor="#999999" />
+            app:tabTextColor="@color/reader_font_black" />
 
     </LinearLayout>
 
