@@ -106,7 +106,7 @@ public class TOCActivity extends ListActivity {
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			final View view = (convertView != null) ? convertView :
-				LayoutInflater.from(parent.getContext()).inflate(R.layout.toc_tree_item, parent, false);
+				LayoutInflater.from(parent.getContext()).inflate(R.layout.reader_toc_tree_item, parent, false);
 			final TOCTree tree = (TOCTree)getItem(position);
 			view.setBackgroundColor(tree == mySelectedItem ? 0xff808080 : 0);
 			setIcon(ViewUtil.findImageView(view, R.id.toc_tree_item_icon), tree);

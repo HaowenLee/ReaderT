@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <item name="primary" type="color">#444444</item>
-  <item name="primary_dark" type="color">#222222</item>
+    <item name="primary" type="color">#444444</item>
+    <item name="primary_dark" type="color">#222222</item>
+
+    <color name="reader_menu_bg">#ebecee</color>
+    <color name="reader_font_black">#333333</color>
+    <color name="reader_font_checked">#FF6B00</color>
+    <color name="reader_view_bg">#ebecee</color>
+    <color name="reader_window_bg">#F8F8F8</color>
 </resources>

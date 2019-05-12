@@ -22,7 +22,7 @@ import org.geometerplus.zlibrary.ui.android.R;
 /**
  * 目录索引
  */
-public class TOCFragment extends BaseFragment {
+public class BookTOCFragment extends BaseFragment {
 
     /**
      * PROCESS_TREE_ITEM_ID --> 展开目录
@@ -106,12 +106,20 @@ public class TOCFragment extends BaseFragment {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             final View view = (convertView != null) ? convertView :
-                    LayoutInflater.from(parent.getContext()).inflate(R.layout.toc_tree_item, parent, false);
+                    LayoutInflater.from(parent.getContext()).inflate(R.layout.reader_toc_tree_item, parent, false);
             final TOCTree tree = (TOCTree) getItem(position);
             setIcon(ViewUtil.findImageView(view, R.id.toc_tree_item_icon), tree);
             ViewUtil.findTextView(view, R.id.toc_tree_item_text).setText(tree.getText());
-            ViewUtil.findTextView(view, R.id.toc_tree_item_text).setTextColor(tree == mySelectedItem ? 0xffFF6B00 : 0xff333333);
+            ViewUtil.findTextView(view, R.id.toc_tree_item_text).setTextColor(tree == mySelectedItem ? getTextColor(true) : getTextColor(false));
             return view;
+        }
+
+        private int getTextColor(boolean isChecked) {
+            if (isChecked) {
+                return getContext().getResources().getColor(R.color.reader_font_checked);
+            } else {
+                return getContext().getResources().getColor(R.color.reader_font_black);
+            }
         }
 
         void openBookText(TOCTree tree) {

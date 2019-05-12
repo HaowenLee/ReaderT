@@ -5,7 +5,7 @@
     android:id="@+id/menuSetting"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#EBECEE"
+    android:background="@color/reader_menu_bg"
     android:paddingBottom="25dp"
     android:tag="layout/reader_menu_font_set_layout_0"
     android:visibility="gone"
@@ -26,7 +26,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="29dp"
         android:text="亮度"
-        android:textColor="#ff999999"
+        android:textColor="@color/reader_font_black"
         android:textSize="14dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -58,7 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="33dp"
         android:text="主题"
-        android:textColor="#ff999999"
+        android:textColor="@color/reader_font_black"
         android:textSize="14dp"
         app:layout_constraintLeft_toLeftOf="@+id/txt_light"
         app:layout_constraintRight_toRightOf="@+id/txt_light"
@@ -143,7 +143,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="33dp"
         android:text="文字"
-        android:textColor="#ff999999"
+        android:textColor="@color/reader_font_black"
         android:textSize="14dp"
         app:layout_constraintLeft_toLeftOf="@+id/txt_theme"
         app:layout_constraintRight_toRightOf="@+id/txt_theme"
@@ -169,6 +169,7 @@
             android:background="@drawable/reader_button_bg"
             android:gravity="center"
             android:text="减小"
+            android:textColor="@color/reader_font_black"
             android:textSize="13dp" />
 
         <TextView
@@ -179,6 +180,7 @@
             android:background="@drawable/reader_button_bg"
             android:gravity="center"
             android:text="放大"
+            android:textColor="@color/reader_font_black"
             android:textSize="13dp" />
 
         <View
@@ -214,7 +216,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="33dp"
         android:text="翻页"
-        android:textColor="#ff999999"
+        android:textColor="@color/reader_font_black"
         android:textSize="14dp"
         app:layout_constraintLeft_toLeftOf="@+id/txt_font"
         app:layout_constraintRight_toRightOf="@+id/txt_font"

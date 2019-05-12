@@ -5,7 +5,7 @@
     android:id="@+id/firstMenu"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#EBECEE"
+    android:background="@color/reader_menu_bg"
     android:tag="layout/reader_bottom_menu_first_layout_0"
     android:visibility="gone"
     tools:visibility="visible">
@@ -93,7 +93,7 @@
             android:layout_marginTop="3dp"
             android:layout_marginBottom="5dp"
             android:text="目录"
-            android:textColor="#999999"
+            android:textColor="@color/reader_font_black"
             android:textSize="9dp" />
     </LinearLayout>
 
@@ -123,7 +123,7 @@
             android:layout_marginTop="3dp"
             android:layout_marginBottom="5dp"
             android:text="夜间模式"
-            android:textColor="#999999"
+            android:textColor="@color/reader_font_black"
             android:textSize="9dp" />
     </LinearLayout>
 
@@ -151,7 +151,7 @@
             android:layout_marginTop="3dp"
             android:layout_marginBottom="5dp"
             android:text="语音朗读"
-            android:textColor="#999999"
+            android:textColor="@color/reader_font_black"
             android:textSize="9dp" />
     </LinearLayout>
 
@@ -180,7 +180,7 @@
             android:layout_marginTop="3dp"
             android:layout_marginBottom="5dp"
             android:text="设置"
-            android:textColor="#999999"
+            android:textColor="@color/reader_font_black"
             android:textSize="9dp" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

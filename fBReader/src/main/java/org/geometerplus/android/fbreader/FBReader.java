@@ -71,7 +71,7 @@ import org.geometerplus.android.fbreader.sync.SyncOperations;
 import org.geometerplus.android.fbreader.tips.TipsActivity;
 import org.geometerplus.android.fbreader.ui.BookMarkFragment;
 import org.geometerplus.android.fbreader.ui.BookNoteFragment;
-import org.geometerplus.android.fbreader.ui.TOCFragment;
+import org.geometerplus.android.fbreader.ui.BookTOCFragment;
 import org.geometerplus.android.fbreader.util.AndroidImageSynchronizer;
 import org.geometerplus.android.fbreader.util.AnimationHelper;
 import org.geometerplus.android.fbreader.util.ScreenUtils;
@@ -126,6 +126,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import skin.support.SkinCompatManager;
 
 public final class FBReader extends FBReaderMainActivity implements ZLApplicationWindow {
     public static final int RESULT_DO_NOTHING = RESULT_FIRST_USER;
@@ -1411,15 +1413,19 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                 switch (checkedId) {
                     case R.id.color_white:
                         myFBReaderApp.runAction(ActionCode.SWITCH_THEME_WHITE_PROFILE);
+                        SkinCompatManager.getInstance().restoreDefaultTheme();
                         break;
                     case R.id.color_yellow:
                         myFBReaderApp.runAction(ActionCode.SWITCH_THEME_YELLOW_PROFILE);
+                        SkinCompatManager.getInstance().loadSkin("themeYellow", SkinCompatManager.SKIN_LOADER_STRATEGY_BUILD_IN);
                         break;
                     case R.id.color_green:
                         myFBReaderApp.runAction(ActionCode.SWITCH_THEME_GREEN_PROFILE);
+                        SkinCompatManager.getInstance().loadSkin("themeGreen", SkinCompatManager.SKIN_LOADER_STRATEGY_BUILD_IN);
                         break;
                     case R.id.color_black:
                         myFBReaderApp.runAction(ActionCode.SWITCH_THEME_BLACK_PROFILE);
+                        SkinCompatManager.getInstance().loadSkin("themeBlack", SkinCompatManager.SKIN_LOADER_STRATEGY_BUILD_IN);
                         break;
                     default:
                         break;
@@ -1554,13 +1560,13 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 
     private void initFragment() {
         if (isLoad) {
-            ((TOCFragment) fragments.get(0)).initTree();
+            ((BookTOCFragment) fragments.get(0)).initTree();
             return;
         }
         isLoad = true;
         ViewPager viewPager = findViewById(R.id.viewPager);
         TabLayout tabLayout = findViewById(R.id.tabLayout);
-        fragments.add(new TOCFragment());
+        fragments.add(new BookTOCFragment());
         fragments.add(new BookMarkFragment());
         fragments.add(new BookNoteFragment());
         final String[] titles = new String[]{"目录", "书签", "笔记"};

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#F8F8F8"
+    android:background="@color/reader_window_bg"
     android:minHeight="48dp"
     android:orientation="horizontal"
     android:paddingLeft="15dp"
@@ -26,7 +26,7 @@
         android:ellipsize="marquee"
         android:gravity="center_vertical"
         android:marqueeRepeatLimit="marquee_forever"
-        android:textColor="#333333"
+        android:textColor="@color/reader_font_black"
         android:textSize="15sp"
         tools:text="第一章 天生我才必有用" />
 </LinearLayout>

@@ -5,7 +5,7 @@
     android:id="@+id/menuMore"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#EBECEE"
+    android:background="@color/reader_menu_bg"
     android:orientation="vertical"
     android:visibility="gone"
     tools:visibility="visible">

@@ -26,7 +26,9 @@ import android.view.View;
 
 import org.geometerplus.android.fbreader.FBReaderMainActivity;
 
-public abstract class MainView extends View {
+import skin.support.widget.SkinCompatView;
+
+public abstract class MainView extends SkinCompatView {
 
     protected Integer myColorLevel;
 
