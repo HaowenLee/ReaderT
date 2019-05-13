@@ -1370,7 +1370,7 @@ public abstract class ZLTextView extends ZLTextViewBase {
 
         // Add ---------------
         float gapCount = endElementIndex - info.RealStartElementIndex;
-        float d = (maxWidth - getTextStyle().getRightIndent(metrics()) - info.Width) / (gapCount - 1);
+        float d = (maxWidth - getTextStyle().getRightIndent(metrics()) - getTextStyle().getLeftIndent(metrics()) - info.Width) / (gapCount - 1);
         // Add ---------------
 
         for (int wordIndex = info.RealStartElementIndex; wordIndex != endElementIndex; ++wordIndex, charIndex = 0) {
@@ -1425,7 +1425,7 @@ public abstract class ZLTextView extends ZLTextViewBase {
                 fx += width;
                 continue;
             }
-            fx += width + d;
+            fx += width+d;
         }
         if (!endOfParagraph) {
             final int len = info.EndCharIndex;
