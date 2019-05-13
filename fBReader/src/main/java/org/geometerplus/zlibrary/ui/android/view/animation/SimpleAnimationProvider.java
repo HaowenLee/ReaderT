@@ -19,6 +19,7 @@
 
 package org.geometerplus.zlibrary.ui.android.view.animation;
 
+import org.geometerplus.android.fbreader.constant.PreviewConfig;
 import org.geometerplus.zlibrary.core.view.ZLViewEnums;
 
 abstract class SimpleAnimationProvider extends AnimationProvider {
@@ -102,7 +103,7 @@ abstract class SimpleAnimationProvider extends AnimationProvider {
         final int bound;
         if (getMode() == Mode.AnimatedScrollingForward) {
             if (isPreview()) {
-                bound = myDirection.IsHorizontal ? (int) (myWidth * 0.75) : myHeight;
+                bound = myDirection.IsHorizontal ? (int) (myWidth * PreviewConfig.SCALE_VALUE) : myHeight;
             } else {
                 bound = myDirection.IsHorizontal ? myWidth : myHeight;
             }

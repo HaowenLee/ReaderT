@@ -8,7 +8,7 @@ public class PreviewConfig {
     /**
      * 缩放系数
      */
-    public static final float SCALE_VALUE = 0.75f;
+    public static final float SCALE_VALUE = 0.7685f;
 
     /**
      * 缩放的中心x
@@ -18,7 +18,7 @@ public class PreviewConfig {
     /**
      * 缩放的中心Y
      */
-    public static final float SCALE_VALUE_PY = 0.4f;
+    public static final float SCALE_VALUE_PY = 0.333333f;
 
     /**
      * 两边空白相对屏幕宽的比例

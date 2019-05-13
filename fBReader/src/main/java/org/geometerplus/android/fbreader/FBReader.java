@@ -63,6 +63,7 @@ import org.geometerplus.android.fbreader.api.ApiServerImplementation;
 import org.geometerplus.android.fbreader.api.FBReaderIntents;
 import org.geometerplus.android.fbreader.api.MenuNode;
 import org.geometerplus.android.fbreader.api.PluginApi;
+import org.geometerplus.android.fbreader.constant.PreviewConfig;
 import org.geometerplus.android.fbreader.dict.DictionaryUtil;
 import org.geometerplus.android.fbreader.formatPlugin.PluginUtil;
 import org.geometerplus.android.fbreader.httpd.DataService;
@@ -142,6 +143,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
     private final List<PluginApi.ActionInfo> myPluginActions =
             new LinkedList<PluginApi.ActionInfo>();
     private final HashMap<MenuItem, String> myMenuItemMap = new HashMap<>();
+    private final AndroidImageSynchronizer myImageSynchronizer = new AndroidImageSynchronizer(this);
     volatile boolean IsPaused = false;
     volatile Runnable OnResumeAction = null;
     List<Fragment> fragments = new ArrayList<>();
@@ -1156,15 +1158,15 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
     private void scaleReader(boolean isScale) {
         if (isScale) {
             // 缩放
-            ScaleAnimation animation = new ScaleAnimation(1 / 0.75f, 1, 1 / 0.75f,
-                    1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.4f);
+            ScaleAnimation animation = new ScaleAnimation(1 / PreviewConfig.SCALE_VALUE, 1, 1 / PreviewConfig.SCALE_VALUE,
+                    1, Animation.RELATIVE_TO_SELF, PreviewConfig.SCALE_VALUE_PX, Animation.RELATIVE_TO_SELF, PreviewConfig.SCALE_VALUE_PY);
             animation.setDuration(DURATION);
             myMainView.startAnimation(animation);
             myMainView.setPreview(true);
         } else {
             // 缩放
-            ScaleAnimation scaleAnimation = new ScaleAnimation(1, 1 / 0.75f, 1,
-                    1 / 0.75f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.4f);
+            ScaleAnimation scaleAnimation = new ScaleAnimation(1, 1 / PreviewConfig.SCALE_VALUE, 1,
+                    1 / PreviewConfig.SCALE_VALUE, Animation.RELATIVE_TO_SELF, PreviewConfig.SCALE_VALUE_PX, Animation.RELATIVE_TO_SELF, PreviewConfig.SCALE_VALUE_PY);
             scaleAnimation.setDuration(DURATION + 100);
             myMainView.startAnimation(scaleAnimation);
             scaleAnimation.setAnimationListener(new Animation.AnimationListener() {
@@ -1184,6 +1186,20 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                 }
             });
         }
+    }
+
+    /**
+     * 初始化书籍信息
+     */
+    private void initBookInfoView() {
+        Book book = myFBReaderApp.getCurrentBook();
+        if (book == null) {
+            return;
+        }
+        String title = book.getTitle();
+
+        TextView tvTitle = findViewById(R.id.tvTitle);
+        tvTitle.setText(title);
     }
 
     /**
@@ -1458,8 +1474,6 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         });
     }
 
-    private final AndroidImageSynchronizer myImageSynchronizer = new AndroidImageSynchronizer(this);
-
     /**
      * 初始化点击more后的图书信息
      */
@@ -1516,20 +1530,6 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         }
 
         coverView.setImageBitmap(coverBitmap);
-    }
-
-    /**
-     * 初始化书籍信息
-     */
-    private void initBookInfoView() {
-        Book book = myFBReaderApp.getCurrentBook();
-        if (book == null) {
-            return;
-        }
-        String title = book.getTitle();
-
-        TextView tvTitle = findViewById(R.id.tvTitle);
-        tvTitle.setText(title);
     }
 
     public String getParagraphText(int paragraphIndex) {
