@@ -288,14 +288,14 @@ public abstract class ZLTextView extends ZLTextViewBase {
         return result;
     }
 
-    public final void addBookMark(ZLTextHighlighting h) {
-        myBookMarkList.add(h);
+    public final void addHighlighting(ZLTextHighlighting h) {
+        myHighlightingList.add(h);
         Application.getViewWidget().reset();
         Application.getViewWidget().repaint();
     }
 
-    public final void addHighlighting(ZLTextHighlighting h) {
-        myHighlightingList.add(h);
+    public final void addBookMark(ZLTextHighlighting h) {
+        myBookMarkList.add(h);
         Application.getViewWidget().reset();
         Application.getViewWidget().repaint();
     }
@@ -1339,15 +1339,18 @@ public abstract class ZLTextView extends ZLTextViewBase {
         final boolean endOfParagraph = info.isEndOfParagraph();
         boolean wordOccurred = false;
         boolean changeStyle = true;
-        x += info.LeftIndent;
+
+        // 为了精度不丢失,以float代之
+        float fx = x;
+        fx += info.LeftIndent;
 
         final int maxWidth = page.getTextWidth();
         switch (getTextStyle().getAlignment()) {
             case ZLTextAlignmentType.ALIGN_RIGHT:
-                x += maxWidth - getTextStyle().getRightIndent(metrics()) - info.Width;
+                fx += maxWidth - getTextStyle().getRightIndent(metrics()) - info.Width;
                 break;
             case ZLTextAlignmentType.ALIGN_CENTER:
-                x += (maxWidth - getTextStyle().getRightIndent(metrics()) - info.Width) / 2;
+                fx += (maxWidth - getTextStyle().getRightIndent(metrics()) - info.Width) / 2f;
                 break;
             case ZLTextAlignmentType.ALIGN_JUSTIFY:
                 if (!endOfParagraph && (paragraphCursor.getElement(info.EndElementIndex) != ZLTextElement.AfterParagraph)) {
@@ -1384,12 +1387,12 @@ public abstract class ZLTextView extends ZLTextViewBase {
                                 true, // is last in element
                                 false, // add hyphenation sign
                                 false, // changed style
-                                getTextStyle(), element, x, x + spaceLength, y, y, columnIndex
+                                getTextStyle(), element, (int) fx, (int) fx + spaceLength, y, y, columnIndex
                         );
                     } else {
                         spaceElement = null;
                     }
-                    x += spaceLength;
+                    fx += spaceLength;
                     fullCorrection -= correction;
                     wordOccurred = false;
                     --spaceCounter;
@@ -1408,7 +1411,7 @@ public abstract class ZLTextView extends ZLTextViewBase {
                         true, // is last in element
                         false, // add hyphenation sign
                         changeStyle, getTextStyle(), element,
-                        x, x + width - 1, y - height + 1, y + descent, columnIndex
+                        (int) fx, (int) fx + width - 1, y - height + 1, y + descent, columnIndex
                 ));
                 changeStyle = false;
                 wordOccurred = true;
@@ -1419,10 +1422,10 @@ public abstract class ZLTextView extends ZLTextViewBase {
 
             // 最后一行不用均匀分布
             if (endOfParagraph) {
-                x += width;
+                fx += width;
                 continue;
             }
-            x += width + d;
+            fx += width + d;
         }
         if (!endOfParagraph) {
             final int len = info.EndCharIndex;
@@ -1440,7 +1443,7 @@ public abstract class ZLTextView extends ZLTextViewBase {
                                 false, // is last in element
                                 addHyphenationSign,
                                 changeStyle, getTextStyle(), word,
-                                x, x + width - 1, y - height + 1, y + descent, columnIndex
+                                (int) fx, (int) fx + width - 1, y - height + 1, y + descent, columnIndex
                         )
                 );
             }
