@@ -39,7 +39,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -113,7 +112,6 @@ import org.geometerplus.zlibrary.core.resources.ZLResource;
 import org.geometerplus.zlibrary.core.view.ZLViewWidget;
 import org.geometerplus.zlibrary.text.view.ZLTextElement;
 import org.geometerplus.zlibrary.text.view.ZLTextFixedPosition;
-import org.geometerplus.zlibrary.text.view.ZLTextHighlighting;
 import org.geometerplus.zlibrary.text.view.ZLTextParagraphCursor;
 import org.geometerplus.zlibrary.text.view.ZLTextRegion;
 import org.geometerplus.zlibrary.text.view.ZLTextView;
@@ -223,7 +221,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
      */
     private View firstMenu;
     private boolean isLoad = false;
-    private List<SpeechSynthesizeBag> textList = new ArrayList<>();
+    private HashMap<String, String> textMap = new HashMap<>();
 
     public static void openBookActivity(Context context, Book book, Bookmark bookmark) {
         final Intent intent = defaultIntent(context);
@@ -1485,13 +1483,13 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 
             @Override
             public void onSpeechProgressChanged(String s, int i) {
-                for (int index = 0; index < textList.size(); index++) {
-                    SpeechSynthesizeBag speechSynthesizeBag = textList.get(index);
-                    if (TextUtils.equals(s, speechSynthesizeBag.getUtteranceId())) {
-                        System.out.println(speechSynthesizeBag.getText());
-                    }
-                    // myFBReaderApp.getTextView().highlight(new ZLTextFixedPosition(),new ZLTextFixedPosition());
+                String[] split = s.split("-");
+                if (split.length < 3) {
+                    return;
                 }
+                // 高亮标记正在朗读的句子 TODO: 防止重复不必要刷新
+                myFBReaderApp.getTextView().highlight(new ZLTextFixedPosition(Integer.parseInt(split[0]), Integer.parseInt(split[1]), 0),
+                        new ZLTextFixedPosition(Integer.parseInt(split[0]), Integer.parseInt(split[2]), 0));
             }
 
             @Override
@@ -1501,7 +1499,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 
             @Override
             public void onError(String s, SpeechError speechError) {
-                System.out.println("error --> "+speechError.description);
+                System.out.println("error --> " + speechError.description);
             }
         });
 
@@ -1509,7 +1507,6 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             @Override
             public void onClick(View v) {
                 // TODO: 2019/5/4 获取文本测试
-
                 splitText();
                 Toast.makeText(FBReader.this, "敬请期待", Toast.LENGTH_SHORT).show();
             }
@@ -1531,26 +1528,67 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 
     /**
      * 文本分割
-     *
-     * @return 分割后的
      */
-    private List<SpeechSynthesizeBag> splitText() {
+    private void splitText() {
+        // 当前的TOC
         final TOCTree tocElement = myFBReaderApp.getCurrentTOCElement();
-        int paragraphIndex = tocElement.getReference().ParagraphIndex;
-        String paragraphText = getParagraphText(paragraphIndex);
-        System.out.println(paragraphText);
-        List<SpeechSynthesizeBag> textList = new ArrayList<>();
-        String[] split = paragraphText.split("。|？|！|@|···|;|；|，|!|:|·|●|、|“|”|《|》|｝|（|）|｛ |‘|’|>|<|——|】|【|[|]");
-
-        for (int i = 0; i < split.length; i++) {
-            SpeechSynthesizeBag speechSynthesizeBag = new SpeechSynthesizeBag();
-            speechSynthesizeBag.setUtteranceId(String.valueOf(i));
-            speechSynthesizeBag.setText(split[i]);
-            textList.add(speechSynthesizeBag);
-            ttsProvider.mSpeechSynthesizer.speak(speechSynthesizeBag);
+        // 段落索引
+        int paragraphIndex;
+        if (tocElement == null) {
+            return;
         }
-        this.textList = textList;
-        return textList;
+        int pIndex;
+        int startEIndex;
+        int endEIndex;
+        boolean isChange = false;
+        paragraphIndex = tocElement.getReference().ParagraphIndex;
+        StringBuilder builder = new StringBuilder();
+        // 段落游标
+        ZLTextParagraphCursor zlTextParagraphCursor = new ZLTextParagraphCursor(myFBReaderApp.Model.getTextModel(), paragraphIndex);
+        // 如果不是章节结束
+        while (!zlTextParagraphCursor.isEndOfSection()) {
+            // 段落游标右移
+            zlTextParagraphCursor = zlTextParagraphCursor.next();
+            final ZLTextWordCursor cursor = new ZLTextWordCursor(myFBReaderApp.getTextView().getStartCursor());
+            // 段落位置
+            if (zlTextParagraphCursor == null) {
+                return;
+            }
+            pIndex = zlTextParagraphCursor.Index;
+            cursor.moveToParagraph(zlTextParagraphCursor.Index);
+            // 段落起始
+            cursor.moveToParagraphStart();
+            // 如果不是段落最后
+            builder.setLength(0);
+            // 开始元素位置索引
+            startEIndex = cursor.getElementIndex();
+            while (!cursor.isEndOfParagraph()) {
+                // 元素
+                ZLTextElement element = cursor.getElement();
+                if (element instanceof ZLTextWord) {
+                    builder.append(element);
+                    // 以标点符号断句
+                    if (element.toString().matches(".*[。？！;；，!、]+.*")) {
+                        SpeechSynthesizeBag speechSynthesizeBag = new SpeechSynthesizeBag();
+                        // 结束元素位置索引
+                        endEIndex = cursor.getElementIndex();
+                        String tag = pIndex + "-" + startEIndex + "-" + endEIndex;
+                        speechSynthesizeBag.setUtteranceId(tag);
+                        speechSynthesizeBag.setText(builder.toString());
+                        textMap.put(tag, builder.toString());
+                        ttsProvider.mSpeechSynthesizer.speak(speechSynthesizeBag);
+                        builder.setLength(0);
+                        isChange = true;
+                    }
+                }
+                // 游标右移
+                cursor.nextWord();
+                if (isChange) {
+                    startEIndex = cursor.getElementIndex();
+                    isChange = false;
+                }
+            }
+        }
     }
 
     /**
