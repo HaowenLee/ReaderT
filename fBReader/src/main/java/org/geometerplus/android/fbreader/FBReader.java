@@ -39,6 +39,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -58,6 +59,10 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.tts.client.SpeechError;
+import com.baidu.tts.client.SpeechSynthesizeBag;
+import com.baidu.tts.client.SpeechSynthesizerListener;
+
 import org.geometerplus.android.fbreader.api.ApiListener;
 import org.geometerplus.android.fbreader.api.ApiServerImplementation;
 import org.geometerplus.android.fbreader.api.FBReaderIntents;
@@ -70,6 +75,7 @@ import org.geometerplus.android.fbreader.httpd.DataService;
 import org.geometerplus.android.fbreader.libraryService.BookCollectionShadow;
 import org.geometerplus.android.fbreader.sync.SyncOperations;
 import org.geometerplus.android.fbreader.tips.TipsActivity;
+import org.geometerplus.android.fbreader.tts.TTSProvider;
 import org.geometerplus.android.fbreader.ui.BookMarkFragment;
 import org.geometerplus.android.fbreader.ui.BookNoteFragment;
 import org.geometerplus.android.fbreader.ui.BookTOCFragment;
@@ -106,6 +112,8 @@ import org.geometerplus.zlibrary.core.options.Config;
 import org.geometerplus.zlibrary.core.resources.ZLResource;
 import org.geometerplus.zlibrary.core.view.ZLViewWidget;
 import org.geometerplus.zlibrary.text.view.ZLTextElement;
+import org.geometerplus.zlibrary.text.view.ZLTextFixedPosition;
+import org.geometerplus.zlibrary.text.view.ZLTextHighlighting;
 import org.geometerplus.zlibrary.text.view.ZLTextParagraphCursor;
 import org.geometerplus.zlibrary.text.view.ZLTextRegion;
 import org.geometerplus.zlibrary.text.view.ZLTextView;
@@ -215,6 +223,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
      */
     private View firstMenu;
     private boolean isLoad = false;
+    private List<SpeechSynthesizeBag> textList = new ArrayList<>();
 
     public static void openBookActivity(Context context, Book book, Bookmark bookmark) {
         final Intent intent = defaultIntent(context);
@@ -234,6 +243,8 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         super.onCreate(icicle);
 
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 321);
+
+        ttsProvider = new TTSProvider(FBReader.this);
 
         bindService(
                 new Intent(this, DataService.class),
@@ -1451,14 +1462,55 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             }
         });
 
+        ttsProvider.mSpeechSynthesizer.setSpeechSynthesizerListener(new SpeechSynthesizerListener() {
+            @Override
+            public void onSynthesizeStart(String s) {
+
+            }
+
+            @Override
+            public void onSynthesizeDataArrived(String s, byte[] bytes, int i) {
+
+            }
+
+            @Override
+            public void onSynthesizeFinish(String s) {
+
+            }
+
+            @Override
+            public void onSpeechStart(String s) {
+
+            }
+
+            @Override
+            public void onSpeechProgressChanged(String s, int i) {
+                for (int index = 0; index < textList.size(); index++) {
+                    SpeechSynthesizeBag speechSynthesizeBag = textList.get(index);
+                    if (TextUtils.equals(s, speechSynthesizeBag.getUtteranceId())) {
+                        System.out.println(speechSynthesizeBag.getText());
+                    }
+                    // myFBReaderApp.getTextView().highlight(new ZLTextFixedPosition(),new ZLTextFixedPosition());
+                }
+            }
+
+            @Override
+            public void onSpeechFinish(String s) {
+
+            }
+
+            @Override
+            public void onError(String s, SpeechError speechError) {
+                System.out.println("error --> "+speechError.description);
+            }
+        });
+
         findViewById(R.id.goto_tts_play).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO: 2019/5/4 获取文本测试
-                final TOCTree tocElement = myFBReaderApp.getCurrentTOCElement();
-                int paragraphIndex = tocElement.getReference().ParagraphIndex;
-                String paragraphText = getParagraphText(paragraphIndex);
-                System.out.println(paragraphText);
+
+                splitText();
                 Toast.makeText(FBReader.this, "敬请期待", Toast.LENGTH_SHORT).show();
             }
         });
@@ -1472,6 +1524,33 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                 myFBReaderApp.runAction(ActionCode.SHOW_LIBRARY);
             }
         });
+    }
+
+    private TTSProvider ttsProvider;
+
+
+    /**
+     * 文本分割
+     *
+     * @return 分割后的
+     */
+    private List<SpeechSynthesizeBag> splitText() {
+        final TOCTree tocElement = myFBReaderApp.getCurrentTOCElement();
+        int paragraphIndex = tocElement.getReference().ParagraphIndex;
+        String paragraphText = getParagraphText(paragraphIndex);
+        System.out.println(paragraphText);
+        List<SpeechSynthesizeBag> textList = new ArrayList<>();
+        String[] split = paragraphText.split("。|？|！|@|···|;|；|，|!|:|·|●|、|“|”|《|》|｝|（|）|｛ |‘|’|>|<|——|】|【|[|]");
+
+        for (int i = 0; i < split.length; i++) {
+            SpeechSynthesizeBag speechSynthesizeBag = new SpeechSynthesizeBag();
+            speechSynthesizeBag.setUtteranceId(String.valueOf(i));
+            speechSynthesizeBag.setText(split[i]);
+            textList.add(speechSynthesizeBag);
+            ttsProvider.mSpeechSynthesizer.speak(speechSynthesizeBag);
+        }
+        this.textList = textList;
+        return textList;
     }
 
     /**
