@@ -28,6 +28,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom">
 
+            <include layout="@layout/reader_mini_player"/>
+
             <include layout="@layout/reader_bottom_menu_first_layout" />
 
             <include layout="@layout/reader_menu_setting" />

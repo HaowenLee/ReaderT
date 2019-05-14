@@ -215,6 +215,11 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
      * 文本内容（断句好了的）
      */
     private HashMap<String, Boolean> textMap = new HashMap<>();
+    private ImageView ivPlayer;
+    /**
+     * 是否正在播放
+     */
+    private boolean isPlaying = false;
 
     public static void openBookActivity(Context context, Book book, Bookmark bookmark) {
         final Intent intent = defaultIntent(context);
@@ -267,6 +272,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
 
         firstMenu = findViewById(R.id.firstMenu);
+        ivPlayer = findViewById(R.id.ivPlay);
 
         initListener();
 
@@ -625,6 +631,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             }
         });
 
+        // TTS的状态回调
         ttsProvider.mSpeechSynthesizer.setSpeechSynthesizerListener(new SpeechSynthesizerListener() {
             @Override
             public void onSynthesizeStart(String s) {
@@ -687,6 +694,9 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                 AnimationHelper.closeBottomMenu(findViewById(R.id.firstMenu));
                 AnimationHelper.closeBottomMenu(findViewById(R.id.menuTop));
                 AnimationHelper.closePreview(myMainView);
+                findViewById(R.id.menuPlayer).setVisibility(View.VISIBLE);
+                isPlaying = true;
+                ivPlayer.setImageResource(R.drawable.reader_player_pause_icon);
                 Toast.makeText(FBReader.this, "语音合成中", Toast.LENGTH_SHORT).show();
             }
         });
@@ -698,6 +708,31 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                 AnimationHelper.closeBottomMenu(findViewById(R.id.menuMore));
                 AnimationHelper.closeBottomMenu(findViewById(R.id.menuTop));
                 myFBReaderApp.runAction(ActionCode.SHOW_LIBRARY);
+            }
+        });
+
+        // 播放栏
+        findViewById(R.id.menuPlayer).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isPlaying) {
+                    ivPlayer.setImageResource(R.drawable.reader_player_start_icon);
+                    ttsProvider.mSpeechSynthesizer.pause();
+                } else {
+                    ivPlayer.setImageResource(R.drawable.reader_player_pause_icon);
+                    ttsProvider.mSpeechSynthesizer.resume();
+                }
+                isPlaying = !isPlaying;
+            }
+        });
+
+        // 关闭播放栏
+        findViewById(R.id.ivClose).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ttsProvider.mSpeechSynthesizer.stop();
+                myFBReaderApp.getTextView().clearHighlighting();
+                findViewById(R.id.menuPlayer).setVisibility(View.GONE);
             }
         });
     }

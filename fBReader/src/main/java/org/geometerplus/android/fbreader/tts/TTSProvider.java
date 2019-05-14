@@ -2,7 +2,6 @@ package org.geometerplus.android.fbreader.tts;
 
 import android.content.Context;
 
-import com.baidu.tts.chainofresponsibility.logger.LoggerProxy;
 import com.baidu.tts.client.SpeechSynthesizer;
 import com.baidu.tts.client.TtsMode;
 
@@ -18,12 +17,11 @@ public class TTSProvider {
     public SpeechSynthesizer mSpeechSynthesizer = SpeechSynthesizer.getInstance();
 
     public TTSProvider(Context context) {
-        LoggerProxy.printable(true);
         mSpeechSynthesizer.setAppId(AppId);
         mSpeechSynthesizer.setApiKey(AppKey, AppSecret);
         mSpeechSynthesizer.setContext(context);
         mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_SPEAKER, "3");
-        mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_SPEED, "10");
+        mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_SPEED, "5");
         mSpeechSynthesizer.initTts(TtsMode.MIX);
     }
 }
