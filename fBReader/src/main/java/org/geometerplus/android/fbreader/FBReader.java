@@ -211,6 +211,10 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
     private View firstMenu;
     private boolean isLoad = false;
     private TTSProvider ttsProvider;
+    /**
+     * 文本内容（断句好了的）
+     */
+    private HashMap<String, Boolean> textMap = new HashMap<>();
 
     public static void openBookActivity(Context context, Book book, Bookmark bookmark) {
         final Intent intent = defaultIntent(context);
@@ -643,14 +647,27 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             }
 
             @Override
-            public void onSpeechProgressChanged(String s, int i) {
-                String[] split = s.split("-");
+            public void onSpeechProgressChanged(String tag, int i) {
+                String[] split = tag.split("-");
                 if (split.length < 3) {
                     return;
                 }
-                // 高亮标记正在朗读的句子 TODO: 防止重复不必要刷新
+                // 如果已经标记过就算了
+                Boolean isPlayed = textMap.get(tag);
+                if (isPlayed == null || isPlayed) {
+                    return;
+                }
                 myFBReaderApp.getTextView().highlight(new ZLTextFixedPosition(Integer.parseInt(split[0]), Integer.parseInt(split[1]), 0),
                         new ZLTextFixedPosition(Integer.parseInt(split[0]), Integer.parseInt(split[2]), 0));
+                textMap.put(tag, true);
+                // 翻页
+                int endPIndex = myFBReaderApp.getTextView().getEndCursor().getParagraphIndex();
+                int endEIndex = myFBReaderApp.getTextView().getEndCursor().getElementIndex();
+
+                // 判断是否是本页的最后
+                if (Integer.parseInt(split[0]) == endPIndex && Integer.parseInt(split[2]) > endEIndex) {
+                    myFBReaderApp.runAction(ActionCode.TURN_PAGE_FORWARD);
+                }
             }
 
             @Override
@@ -660,16 +677,17 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 
             @Override
             public void onError(String s, SpeechError speechError) {
-                System.out.println("error --> " + speechError.description);
             }
         });
 
         findViewById(R.id.goto_tts_play).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 2019/5/4 获取文本测试
                 splitText();
-                Toast.makeText(FBReader.this, "敬请期待", Toast.LENGTH_SHORT).show();
+                AnimationHelper.closeBottomMenu(findViewById(R.id.firstMenu));
+                AnimationHelper.closeBottomMenu(findViewById(R.id.menuTop));
+                AnimationHelper.closePreview(myMainView);
+                Toast.makeText(FBReader.this, "语音合成中", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -786,27 +804,25 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         // 当前的TOC
         final TOCTree tocElement = myFBReaderApp.getCurrentTOCElement();
         // 段落索引
-        int paragraphIndex;
         if (tocElement == null) {
             return;
         }
+        int currentPIndex = myFBReaderApp.getTextView().getStartCursor().getParagraphIndex();
+        int currentEIndex = myFBReaderApp.getTextView().getStartCursor().getElementIndex();
         int pIndex;
         int startEIndex;
         int endEIndex;
         boolean isChange = false;
-        paragraphIndex = tocElement.getReference().ParagraphIndex;
+        // 清空内容
+        textMap.clear();
+        // 该章节的起始段落索引
+        int paragraphIndex = tocElement.getReference().ParagraphIndex;
         StringBuilder builder = new StringBuilder();
         // 段落游标
         ZLTextParagraphCursor zlTextParagraphCursor = new ZLTextParagraphCursor(myFBReaderApp.Model.getTextModel(), paragraphIndex);
         // 如果不是章节结束
         while (!zlTextParagraphCursor.isEndOfSection()) {
-            // 段落游标右移
-            zlTextParagraphCursor = zlTextParagraphCursor.next();
             final ZLTextWordCursor cursor = new ZLTextWordCursor(myFBReaderApp.getTextView().getStartCursor());
-            // 段落位置
-            if (zlTextParagraphCursor == null) {
-                return;
-            }
             pIndex = zlTextParagraphCursor.Index;
             cursor.moveToParagraph(zlTextParagraphCursor.Index);
             // 段落起始
@@ -822,13 +838,27 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                     builder.append(element);
                     // 以标点符号断句
                     if (element.toString().matches(".*[。？！;；，!、]+.*")) {
-                        SpeechSynthesizeBag speechSynthesizeBag = new SpeechSynthesizeBag();
                         // 结束元素位置索引
                         endEIndex = cursor.getElementIndex();
                         String tag = pIndex + "-" + startEIndex + "-" + endEIndex;
-                        speechSynthesizeBag.setUtteranceId(tag);
-                        speechSynthesizeBag.setText(builder.toString());
-                        ttsProvider.mSpeechSynthesizer.speak(speechSynthesizeBag);
+                        textMap.put(tag, false);
+                        // 当该页面之前的都算了
+                        if (pIndex < currentPIndex) {
+                            builder.setLength(0);
+                            // 游标右移
+                            cursor.nextWord();
+                            startEIndex = cursor.getElementIndex();
+                            isChange = false;
+                            continue;
+                        } else if (pIndex == currentPIndex && startEIndex < currentEIndex) {
+                            builder.setLength(0);
+                            // 游标右移
+                            cursor.nextWord();
+                            startEIndex = cursor.getElementIndex();
+                            isChange = false;
+                            continue;
+                        }
+                        ttsProvider.mSpeechSynthesizer.speak(builder.toString(), tag);
                         builder.setLength(0);
                         isChange = true;
                     }
@@ -839,6 +869,12 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                     startEIndex = cursor.getElementIndex();
                     isChange = false;
                 }
+            }
+            // 段落游标右移
+            zlTextParagraphCursor = zlTextParagraphCursor.next();
+            // 段落位置
+            if (zlTextParagraphCursor == null) {
+                break;
             }
         }
     }

@@ -23,6 +23,7 @@ public class TTSProvider {
         mSpeechSynthesizer.setApiKey(AppKey, AppSecret);
         mSpeechSynthesizer.setContext(context);
         mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_SPEAKER, "3");
+        mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_SPEED, "10");
         mSpeechSynthesizer.initTts(TtsMode.MIX);
     }
 }
