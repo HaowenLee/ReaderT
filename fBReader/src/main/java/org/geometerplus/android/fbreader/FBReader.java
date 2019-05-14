@@ -842,8 +842,13 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         if (tocElement == null) {
             return;
         }
+        // 起始段索引，和元素索引
         int currentPIndex = myFBReaderApp.getTextView().getStartCursor().getParagraphIndex();
         int currentEIndex = myFBReaderApp.getTextView().getStartCursor().getElementIndex();
+        int currentCIndex = myFBReaderApp.getTextView().getStartCursor().getCharIndex();
+
+        System.out.println("p" + currentPIndex + "e" + currentEIndex + "c" + currentCIndex);
+
         int pIndex;
         int startEIndex;
         int endEIndex;
@@ -859,6 +864,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         while (!zlTextParagraphCursor.isEndOfSection()) {
             final ZLTextWordCursor cursor = new ZLTextWordCursor(myFBReaderApp.getTextView().getStartCursor());
             pIndex = zlTextParagraphCursor.Index;
+            // 移动到章节起始段落
             cursor.moveToParagraph(zlTextParagraphCursor.Index);
             // 段落起始
             cursor.moveToParagraphStart();
@@ -870,6 +876,15 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                 // 元素
                 ZLTextElement element = cursor.getElement();
                 if (element instanceof ZLTextWord) {
+                    // 该页面起始之前的都不记录
+                    if (pIndex == currentPIndex && startEIndex < currentEIndex) {
+                        builder.setLength(0);
+                        // 游标右移
+                        cursor.nextWord();
+                        startEIndex = cursor.getElementIndex();
+                        isChange = false;
+                        continue;
+                    }
                     builder.append(element);
                     // 以标点符号断句
                     if (element.toString().matches(".*[。？！;；，!、]+.*")) {
@@ -879,13 +894,6 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                         textMap.put(tag, false);
                         // 当该页面之前的都算了
                         if (pIndex < currentPIndex) {
-                            builder.setLength(0);
-                            // 游标右移
-                            cursor.nextWord();
-                            startEIndex = cursor.getElementIndex();
-                            isChange = false;
-                            continue;
-                        } else if (pIndex == currentPIndex && startEIndex < currentEIndex) {
                             builder.setLength(0);
                             // 游标右移
                             cursor.nextWord();
