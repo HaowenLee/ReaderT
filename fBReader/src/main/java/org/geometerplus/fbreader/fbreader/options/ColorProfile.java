@@ -83,11 +83,11 @@ public class ColorProfile {
                 BackgroundOption =
                         createOption(name, "Background", 228, 223, 204);
                 SelectionBackgroundOption =
-                        createOption(name, "SelectionBackground", 82, 131, 194);
+                        createOption(name, "SelectionBackground", 224, 207, 167);
                 SelectionForegroundOption =
                         createNullOption(name, "SelectionForeground");
                 SelectionCursorOption =
-                        createOption(name, "SelectionCursorOption", 82, 131, 194);
+                        createOption(name, "SelectionCursorOption", 173, 124, 45);
                 HighlightingBackgroundOption =
                         createOption(name, "Highlighting", 255, 192, 128);
                 HighlightingForegroundOption =
@@ -117,11 +117,11 @@ public class ColorProfile {
                 BackgroundOption =
                         createOption(name, "Background", 166, 201, 171);
                 SelectionBackgroundOption =
-                        createOption(name, "SelectionBackground", 82, 131, 194);
+                        createOption(name, "SelectionBackground", 133, 182, 116);
                 SelectionForegroundOption =
                         createNullOption(name, "SelectionForeground");
                 SelectionCursorOption =
-                        createOption(name, "SelectionCursorOption", 82, 131, 194);
+                        createOption(name, "SelectionCursorOption", 70, 144, 34);
                 HighlightingBackgroundOption =
                         createOption(name, "Highlighting", 255, 192, 128);
                 HighlightingForegroundOption =
@@ -151,11 +151,11 @@ public class ColorProfile {
                 BackgroundOption =
                         createOption(name, "Background", 52, 56, 60);
                 SelectionBackgroundOption =
-                        createOption(name, "SelectionBackground", 82, 131, 194);
+                        createOption(name, "SelectionBackground", 11, 22, 36);
                 SelectionForegroundOption =
                         createNullOption(name, "SelectionForeground");
                 SelectionCursorOption =
-                        createOption(name, "SelectionCursorOption", 82, 131, 194);
+                        createOption(name, "SelectionCursorOption", 0, 131, 216);
                 HighlightingBackgroundOption =
                         createOption(name, "Highlighting", 96, 96, 128);
                 HighlightingForegroundOption =
