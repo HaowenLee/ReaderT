@@ -19,6 +19,9 @@
 
 package org.geometerplus.zlibrary.core.view;
 
+/**
+ * ZLView枚举
+ */
 public interface ZLViewEnums {
 
     /**
@@ -69,6 +72,9 @@ public interface ZLViewEnums {
         }
     }
 
+    /**
+     * 方向
+     */
     enum Direction {
         leftToRight(true), rightToLeft(true), up(false), down(false);
 
@@ -79,6 +85,9 @@ public interface ZLViewEnums {
         }
     }
 
+    /**
+     * 动画
+     */
     enum Animation {
         none, curl, slide, slideOldStyle, shift, previewNone, previewShift
     }

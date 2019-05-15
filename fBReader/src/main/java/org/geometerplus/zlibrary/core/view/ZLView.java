@@ -24,6 +24,10 @@ import org.geometerplus.zlibrary.core.application.ZLApplication;
 abstract public class ZLView implements ZLViewEnums {
 
     public final ZLApplication Application;
+
+    /**
+     * 空对象模式
+     */
     private ZLPaintContext myViewContext = new DummyPaintContext();
 
     protected ZLView(ZLApplication application) {
@@ -38,10 +42,20 @@ abstract public class ZLView implements ZLViewEnums {
         return myViewContext;
     }
 
+    /**
+     * 获取宽度
+     *
+     * @return 宽度
+     */
     public final int getContextWidth() {
         return myViewContext.getWidth();
     }
 
+    /**
+     * 获取高度
+     *
+     * @return 高度
+     */
     public final int getContextHeight() {
         return myViewContext.getHeight();
     }
@@ -80,6 +94,11 @@ abstract public class ZLView implements ZLViewEnums {
 
     public abstract void onFingerEventCancelled();
 
+    /**
+     * 是否双击支持
+     *
+     * @return 是否双击支持
+     */
     public boolean isDoubleTapSupported() {
         return false;
     }
@@ -88,14 +107,42 @@ abstract public class ZLView implements ZLViewEnums {
         return false;
     }
 
+    /**
+     * 是否显示滚动条
+     *
+     * @return 是否显示滚动条
+     */
     public abstract boolean isScrollbarShown();
 
+    /**
+     * 获取滚动条整体大小
+     *
+     * @return 滚动条整体大小
+     */
     public abstract int getScrollbarFullSize();
 
+    /**
+     * 获取滚动条滑块位置
+     *
+     * @param pageIndex 页面索引
+     * @return 滚动条滑块长度
+     */
     public abstract int getScrollbarThumbPosition(PageIndex pageIndex);
 
+    /**
+     * 获取滚动条滑块长度
+     *
+     * @param pageIndex 页面索引
+     * @return 滚动条滑块长度
+     */
     public abstract int getScrollbarThumbLength(PageIndex pageIndex);
 
+    /**
+     * 是否能滚动
+     *
+     * @param index 页面索引
+     * @return 是否能滚动
+     */
     public abstract boolean canScroll(PageIndex index);
 
     /**
