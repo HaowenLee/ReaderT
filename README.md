@@ -9,10 +9,10 @@
 ### 应用截图
 
 <div>
-<img src="https://github.com/HaowenLee/FBReader_AS/blob/master/arts/theme_white.png" width="180" alt="白色主题"/>
-<img src="https://github.com/HaowenLee/FBReader_AS/blob/master/arts/theme_yellow.png" width="180" alt="黄色主题"/>
-<img src="https://github.com/HaowenLee/FBReader_AS/blob/master/arts/theme_green.png" width="180" alt="护眼主题"/>
-<img src="https://github.com/HaowenLee/FBReader_AS/blob/master/arts/theme_black.png" width="180" alt="夜间主题"/>
+<img src="https://github.com/HaowenLee/FBReader_AS/blob/master/arts/theme_white.png" width="220" alt="白色主题"/>
+<img src="https://github.com/HaowenLee/FBReader_AS/blob/master/arts/theme_yellow.png" width="220" alt="黄色主题"/>
+<img src="https://github.com/HaowenLee/FBReader_AS/blob/master/arts/theme_green.png" width="220" alt="护眼主题"/>
+<img src="https://github.com/HaowenLee/FBReader_AS/blob/master/arts/theme_black.png" width="220" alt="夜间主题"/>
 </div>
 
 ### TODO LIST
