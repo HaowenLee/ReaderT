@@ -25,50 +25,50 @@ package org.geometerplus.zlibrary.core.util;
  */
 public final class ZLColor {
 
-	public final short Red;
-	public final short Green;
-	public final short Blue;
+    public final short Red;
+    public final short Green;
+    public final short Blue;
 
-	public ZLColor(int r, int g, int b) {
-		Red = (short)(r & 0xFF);
-		Green = (short)(g & 0xFF);
-		Blue = (short)(b & 0xFF);
-	}
+    public ZLColor(int r, int g, int b) {
+        Red = (short) (r & 0xFF);
+        Green = (short) (g & 0xFF);
+        Blue = (short) (b & 0xFF);
+    }
 
-	public ZLColor(int intValue) {
-		Red = (short)((intValue >> 16) & 0xFF);
-		Green = (short)((intValue >> 8) & 0xFF);
-		Blue = (short)(intValue & 0xFF);
-	}
+    public ZLColor(int intValue) {
+        Red = (short) ((intValue >> 16) & 0xFF);
+        Green = (short) ((intValue >> 8) & 0xFF);
+        Blue = (short) (intValue & 0xFF);
+    }
 
-	public int intValue() {
-		return (Red << 16) + (Green << 8) + Blue;
-	}
+    @Override
+    public int hashCode() {
+        return intValue();
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (o == this) {
-			return true;
-		}
+    public int intValue() {
+        return (Red << 16) + (Green << 8) + Blue;
+    }
 
-		if (!(o instanceof ZLColor)) {
-			return false;
-		}
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
 
-		ZLColor color = (ZLColor)o;
-		return color.Red == Red && color.Green == Green && color.Blue == Blue;
-	}
+        if (!(o instanceof ZLColor)) {
+            return false;
+        }
 
-	@Override
-	public int hashCode() {
-		return intValue();
-	}
+        ZLColor color = (ZLColor) o;
+        return color.Red == Red && color.Green == Green && color.Blue == Blue;
+    }
 
-	@Override
-	public String toString() {
-		return "ZLColor(" +
-				Red + ", " +
-				Green + ", " +
-				Blue + ")";
-	}
+    @Override
+    public String toString() {
+        return "ZLColor(" +
+                Red + ", " +
+                Green + ", " +
+                Blue + ")";
+    }
 }

@@ -27,6 +27,7 @@
 - 主题效果优化
 - 语音朗读优化
 - TXT目录识别
+- EPUB3支持
 - PDF格式支持
 
 ### 感谢
@@ -34,3 +35,8 @@
 - [FBReaderJ阅读器](https://github.com/geometer/FBReaderJ)
 - [Android-skin-support换肤框架](https://github.com/ximsfei/Android-skin-support)
 - [百度语音合成](http://ai.baidu.com/tech/speech/tts)
+
+### 相关资源
+
+- [爱下电子书](https://www.ixdzs.com)
+- [epub3-samples](http://idpf.github.io/epub3-samples/30/samples.html)

@@ -37,14 +37,35 @@ public class ColorProfile {
     public final String Name;
     public final ZLStringOption WallpaperOption;
     public final ZLEnumOption<ZLPaintContext.FillMode> FillModeOption;
+    /**
+     * 阅读器背景色
+     */
     public final ZLColorOption BackgroundOption;
+    /**
+     * 选中区域背景色
+     */
     public final ZLColorOption SelectionBackgroundOption;
+    /**
+     * 选中区域前景色
+     */
     public final ZLColorOption SelectionForegroundOption;
+    /**
+     * 选中的左右游标颜色
+     */
     public final ZLColorOption SelectionCursorOption;
     public final ZLColorOption HighlightingForegroundOption;
     public final ZLColorOption HighlightingBackgroundOption;
+    /**
+     * 普通文字颜色
+     */
     public final ZLColorOption RegularTextOption;
+    /**
+     * 超链接文字颜色
+     */
     public final ZLColorOption HyperlinkTextOption;
+    /**
+     * 访问过的超链接文字颜色（点击过）
+     */
     public final ZLColorOption VisitedHyperlinkTextOption;
     public final ZLColorOption FooterFillOption;
     public final ZLColorOption FooterNGBackgroundOption;
@@ -183,19 +204,19 @@ public class ColorProfile {
                 FillModeOption =
                         new ZLEnumOption<>("Colors", name + ":FillMode", ZLPaintContext.FillMode.tile);
                 BackgroundOption =
-                        createOption(name, "Background", 248, 248, 248);
+                        createOption(name, "Background", 0xffffffff);
                 SelectionBackgroundOption =
-                        createOption(name, "SelectionBackground", 217, 237, 249);
+                        createOption(name, "SelectionBackground", 0xffd9edf9);
                 SelectionForegroundOption =
                         createNullOption(name, "SelectionForeground");
                 SelectionCursorOption =
-                        createOption(name, "SelectionCursorOption", 0, 131, 216);
+                        createOption(name, "SelectionCursorOption", 0xff0083d8);
                 HighlightingBackgroundOption =
                         createOption(name, "Highlighting", 217, 237, 249);
                 HighlightingForegroundOption =
                         createNullOption(name, "HighlightingForeground");
                 RegularTextOption =
-                        createOption(name, "Text", 62, 42, 23);
+                        createOption(name, "Text", 0xff3e2a17);
                 HyperlinkTextOption =
                         createOption(name, "Hyperlink", 60, 139, 255);
                 VisitedHyperlinkTextOption =
@@ -220,6 +241,10 @@ public class ColorProfile {
 
     private static ZLColorOption createNullOption(String profileName, String optionName) {
         return new ZLColorOption("Colors", profileName + ':' + optionName, null);
+    }
+
+    private static ZLColorOption createOption(String profileName, String optionName, int color) {
+        return new ZLColorOption("Colors", profileName + ':' + optionName, new ZLColor(color));
     }
 
     public static List<String> names() {
