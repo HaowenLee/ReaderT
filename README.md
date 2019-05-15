@@ -31,6 +31,6 @@
 
 ### 感谢
 
-- [FBReaderJ]阅读器(https://github.com/geometer/FBReaderJ)
-- [Android-skin-support]换肤框架(https://github.com/ximsfei/Android-skin-support)
+- [FBReaderJ阅读器](https://github.com/geometer/FBReaderJ)
+- [Android-skin-support换肤框架](https://github.com/ximsfei/Android-skin-support)
 - [百度语音合成](http://ai.baidu.com/tech/speech/tts)
