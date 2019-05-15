@@ -231,6 +231,11 @@ abstract public class ZLPaintContext {
 
     private int mySpaceWidth = -1;
 
+    /**
+     * 获取空格宽度
+     *
+     * @return 空格宽度
+     */
     public final int getSpaceWidth() {
         int spaceWidth = mySpaceWidth;
         if (spaceWidth == -1) {
@@ -240,7 +245,12 @@ abstract public class ZLPaintContext {
         return spaceWidth;
     }
 
-    abstract protected int getSpaceWidthInternal();
+    /**
+     * 获取空格宽度（内部实现）
+     *
+     * @return 空格宽度
+     */
+    protected abstract int getSpaceWidthInternal();
 
     private int myStringHeight = -1;
 

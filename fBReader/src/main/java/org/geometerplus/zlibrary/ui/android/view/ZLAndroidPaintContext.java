@@ -51,27 +51,69 @@ import hugo.weaving.DebugLog;
  */
 public final class ZLAndroidPaintContext extends ZLPaintContext {
 
+    /**
+     * 字体抗锯齿
+     */
     public static ZLBooleanOption AntiAliasOption = new ZLBooleanOption("Fonts", "AntiAlias", true);
+    /**
+     * 设备字距微调
+     */
     public static ZLBooleanOption DeviceKerningOption = new ZLBooleanOption("Fonts", "DeviceKerning", false);
+    /**
+     * 抖动
+     */
     public static ZLBooleanOption DitheringOption = new ZLBooleanOption("Fonts", "Dithering", false);
+    /**
+     * 亚像素
+     */
     public static ZLBooleanOption SubpixelOption = new ZLBooleanOption("Fonts", "Subpixel", false);
 
+    /**
+     * 画布
+     */
     private final Canvas myCanvas;
+    /**
+     * 文字画笔
+     */
     private final Paint myTextPaint = new Paint();
+    /**
+     * 线画笔
+     */
     private final Paint myLinePaint = new Paint();
+    /**
+     * 填充画笔
+     */
     private final Paint myFillPaint = new Paint();
+    /**
+     * 轮廓线画笔
+     */
     private final Paint myOutlinePaint = new Paint();
 
     private final Paint myExtraPaint = new Paint();
     private final Path myPath = new Path();
 
+    /**
+     * 几何属性
+     */
     public static final class Geometry {
+        /**
+         * 屏幕大小
+         */
         final Size ScreenSize;
+        /**
+         * 区域大小
+         */
         final Size AreaSize;
+        /**
+         * 左边距
+         */
         final int LeftMargin;
+        /**
+         * 顶部边距
+         */
         final int TopMargin;
 
-        public Geometry(int screenWidth, int screenHeight, int width, int height, int leftMargin, int topMargin) {
+        Geometry(int screenWidth, int screenHeight, int width, int height, int leftMargin, int topMargin) {
             ScreenSize = new Size(screenWidth, screenHeight);
             AreaSize = new Size(width, height);
             LeftMargin = leftMargin;
