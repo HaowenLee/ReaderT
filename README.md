@@ -1,6 +1,6 @@
-# FBReader
+# ReaderT
 
-匠人精神的阅读器
+基于[FBReaderJ](https://github.com/geometer/FBReaderJ)修改，仿得到AppUI效果的epub阅读器。
 
 - 支持多格式文件格式（epub）
 - 支持丰富多彩的设置（主题 字体 翻页效果）
@@ -28,3 +28,9 @@
 - 语音朗读优化
 - TXT目录识别
 - PDF格式支持
+
+### 感谢
+
+- [FBReaderJ]阅读器(https://github.com/geometer/FBReaderJ)
+- [Android-skin-support]换肤框架(https://github.com/ximsfei/Android-skin-support)
+- [百度语音合成](http://ai.baidu.com/tech/speech/tts)
