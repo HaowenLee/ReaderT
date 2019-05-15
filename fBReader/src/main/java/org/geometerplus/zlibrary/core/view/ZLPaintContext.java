@@ -27,6 +27,9 @@ import org.geometerplus.zlibrary.core.image.ZLImageData;
 import org.geometerplus.zlibrary.core.util.SystemInfo;
 import org.geometerplus.zlibrary.core.util.ZLColor;
 
+/**
+ * 画笔上下文（绘制相关）
+ */
 abstract public class ZLPaintContext {
 
     private final SystemInfo mySystemInfo;
@@ -52,16 +55,53 @@ abstract public class ZLPaintContext {
 
     abstract public void clear(ZLColor color);
 
+    /**
+     * 获取背景色
+     *
+     * @return 背景色
+     */
     abstract public ZLColor getBackgroundColor();
 
+    /**
+     * 是否重置字体
+     */
     private boolean myResetFont = true;
+    /**
+     * 字体集合
+     */
     private List<FontEntry> myFontEntries;
+    /**
+     * 字体大小
+     */
     private int myFontSize;
+    /**
+     * 字体-粗体
+     */
     private boolean myFontIsBold;
+    /**
+     * 字体-斜体
+     */
     private boolean myFontIsItalic;
+    /**
+     * 字体-下划线
+     */
     private boolean myFontIsUnderlined;
-    private boolean myFontIsStrikedThrough;
+    /**
+     * 字体-中划线
+     */
+    private boolean myFontIsStrikeThrough;
 
+    /**
+     * 设置字体相关属性（内部实现）
+     * 有一个属性变化就RestFont
+     *
+     * @param entries       字体集合
+     * @param size          字体大小
+     * @param bold          粗体
+     * @param italic        斜体
+     * @param underline     下划线
+     * @param strikeThrough 中划线
+     */
     public final void setFont(List<FontEntry> entries, int size, boolean bold, boolean italic, boolean underline, boolean strikeThrough) {
         if (entries != null && !entries.equals(myFontEntries)) {
             myFontEntries = entries;
@@ -83,8 +123,8 @@ abstract public class ZLPaintContext {
             myFontIsUnderlined = underline;
             myResetFont = true;
         }
-        if (myFontIsStrikedThrough != strikeThrough) {
-            myFontIsStrikedThrough = strikeThrough;
+        if (myFontIsStrikeThrough != strikeThrough) {
+            myFontIsStrikeThrough = strikeThrough;
             myResetFont = true;
         }
         if (myResetFont) {
@@ -97,30 +137,90 @@ abstract public class ZLPaintContext {
         }
     }
 
+    /**
+     * 设置字体相关属性（内部实现）
+     *
+     * @param entries       字体集合
+     * @param size          字体大小
+     * @param bold          粗体
+     * @param italic        斜体
+     * @param underline     下划线
+     * @param strikeThrough 中划线
+     */
     abstract protected void setFontInternal(List<FontEntry> entries, int size, boolean bold, boolean italic, boolean underline, boolean strikeThrough);
 
+    /**
+     * 设置文字颜色
+     *
+     * @param color 颜色
+     */
     abstract public void setTextColor(ZLColor color);
 
     abstract public void setExtraFoot(int textSize, ZLColor color);
 
+    /**
+     * 设置线颜色
+     *
+     * @param color 线颜色
+     */
     abstract public void setLineColor(ZLColor color);
 
+    /**
+     * 设置线的宽度
+     *
+     * @param width 线的宽度
+     */
     abstract public void setLineWidth(int width);
 
-    final public void setFillColor(ZLColor color) {
+    /**
+     * 设置填充颜色
+     *
+     * @param color 颜色
+     */
+    public final void setFillColor(ZLColor color) {
         setFillColor(color, 0xFF);
     }
 
+    /**
+     * 设置填充颜色
+     *
+     * @param color 颜色
+     * @param alpha 透明度
+     */
     abstract public void setFillColor(ZLColor color, int alpha);
 
+    /**
+     * 获取宽度
+     *
+     * @return 宽度
+     */
     abstract public int getWidth();
 
+    /**
+     * 获取高度
+     *
+     * @return 高度
+     */
     abstract public int getHeight();
 
+    /**
+     * 获取字符串宽度
+     *
+     * @param string 字符串
+     * @return 字符串宽度
+     */
     public final int getStringWidth(String string) {
         return getStringWidth(string.toCharArray(), 0, string.length());
     }
 
+    /**
+     * 获取字符串宽度
+     *
+     * @param string 字符串数组
+     * @param offset 偏移量
+     * @param length 字符长度
+     * @return 字符串宽度
+     */
     abstract public int getStringWidth(char[] string, int offset, int length);
 
     public final int getExtraStringWidth(String string) {
@@ -144,6 +244,11 @@ abstract public class ZLPaintContext {
 
     private int myStringHeight = -1;
 
+    /**
+     * 获取字符串高度
+     *
+     * @return 字符串高度
+     */
     public final int getStringHeight() {
         int stringHeight = myStringHeight;
         if (stringHeight == -1) {
@@ -153,7 +258,12 @@ abstract public class ZLPaintContext {
         return stringHeight;
     }
 
-    abstract protected int getStringHeightInternal();
+    /**
+     * 获取字符串高度
+     *
+     * @return 字符串高度
+     */
+    protected abstract int getStringHeightInternal();
 
     private Map<Character, Integer> myCharHeights = new TreeMap<Character, Integer>();
 
@@ -182,10 +292,26 @@ abstract public class ZLPaintContext {
 
     abstract protected int getDescentInternal();
 
+    /**
+     * 绘制整个字符串
+     *
+     * @param x      起始X
+     * @param y      起始Y
+     * @param string 字符串
+     */
     public final void drawString(int x, int y, String string) {
         drawString(x, y, string.toCharArray(), 0, string.length());
     }
 
+    /**
+     * 绘制字符串（抽象）
+     *
+     * @param x      起始X
+     * @param y      起始Y
+     * @param string 字符串数组
+     * @param offset 偏移（字符串数组的偏移）
+     * @param length 绘制的字符长度
+     */
     abstract public void drawString(int x, int y, char[] string, int offset, int length);
 
     public static final class Size {
@@ -215,7 +341,7 @@ abstract public class ZLPaintContext {
         }
     }
 
-    public static enum ScalingType {
+    public enum ScalingType {
         OriginalSize,
         IntegerCoefficient,
         FitMaximum
@@ -231,21 +357,70 @@ abstract public class ZLPaintContext {
 
     abstract public void drawImage(int x, int y, ZLImageData image, Size maxSize, ScalingType scaling, ColorAdjustingMode adjustingMode);
 
+    /**
+     * 绘制线（抽象）
+     *
+     * @param x0 起始X
+     * @param y0 起始Y
+     * @param x1 结束X
+     * @param y1 结束Y
+     */
     abstract public void drawLine(int x0, int y0, int x1, int y1);
 
+    /**
+     * 绘制实心矩形（抽象）
+     *
+     * @param x0 起始X
+     * @param y0 起始Y
+     * @param x1 结束X
+     * @param y1 结束Y
+     */
     abstract public void fillRectangle(int x0, int y0, int x1, int y1);
 
     abstract public void drawHeader(int x, int y, String title);
 
     abstract public void drawFooter(int x, int y, String progress);
 
+    /**
+     * 绘制多边形线
+     *
+     * @param xs X坐标集合
+     * @param ys Y坐标集合
+     */
     abstract public void drawPolygonalLine(int[] xs, int[] ys);
 
+    /**
+     * 绘制实心多边形（抽象）
+     *
+     * @param xs X坐标集合
+     * @param ys Y坐标集合
+     */
     abstract public void fillPolygon(int[] xs, int[] ys);
 
+    /**
+     * 绘制轮廓线
+     *
+     * @param xs X坐标集合
+     * @param ys Y坐标集合
+     */
     abstract public void drawOutline(int[] xs, int[] ys);
 
+    /**
+     * 绘制实心圆（抽象）
+     *
+     * @param x      圆心X
+     * @param y      圆心Y
+     * @param radius 圆半径
+     */
     abstract public void fillCircle(int x, int y, int radius);
 
+    /**
+     * 绘制书签（抽象）
+     *
+     * @param x0 起始X
+     * @param y0 起始Y
+     * @param x1 结束X
+     * @param y1 结束Y
+     */
     abstract public void drawBookMark(int x0, int y0, int x1, int y1);
 }

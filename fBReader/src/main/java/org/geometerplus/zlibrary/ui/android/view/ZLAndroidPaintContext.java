@@ -46,6 +46,9 @@ import java.util.List;
 
 import hugo.weaving.DebugLog;
 
+/**
+ * Android画笔上下文（绘制相关）
+ */
 public final class ZLAndroidPaintContext extends ZLPaintContext {
 
     public static ZLBooleanOption AntiAliasOption = new ZLBooleanOption("Fonts", "AntiAlias", true);
