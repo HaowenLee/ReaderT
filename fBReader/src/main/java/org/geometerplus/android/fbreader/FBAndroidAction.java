@@ -22,11 +22,17 @@ package org.geometerplus.android.fbreader;
 import org.geometerplus.fbreader.fbreader.FBAction;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
 
+/**
+ * Android Action基类
+ */
 abstract class FBAndroidAction extends FBAction {
+	/**
+	 * FBReader
+	 */
 	protected final FBReader BaseActivity;
 
-	FBAndroidAction(FBReader baseActivity, FBReaderApp fbreader) {
-		super(fbreader);
+	FBAndroidAction(FBReader baseActivity, FBReaderApp fbReader) {
+		super(fbReader);
 		BaseActivity = baseActivity;
 	}
 }

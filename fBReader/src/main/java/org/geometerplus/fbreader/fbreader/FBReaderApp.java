@@ -40,6 +40,7 @@ import org.geometerplus.fbreader.network.sync.SyncData;
 import org.geometerplus.fbreader.util.*;
 
 public final class FBReaderApp extends ZLApplication {
+
     public final MiscOptions MiscOptions = new MiscOptions();
     public final ImageOptions ImageOptions = new ImageOptions();
     public final ViewOptions ViewOptions = new ViewOptions();
