@@ -260,8 +260,8 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             }
         });
 
-        final ZLAndroidLibrary zlibrary = getZLibrary();
-        myShowStatusBarFlag = zlibrary.ShowStatusBarOption.getValue();
+        final ZLAndroidLibrary zLibrary = getZLibrary();
+        myShowStatusBarFlag = zLibrary.ShowStatusBarOption.getValue();
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 

@@ -434,6 +434,13 @@ public final class FBReaderApp extends ZLApplication {
         }
     }
 
+    /**
+     * 打开书
+     *
+     * @param book     图书对象
+     * @param bookmark 书签
+     * @param force    强制
+     */
     private synchronized void openBookInternal(final Book book, Bookmark bookmark, boolean force) {
         if (!force && Model != null && Collection.sameBook(book, Model.Book)) {
             if (bookmark != null) {
@@ -483,9 +490,9 @@ public final class FBReaderApp extends ZLApplication {
             Collection.saveBook(book);
             ZLTextHyphenator.Instance().load(book.getLanguage());
             BookTextView.setModel(Model.getTextModel());
+            gotoStoredPosition();
             setBookMarkHighlighting(BookTextView, null);
             setBookNoteHighlighting(BookTextView, null);
-            gotoStoredPosition();
             if (bookmark == null) {
                 setView(BookTextView);
             } else {
@@ -611,6 +618,7 @@ public final class FBReaderApp extends ZLApplication {
             return fromServer.Timestamp >= local.Timestamp ? fromServer : local;
         }
     }
+
 
     private void gotoStoredPosition() {
         myStoredPositionBook = Model != null ? Model.Book : null;
