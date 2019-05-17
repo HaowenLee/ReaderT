@@ -1,11 +1,11 @@
 [
     {
-        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\layout_catalog_manager_item.xml.flat",
-        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\layout\\catalog_manager_item.xml"
-    },
-    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\color_abc_btn_colored_text_material.xml.flat",
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\color\\abc_btn_colored_text_material.xml"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\layout_catalog_manager_item.xml.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\layout\\catalog_manager_item.xml"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_skin_btn_radio_checked.png.flat",
@@ -14,6 +14,10 @@
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_ic_star_black_48dp.png.flat",
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\drawable-xxhdpi-v4\\abc_ic_star_black_48dp.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21_ic_list_library_folder.xml.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-anydpi-v21\\ic_list_library_folder.xml"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v11_afc_ic_menu_sort_by_size_desc.png.flat",
@@ -28,16 +32,20 @@
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\code\\build\\intermediates\\packaged_res\\debug\\drawable-hdpi-v4\\afc_button_create_folder_pressed.png"
     },
     {
-        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_reader_loading_77.png.flat",
-        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xhdpi\\reader_loading_77.png"
-    },
-    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v11_afc_ic_menu_sort_by_name_asc.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\code\\build\\intermediates\\packaged_res\\debug\\drawable-ldpi-v11\\afc_ic_menu_sort_by_name_asc.png"
     },
     {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_reader_loading_77.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xhdpi\\reader_loading_77.png"
+    },
+    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_ic_star_black_36dp.png.flat",
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\drawable-xhdpi-v4\\abc_ic_star_black_36dp.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi_ic_list_library_authors.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-xxxhdpi\\ic_list_library_authors.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-ldrtl-xxxhdpi-v17_abc_spinner_mtrl_am_alpha.9.png.flat",
@@ -46,6 +54,10 @@
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable_afc_selector_button_navi_right.xml.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\code\\build\\intermediates\\packaged_res\\debug\\drawable\\afc_selector_button_navi_right.xml"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_ic_list_library_author.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-xhdpi\\ic_list_library_author.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_popup_background_mtrl_mult.9.png.flat",
@@ -76,16 +88,16 @@
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\drawable-mdpi-v4\\abc_list_divider_mtrl_alpha.9.png"
     },
     {
-        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_notification_bg_low_normal.9.png.flat",
-        "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\8bff1c2e59f4bdce5139da39022a2fd1\\res\\drawable-hdpi-v4\\notification_bg_low_normal.9.png"
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\animator_mtrl_btn_state_list_anim.xml.flat",
+        "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\f564d8a56900fea04c4b3d320f5e4a30\\res\\animator\\mtrl_btn_state_list_anim.xml"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi_ic_translate_white.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xxxhdpi\\ic_translate_white.png"
     },
     {
-        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\animator_mtrl_btn_state_list_anim.xml.flat",
-        "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\f564d8a56900fea04c4b3d320f5e4a30\\res\\animator\\mtrl_btn_state_list_anim.xml"
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_notification_bg_low_normal.9.png.flat",
+        "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\8bff1c2e59f4bdce5139da39022a2fd1\\res\\drawable-hdpi-v4\\notification_bg_low_normal.9.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_textfield_search_default_mtrl_alpha.9.png.flat",
@@ -100,12 +112,12 @@
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\drawable-hdpi-v4\\abc_ic_menu_copy_mtrl_am_alpha.png"
     },
     {
-        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\layout-sw600dp-v13_mtrl_layout_snackbar.xml.flat",
-        "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\f564d8a56900fea04c4b3d320f5e4a30\\res\\layout-sw600dp-v13\\mtrl_layout_snackbar.xml"
-    },
-    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-ldrtl-mdpi-v17_abc_ic_menu_copy_mtrl_am_alpha.png.flat",
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\drawable-ldrtl-mdpi-v17\\abc_ic_menu_copy_mtrl_am_alpha.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\layout-sw600dp-v13_mtrl_layout_snackbar.xml.flat",
+        "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\f564d8a56900fea04c4b3d320f5e4a30\\res\\layout-sw600dp-v13\\mtrl_layout_snackbar.xml"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_reader_loading_16.png.flat",
@@ -136,16 +148,16 @@
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-mdpi\\ic_translate_pressed.png"
     },
     {
-        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi_ic_bookmark_outline_pressed.png.flat",
-        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xxxhdpi\\ic_bookmark_outline_pressed.png"
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_reader_loading_25.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xhdpi\\reader_loading_25.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_ic_book_setting.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xhdpi\\ic_book_setting.png"
     },
     {
-        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_reader_loading_25.png.flat",
-        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xhdpi\\reader_loading_25.png"
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi_ic_bookmark_outline_pressed.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xxxhdpi\\ic_bookmark_outline_pressed.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_ic_arrow_back_pressed.png.flat",
@@ -160,12 +172,12 @@
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xhdpi\\fbreader_bw.png"
     },
     {
-        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_afc_button_navi_right.png.flat",
-        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\code\\build\\intermediates\\packaged_res\\debug\\drawable-hdpi-v4\\afc_button_navi_right.png"
-    },
-    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\anim_abc_fade_in.xml.flat",
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\anim\\abc_fade_in.xml"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_afc_button_navi_right.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\code\\build\\intermediates\\packaged_res\\debug\\drawable-hdpi-v4\\afc_button_navi_right.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_list_pressed_holo_dark.9.png.flat",
@@ -176,32 +188,36 @@
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable\\reader_loading.xml"
     },
     {
-        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_ic_bookmark_outline_white.png.flat",
-        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xxhdpi\\ic_bookmark_outline_white.png"
-    },
-    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_afc_button_navi_left.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\code\\build\\intermediates\\packaged_res\\debug\\drawable-hdpi-v4\\afc_button_navi_left.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_ic_bookmark_outline_white.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xxhdpi\\ic_bookmark_outline_white.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_reader_loading_30.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xhdpi\\reader_loading_30.png"
     },
     {
-        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable_ambilwarna_hue.png.flat",
-        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\ambilWarna\\build\\intermediates\\packaged_res\\debug\\drawable\\ambilwarna_hue.png"
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\layout_supercardtoast.xml.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\superToasts\\build\\intermediates\\packaged_res\\debug\\layout\\supercardtoast.xml"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_ic_menu_night.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xhdpi\\ic_menu_night.png"
     },
     {
-        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\layout_supercardtoast.xml.flat",
-        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\superToasts\\build\\intermediates\\packaged_res\\debug\\layout\\supercardtoast.xml"
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable_ambilwarna_hue.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\ambilWarna\\build\\intermediates\\packaged_res\\debug\\drawable\\ambilwarna_hue.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_ic_menu_add.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xhdpi\\ic_menu_add.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_ic_list_library_zip.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-hdpi\\ic_list_library_zip.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-v21_abc_list_divider_material.xml.flat",
@@ -222,6 +238,10 @@
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_ic_star_black_48dp.png.flat",
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\drawable-xhdpi-v4\\abc_ic_star_black_48dp.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_ic_list_library_author.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-hdpi\\ic_list_library_author.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_afc_button_navi_left_disabled.png.flat",
@@ -290,6 +310,10 @@
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\layout_catalog_manager_view.xml.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\layout\\catalog_manager_view.xml"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi_ic_list_library_book.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-xxxhdpi\\ic_list_library_book.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4_afc_file.png.flat",
@@ -372,6 +396,10 @@
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\drawable-xhdpi-v4\\abc_ic_star_black_16dp.png"
     },
     {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_ic_list_library_author.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-mdpi\\ic_list_library_author.png"
+    },
+    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi_ic_arrow_back_pressed.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xxxhdpi\\ic_arrow_back_pressed.png"
     },
@@ -388,12 +416,12 @@
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\drawable\\abc_ic_clear_material.xml"
     },
     {
-        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v11_afc_ic_menu_sort_by_size_desc.png.flat",
-        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\code\\build\\intermediates\\packaged_res\\debug\\drawable-hdpi-v11\\afc_ic_menu_sort_by_size_desc.png"
-    },
-    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v11_afc_ic_menu_listview.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\code\\build\\intermediates\\packaged_res\\debug\\drawable-mdpi-v11\\afc_ic_menu_listview.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v11_afc_ic_menu_sort_by_size_desc.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\code\\build\\intermediates\\packaged_res\\debug\\drawable-hdpi-v11\\afc_ic_menu_sort_by_size_desc.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\layout_notification_action_tombstone.xml.flat",
@@ -420,20 +448,24 @@
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xhdpi\\reader_loading_12.png"
     },
     {
-        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable_link.xml.flat",
-        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable\\link.xml"
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21_ic_list_library_tag.xml.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-anydpi-v21\\ic_list_library_tag.xml"
     },
     {
-        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable_reader_button_bg.xml.flat",
-        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable\\reader_button_bg.xml"
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_scrubber_control_to_pressed_mtrl_000.png.flat",
+        "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\drawable-mdpi-v4\\abc_scrubber_control_to_pressed_mtrl_000.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_reader_loading_73.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xhdpi\\reader_loading_73.png"
     },
     {
-        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_scrubber_control_to_pressed_mtrl_000.png.flat",
-        "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\drawable-mdpi-v4\\abc_scrubber_control_to_pressed_mtrl_000.png"
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable_reader_button_bg.xml.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable\\reader_button_bg.xml"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable_link.xml.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable\\link.xml"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\animator_design_fab_hide_motion_spec.xml.flat",
@@ -452,6 +484,10 @@
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xhdpi\\fbreader.png"
     },
     {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi_ic_list_library_folder.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-xxxhdpi\\ic_list_library_folder.png"
+    },
+    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-v21_avd_hide_password.xml.flat",
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\f564d8a56900fea04c4b3d320f5e4a30\\res\\drawable-v21\\avd_hide_password.xml"
     },
@@ -460,12 +496,12 @@
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\code\\build\\intermediates\\packaged_res\\debug\\drawable-mdpi-v11\\afc_ic_menu_sort_by_name_asc.png"
     },
     {
-        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\layout_book_popup.xml.flat",
-        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\layout\\book_popup.xml"
-    },
-    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_ic_star_half_black_48dp.png.flat",
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\drawable-mdpi-v4\\abc_ic_star_half_black_48dp.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\layout_book_popup.xml.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\layout\\book_popup.xml"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_ic_content_copy_pressed.png.flat",
@@ -476,12 +512,12 @@
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\superToasts\\build\\intermediates\\packaged_res\\debug\\drawable-hdpi-v4\\icon_dark_undo.png"
     },
     {
-        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\layout_abc_screen_content_include.xml.flat",
-        "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\layout\\abc_screen_content_include.xml"
-    },
-    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_reader_menu_v_icon.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xhdpi\\reader_menu_v_icon.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\layout_abc_screen_content_include.xml.flat",
+        "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\layout\\abc_screen_content_include.xml"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_design_ic_visibility_off.png.flat",
@@ -512,12 +548,12 @@
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\code\\build\\intermediates\\packaged_res\\debug\\drawable-mdpi-v4\\afc_button_folders_view_grid.png"
     },
     {
-        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_ic_share_pressed.png.flat",
-        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xhdpi\\ic_share_pressed.png"
-    },
-    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\color_abc_btn_colored_borderless_text_material.xml.flat",
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\color\\abc_btn_colored_borderless_text_material.xml"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_ic_share_pressed.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xhdpi\\ic_share_pressed.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21_skin_btn_radio_unchecked.xml.flat",
@@ -632,6 +668,14 @@
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\drawable-xhdpi-v4\\abc_switch_track_mtrl_alpha.9.png"
     },
     {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi_ic_list_library_permission_denied.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-xxxhdpi\\ic_list_library_permission_denied.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi_ic_list_library_authors.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-ldpi\\ic_list_library_authors.png"
+    },
+    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_icon_light_redo.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\superToasts\\build\\intermediates\\packaged_res\\debug\\drawable-xhdpi-v4\\icon_light_redo.png"
     },
@@ -658,6 +702,10 @@
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_icon_light_undo.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\superToasts\\build\\intermediates\\packaged_res\\debug\\drawable-mdpi-v4\\icon_light_undo.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_ic_list_library_tags.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-hdpi\\ic_list_library_tags.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_afc_button_sort_de.png.flat",
@@ -844,6 +892,10 @@
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-ldpi\\ic_thumb.png"
     },
     {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_ic_list_library_tag.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-mdpi\\ic_list_library_tag.png"
+    },
+    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable_ic_mtrl_chip_checked_circle.xml.flat",
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\f564d8a56900fea04c4b3d320f5e4a30\\res\\drawable\\ic_mtrl_chip_checked_circle.xml"
     },
@@ -870,6 +922,10 @@
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_ic_menu_selectall_mtrl_alpha.png.flat",
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\drawable-mdpi-v4\\abc_ic_menu_selectall_mtrl_alpha.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_ic_list_library_book.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-xhdpi\\ic_list_library_book.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_ambilwarna_cursor.png.flat",
@@ -1012,6 +1068,10 @@
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\superToasts\\build\\intermediates\\packaged_res\\debug\\drawable-hdpi-v4\\icon_light_exit.png"
     },
     {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi_ic_list_library_author.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-ldpi\\ic_list_library_author.png"
+    },
+    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\layout_skin_select_dialog_singlechoice.xml.flat",
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\8e950ebce9d0828f1e62c0eb25efba00\\res\\layout\\skin_select_dialog_singlechoice.xml"
     },
@@ -1102,6 +1162,10 @@
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v11_afc_ic_menu_sort_by_size_desc.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\code\\build\\intermediates\\packaged_res\\debug\\drawable-ldpi-v11\\afc_ic_menu_sort_by_size_desc.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_ic_list_library_books.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-mdpi\\ic_list_library_books.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v11_afc_ic_menu_listview.png.flat",
@@ -1288,6 +1352,10 @@
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\code\\build\\intermediates\\packaged_res\\debug\\drawable-ldpi-v4\\afc_file_plain_text.png"
     },
     {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_ic_list_library_authors.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-mdpi\\ic_list_library_authors.png"
+    },
+    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_tab_indicator_mtrl_alpha.9.png.flat",
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\drawable-hdpi-v4\\abc_tab_indicator_mtrl_alpha.9.png"
     },
@@ -1302,6 +1370,10 @@
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_icon_light_undo.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\superToasts\\build\\intermediates\\packaged_res\\debug\\drawable-xhdpi-v4\\icon_light_undo.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21_ic_list_library_books.xml.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-anydpi-v21\\ic_list_library_books.xml"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_icon_dark_edit.png.flat",
@@ -1338,10 +1410,6 @@
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable_abc_ic_voice_search_api_material.xml.flat",
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\drawable\\abc_ic_voice_search_api_material.xml"
-    },
-    {
-        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable_ic_list_library_folder.png.flat",
-        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable\\ic_list_library_folder.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\layout_abc_alert_dialog_title_material.xml.flat",
@@ -1400,6 +1468,10 @@
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xxhdpi\\ic_close_large_white.png"
     },
     {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_ic_list_library_permission_denied.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-xhdpi\\ic_list_library_permission_denied.png"
+    },
+    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_afc_file.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\code\\build\\intermediates\\packaged_res\\debug\\drawable-xhdpi-v4\\afc_file.png"
     },
@@ -1430,10 +1502,6 @@
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_afc_context_menu_item_divider.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\code\\build\\intermediates\\packaged_res\\debug\\drawable-hdpi-v4\\afc_context_menu_item_divider.png"
-    },
-    {
-        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable_ic_list_library_author.png.flat",
-        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable\\ic_list_library_author.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\animator_mtrl_btn_unelevated_state_list_anim.xml.flat",
@@ -1520,6 +1588,10 @@
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\code\\build\\intermediates\\packaged_res\\debug\\drawable-mdpi-v4\\afc_file_audio.png"
     },
     {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi_ic_list_library_books.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-xxxhdpi\\ic_list_library_books.png"
+    },
+    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_afc_button_folders_view_grid.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\code\\build\\intermediates\\packaged_res\\debug\\drawable-xhdpi-v4\\afc_button_folders_view_grid.png"
     },
@@ -1572,6 +1644,10 @@
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\code\\build\\intermediates\\packaged_res\\debug\\drawable-hdpi-v4\\afc_file.png"
     },
     {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi_ic_list_library_book.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-ldpi\\ic_list_library_book.png"
+    },
+    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi_ic_close_large_pressed.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xxxhdpi\\ic_close_large_pressed.png"
     },
@@ -1590,6 +1666,10 @@
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v11_afc_ic_menu_gridview.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\code\\build\\intermediates\\packaged_res\\debug\\drawable-xhdpi-v11\\afc_ic_menu_gridview.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_ic_list_library_tag.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-hdpi\\ic_list_library_tag.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_ic_bookmark_outline_pressed.png.flat",
@@ -1658,6 +1738,10 @@
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_ic_menu_day.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xhdpi\\ic_menu_day.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_ic_list_library_zip.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-mdpi\\ic_list_library_zip.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_ic_menu_copy_mtrl_am_alpha.png.flat",
@@ -1844,8 +1928,16 @@
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\code\\build\\intermediates\\packaged_res\\debug\\layout\\afc_simple_text_input_view.xml"
     },
     {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_ic_list_library_book.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-xxhdpi\\ic_list_library_book.png"
+    },
+    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_afc_file_audio.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\code\\build\\intermediates\\packaged_res\\debug\\drawable-xhdpi-v4\\afc_file_audio.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_ic_list_library_permission_denied.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-mdpi\\ic_list_library_permission_denied.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_textfield_search_default_mtrl_alpha.9.png.flat",
@@ -1858,10 +1950,6 @@
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4_ambilwarna_cursor.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\ambilWarna\\build\\intermediates\\packaged_res\\debug\\drawable-ldpi-v4\\ambilwarna_cursor.png"
-    },
-    {
-        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable_ic_list_library_authors.png.flat",
-        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable\\ic_list_library_authors.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\anim_abc_shrink_fade_out_from_bottom.xml.flat",
@@ -2050,6 +2138,10 @@
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4_afc_context_menu_item_divider.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\code\\build\\intermediates\\packaged_res\\debug\\drawable-ldpi-v4\\afc_context_menu_item_divider.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_ic_list_library_tags.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-xhdpi\\ic_list_library_tags.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_scrubber_control_to_pressed_mtrl_000.png.flat",
@@ -2284,6 +2376,10 @@
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\f564d8a56900fea04c4b3d320f5e4a30\\res\\color\\mtrl_fab_ripple_color.xml"
     },
     {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_ic_list_library_tag.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-xxhdpi\\ic_list_library_tag.png"
+    },
+    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi_ic_translate_pressed.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xxxhdpi\\ic_translate_pressed.png"
     },
@@ -2392,6 +2488,10 @@
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\drawable\\abc_seekbar_track_material.xml"
     },
     {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_ic_list_library_folder.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-mdpi\\ic_list_library_folder.png"
+    },
+    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_ic_star_half_black_48dp.png.flat",
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\drawable-xhdpi-v4\\abc_ic_star_half_black_48dp.png"
     },
@@ -2436,12 +2536,20 @@
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xhdpi\\reader_loading_32.png"
     },
     {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_ic_list_library_permission_denied.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-xxhdpi\\ic_list_library_permission_denied.png"
+    },
+    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\layout_background_predefined_item.xml.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\layout\\background_predefined_item.xml"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_design_ic_visibility_off.png.flat",
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\f564d8a56900fea04c4b3d320f5e4a30\\res\\drawable-xxhdpi-v4\\design_ic_visibility_off.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi_ic_list_library_folder.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-ldpi\\ic_list_library_folder.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_afc_file_audio.png.flat",
@@ -2488,6 +2596,10 @@
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\drawable-hdpi-v4\\abc_list_selector_disabled_holo_dark.9.png"
     },
     {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_ic_list_library_books.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-xhdpi\\ic_list_library_books.png"
+    },
+    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_reader_loading_41.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xhdpi\\reader_loading_41.png"
     },
@@ -2532,16 +2644,16 @@
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\drawable-xhdpi-v4\\abc_btn_switch_to_on_mtrl_00012.9.png"
     },
     {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_ic_list_library_folder.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-xhdpi\\ic_list_library_folder.png"
+    },
+    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable_background_kitkat_blue.xml.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\superToasts\\build\\intermediates\\packaged_res\\debug\\drawable\\background_kitkat_blue.xml"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_afc_button_folders_view_grid_pressed.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\code\\build\\intermediates\\packaged_res\\debug\\drawable-hdpi-v4\\afc_button_folders_view_grid_pressed.png"
-    },
-    {
-        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable_ic_list_library_tag.png.flat",
-        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable\\ic_list_library_tag.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_list_selector_disabled_holo_dark.9.png.flat",
@@ -2552,12 +2664,20 @@
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\ambilWarna\\build\\intermediates\\packaged_res\\debug\\drawable-ldpi-v4\\ambilwarna_arrow_right.png"
     },
     {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_ic_list_library_books.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-xxhdpi\\ic_list_library_books.png"
+    },
+    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_reader_loading_23.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xhdpi\\reader_loading_23.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4_afc_file_disabled.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\code\\build\\intermediates\\packaged_res\\debug\\drawable-ldpi-v4\\afc_file_disabled.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi_ic_list_library_zip.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-ldpi\\ic_list_library_zip.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable_ic_list_group_closed.png.flat",
@@ -2638,6 +2758,14 @@
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\layout_design_layout_tab_text.xml.flat",
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\f564d8a56900fea04c4b3d320f5e4a30\\res\\layout\\design_layout_tab_text.xml"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21_ic_list_library_authors.xml.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-anydpi-v21\\ic_list_library_authors.xml"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_ic_list_library_zip.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-xxhdpi\\ic_list_library_zip.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_skin_btn_radio_checked.png.flat",
@@ -2748,6 +2876,14 @@
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\drawable-hdpi-v4\\abc_btn_switch_to_on_mtrl_00012.9.png"
     },
     {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_ic_list_library_tags.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-mdpi\\ic_list_library_tags.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_ic_list_library_authors.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-xhdpi\\ic_list_library_authors.png"
+    },
+    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_cab_background_top_mtrl_alpha.9.png.flat",
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\drawable-hdpi-v4\\abc_cab_background_top_mtrl_alpha.9.png"
     },
@@ -2852,6 +2988,10 @@
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\layout\\abc_list_menu_item_checkbox.xml"
     },
     {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi_ic_list_library_permission_denied.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-ldpi\\ic_list_library_permission_denied.png"
+    },
+    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable_design_bottom_navigation_item_background.xml.flat",
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\f564d8a56900fea04c4b3d320f5e4a30\\res\\drawable\\design_bottom_navigation_item_background.xml"
     },
@@ -2862,6 +3002,10 @@
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\layout_edit_tags_dialog.xml.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\layout\\edit_tags_dialog.xml"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_ic_list_library_authors.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-xxhdpi\\ic_list_library_authors.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\layout_abc_dialog_title_material.xml.flat",
@@ -2876,12 +3020,20 @@
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\code\\build\\intermediates\\packaged_res\\debug\\drawable-xhdpi-v4\\afc_button_create_folder_pressed.png"
     },
     {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21_ic_list_library_author.xml.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-anydpi-v21\\ic_list_library_author.xml"
+    },
+    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_ic_menu_cut_mtrl_alpha.png.flat",
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\drawable-mdpi-v4\\abc_ic_menu_cut_mtrl_alpha.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4_skin_btn_radio_unchecked.png.flat",
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\8e950ebce9d0828f1e62c0eb25efba00\\res\\drawable-ldpi-v4\\skin_btn_radio_unchecked.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_ic_list_library_books.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-hdpi\\ic_list_library_books.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4_abc_ic_menu_paste_mtrl_am_alpha.png.flat",
@@ -2902,6 +3054,10 @@
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_icon_dark_exit.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\superToasts\\build\\intermediates\\packaged_res\\debug\\drawable-mdpi-v4\\icon_dark_exit.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21_ic_list_library_tags.xml.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-anydpi-v21\\ic_list_library_tags.xml"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable_plugin_djvu.png.flat",
@@ -2954,6 +3110,10 @@
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\layout_lr_email_control.xml.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\layout\\lr_email_control.xml"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi_ic_list_library_zip.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-xxxhdpi\\ic_list_library_zip.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_scrubber_primary_mtrl_alpha.9.png.flat",
@@ -3010,6 +3170,10 @@
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\layout_supercardtoast_progresshorizontal.xml.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\superToasts\\build\\intermediates\\packaged_res\\debug\\layout\\supercardtoast_progresshorizontal.xml"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi_ic_list_library_author.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-xxxhdpi\\ic_list_library_author.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable_afc_item_file.xml.flat",
@@ -3108,6 +3272,14 @@
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\layout\\abc_list_menu_item_layout.xml"
     },
     {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi_ic_list_library_books.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-ldpi\\ic_list_library_books.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_ic_list_library_zip.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-xhdpi\\ic_list_library_zip.png"
+    },
+    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v11_afc_ic_menu_gridview.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\code\\build\\intermediates\\packaged_res\\debug\\drawable-ldpi-v11\\afc_ic_menu_gridview.png"
     },
@@ -3204,10 +3376,6 @@
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\code\\build\\intermediates\\packaged_res\\debug\\drawable-xhdpi-v11\\afc_ic_menu_home.png"
     },
     {
-        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable_ic_list_library_books.png.flat",
-        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable\\ic_list_library_books.png"
-    },
-    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_ambilwarna_arrow_right.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\ambilWarna\\build\\intermediates\\packaged_res\\debug\\drawable-hdpi-v4\\ambilwarna_arrow_right.png"
     },
@@ -3226,10 +3394,6 @@
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_ic_translate_white.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xhdpi\\ic_translate_white.png"
-    },
-    {
-        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable_ic_list_library_tags.png.flat",
-        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable\\ic_list_library_tags.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\layout_afc_file_item.xml.flat",
@@ -3256,6 +3420,10 @@
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\layout\\abc_screen_simple_overlay_action_mode.xml"
     },
     {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21_ic_list_library_zip.xml.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-anydpi-v21\\ic_list_library_zip.xml"
+    },
+    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable_afc_selector_button_folders_view_grid.xml.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\code\\build\\intermediates\\packaged_res\\debug\\drawable\\afc_selector_button_folders_view_grid.xml"
     },
@@ -3266,6 +3434,10 @@
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v11_afc_ic_menu_gridview.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\code\\build\\intermediates\\packaged_res\\debug\\drawable-mdpi-v11\\afc_ic_menu_gridview.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_ic_list_library_permission_denied.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-hdpi\\ic_list_library_permission_denied.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_fbreader_bw.png.flat",
@@ -3372,6 +3544,10 @@
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xhdpi\\reader_loading_06.png"
     },
     {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_ic_list_library_tag.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-xhdpi\\ic_list_library_tag.png"
+    },
+    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable_background_kitkat_purple.xml.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\superToasts\\build\\intermediates\\packaged_res\\debug\\drawable\\background_kitkat_purple.xml"
     },
@@ -3406,10 +3582,6 @@
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable_shape_undobarfocused.xml.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\superToasts\\build\\intermediates\\packaged_res\\debug\\drawable\\shape_undobarfocused.xml"
-    },
-    {
-        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable_ic_list_library_permission_denied.png.flat",
-        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable\\ic_list_library_permission_denied.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_text_select_handle_right_mtrl_light.png.flat",
@@ -3466,6 +3638,10 @@
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_textfield_activated_mtrl_alpha.9.png.flat",
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\drawable-hdpi-v4\\abc_textfield_activated_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi_ic_list_library_tags.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-xxxhdpi\\ic_list_library_tags.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_afc_button_navi_right_disabled.png.flat",
@@ -3542,6 +3718,10 @@
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_reader_share_icon.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xhdpi\\reader_share_icon.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_ic_list_library_folder.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-xxhdpi\\ic_list_library_folder.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_reader_loading_40.png.flat",
@@ -3624,12 +3804,20 @@
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\8e950ebce9d0828f1e62c0eb25efba00\\res\\layout\\skin_select_dialog.xml"
     },
     {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_ic_list_library_authors.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-hdpi\\ic_list_library_authors.png"
+    },
+    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_ic_star_half_black_48dp.png.flat",
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\drawable-xxhdpi-v4\\abc_ic_star_half_black_48dp.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_reader_loading_15.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xhdpi\\reader_loading_15.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_ic_list_library_book.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-hdpi\\ic_list_library_book.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4_afc_button_navi_right_disabled.png.flat",
@@ -3648,8 +3836,20 @@
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\code\\build\\intermediates\\packaged_res\\debug\\drawable-hdpi-v4\\afc_button_folders_view_list_disabled.png"
     },
     {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_ic_list_library_book.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-mdpi\\ic_list_library_book.png"
+    },
+    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_textfield_search_activated_mtrl_alpha.9.png.flat",
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\drawable-xxhdpi-v4\\abc_textfield_search_activated_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi_ic_list_library_tag.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-xxxhdpi\\ic_list_library_tag.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_ic_list_library_author.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-xxhdpi\\ic_list_library_author.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable_reader_hv_bg.xml.flat",
@@ -3876,10 +4076,6 @@
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\8e950ebce9d0828f1e62c0eb25efba00\\res\\layout\\skin_alert_dialog_title.xml"
     },
     {
-        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable_ic_list_library_book.png.flat",
-        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable\\ic_list_library_book.png"
-    },
-    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_text_select_handle_left_mtrl_dark.png.flat",
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\drawable-mdpi-v4\\abc_text_select_handle_left_mtrl_dark.png"
     },
@@ -4032,6 +4228,10 @@
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\686f17bc0524c662af81f1201b960c65\\res\\drawable-xxxhdpi-v4\\abc_ic_star_black_36dp.png"
     },
     {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_ic_list_library_tags.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-xxhdpi\\ic_list_library_tags.png"
+    },
+    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable_ambilwarna_target.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\ambilWarna\\build\\intermediates\\packaged_res\\debug\\drawable\\ambilwarna_target.png"
     },
@@ -4130,6 +4330,10 @@
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_notify_panel_notification_icon_bg.png.flat",
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\8bff1c2e59f4bdce5139da39022a2fd1\\res\\drawable-mdpi-v4\\notify_panel_notification_icon_bg.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21_ic_list_library_book.xml.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-anydpi-v21\\ic_list_library_book.xml"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_list_pressed_holo_dark.9.png.flat",
@@ -4256,6 +4460,10 @@
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xhdpi\\ic_content_copy_white.png"
     },
     {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21_ic_list_library_permission_denied.xml.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-anydpi-v21\\ic_list_library_permission_denied.xml"
+    },
+    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\layout_reader_bottom_menu_first_layout.xml.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\layout\\reader_bottom_menu_first_layout.xml"
     },
@@ -4356,6 +4564,10 @@
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\src\\main\\res\\drawable-xxxhdpi\\ic_content_copy_white.png"
     },
     {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_ic_list_library_folder.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-hdpi\\ic_list_library_folder.png"
+    },
+    {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\layout_notification_media_action.xml.flat",
         "source": "C:\\Users\\Li\\.gradle\\caches\\transforms-2\\files-2.1\\894ea94e15f5adcb27f9225177936e60\\res\\layout\\notification_media_action.xml"
     },
@@ -4442,6 +4654,10 @@
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v11_afc_ic_menu_gridview.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\code\\build\\intermediates\\packaged_res\\debug\\drawable-hdpi-v11\\afc_ic_menu_gridview.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi_ic_list_library_tag.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-ldpi\\ic_list_library_tag.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable_afc_selector_button_create_folder.xml.flat",
@@ -4562,6 +4778,10 @@
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_icon_dark_share.png.flat",
         "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\superToasts\\build\\intermediates\\packaged_res\\debug\\drawable-hdpi-v4\\icon_dark_share.png"
+    },
+    {
+        "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi_ic_list_library_tags.png.flat",
+        "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\generated\\res\\pngs\\debug\\drawable-ldpi\\ic_list_library_tags.png"
     },
     {
         "merged": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\res\\merged\\debug\\color_abc_tint_seek_thumb.xml.flat",

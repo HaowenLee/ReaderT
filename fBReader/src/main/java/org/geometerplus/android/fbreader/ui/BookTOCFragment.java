@@ -59,6 +59,9 @@ public class BookTOCFragment extends BaseFragment {
      */
     public void initTree() {
         final FBReaderApp fbReader = (FBReaderApp) ZLApplication.Instance();
+        if (fbReader == null) {
+            return;
+        }
         // 获取目录索引树
         final TOCTree root = fbReader.Model.TOCTree;
         myAdapter = new TOCAdapter(root);

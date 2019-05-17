@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Fri May 17 22:16:00 CST 2019
+#Sat May 18 01:07:18 CST 2019
 210.set=ASSET
 2.path=lib/mips64/libLineBreak-v2.so
 14.set=NATIVE_RESOURCE
