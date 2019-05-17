@@ -1,0 +1,22 @@
+yuku.ambilwarna
+dimen ambilwarna_hsvHeight
+dimen ambilwarna_hsvWidth
+dimen ambilwarna_hueWidth
+dimen ambilwarna_spacer
+drawable ambilwarna_arrow_down
+drawable ambilwarna_arrow_right
+drawable ambilwarna_cursor
+drawable ambilwarna_hue
+drawable ambilwarna_target
+id ambilwarna_cursor
+id ambilwarna_dialogView
+id ambilwarna_pref_widget_kotak
+id ambilwarna_state
+id ambilwarna_target
+id ambilwarna_viewContainer
+id ambilwarna_viewHue
+id ambilwarna_viewSatBri
+id ambilwarna_warnaBaru
+id ambilwarna_warnaLama
+layout ambilwarna_dialog
+layout ambilwarna_pref_widget

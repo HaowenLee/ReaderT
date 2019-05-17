@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v19\\values-v19.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\superToasts\\build\\intermediates\\packaged_res\\debug\\values-v19\\values-v19.xml",
+                    "from": {
+                        "startLines": "2,3,6,17,23,27,32,37,42,45,49,53,56",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,108,238,778,1090,1275,1619,1864,2177,2336,2541,2775,2917",
+                        "endLines": "2,5,16,22,26,31,36,41,44,48,52,55,58",
+                        "endColumns": "52,12,12,12,12,12,12,12,12,12,12,12,12",
+                        "endOffsets": "103,233,773,1085,1270,1614,1859,2172,2331,2536,2770,2912,3095"
+                    }
+                }
+            ]
+        }
+    ]
+}

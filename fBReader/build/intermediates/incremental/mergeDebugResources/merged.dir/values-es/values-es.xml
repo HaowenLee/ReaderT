@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <string msgid="4600421777120114993" name="abc_action_bar_home_description">"Ir a la pantalla de inicio"</string>
+    <string msgid="1594238315039666878" name="abc_action_bar_up_description">"Desplazarse hacia arriba"</string>
+    <string msgid="3588849162933574182" name="abc_action_menu_overflow_description">"Más opciones"</string>
+    <string msgid="4076576682505996667" name="abc_action_mode_done">"Listo"</string>
+    <string msgid="7468859129482906941" name="abc_activity_chooser_view_see_all">"Ver todo"</string>
+    <string msgid="2031811694353399454" name="abc_activitychooserview_choose_application">"Seleccionar una aplicación"</string>
+    <string msgid="121134116657445385" name="abc_capital_off">"DESACTIVADO"</string>
+    <string msgid="3405795526292276155" name="abc_capital_on">"ACTIVADO"</string>
+    <string msgid="1302280443949172191" name="abc_menu_alt_shortcut_label">"Alt +"</string>
+    <string msgid="1324831542140195728" name="abc_menu_ctrl_shortcut_label">"Ctrl +"</string>
+    <string msgid="8362206064229013510" name="abc_menu_delete_shortcut_label">"Eliminar"</string>
+    <string msgid="8341180395196749340" name="abc_menu_enter_shortcut_label">"Intro"</string>
+    <string msgid="4792426091847145555" name="abc_menu_function_shortcut_label">"Función +"</string>
+    <string msgid="7643535737296831317" name="abc_menu_meta_shortcut_label">"Meta +"</string>
+    <string msgid="8126296154200614004" name="abc_menu_shift_shortcut_label">"Mayús +"</string>
+    <string msgid="2378550843553983978" name="abc_menu_space_shortcut_label">"Espacio"</string>
+    <string msgid="9002602288060866689" name="abc_menu_sym_shortcut_label">"Sym +"</string>
+    <string msgid="1351762916121158029" name="abc_prepend_shortcut_label">"Menú +"</string>
+    <string msgid="7723749260725869598" name="abc_search_hint">"Buscar…"</string>
+    <string msgid="3691816814315814921" name="abc_searchview_description_clear">"Borrar consulta"</string>
+    <string msgid="2550479030709304392" name="abc_searchview_description_query">"Consulta"</string>
+    <string msgid="8264924765203268293" name="abc_searchview_description_search">"Buscar"</string>
+    <string msgid="8928215447528550784" name="abc_searchview_description_submit">"Enviar consulta"</string>
+    <string msgid="893419373245838918" name="abc_searchview_description_voice">"Búsqueda por voz"</string>
+    <string msgid="3421042268587513524" name="abc_shareactionprovider_share_with">"Compartir con"</string>
+    <string msgid="3300176832234831527" name="abc_shareactionprovider_share_with_application">"Compartir con <ns1:g id="APPLICATION_NAME">%s</ns1:g>"</string>
+    <string msgid="1603543279005712093" name="abc_toolbar_collapse_description">"Contraer"</string>
+    <string name="afc_cmd_advanced_selection_all">Todos</string>
+    <string name="afc_cmd_advanced_selection_invert">Invertir selección</string>
+    <string name="afc_cmd_advanced_selection_none">Ninguno</string>
+    <string name="afc_cmd_clear">Limpiar</string>
+    <string name="afc_cmd_grid_view">Cuadricula</string>
+    <string name="afc_cmd_home">Inicio</string>
+    <string name="afc_cmd_list_view">Lista</string>
+    <string name="afc_cmd_new_folder">Nuevo directorio…</string>
+    <string name="afc_cmd_reload">Recargar</string>
+    <string name="afc_cmd_remove_from_list">Eliminar de la lista</string>
+    <string name="afc_cmd_select_all_files">Seleccionar todos los ficheros</string>
+    <string name="afc_cmd_select_all_folders">Seleccionar todas los directorios</string>
+    <string name="afc_cmd_sort">Ordenar…</string>
+    <string name="afc_ellipsize">…</string>
+    <string name="afc_file">fichero</string>
+    <string name="afc_folder">directorio</string>
+    <string name="afc_hint_double_tap_to_select_file">Doble clic para seleccionar fichero/directorio</string>
+    <string name="afc_hint_folder_name">nombre de directorio</string>
+    <string name="afc_hint_save_as_filename">nombre de fichero</string>
+    <string name="afc_msg_app_doesnot_have_permission_to_create_files">La aplicación no tiene permisos para crear ficheros/directorios</string>
+    <string name="afc_msg_app_doesnot_have_permission_to_delete_files">La aplicación no tiene permisos para eliminar ficheros/directorios</string>
+    <string name="afc_msg_cancelled">Cancelado</string>
+    <string name="afc_msg_cannot_connect_to_file_provider_service">No se puede conectar con el servicio proveedor de ficheros</string>
+    <string name="afc_msg_done">Hecho</string>
+    <string name="afc_msg_empty">…vacío</string>
+    <string name="afc_msg_filename_is_empty">Nombre de fichero vacío</string>
+    <string name="afc_msg_loading">Cargando…</string>
+    <string name="afc_pmsg_cannot_access_dir">No se puede acceder a \"%1$s\"</string>
+    <string name="afc_pmsg_cannot_create_folder">No se puede crear el directorio \"%1$s\"</string>
+    <string name="afc_pmsg_cannot_delete_file">No se puede borrar %1$s \"%2$s\"</string>
+    <string name="afc_pmsg_confirm_delete_file">¿Seguro que deseas eliminar este %1$s \"%2$s\"?</string>
+    <string name="afc_pmsg_confirm_replace_file">El fichero \"%1$s\" ya existe.\n\n¿Quieres reemplazarlo?</string>
+    <string name="afc_pmsg_deleting_file">Eliminando %1$s \"%2$s\"…</string>
+    <string name="afc_pmsg_file_has_been_deleted">…%1$s \"%2$s\" ha sido eliminado</string>
+    <string name="afc_pmsg_filename_is_directory">\"%1$s\" es un directorio</string>
+    <string name="afc_pmsg_filename_is_invalid">El nombre de fichero \"%1$s\" no es válido</string>
+    <string name="afc_pmsg_max_file_count_allowed">…tiene mas ficheros, máximos permitidos: %1$,d</string>
+    <string name="afc_pmsg_unknown_error">Error desconocido: %1$s</string>
+    <string name="afc_pmsg_xxx_items">%1$,d elementos</string>
+    <string name="afc_root">Raiz</string>
+    <string name="afc_title_advanced_selection">Seleccionar…</string>
+    <string name="afc_title_alert">Alerta</string>
+    <string name="afc_title_choose_directories">Seleccionar directorios…</string>
+    <string name="afc_title_choose_files">Seleccionar ficheros…</string>
+    <string name="afc_title_choose_files_and_directories">Seleccionar ficheros/directorios…</string>
+    <string name="afc_title_confirmation">Confirmación</string>
+    <string name="afc_title_date">Fecha</string>
+    <string name="afc_title_error">Error</string>
+    <string name="afc_title_history">Historial</string>
+    <string name="afc_title_info">Información</string>
+    <string name="afc_title_name">Nombre</string>
+    <string name="afc_title_save_as">Guardar como…</string>
+    <string name="afc_title_size">Tamaño</string>
+    <string name="afc_title_sort_by">Ordenar por…</string>
+    <string name="afc_yesterday">Ayer</string>
+    <string msgid="146198913615257606" name="search_menu_title">"Buscar"</string>
+    <string msgid="7988687684186075107" name="status_bar_notification_info_overflow">"+999"</string>
+</resources>

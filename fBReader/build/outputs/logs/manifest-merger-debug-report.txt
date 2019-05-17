@@ -1,0 +1,929 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:2:1-639:12
+INJECTED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:2:1-639:12
+INJECTED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:2:1-639:12
+INJECTED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:2:1-639:12
+MERGED from [com.jakewharton.hugo:hugo-runtime:1.2.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\792894bc48557fdf91ea0fc5685847bd\AndroidManifest.xml:2:1-11:12
+MERGED from [:ambilWarna] C:\Users\Li\AndroidStudioProjects\ReaderT\ambilWarna\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-14:12
+MERGED from [:code] C:\Users\Li\AndroidStudioProjects\ReaderT\code\build\intermediates\library_manifest\debug\AndroidManifest.xml:8:1-17:12
+MERGED from [:library] C:\Users\Li\AndroidStudioProjects\ReaderT\library\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-11:12
+MERGED from [:superToasts] C:\Users\Li\AndroidStudioProjects\ReaderT\superToasts\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-13:12
+MERGED from [com.android.support:design:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\f564d8a56900fea04c4b3d320f5e4a30\AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\686f17bc0524c662af81f1201b960c65\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-v4:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\5cc0a74549b72a44d0a3490711b0594e\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\48957455db9a02094e4b070f54984085\AndroidManifest.xml:2:1-11:12
+MERGED from [com.facebook.stetho:stetho:1.5.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\dda62be0fdd4ca98817942d357272373\AndroidManifest.xml:2:1-13:12
+MERGED from [skin.support:skin-support:3.1.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\8e950ebce9d0828f1e62c0eb25efba00\AndroidManifest.xml:2:1-11:12
+MERGED from [skin.support:skin-support-constraint-layout:3.1.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\8f12b5e19fbebd1419f769c3a92ec343\AndroidManifest.xml:2:1-11:12
+MERGED from [skin.support:skin-support-design:3.1.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\2b50c143a90ed9cffc59270a3152ef04\AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\a2f29e28258c81bbe89de4e80fd4ee6a\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\b2694d20c4ad3a153fdb2be16885e607\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:recyclerview-v7:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\b0e62183c3bb7c524afd8c845e872a7a\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\8698cf83d38566f0261c7ef7ceb01b42\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\4cb305f501965a4c8bbcf6a5b6125432\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\a3ea27bd25b8d2c154695206361f924f\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-media-compat:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\894ea94e15f5adcb27f9225177936e60\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:transition:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\dec18a178720c2dcb15d763b314e89ee\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:loader:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\40b2fa91d5a82449947ee9c4671d1a88\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\89bcdbf0fb76079879bc148c2d9eb914\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\182884de6ba5b0fc7a37ea7cc7f58d5e\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\3c4dea621467c52fa12468b921b343bc\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\dfc50d617f8d7ac0c4c592411c5b6979\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:customview:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\280f599d7ab8257f2ee02fdd3ba76183\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\c25698077c888d0c3648bbe9ca4ef410\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\c07cc368e76042d57c15ff8a694bb600\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\8bff1c2e59f4bdce5139da39022a2fd1\AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\ea1804f9266fb9311aaea3c57a702d15\AndroidManifest.xml:17:1-25:12
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\160df2f4f8d39da59b52774005c340ce\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:cardview-v7:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\d6090676269a1708fe2784e3ac1a5101\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\bbc7e866c3df2e4c7aee77d2829bcaf3\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\cd0134ae8f7642cbcca4cc6ac15fe05c\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\92617422d2d28207223fe136f0765c27\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:print:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\78c8cb1f5da8b75a6c37da444635a04a\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\dba53c4021db7e3a534a516668c9cb72\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\d89bceb982c429f53580e5b679b0afeb\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\1190ac26539672b77e288a6bd0055641\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\22b09a37e25abd17587f4ca73b182eb5\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\cf9c8df7ceef02ab8472c163e071f4e5\AndroidManifest.xml:17:1-22:12
+INJECTED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:2:1-639:12
+INJECTED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:2:1-639:12
+INJECTED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:2:1-639:12
+	package
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:3:5-51
+		INJECTED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml
+	android:versionName
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:6:5-33
+		INJECTED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:2:11-69
+	android:versionCode
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:5:5-34
+		INJECTED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml
+	android:installLocation
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:4:5-35
+uses-sdk
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:8:5-44
+INJECTED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:8:5-44
+INJECTED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:8:5-44
+MERGED from [com.jakewharton.hugo:hugo-runtime:1.2.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\792894bc48557fdf91ea0fc5685847bd\AndroidManifest.xml:7:5-43
+MERGED from [com.jakewharton.hugo:hugo-runtime:1.2.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\792894bc48557fdf91ea0fc5685847bd\AndroidManifest.xml:7:5-43
+MERGED from [:ambilWarna] C:\Users\Li\AndroidStudioProjects\ReaderT\ambilWarna\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
+MERGED from [:ambilWarna] C:\Users\Li\AndroidStudioProjects\ReaderT\ambilWarna\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
+MERGED from [:code] C:\Users\Li\AndroidStudioProjects\ReaderT\code\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:5-15:41
+MERGED from [:code] C:\Users\Li\AndroidStudioProjects\ReaderT\code\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:5-15:41
+MERGED from [:library] C:\Users\Li\AndroidStudioProjects\ReaderT\library\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
+MERGED from [:library] C:\Users\Li\AndroidStudioProjects\ReaderT\library\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
+MERGED from [:superToasts] C:\Users\Li\AndroidStudioProjects\ReaderT\superToasts\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
+MERGED from [:superToasts] C:\Users\Li\AndroidStudioProjects\ReaderT\superToasts\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:design:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\f564d8a56900fea04c4b3d320f5e4a30\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:design:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\f564d8a56900fea04c4b3d320f5e4a30\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\686f17bc0524c662af81f1201b960c65\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\686f17bc0524c662af81f1201b960c65\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\5cc0a74549b72a44d0a3490711b0594e\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\5cc0a74549b72a44d0a3490711b0594e\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\48957455db9a02094e4b070f54984085\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\48957455db9a02094e4b070f54984085\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.stetho:stetho:1.5.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\dda62be0fdd4ca98817942d357272373\AndroidManifest.xml:7:5-9:41
+MERGED from [com.facebook.stetho:stetho:1.5.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\dda62be0fdd4ca98817942d357272373\AndroidManifest.xml:7:5-9:41
+MERGED from [skin.support:skin-support:3.1.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\8e950ebce9d0828f1e62c0eb25efba00\AndroidManifest.xml:7:5-9:41
+MERGED from [skin.support:skin-support:3.1.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\8e950ebce9d0828f1e62c0eb25efba00\AndroidManifest.xml:7:5-9:41
+MERGED from [skin.support:skin-support-constraint-layout:3.1.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\8f12b5e19fbebd1419f769c3a92ec343\AndroidManifest.xml:7:5-9:41
+MERGED from [skin.support:skin-support-constraint-layout:3.1.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\8f12b5e19fbebd1419f769c3a92ec343\AndroidManifest.xml:7:5-9:41
+MERGED from [skin.support:skin-support-design:3.1.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\2b50c143a90ed9cffc59270a3152ef04\AndroidManifest.xml:7:5-9:41
+MERGED from [skin.support:skin-support-design:3.1.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\2b50c143a90ed9cffc59270a3152ef04\AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\a2f29e28258c81bbe89de4e80fd4ee6a\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\a2f29e28258c81bbe89de4e80fd4ee6a\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\b2694d20c4ad3a153fdb2be16885e607\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\b2694d20c4ad3a153fdb2be16885e607\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\b0e62183c3bb7c524afd8c845e872a7a\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\b0e62183c3bb7c524afd8c845e872a7a\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\8698cf83d38566f0261c7ef7ceb01b42\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\8698cf83d38566f0261c7ef7ceb01b42\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\4cb305f501965a4c8bbcf6a5b6125432\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\4cb305f501965a4c8bbcf6a5b6125432\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\a3ea27bd25b8d2c154695206361f924f\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\a3ea27bd25b8d2c154695206361f924f\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\894ea94e15f5adcb27f9225177936e60\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\894ea94e15f5adcb27f9225177936e60\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\dec18a178720c2dcb15d763b314e89ee\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\dec18a178720c2dcb15d763b314e89ee\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\40b2fa91d5a82449947ee9c4671d1a88\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\40b2fa91d5a82449947ee9c4671d1a88\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\89bcdbf0fb76079879bc148c2d9eb914\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\89bcdbf0fb76079879bc148c2d9eb914\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\182884de6ba5b0fc7a37ea7cc7f58d5e\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\182884de6ba5b0fc7a37ea7cc7f58d5e\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\3c4dea621467c52fa12468b921b343bc\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\3c4dea621467c52fa12468b921b343bc\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\dfc50d617f8d7ac0c4c592411c5b6979\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\dfc50d617f8d7ac0c4c592411c5b6979\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\280f599d7ab8257f2ee02fdd3ba76183\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\280f599d7ab8257f2ee02fdd3ba76183\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\c25698077c888d0c3648bbe9ca4ef410\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\c25698077c888d0c3648bbe9ca4ef410\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\c07cc368e76042d57c15ff8a694bb600\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\c07cc368e76042d57c15ff8a694bb600\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\8bff1c2e59f4bdce5139da39022a2fd1\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\8bff1c2e59f4bdce5139da39022a2fd1\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\ea1804f9266fb9311aaea3c57a702d15\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\ea1804f9266fb9311aaea3c57a702d15\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\160df2f4f8d39da59b52774005c340ce\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\160df2f4f8d39da59b52774005c340ce\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cardview-v7:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\d6090676269a1708fe2784e3ac1a5101\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cardview-v7:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\d6090676269a1708fe2784e3ac1a5101\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\bbc7e866c3df2e4c7aee77d2829bcaf3\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\bbc7e866c3df2e4c7aee77d2829bcaf3\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\cd0134ae8f7642cbcca4cc6ac15fe05c\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\cd0134ae8f7642cbcca4cc6ac15fe05c\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\92617422d2d28207223fe136f0765c27\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\92617422d2d28207223fe136f0765c27\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\78c8cb1f5da8b75a6c37da444635a04a\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\78c8cb1f5da8b75a6c37da444635a04a\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\dba53c4021db7e3a534a516668c9cb72\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\dba53c4021db7e3a534a516668c9cb72\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\d89bceb982c429f53580e5b679b0afeb\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\d89bceb982c429f53580e5b679b0afeb\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\1190ac26539672b77e288a6bd0055641\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\1190ac26539672b77e288a6bd0055641\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\22b09a37e25abd17587f4ca73b182eb5\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\22b09a37e25abd17587f4ca73b182eb5\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\cf9c8df7ceef02ab8472c163e071f4e5\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\cf9c8df7ceef02ab8472c163e071f4e5\AndroidManifest.xml:20:5-44
+INJECTED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:8:5-44
+INJECTED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:8:5-44
+	android:maxSdkVersion
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:8:15-41
+	android:targetSdkVersion
+		INJECTED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:8:5-44
+		INJECTED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:8:5-44
+		INJECTED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml
+supports-screens
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:9:5-14:40
+	android:largeScreens
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:11:9-36
+	android:smallScreens
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:13:9-36
+	android:normalScreens
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:12:9-37
+	android:xlargeScreens
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:14:9-37
+	android:anyDensity
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:10:9-34
+uses-permission#android.permission.INTERNET
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:16:5-67
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:16:22-64
+uses-permission#android.permission.WAKE_LOCK
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:17:5-68
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:17:22-65
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:18:5-80
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:18:22-77
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:19:5-81
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:19:22-78
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:20:5-79
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:20:22-76
+application
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:22:5-638:19
+MERGED from [com.jakewharton.hugo:hugo-runtime:1.2.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\792894bc48557fdf91ea0fc5685847bd\AndroidManifest.xml:9:5-20
+MERGED from [com.jakewharton.hugo:hugo-runtime:1.2.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\792894bc48557fdf91ea0fc5685847bd\AndroidManifest.xml:9:5-20
+MERGED from [:ambilWarna] C:\Users\Li\AndroidStudioProjects\ReaderT\ambilWarna\build\intermediates\library_manifest\debug\AndroidManifest.xml:11:5-12:19
+MERGED from [:ambilWarna] C:\Users\Li\AndroidStudioProjects\ReaderT\ambilWarna\build\intermediates\library_manifest\debug\AndroidManifest.xml:11:5-12:19
+MERGED from [:superToasts] C:\Users\Li\AndroidStudioProjects\ReaderT\superToasts\build\intermediates\library_manifest\debug\AndroidManifest.xml:11:5-20
+MERGED from [:superToasts] C:\Users\Li\AndroidStudioProjects\ReaderT\superToasts\build\intermediates\library_manifest\debug\AndroidManifest.xml:11:5-20
+MERGED from [com.android.support:design:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\f564d8a56900fea04c4b3d320f5e4a30\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:design:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\f564d8a56900fea04c4b3d320f5e4a30\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\48957455db9a02094e4b070f54984085\AndroidManifest.xml:9:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\48957455db9a02094e4b070f54984085\AndroidManifest.xml:9:5-20
+MERGED from [com.facebook.stetho:stetho:1.5.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\dda62be0fdd4ca98817942d357272373\AndroidManifest.xml:11:5-20
+MERGED from [com.facebook.stetho:stetho:1.5.1] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\dda62be0fdd4ca98817942d357272373\AndroidManifest.xml:11:5-20
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\8bff1c2e59f4bdce5139da39022a2fd1\AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\8bff1c2e59f4bdce5139da39022a2fd1\AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\ea1804f9266fb9311aaea3c57a702d15\AndroidManifest.xml:22:5-23:19
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\ea1804f9266fb9311aaea3c57a702d15\AndroidManifest.xml:22:5-23:19
+	android:appComponentFactory
+		ADDED from [com.android.support:support-compat:28.0.0] C:\Users\Li\.gradle\caches\transforms-2\files-2.1\8bff1c2e59f4bdce5139da39022a2fd1\AndroidManifest.xml:22:18-91
+	android:label
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:25:9-41
+	android:icon
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:24:9-42
+	android:logo
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:26:9-45
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:23:9-77
+activity#org.geometerplus.android.fbreader.error.BookReadingErrorActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:27:9-37:20
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:30:13-37
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:29:13-74
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:31:13-51
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:28:13-92
+intent-filter#action:name:android.fbreader.action.ERROR+category:name:android.intent.category.DEFAULT+data:scheme:BookReadingException
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:32:13-36:29
+action#android.fbreader.action.ERROR
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:33:17-72
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:33:25-69
+category#android.intent.category.DEFAULT
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:34:17-76
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:34:27-73
+data
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:35:17-63
+	android:path
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:515:21-56
+	android:host
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:118:21-36
+	android:scheme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:35:23-60
+	android:pathPattern
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:120:23-54
+	android:mimeType
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:139:21-50
+activity#org.geometerplus.zlibrary.ui.android.error.BugReportActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:38:9-44:56
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:43:13-37
+	android:label
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:42:13-43
+	android:exported
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:41:13-37
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:40:13-74
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:44:13-53
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:39:13-52
+activity#org.geometerplus.android.fbreader.crash.FixBooksDirectoryActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:45:9-56:20
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:49:13-37
+	android:exported
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:48:13-37
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:47:13-74
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:50:13-51
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:46:13-93
+intent-filter#action:name:android.fbreader.action.CRASH+category:name:android.intent.category.DEFAULT+data:scheme:CachedCharStorageException
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:51:13-55:29
+action#android.fbreader.action.CRASH
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:52:17-72
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:52:25-69
+activity#org.geometerplus.android.fbreader.crash.MissingNativeLibraryActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:57:9-73:20
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:61:13-37
+	android:exported
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:60:13-37
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:59:13-74
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:62:13-51
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:58:13-96
+intent-filter#action:name:android.fbreader.action.CRASH+category:name:android.intent.category.DEFAULT+data:scheme:ExceptionInInitializerError
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:63:13-67:29
+intent-filter#action:name:android.fbreader.action.CRASH+category:name:android.intent.category.DEFAULT+data:scheme:UnsatisfiedLinkError
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:68:13-72:29
+service#org.geometerplus.android.fbreader.api.ApiService
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:75:9-82:19
+	android:launchMode
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:77:13-44
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:76:13-76
+intent-filter#action:name:android.fbreader.action.API+category:name:android.intent.category.DEFAULT
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:78:13-81:29
+action#android.fbreader.action.API
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:79:17-70
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:79:25-67
+activity#org.geometerplus.android.fbreader.FBReader
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:84:9-199:20
+	android:label
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:88:13-45
+	android:launchMode
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:89:13-44
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:86:13-74
+	android:icon
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:87:13-46
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:90:13-53
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:85:13-70
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:91:13-94:29
+action#android.intent.action.MAIN
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:92:17-69
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:92:25-66
+category#android.intent.category.LAUNCHER
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:93:17-77
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:93:27-74
+intent-filter#action:name:android.fbreader.action.VIEW+category:name:android.intent.category.DEFAULT
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:95:13-98:29
+action#android.fbreader.action.VIEW
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:96:17-71
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:96:25-68
+intent-filter#action:name:android.fbreader.action.VIEW+category:name:android.intent.category.DEFAULT+data:scheme:file
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:99:13-103:29
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.DEFAULT+data:scheme:fbreader-action
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:104:13-108:29
+action#android.intent.action.VIEW
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:105:17-69
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:105:25-66
+intent-filter#action:name:android.fbreader.action.PLUGIN+category:name:android.intent.category.DEFAULT
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:109:13-112:29
+action#android.fbreader.action.PLUGIN
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:110:17-73
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:110:25-70
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.DEFAULT+data:host:+data:pathPattern:.*\\.cbr+data:pathPattern:.*\\.cbz+data:pathPattern:.*\\.djvu+data:pathPattern:.*\\.epub+data:pathPattern:.*\\.fb2+data:pathPattern:.*\\.fb2\\.zip+data:pathPattern:.*\\.mobi+data:pathPattern:.*\\.oeb+data:pathPattern:.*\\.pdf+data:pathPattern:.*\\.prc+data:pathPattern:.*\\.rtf+data:pathPattern:.*\\.txt+data:scheme:file
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:113:13-132:29
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.DEFAULT+data:host:+data:mimeType:text/plain+data:pathPattern:.*\\.cbr+data:pathPattern:.*\\.cbz+data:pathPattern:.*\\.djvu+data:pathPattern:.*\\.epub+data:pathPattern:.*\\.fb2+data:pathPattern:.*\\.mobi+data:pathPattern:.*\\.oeb+data:pathPattern:.*\\.pdf+data:pathPattern:.*\\.prc+data:pathPattern:.*\\.rtf+data:pathPattern:.*\\.txt+data:scheme:file
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:133:13-152:29
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:host:+data:mimeType:application/djvu+data:mimeType:application/epub+zip+data:mimeType:application/pdf+data:mimeType:application/x-cbr+data:mimeType:application/x-cbz+data:mimeType:application/x-djvu+data:mimeType:application/x-fictionbook+data:mimeType:application/x-fictionbook+xml+data:mimeType:application/x-mobipocket-ebook+data:mimeType:application/x-pdf+data:mimeType:application/x-pilot-prc+data:mimeType:image/vnd.djvu+data:mimeType:image/x-djvu+data:mimeType:text/plain+data:scheme:file
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:159:13-182:29
+category#android.intent.category.BROWSABLE
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:163:17-78
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:163:27-75
+intent-filter#action:name:android.intent.action.SEARCH
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:183:13-185:29
+action#android.intent.action.SEARCH
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:184:17-71
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:184:25-68
+meta-data#android.app.searchable
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:187:13-189:54
+	android:resource
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:189:17-51
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:188:17-54
+intent-filter#action:name:android.fbreader.action.CLOSE+category:name:android.intent.category.DEFAULT
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:191:13-194:29
+action#android.fbreader.action.CLOSE
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:192:17-72
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:192:25-69
+intent-filter#action:name:android.fbreader.action.PLUGIN_CRASH+category:name:android.intent.category.DEFAULT
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:195:13-198:29
+action#android.fbreader.action.PLUGIN_CRASH
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:196:17-79
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:196:25-76
+activity#org.geometerplus.android.fbreader.dict.DictionaryNotInstalledActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:200:9-204:54
+	android:exported
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:203:13-37
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:202:13-74
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:204:13-51
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:201:13-97
+activity#org.geometerplus.android.fbreader.CancelActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:205:9-213:20
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:207:13-74
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:208:13-51
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:206:13-76
+intent-filter#action:name:android.fbreader.action.CANCEL_MENU+category:name:android.intent.category.DEFAULT
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:209:13-212:29
+action#android.fbreader.action.CANCEL_MENU
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:210:17-78
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:210:25-75
+activity#org.geometerplus.android.fbreader.PluginListActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:214:9-217:54
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:216:13-74
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:217:13-51
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:215:13-80
+activity#org.geometerplus.android.fbreader.bookmark.BookmarksActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:219:9-235:20
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:223:13-41
+	android:launchMode
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:222:13-44
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:221:13-74
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:224:13-65
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:220:13-88
+intent-filter#action:name:android.fbreader.action.BOOKMARKS+category:name:android.intent.category.DEFAULT
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:231:13-234:29
+action#android.fbreader.action.BOOKMARKS
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:232:17-76
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:232:25-73
+activity#org.geometerplus.android.fbreader.bookmark.EditBookmarkActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:236:9-244:20
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:238:13-74
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:239:13-51
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:237:13-91
+intent-filter#action:name:android.fbreader.action.EDIT_BOOKMARK+category:name:android.intent.category.DEFAULT
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:240:13-243:29
+action#android.fbreader.action.EDIT_BOOKMARK
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:241:17-80
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:241:25-77
+activity#org.geometerplus.android.fbreader.bookmark.EditStyleActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:245:9-253:20
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:247:13-74
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:248:13-51
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:246:13-88
+intent-filter#action:name:android.fbreader.action.EDIT_STYLES+category:name:android.intent.category.DEFAULT
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:249:13-252:29
+action#android.fbreader.action.EDIT_STYLES
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:250:17-78
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:250:25-75
+activity#org.geometerplus.android.fbreader.image.ImageViewActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:255:9-259:56
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:258:13-41
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:257:13-74
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:259:13-53
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:256:13-85
+service#org.geometerplus.android.fbreader.libraryService.LibraryService
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:261:9-268:19
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:264:13-46
+	android:launchMode
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:263:13-44
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:262:13-91
+intent-filter#action:name:android.fbreader.action.LIBRARY_SERVICE
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:265:13-267:29
+action#android.fbreader.action.LIBRARY_SERVICE
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:266:17-82
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:266:25-79
+service#org.geometerplus.android.fbreader.config.ConfigService
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:269:9-276:19
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:272:13-45
+	android:launchMode
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:271:13-44
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:270:13-82
+intent-filter#action:name:android.fbreader.action.CONFIG_SERVICE
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:273:13-275:29
+action#android.fbreader.action.CONFIG_SERVICE
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:274:17-81
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:274:25-78
+service#org.geometerplus.android.fbreader.sync.SyncService
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:277:9-287:19
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:280:13-44
+	android:launchMode
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:279:13-44
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:278:13-78
+intent-filter#action:name:android.fbreader.action.sync.START
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:281:13-283:29
+action#android.fbreader.action.sync.START
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:282:17-77
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:282:25-74
+intent-filter#action:name:android.fbreader.action.sync.QUICK_SYNC
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:284:13-286:29
+action#android.fbreader.action.sync.QUICK_SYNC
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:285:17-82
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:285:25-79
+activity#org.geometerplus.android.fbreader.library.BookInfoActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:289:9-298:20
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:292:13-39
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:291:13-74
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:293:13-53
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:290:13-86
+intent-filter#action:name:android.fbreader.action.BOOK_INFO+category:name:android.intent.category.DEFAULT
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:294:13-297:29
+action#android.fbreader.action.BOOK_INFO
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:295:17-76
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:295:25-73
+activity#org.geometerplus.android.fbreader.library.LibrarySearchActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:299:9-309:20
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:301:13-39
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:302:13-59
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:300:13-91
+activity#org.geometerplus.android.fbreader.library.LibraryActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:310:9-323:20
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:314:13-39
+	android:launchMode
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:313:13-44
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:312:13-74
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:315:13-53
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:311:13-85
+meta-data#android.app.default_searchable
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:316:13-318:99
+	android:value
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:318:17-96
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:317:17-62
+intent-filter#action:name:android.fbreader.action.LIBRARY+category:name:android.intent.category.DEFAULT
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:319:13-322:29
+action#android.fbreader.action.LIBRARY
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:320:17-74
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:320:25-71
+activity#org.geometerplus.android.fbreader.TOCActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:324:9-327:56
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:326:13-74
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:327:13-53
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:325:13-73
+activity#org.geometerplus.android.fbreader.preferences.PreferenceActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:328:9-342:20
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:331:13-43
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:330:13-74
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:332:13-53
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:329:13-92
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.DEFAULT+data:scheme:fbreader-preferences
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:333:13-337:29
+intent-filter#action:name:android.fbreader.action.PREFERENCES+category:name:android.intent.category.DEFAULT
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:338:13-341:29
+action#android.fbreader.action.PREFERENCES
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:339:17-78
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:339:25-75
+activity#org.geometerplus.android.fbreader.preferences.EditBookInfoActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:343:9-347:56
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:346:13-39
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:345:13-74
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:347:13-53
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:344:13-94
+activity#org.geometerplus.android.fbreader.sync.MissingBookActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:348:9-352:54
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:351:13-46
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:350:13-74
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:352:13-51
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:349:13-86
+activity#org.geometerplus.android.fbreader.network.BookDownloader
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:353:9-434:20
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:355:13-46
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:356:13-59
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:354:13-84
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:host:*+data:pathPattern:.*\\.cbr+data:pathPattern:.*\\.cbz+data:pathPattern:.*\\.djvu+data:pathPattern:.*\\.epub+data:pathPattern:.*\\.fb2+data:pathPattern:.*\\.fb2\\.zip+data:pathPattern:.*\\.mobi+data:pathPattern:.*\\.oeb+data:pathPattern:.*\\.prc+data:pathPattern:.*\\.rtf+data:pathPattern:.*\\.txt+data:scheme:http
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:357:13-377:29
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:host:*+data:mimeType:application/djvu+data:mimeType:application/epub+zip+data:mimeType:application/x-cbr+data:mimeType:application/x-cbz+data:mimeType:application/x-djvu+data:mimeType:application/x-fictionbook+data:mimeType:application/x-fictionbook+xml+data:mimeType:application/x-mobipocket-ebook+data:mimeType:application/x-pilot-prc+data:mimeType:image/vnd.djvu+data:mimeType:image/x-djvu+data:scheme:http
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:378:13-398:29
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:host:*rus.ec+data:host:lib.ololo.cc+data:mimeType:application/zip+data:mimeType:application/zip+data:scheme:http+data:scheme:http
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:399:13-413:29
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:host:*+data:scheme:book
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:414:13-423:29
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:host:*+data:scheme:epub
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:424:13-433:29
+service#org.geometerplus.android.fbreader.network.BookDownloaderService
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:436:9-440:49
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:440:13-46
+	android:launchMode
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:439:13-44
+	android:exported
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:438:13-37
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:437:13-91
+activity#org.geometerplus.android.fbreader.network.NetworkSearchActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:442:9-452:20
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:444:13-46
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:445:13-59
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:443:13-91
+activity#org.geometerplus.android.fbreader.network.auth.WebAuthorisationScreen
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:453:9-458:56
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:457:13-46
+	android:exported
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:456:13-37
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:455:13-74
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:458:13-53
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:454:13-97
+activity#org.geometerplus.android.fbreader.network.NetworkLibraryPrimaryActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:459:9-484:20
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:463:13-46
+	android:launchMode
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:462:13-44
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:461:13-74
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:464:13-53
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:460:13-99
+intent-filter#action:name:android.fbreader.action.OPEN_NETWORK_CATALOG+category:name:android.intent.category.DEFAULT+data:host:*+data:host:*+data:scheme:http+data:scheme:https
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:469:13-479:29
+action#android.fbreader.action.OPEN_NETWORK_CATALOG
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:470:17-87
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:470:25-84
+intent-filter#action:name:android.fbreader.action.NETWORK_LIBRARY+category:name:android.intent.category.DEFAULT
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:480:13-483:29
+action#android.fbreader.action.NETWORK_LIBRARY
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:481:17-82
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:481:25-79
+activity#org.geometerplus.android.fbreader.network.NetworkLibrarySecondaryActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:485:9-489:56
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:488:13-46
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:487:13-74
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:489:13-53
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:486:13-101
+activity#org.geometerplus.android.fbreader.network.AuthenticationActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:490:9-494:54
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:493:13-46
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:492:13-74
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:494:13-51
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:491:13-92
+activity#org.geometerplus.android.fbreader.network.BuyBooksActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:495:9-499:54
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:498:13-46
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:497:13-74
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:499:13-51
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:496:13-86
+activity#org.geometerplus.android.fbreader.network.AddCatalogMenuActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:500:9-504:54
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:503:13-46
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:502:13-74
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:504:13-51
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:501:13-92
+activity#org.geometerplus.android.fbreader.network.AddCustomCatalogActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:505:9-542:20
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:508:13-46
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:507:13-74
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:509:13-51
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:506:13-94
+intent-filter#action:name:android.fbreader.action.ADD_OPDS_CATALOG+category:name:android.intent.category.DEFAULT+data:host:data.fbreader.org+data:path:/add_catalog/editUrl+data:scheme:http
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:510:13-517:29
+action#android.fbreader.action.ADD_OPDS_CATALOG
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:511:17-83
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:511:25-80
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:host:*+data:scheme:opds
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:518:13-527:29
+intent-filter#action:name:android.fbreader.action.ADD_OPDS_CATALOG_URL+category:name:android.intent.category.DEFAULT+data:host:*+data:scheme:http
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:528:13-534:29
+action#android.fbreader.action.ADD_OPDS_CATALOG_URL
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:529:17-87
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:529:25-84
+intent-filter#action:name:android.fbreader.action.ADD_OPDS_CATALOG_URL+category:name:android.intent.category.DEFAULT+data:host:*+data:scheme:https
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:535:13-541:29
+activity#org.geometerplus.android.fbreader.network.AuthorisationMenuActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:543:9-547:54
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:546:13-46
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:545:13-74
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:547:13-51
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:544:13-95
+activity#org.geometerplus.android.fbreader.network.litres.UserRegistrationActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:548:9-552:54
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:551:13-46
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:550:13-74
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:552:13-51
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:549:13-101
+activity#org.geometerplus.android.fbreader.network.litres.AutoRegistrationActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:553:9-557:54
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:556:13-46
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:555:13-74
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:557:13-51
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:554:13-101
+activity#org.geometerplus.android.fbreader.network.TopupMenuActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:558:9-562:54
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:561:13-46
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:560:13-74
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:562:13-51
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:559:13-87
+activity#org.geometerplus.android.fbreader.network.NetworkBookInfoActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:563:9-575:20
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:566:13-46
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:565:13-74
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:567:13-53
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:564:13-93
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.DEFAULT+data:host:*+data:scheme:litres-book
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:568:13-574:29
+activity#org.geometerplus.android.fbreader.network.CatalogManagerActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:576:9-579:56
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:578:13-46
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:579:13-53
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:577:13-92
+receiver#org.geometerplus.android.fbreader.network.ListenerCallback
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:581:9-588:20
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:583:13-46
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:582:13-86
+intent-filter#action:name:android.fbreader.action.network.SIGNIN+category:name:android.intent.category.DEFAULT
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:584:13-587:29
+action#android.fbreader.action.network.SIGNIN
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:585:17-81
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:585:25-78
+activity#org.geometerplus.android.fbreader.tips.TipsActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:590:9-593:54
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:592:13-74
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:593:13-51
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:591:13-79
+activity#com.paragon.dictionary.fbreader.OpenDictionaryActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:594:9-597:59
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:596:13-74
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:597:13-56
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:595:13-82
+service#org.geometerplus.android.fbreader.httpd.DataService
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:599:9-603:46
+	android:process
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:603:13-43
+	android:launchMode
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:602:13-44
+	android:exported
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:601:13-37
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:600:13-79
+service#group.pals.android.lib.ui.filechooser.services.LocalFileProvider
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:604:9-606:40
+	android:exported
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:606:13-37
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:605:13-92
+activity#group.pals.android.lib.ui.filechooser.FileChooserActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:608:9-612:54
+	android:exported
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:611:13-37
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:610:13-83
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:612:13-51
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:609:13-85
+activity#org.geometerplus.android.fbreader.preferences.background.Chooser
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:613:9-617:54
+	android:exported
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:616:13-37
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:615:13-83
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:617:13-51
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:614:13-92
+activity#org.geometerplus.android.fbreader.preferences.background.PredefinedImages
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:618:9-622:54
+	android:exported
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:621:13-37
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:620:13-83
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:622:13-51
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:619:13-101
+activity#org.geometerplus.android.util.FolderListDialogActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:623:9-627:54
+	android:exported
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:626:13-37
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:625:13-83
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:627:13-51
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:624:13-82
+activity#org.geometerplus.android.util.EditTagsDialogActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:628:9-632:54
+	android:exported
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:631:13-37
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:630:13-83
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:632:13-51
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:629:13-80
+activity#org.geometerplus.android.util.EditAuthorsDialogActivity
+ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:633:9-637:54
+	android:exported
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:636:13-37
+	android:configChanges
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:635:13-83
+	android:theme
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:637:13-51
+	android:name
+		ADDED from C:\Users\Li\AndroidStudioProjects\ReaderT\fBReader\src\main\AndroidManifest.xml:634:13-83
