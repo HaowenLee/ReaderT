@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<DefaultStyles>
-    <!--<base screen="Base" family="sans-serif" fontSize="18"/>-->
-    <base family="DedaoJinKai W03" fontSize="16" screen="Base" />
-    <base family="PT Sans" fontSize="10" screen="Yota" />
-</DefaultStyles>

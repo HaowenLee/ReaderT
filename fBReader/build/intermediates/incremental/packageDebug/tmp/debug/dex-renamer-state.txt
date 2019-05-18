@@ -1,4 +1,0 @@
-#Sat May 18 15:49:20 CST 2019
-base.0=C\:\\Users\\Li\\AndroidStudioProjects\\ReaderT\\fBReader\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out
-path.0=classes.dex
-renamed.0=classes.dex
