@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom">
 
-            <include layout="@layout/reader_mini_player"/>
+            <include layout="@layout/reader_mini_player" />
 
             <include layout="@layout/reader_bottom_menu_first_layout" />
 
@@ -63,16 +63,25 @@
             android:layout_weight="1"
             android:background="#FFFFFF" />
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabLayout"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:background="@color/reader_menu_bg"
-            app:tabIndicatorHeight="0dp"
-            app:tabSelectedTextColor="@color/reader_font_checked"
-            app:tabTextAppearance="@style/TabLayoutTextStyle"
-            app:tabTextColor="@color/reader_font_black" />
+            android:layout_height="42dp">
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/reader_menu_bg" />
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:tabIndicatorHeight="0dp"
+                app:tabSelectedTextColor="@color/reader_font_checked"
+                app:tabTextAppearance="@style/TabLayoutTextStyle"
+                app:tabTextColor="@color/reader_font_black" />
+
+        </FrameLayout>
     </LinearLayout>
 
 </RelativeLayout>

@@ -72,7 +72,7 @@
         android:layout_width="44dp"
         android:layout_height="44dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
         android:gravity="bottom|center_vertical|center_horizontal|center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -81,8 +81,8 @@
         app:layout_constraintRight_toLeftOf="@+id/quick_theme_change">
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:adjustViewBounds="true"
             android:background="@null"
             android:src="@drawable/ic_book_category" />
@@ -101,7 +101,7 @@
         android:id="@+id/quick_theme_change"
         android:layout_width="44dp"
         android:layout_height="44dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
         android:gravity="bottom|center_vertical|center_horizontal|center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -110,8 +110,8 @@
 
         <ImageView
             android:id="@+id/quick_theme_change_img"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:adjustViewBounds="true"
             android:background="@null"
             android:src="@drawable/ic_book_night" />
@@ -131,7 +131,7 @@
         android:id="@+id/goto_tts_play"
         android:layout_width="44dp"
         android:layout_height="44dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
         android:gravity="bottom|center_vertical|center_horizontal|center"
         android:orientation="vertical"
         app:layout_constraintLeft_toRightOf="@+id/quick_theme_change"
@@ -139,8 +139,8 @@
         app:layout_constraintTop_toBottomOf="@+id/shangyizhang">
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:adjustViewBounds="true"
             android:background="@null"
             android:src="@drawable/ic_book_speaker" />
@@ -159,7 +159,7 @@
         android:id="@+id/showSetMenu"
         android:layout_width="44dp"
         android:layout_height="44dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
         android:layout_marginRight="10dp"
         android:gravity="bottom|center_vertical|center_horizontal|center"
         android:orientation="vertical"
@@ -168,8 +168,8 @@
         app:layout_constraintTop_toBottomOf="@+id/shangyizhang">
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:adjustViewBounds="true"
             android:background="@null"
             android:src="@drawable/ic_book_setting" />

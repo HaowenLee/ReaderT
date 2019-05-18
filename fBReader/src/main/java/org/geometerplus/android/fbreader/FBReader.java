@@ -61,6 +61,7 @@ import com.baidu.tts.client.SpeechError;
 import com.baidu.tts.client.SpeechSynthesizeBag;
 import com.baidu.tts.client.SpeechSynthesizerListener;
 
+import org.fbreader.util.Boolean3;
 import org.geometerplus.android.fbreader.api.ApiListener;
 import org.geometerplus.android.fbreader.api.ApiServerImplementation;
 import org.geometerplus.android.fbreader.api.FBReaderIntents;
@@ -429,6 +430,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                 // Empty body.
             }
         });
+        // 主题切换
         firstMenu.findViewById(R.id.quick_theme_change).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -438,6 +440,14 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                 } else {
                     myFBReaderApp.runAction(ActionCode.SWITCH_THEME_WHITE_PROFILE);
                     SkinCompatManager.getInstance().restoreDefaultTheme();
+                }
+                // 主题状态（当前为夜间主题，字面为日常模式,否则反之）
+                if (myFBReaderApp.isActionVisible(ActionCode.SWITCH_THEME_BLACK_PROFILE)) {
+                    ((TextView) findViewById(R.id.quick_theme_change_txt)).setText("夜间模式");
+                    ((ImageView) findViewById(R.id.quick_theme_change_img)).setImageResource(R.drawable.ic_book_night);
+                } else {
+                    ((TextView) findViewById(R.id.quick_theme_change_txt)).setText("日常模式");
+                    ((ImageView) findViewById(R.id.quick_theme_change_img)).setImageResource(R.drawable.ic_book_day);
                 }
             }
         });
@@ -1646,6 +1656,15 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             AnimationHelper.openBottomMenu(findViewById(R.id.firstMenu));
             // 阅读器内容预览关闭
             AnimationHelper.openPreview(myMainView);
+
+            // 主题状态（当前为夜间主题，字面为日常模式,否则反之）
+            if (myFBReaderApp.isActionVisible(ActionCode.SWITCH_THEME_BLACK_PROFILE)) {
+                ((TextView) findViewById(R.id.quick_theme_change_txt)).setText("夜间模式");
+                ((ImageView) findViewById(R.id.quick_theme_change_img)).setImageResource(R.drawable.ic_book_night);
+            } else {
+                ((TextView) findViewById(R.id.quick_theme_change_txt)).setText("日常模式");
+                ((ImageView) findViewById(R.id.quick_theme_change_img)).setImageResource(R.drawable.ic_book_day);
+            }
 
             // 设置阅读进度
             SeekBar seekBar = findViewById(R.id.bookProgress);

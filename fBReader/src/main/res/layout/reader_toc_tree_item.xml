@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/reader_window_bg"
     android:minHeight="48dp"
     android:orientation="horizontal"
     android:paddingLeft="15dp"
@@ -14,7 +13,7 @@
         android:layout_width="10dp"
         android:layout_height="10dp"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/ic_list_group_closed" />
+        android:src="@drawable/ic_list_group_closed_black" />
 
     <TextView
         android:id="@+id/toc_tree_item_text"

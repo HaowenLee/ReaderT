@@ -19,6 +19,8 @@ import org.geometerplus.zlibrary.core.resources.ZLResource;
 import org.geometerplus.zlibrary.core.tree.ZLTree;
 import org.geometerplus.zlibrary.ui.android.R;
 
+import skin.support.widget.SkinCompatTextHelper;
+
 /**
  * 目录索引
  */
