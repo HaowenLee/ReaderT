@@ -434,10 +434,10 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             public void onClick(View v) {
                 if (myFBReaderApp.isActionVisible(ActionCode.SWITCH_THEME_BLACK_PROFILE)) {
                     myFBReaderApp.runAction(ActionCode.SWITCH_THEME_BLACK_PROFILE);
-                    SkinCompatManager.getInstance().loadSkin("themeBlack", SkinCompatManager.SKIN_LOADER_STRATEGY_BUILD_IN);
+                    SkinCompatManager.getInstance().loadSkin(ColorProfile.THEME_BLACK, SkinCompatManager.SKIN_LOADER_STRATEGY_BUILD_IN);
                 } else {
                     myFBReaderApp.runAction(ActionCode.SWITCH_THEME_WHITE_PROFILE);
-                    SkinCompatManager.getInstance().loadSkin("themeWhite", SkinCompatManager.SKIN_LOADER_STRATEGY_BUILD_IN);
+                    SkinCompatManager.getInstance().restoreDefaultTheme();
                 }
             }
         });
@@ -615,15 +615,15 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                         break;
                     case R.id.color_yellow:
                         myFBReaderApp.runAction(ActionCode.SWITCH_THEME_YELLOW_PROFILE);
-                        SkinCompatManager.getInstance().loadSkin("themeYellow", SkinCompatManager.SKIN_LOADER_STRATEGY_BUILD_IN);
+                        SkinCompatManager.getInstance().loadSkin(ColorProfile.THEME_YELLOW, SkinCompatManager.SKIN_LOADER_STRATEGY_BUILD_IN);
                         break;
                     case R.id.color_green:
                         myFBReaderApp.runAction(ActionCode.SWITCH_THEME_GREEN_PROFILE);
-                        SkinCompatManager.getInstance().loadSkin("themeGreen", SkinCompatManager.SKIN_LOADER_STRATEGY_BUILD_IN);
+                        SkinCompatManager.getInstance().loadSkin(ColorProfile.THEME_GREEN, SkinCompatManager.SKIN_LOADER_STRATEGY_BUILD_IN);
                         break;
                     case R.id.color_black:
                         myFBReaderApp.runAction(ActionCode.SWITCH_THEME_BLACK_PROFILE);
-                        SkinCompatManager.getInstance().loadSkin("themeBlack", SkinCompatManager.SKIN_LOADER_STRATEGY_BUILD_IN);
+                        SkinCompatManager.getInstance().loadSkin(ColorProfile.THEME_BLACK, SkinCompatManager.SKIN_LOADER_STRATEGY_BUILD_IN);
                         break;
                     default:
                         break;
@@ -733,6 +733,14 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                 ttsProvider.mSpeechSynthesizer.stop();
                 myFBReaderApp.getTextView().clearHighlighting();
                 findViewById(R.id.menuPlayer).setVisibility(View.GONE);
+            }
+        });
+
+        // 上下滚动
+        findViewById(R.id.v).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(FBReader.this, "敬请期待", Toast.LENGTH_SHORT).show();
             }
         });
     }

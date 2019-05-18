@@ -33,9 +33,9 @@ android {
     sourceSets {
         main {
             res.srcDirs = ['src/main/res',
-                           'src/main/res-themeYellow',
-                           'src/main/res-themeGreen',
-                           'src/main/res-themeBlack']
+                           'src/main/res-yellow',
+                           'src/main/res-green',
+                           'src/main/res-black']
         }
     }
 }

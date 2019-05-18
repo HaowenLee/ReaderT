@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="reader_menu_bg_themeGreen">#acc9b0</color>
-    <color name="reader_font_black_themeGreen">#333333</color>
-    <color name="reader_font_checked_themeGreen">#539058</color>
-    <color name="reader_view_bg_themeGreen">#9cb99f</color>
-    <color name="reader_window_bg_themeGreen">#acc9b0</color>
-</resources>

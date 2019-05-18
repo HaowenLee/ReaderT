@@ -27,10 +27,10 @@ import org.geometerplus.zlibrary.core.view.ZLPaintContext;
 
 public class ColorProfile {
 
-    public static final String THEME_WHITE = "themeWhite";
-    public static final String THEME_YELLOW = "themeYellow";
-    public static final String THEME_GREEN = "themeGreen";
-    public static final String THEME_BLACK = "themeBlack";
+    public static final String THEME_WHITE = "white";
+    public static final String THEME_YELLOW = "yellow";
+    public static final String THEME_GREEN = "green";
+    public static final String THEME_BLACK = "black";
 
     private static final ArrayList<String> ourNames = new ArrayList<String>();
     private static final HashMap<String, ColorProfile> ourProfiles = new HashMap<String, ColorProfile>();

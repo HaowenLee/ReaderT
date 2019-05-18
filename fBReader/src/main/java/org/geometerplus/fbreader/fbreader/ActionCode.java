@@ -28,9 +28,9 @@ public interface ActionCode {
     String SHOW_NETWORK_LIBRARY = "networkLibrary";
 
     String SWITCH_THEME_WHITE_PROFILE = "themeWhite";
-    String SWITCH_THEME_YELLOW_PROFILE = "themeYellow";
-    String SWITCH_THEME_GREEN_PROFILE = "themeGreen";
-    String SWITCH_THEME_BLACK_PROFILE = "themeBlack";
+    String SWITCH_THEME_YELLOW_PROFILE = "theme_yellow";
+    String SWITCH_THEME_GREEN_PROFILE = "theme_green";
+    String SWITCH_THEME_BLACK_PROFILE = "theme_black";
 
     String SHARE_BOOK = "shareBook";
 

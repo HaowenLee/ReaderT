@@ -61,7 +61,7 @@
         android:minHeight="2dp"
         android:progressDrawable="@drawable/reader_progress_bar_bg"
         android:splitTrack="false"
-        android:thumb="@drawable/ic_thumb"
+        android:thumb="@drawable/reader_seek_bar_thumb"
         app:layout_constraintLeft_toRightOf="@+id/shangyizhang"
         app:layout_constraintRight_toLeftOf="@+id/xiayizhang"
         app:layout_constraintTop_toBottomOf="@+id/padding"

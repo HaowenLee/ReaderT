@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="reader_menu_bg_black">#1c1e20</color>
+    <color name="reader_font_black_black">#999999</color>
+    <color name="reader_font_checked_black">#FF6B00</color>
+    <color name="reader_view_bg_black">#1c1e20</color>
+    <color name="reader_window_bg_black">#1c1e20</color>
+</resources>

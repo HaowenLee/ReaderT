@@ -45,7 +45,7 @@
         android:progress="0"
         android:progressDrawable="@drawable/reader_progress_bar_bg"
         android:splitTrack="false"
-        android:thumb="@drawable/ic_thumb"
+        android:thumb="@drawable/reader_seek_bar_thumb"
         app:layout_constraintBottom_toBottomOf="@+id/txt_light"
         app:layout_constraintLeft_toRightOf="@+id/txt_light"
         app:layout_constraintRight_toRightOf="parent"
@@ -166,7 +166,7 @@
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_weight="1"
-            android:background="@drawable/reader_button_bg"
+            android:background="@drawable/reader_button_border"
             android:gravity="center"
             android:text="减小"
             android:textColor="@color/reader_font_black"
@@ -177,7 +177,7 @@
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_weight="1"
-            android:background="@drawable/reader_button_bg"
+            android:background="@drawable/reader_button_border"
             android:gravity="center"
             android:text="放大"
             android:textColor="@color/reader_font_black"
@@ -239,7 +239,7 @@
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_weight="1"
-            android:background="@drawable/reader_hv_bg"
+            android:background="@drawable/reader_button_border_checked"
             android:button="@null"
             android:clickable="true"
             android:gravity="center"
@@ -258,7 +258,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:text="左右平移"
-                android:textColor="#eeeeee"
+                android:textColor="@color/reader_font_black"
                 android:textSize="13dp" />
         </LinearLayout>
 
@@ -271,7 +271,7 @@
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_weight="1"
-            android:background="@drawable/reader_hv_bg"
+            android:background="@drawable/reader_button_border"
             android:button="@null"
             android:clickable="true"
             android:gravity="center"
@@ -290,7 +290,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:text="上下滑动"
-                android:textColor="#eeeeee"
+                android:textColor="@color/reader_font_black"
                 android:textSize="13dp" />
         </LinearLayout>
     </LinearLayout>
