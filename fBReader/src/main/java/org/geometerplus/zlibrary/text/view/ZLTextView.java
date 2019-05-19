@@ -1351,23 +1351,23 @@ public abstract class ZLTextView extends ZLTextViewBase {
         ZLTextElementArea spaceElement = null;
 
         final int maxWidth = page.getTextWidth();
-        switch (getTextStyle().getAlignment()) {
-            case ZLTextAlignmentType.ALIGN_RIGHT:
-                fx += maxWidth - getTextStyle().getRightIndent(metrics()) - info.Width;
-                break;
-            case ZLTextAlignmentType.ALIGN_CENTER:
-                fx += (maxWidth - getTextStyle().getRightIndent(metrics()) - info.Width) / 2f;
-                break;
-            case ZLTextAlignmentType.ALIGN_JUSTIFY:
-            case ZLTextAlignmentType.ALIGN_LEFT:
-            case ZLTextAlignmentType.ALIGN_UNDEFINED:
-                break;
-        }
-
-        // justify
+        // 非段尾采用，排齐模式
         if (!endOfParagraph && (paragraphCursor.getElement(info.EndElementIndex) != ZLTextElement.AfterParagraph)) {
             float gapCount = endElementIndex - info.RealStartElementIndex;
             elementCorrection = (maxWidth - getTextStyle().getRightIndent(metrics()) - info.Width) / (gapCount - 1);
+        } else {
+            switch (getTextStyle().getAlignment()) {
+                case ZLTextAlignmentType.ALIGN_RIGHT:
+                    fx += maxWidth - getTextStyle().getRightIndent(metrics()) - info.Width;
+                    break;
+                case ZLTextAlignmentType.ALIGN_CENTER:
+                    fx += (maxWidth - getTextStyle().getRightIndent(metrics()) - info.Width) / 2f;
+                    break;
+                case ZLTextAlignmentType.ALIGN_JUSTIFY:
+                case ZLTextAlignmentType.ALIGN_LEFT:
+                case ZLTextAlignmentType.ALIGN_UNDEFINED:
+                    break;
+            }
         }
 
         for (int wordIndex = info.RealStartElementIndex; wordIndex != endElementIndex; ++wordIndex, charIndex = 0) {
