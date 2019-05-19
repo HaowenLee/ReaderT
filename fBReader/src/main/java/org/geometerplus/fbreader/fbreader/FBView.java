@@ -58,6 +58,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
+import hugo.weaving.DebugLog;
+
 public final class FBView extends ZLTextView {
 
     public static final int SCROLLBAR_SHOW_AS_FOOTER = 3;
@@ -254,6 +256,12 @@ public final class FBView extends ZLTextView {
         return myViewOptions.getColorProfile().HighlightingForegroundOption.getValue();
     }
 
+    /**
+     * 获取文件颜色
+     *
+     * @param hyperlink 超链接
+     * @return 文字颜色
+     */
     @Override
     public ZLColor getTextColor(ZLTextHyperlink hyperlink) {
         final ColorProfile profile = myViewOptions.getColorProfile();
