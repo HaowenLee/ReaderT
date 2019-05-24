@@ -19,25 +19,31 @@
 
 package org.geometerplus.android.fbreader;
 
+import android.text.TextUtils;
+
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
 
 class SwitchProfileAction extends FBAndroidAction {
-	private String myProfileName;
 
-	SwitchProfileAction(FBReader baseActivity, FBReaderApp fbreader, String profileName) {
-		super(baseActivity, fbreader);
-		myProfileName = profileName;
-	}
+    private String myProfileName;
 
-	@Override
-	public boolean isVisible() {
-		return !myProfileName.equals(Reader.ViewOptions.ColorProfileName.getValue());
-	}
+    SwitchProfileAction(FBReader baseActivity, FBReaderApp fbReader, String profileName) {
+        super(baseActivity, fbReader);
+        myProfileName = profileName;
+    }
 
-	@Override
-	protected void run(Object ... params) {
-		Reader.ViewOptions.ColorProfileName.setValue(myProfileName);
-		Reader.getViewWidget().reset();
-		Reader.getViewWidget().repaint();
-	}
+    @Override
+    public boolean isVisible() {
+        return !myProfileName.equals(Reader.ViewOptions.ColorProfileName.getValue());
+    }
+
+    @Override
+    protected void run(Object... params) {
+        if (TextUtils.equals(Reader.ViewOptions.ColorProfileName.getValue(), myProfileName)) {
+            return;
+        }
+        Reader.ViewOptions.ColorProfileName.setValue(myProfileName);
+        Reader.getViewWidget().reset();
+        Reader.getViewWidget().repaint();
+    }
 }

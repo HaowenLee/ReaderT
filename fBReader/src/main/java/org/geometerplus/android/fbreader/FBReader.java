@@ -213,10 +213,6 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
      * 是否正在播放
      */
     private boolean isPlaying = false;
-    /**
-     * 是否是用户点击的（主题）
-     */
-    private boolean isCheckedByUser = true;
 
     public static void openBookActivity(Context context, Book book, Bookmark bookmark) {
         final Intent intent = defaultIntent(context);
@@ -542,19 +538,15 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                 // 主题
                 RadioGroup radioGroup = findViewById(R.id.book_menu_color_group);
                 if (!myFBReaderApp.isActionVisible(ActionCode.SWITCH_THEME_WHITE_PROFILE)) {
-                    isCheckedByUser = false;
                     radioGroup.check(R.id.color_white);
                 }
                 if (!myFBReaderApp.isActionVisible(ActionCode.SWITCH_THEME_YELLOW_PROFILE)) {
-                    isCheckedByUser = false;
                     radioGroup.check(R.id.color_yellow);
                 }
                 if (!myFBReaderApp.isActionVisible(ActionCode.SWITCH_THEME_GREEN_PROFILE)) {
-                    isCheckedByUser = false;
                     radioGroup.check(R.id.color_green);
                 }
                 if (!myFBReaderApp.isActionVisible(ActionCode.SWITCH_THEME_BLACK_PROFILE)) {
-                    isCheckedByUser = false;
                     radioGroup.check(R.id.color_black);
                 }
                 AnimationHelper.closeBottomMenu(findViewById(R.id.firstMenu), false);
@@ -571,10 +563,6 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 
         RadioGroup radioGroup = findViewById(R.id.book_menu_color_group);
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            if (!isCheckedByUser) {
-                isCheckedByUser = true;
-                return;
-            }
             switch (checkedId) {
                 case R.id.color_white:
                     myFBReaderApp.runAction(ActionCode.SWITCH_THEME_WHITE_PROFILE);
