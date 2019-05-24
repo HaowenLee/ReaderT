@@ -44,8 +44,6 @@ import org.geometerplus.zlibrary.ui.android.util.ZLAndroidColorUtil;
 
 import java.util.List;
 
-import hugo.weaving.DebugLog;
-
 /**
  * Android画笔上下文（绘制相关）
  */

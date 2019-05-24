@@ -28,7 +28,6 @@ import org.geometerplus.zlibrary.core.view.ZLView;
 import org.geometerplus.zlibrary.core.view.ZLViewEnums;
 import org.geometerplus.zlibrary.ui.android.view.animation.BitmapManager;
 
-import hugo.weaving.DebugLog;
 
 /**
  * Bitmap管理（绘制后的图）的实现

@@ -33,6 +33,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 
+import com.haowen.huge.DebugLog;
+
 import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.android.fbreader.constant.PreviewConfig;
 import org.geometerplus.fbreader.Paths;
@@ -53,8 +55,6 @@ import org.geometerplus.zlibrary.ui.android.view.animation.SlideOldStyleAnimatio
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import hugo.weaving.DebugLog;
 
 public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLongClickListener {
 

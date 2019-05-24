@@ -58,8 +58,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
-import hugo.weaving.DebugLog;
-
 public final class FBView extends ZLTextView {
 
     public static final int SCROLLBAR_SHOW_AS_FOOTER = 3;

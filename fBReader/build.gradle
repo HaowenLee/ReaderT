@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.jakewharton.hugo'
+apply plugin: 'huge'
 
 android {
     compileSdkVersion 28
@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "org.geometerplus.zlibrary.ui.android"
         minSdkVersion 16
-        targetSdkVersion 27
+        targetSdkVersion 28
 
         externalNativeBuild {
             cmake {
@@ -37,6 +37,11 @@ android {
                            'src/main/res-green',
                            'src/main/res-black']
         }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
