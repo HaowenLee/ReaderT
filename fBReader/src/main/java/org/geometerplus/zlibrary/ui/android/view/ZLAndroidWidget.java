@@ -139,8 +139,8 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
     private float mCurrentX;
     private float mCurrentY;
 
-    @DebugLog
     @Override
+    @DebugLog
     protected void onDraw(final Canvas canvas) {
 
         canvas.setDrawFilter(paintFlagsDrawFilter);
@@ -400,16 +400,10 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
             drawMagnifier(canvas, bitmap);
         }
 
-        post(new Runnable() {
-            public void run() {
-                PrepareService.execute(new Runnable() {
-                    public void run() {
-                        preparePage(ZLViewEnums.PageIndex.previous);
-                        preparePage(ZLViewEnums.PageIndex.next);
-                    }
-                });
-            }
-        });
+        post(() -> PrepareService.execute(() -> {
+            preparePage(ZLViewEnums.PageIndex.previous);
+            preparePage(ZLViewEnums.PageIndex.next);
+        }));
     }
 
     /**

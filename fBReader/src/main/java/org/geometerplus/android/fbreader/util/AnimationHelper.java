@@ -6,6 +6,8 @@ import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 
+import com.haowen.huge.DebugLog;
+
 import org.geometerplus.android.fbreader.constant.PreviewConfig;
 import org.geometerplus.zlibrary.ui.android.R;
 import org.geometerplus.zlibrary.ui.android.view.ZLAndroidWidget;
@@ -163,7 +165,20 @@ public class AnimationHelper {
      * @param targetView 目标
      */
     public static void closeBottomMenu(View targetView) {
-        closeMenu(targetView, 0, 0, 0, 1);
+        closeBottomMenu(targetView, true);
+    }
+
+    /**
+     * 关闭底部菜单
+     *
+     * @param targetView 目标
+     */
+    public static void closeBottomMenu(View targetView, boolean smooth) {
+        if (smooth) {
+            closeMenu(targetView, 0, 0, 0, 1);
+        } else {
+            targetView.setVisibility(View.GONE);
+        }
     }
 
     /**
