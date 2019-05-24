@@ -620,16 +620,19 @@
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
             android:exported="false"
             android:theme="@style/FBReader.Dialog" />
+        <!-- 文件夹列表 -->
         <activity
             android:name="org.geometerplus.android.util.FolderListDialogActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
             android:exported="false"
             android:theme="@style/FBReader.Dialog" />
+        <!-- 标签编辑 -->
         <activity
             android:name="org.geometerplus.android.util.EditTagsDialogActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
             android:exported="false"
             android:theme="@style/FBReader.Dialog" />
+        <!-- 作者编辑 -->
         <activity
             android:name="org.geometerplus.android.util.EditAuthorsDialogActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
