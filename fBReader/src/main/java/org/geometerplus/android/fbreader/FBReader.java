@@ -171,9 +171,8 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                     return true;
                 }
             };
+
     private volatile Book myBook;
-    private RelativeLayout myRootView;
-    private ZLAndroidWidget myMainView;
     private volatile boolean myShowStatusBarFlag;
     private String myMenuLanguage;
     private volatile long myResumeTimestamp;
@@ -198,21 +197,57 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             myFBReaderApp.useSyncInfo(myResumeTimestamp + 10 * 1000 > System.currentTimeMillis(), myNotifier);
         }
     };
-    /**
-     * 菜单
-     */
-    private View firstMenu;
+
     private boolean isLoad = false;
     private TTSProvider ttsProvider;
     /**
      * 文本内容（断句好了的）
      */
     private HashMap<String, Boolean> textMap = new HashMap<>();
-    private ImageView ivPlayer;
     /**
      * 是否正在播放
      */
     private boolean isPlaying = false;
+
+    /**
+     * View
+     */
+    private RelativeLayout myRootView;
+    private ZLAndroidWidget myMainView;
+    private View viewMongolia;
+    private View firstMenu;
+    private TextView tvTitle;
+    private ImageView ivPlayer;
+    private View quickThemeChange;
+    private TextView quickThemeChangeText;
+    private ImageView quickThemeChangeImg;
+    private View menuTop;
+    private View ivMore;
+    private View menuMore;
+    private View menuSetting;
+    private View bookMark;
+    private View previousPage;
+    private View nextPage;
+    private SeekBar bookProgress;
+    private View slideMenu;
+    private View viewBackground;
+    private View readerView;
+    private View showSetMenu;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private TextView tvBookName;
+    private TextView tvAuthor;
+    private ImageView coverView;
+    private View gotoTTS;
+    private View bookLibrary;
+    private View scrollV;
+    private View menuPlayer;
+    private View ivClose;
+    private RadioGroup radioGroup;
+    private View fontSmall;
+    private View fontBig;
+    private SeekBar lightProgress;
+    private View openSlideMenu;
 
     public static void openBookActivity(Context context, Book book, Bookmark bookmark) {
         final Intent intent = defaultIntent(context);
@@ -258,12 +293,8 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 
         // 程序的界面，这个界面是ZLAndroidWidget类
         setContentView(R.layout.main);
-        myRootView = findViewById(R.id.root_view);
-        myMainView = findViewById(R.id.main_view);
+        bindViews();
         setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
-
-        firstMenu = findViewById(R.id.firstMenu);
-        ivPlayer = findViewById(R.id.ivPlay);
 
         initListener();
 
@@ -354,6 +385,48 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         }
     }
 
+    /**
+     * findViewByIds
+     */
+    private void bindViews() {
+        myRootView = findViewById(R.id.root_view);
+        myMainView = findViewById(R.id.main_view);
+        viewMongolia = findViewById(R.id.viewMongolia);
+        ivPlayer = findViewById(R.id.ivPlay);
+        firstMenu = findViewById(R.id.firstMenu);
+        tvTitle = findViewById(R.id.tvTitle);
+        quickThemeChange = findViewById(R.id.quick_theme_change);
+        quickThemeChangeText = findViewById(R.id.quick_theme_change_txt);
+        quickThemeChangeImg = findViewById(R.id.quick_theme_change_img);
+        menuTop = findViewById(R.id.menuTop);
+        ivMore = findViewById(R.id.ivMore);
+        menuMore = findViewById(R.id.menuMore);
+        menuSetting = findViewById(R.id.menuSetting);
+        bookMark = findViewById(R.id.book_mark);
+        previousPage = findViewById(R.id.shangyizhang);
+        nextPage = findViewById(R.id.xiayizhang);
+        bookProgress = findViewById(R.id.bookProgress);
+        slideMenu = findViewById(R.id.slideMenu);
+        viewBackground = findViewById(R.id.viewBackground);
+        readerView = findViewById(R.id.readerView);
+        showSetMenu = findViewById(R.id.showSetMenu);
+        viewPager = findViewById(R.id.viewPager);
+        tabLayout = findViewById(R.id.tabLayout);
+        tvAuthor = findViewById(R.id.author);
+        coverView = findViewById(R.id.book_img);
+        tvBookName = findViewById(R.id.book_name);
+        gotoTTS = findViewById(R.id.goto_tts_play);
+        bookLibrary = findViewById(R.id.book_library);
+        menuPlayer = findViewById(R.id.menuPlayer);
+        ivClose = findViewById(R.id.ivClose);
+        scrollV = findViewById(R.id.v);
+        fontSmall = findViewById(R.id.font_small);
+        fontBig = findViewById(R.id.font_big);
+        radioGroup = findViewById(R.id.book_menu_color_group);
+        lightProgress = findViewById(R.id.lightProgress);
+        openSlideMenu = findViewById(R.id.open_slid_menu);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
@@ -412,11 +485,17 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 
     @SuppressLint("ClickableViewAccessibility")
     private void initListener() {
+        viewMongolia.setOnClickListener(v -> {
+            AnimationHelper.closeTopMenu(menuTop);
+            AnimationHelper.closeBottomMenu(menuSetting);
+            AnimationHelper.closeBottomMenu(menuMore);
+            viewMongolia.setVisibility(View.GONE);
+        });
         firstMenu.setOnClickListener(v -> {
             // Empty body.
         });
         // 主题切换
-        firstMenu.findViewById(R.id.quick_theme_change).setOnClickListener(v -> {
+        quickThemeChange.setOnClickListener(v -> {
             if (myFBReaderApp.isActionVisible(ActionCode.SWITCH_THEME_BLACK_PROFILE)) {
                 myFBReaderApp.runAction(ActionCode.SWITCH_THEME_BLACK_PROFILE);
                 SkinCompatManager.getInstance().loadSkin(ColorProfile.THEME_BLACK, SkinCompatManager.SKIN_LOADER_STRATEGY_BUILD_IN);
@@ -426,44 +505,42 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             }
             // 主题状态（当前为夜间主题，字面为日常模式,否则反之）
             if (myFBReaderApp.isActionVisible(ActionCode.SWITCH_THEME_BLACK_PROFILE)) {
-                ((TextView) findViewById(R.id.quick_theme_change_txt)).setText("夜间模式");
-                ((ImageView) findViewById(R.id.quick_theme_change_img)).setImageResource(R.drawable.ic_book_night);
+                quickThemeChangeText.setText("夜间模式");
+                quickThemeChangeImg.setImageResource(R.drawable.ic_book_night);
             } else {
-                ((TextView) findViewById(R.id.quick_theme_change_txt)).setText("日常模式");
-                ((ImageView) findViewById(R.id.quick_theme_change_img)).setImageResource(R.drawable.ic_book_day);
+                quickThemeChangeText.setText("日常模式");
+                quickThemeChangeImg.setImageResource(R.drawable.ic_book_day);
             }
         });
 
-        findViewById(R.id.menuTop).setOnClickListener(v -> {
+        menuTop.setOnClickListener(v -> {
             // Empty body.
         });
 
-        // 更多菜单
-        findViewById(R.id.ivMore).setOnClickListener(v -> {
+        ivMore.setOnClickListener(v -> {
             initMoreBookInfoView();
-            if (findViewById(R.id.firstMenu).getVisibility() == View.VISIBLE) {
+            if (firstMenu.getVisibility() == View.VISIBLE) {
                 AnimationHelper.closePreview(myMainView);
             }
-            AnimationHelper.openBottomMenu(findViewById(R.id.menuMore));
-            AnimationHelper.closeBottomMenu(findViewById(R.id.firstMenu), false);
-            AnimationHelper.closeBottomMenu(findViewById(R.id.menuSetting), false);
+            viewMongolia.setVisibility(View.VISIBLE);
+            AnimationHelper.closeBottomMenu(menuSetting, false);
+            AnimationHelper.closeBottomMenu(firstMenu, false);
+            AnimationHelper.openBottomMenu(menuMore);
         });
 
-        findViewById(R.id.book_mark).setOnClickListener(v -> {
+        bookMark.setOnClickListener(v -> {
             // 添加书签
             getCollection().saveBookmark(myFBReaderApp.createBookmark(20, Bookmark.Type.BookMark));
             Toast.makeText(FBReader.this, "书签已添加", Toast.LENGTH_SHORT).show();
         });
 
-        firstMenu.findViewById(R.id.shangyizhang).setOnClickListener(v ->
+        previousPage.setOnClickListener(v ->
                 myFBReaderApp.runAction(ActionCode.TURN_PAGE_BACK));
 
-        firstMenu.findViewById(R.id.xiayizhang).setOnClickListener(v ->
+        nextPage.setOnClickListener(v ->
                 myFBReaderApp.runAction(ActionCode.TURN_PAGE_FORWARD));
 
-        SeekBar seekBar = firstMenu.findViewById(R.id.bookProgress);
-
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        bookProgress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
@@ -495,7 +572,6 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         });
 
         // 亮度设置
-        SeekBar lightProgress = findViewById(R.id.lightProgress);
         lightProgress.setProgress(myMainView.getScreenBrightness());
         lightProgress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -513,17 +589,17 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             }
         });
 
-        firstMenu.findViewById(R.id.open_slid_menu).setOnClickListener(v -> {
+        openSlideMenu.setOnClickListener(v -> {
             initSideMenuFragment();
             openSlideMenu();
         });
 
-        findViewById(R.id.slideMenu).setOnClickListener(v -> {
+        slideMenu.setOnClickListener(v -> {
             // Empty body.
         });
 
         // 返回
-        findViewById(R.id.viewBackground).setOnTouchListener((v, event) -> {
+        viewBackground.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_UP) {
                 closeSlideMenu();
             }
@@ -531,12 +607,11 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         });
 
         // 设置菜单
-        firstMenu.findViewById(R.id.showSetMenu).setOnClickListener(v -> {
-            if (findViewById(R.id.menuSetting).getVisibility() == View.VISIBLE) {
-                AnimationHelper.closeBottomMenu(findViewById(R.id.menuSetting));
+        showSetMenu.setOnClickListener(v -> {
+            if (menuSetting.getVisibility() == View.VISIBLE) {
+                AnimationHelper.closeBottomMenu(menuSetting);
             } else {
                 // 主题
-                RadioGroup radioGroup = findViewById(R.id.book_menu_color_group);
                 if (!myFBReaderApp.isActionVisible(ActionCode.SWITCH_THEME_WHITE_PROFILE)) {
                     radioGroup.check(R.id.color_white);
                 }
@@ -549,19 +624,19 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                 if (!myFBReaderApp.isActionVisible(ActionCode.SWITCH_THEME_BLACK_PROFILE)) {
                     radioGroup.check(R.id.color_black);
                 }
-                AnimationHelper.closeBottomMenu(findViewById(R.id.firstMenu), false);
-                AnimationHelper.openBottomMenu(findViewById(R.id.menuSetting));
+                viewMongolia.setVisibility(View.VISIBLE);
+                AnimationHelper.closeBottomMenu(firstMenu, false);
+                AnimationHelper.openBottomMenu(menuSetting);
                 AnimationHelper.closePreview(myMainView);
             }
         });
 
         // 字体大小
-        findViewById(R.id.font_small).setOnClickListener(v ->
+        fontSmall.setOnClickListener(v ->
                 myFBReaderApp.runAction(ActionCode.DECREASE_FONT));
-        findViewById(R.id.font_big).setOnClickListener(v ->
+        fontBig.setOnClickListener(v ->
                 myFBReaderApp.runAction(ActionCode.INCREASE_FONT));
 
-        RadioGroup radioGroup = findViewById(R.id.book_menu_color_group);
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             switch (checkedId) {
                 case R.id.color_white:
@@ -641,26 +716,26 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             }
         });
 
-        findViewById(R.id.goto_tts_play).setOnClickListener(v -> {
+        gotoTTS.setOnClickListener(v -> {
             splitText();
-            AnimationHelper.closeBottomMenu(findViewById(R.id.firstMenu));
-            AnimationHelper.closeBottomMenu(findViewById(R.id.menuTop));
+            AnimationHelper.closeBottomMenu(firstMenu);
+            AnimationHelper.closeBottomMenu(menuTop);
             AnimationHelper.closePreview(myMainView);
-            findViewById(R.id.menuPlayer).setVisibility(View.VISIBLE);
+            menuPlayer.setVisibility(View.VISIBLE);
             isPlaying = true;
             ivPlayer.setImageResource(R.drawable.reader_player_pause_icon);
             Toast.makeText(FBReader.this, "语音合成中", Toast.LENGTH_SHORT).show();
         });
 
         // 本地书库
-        findViewById(R.id.book_library).setOnClickListener(v -> {
-            AnimationHelper.closeBottomMenu(findViewById(R.id.menuMore));
-            AnimationHelper.closeBottomMenu(findViewById(R.id.menuTop));
+        bookLibrary.setOnClickListener(v -> {
+            AnimationHelper.closeBottomMenu(menuMore);
+            AnimationHelper.closeBottomMenu(menuTop);
             myFBReaderApp.runAction(ActionCode.SHOW_LIBRARY);
         });
 
         // 播放栏
-        findViewById(R.id.menuPlayer).setOnClickListener(v -> {
+        menuPlayer.setOnClickListener(v -> {
             if (isPlaying) {
                 ivPlayer.setImageResource(R.drawable.reader_player_start_icon);
                 ttsProvider.mSpeechSynthesizer.pause();
@@ -672,14 +747,14 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         });
 
         // 关闭播放栏
-        findViewById(R.id.ivClose).setOnClickListener(v -> {
+        ivClose.setOnClickListener(v -> {
             ttsProvider.mSpeechSynthesizer.stop();
             myFBReaderApp.getTextView().clearHighlighting();
-            findViewById(R.id.menuPlayer).setVisibility(View.GONE);
+            menuPlayer.setVisibility(View.GONE);
         });
 
         // 上下滚动
-        findViewById(R.id.v).setOnClickListener(v ->
+        scrollV.setOnClickListener(v ->
                 Toast.makeText(FBReader.this, "敬请期待", Toast.LENGTH_SHORT).show());
     }
 
@@ -695,11 +770,8 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         if (book == null) {
             return;
         }
-        final TextView tvBookName = findViewById(R.id.book_name);
         tvBookName.setText(book.getTitle());
-        final TextView tvAuthor = findViewById(R.id.author);
         tvAuthor.setText(book.authorsString(""));
-        final ImageView coverView = findViewById(R.id.book_img);
         final PluginCollection pluginCollection =
                 PluginCollection.Instance(Paths.systemInfo(this));
         final ZLImage image = CoverUtil.getCover(book, pluginCollection);
@@ -726,8 +798,6 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             return;
         }
         isLoad = true;
-        ViewPager viewPager = findViewById(R.id.viewPager);
-        TabLayout tabLayout = findViewById(R.id.tabLayout);
         fragments.add(new BookTOCFragment());
         fragments.add(new BookMarkFragment());
         fragments.add(new BookNoteFragment());
@@ -756,20 +826,20 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
      */
     private void openSlideMenu() {
         // 关闭侧边栏（侧边栏位移，侧边栏蒙层背景淡入淡出，阅读器视图位移）
-        AnimationHelper.openSlideMenu(findViewById(R.id.slideMenu), findViewById(R.id.viewBackground), findViewById(R.id.readerView));
+        AnimationHelper.openSlideMenu(slideMenu, viewBackground, readerView);
         // 关闭底部菜单
-        AnimationHelper.closeBottomMenu(findViewById(R.id.firstMenu));
+        AnimationHelper.closeBottomMenu(firstMenu);
         // 阅读器内容预览关闭
         AnimationHelper.closePreview(myMainView);
         // 关闭-->顶部菜单
-        AnimationHelper.closeTopMenu(findViewById(R.id.menuTop));
+        AnimationHelper.closeTopMenu(menuTop);
     }
 
     /**
      * 关闭侧边栏菜单
      */
     public void closeSlideMenu() {
-        AnimationHelper.closeSlideMenu(findViewById(R.id.slideMenu), findViewById(R.id.viewBackground), findViewById(R.id.readerView));
+        AnimationHelper.closeSlideMenu(slideMenu, viewBackground, readerView);
     }
 
     /**
@@ -900,17 +970,17 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 
         initPluginActions();
 
-        final ZLAndroidLibrary zlibrary = getZLibrary();
+        final ZLAndroidLibrary zLibrary = getZLibrary();
 
         Config.Instance().runOnConnect(() -> {
-            final boolean showStatusBar = zlibrary.ShowStatusBarOption.getValue();
+            final boolean showStatusBar = zLibrary.ShowStatusBarOption.getValue();
             if (showStatusBar != myShowStatusBarFlag) {
                 finish();
                 startActivity(new Intent(FBReader.this, FBReader.class));
             }
-            zlibrary.ShowStatusBarOption.saveSpecialValue();
+            zLibrary.ShowStatusBarOption.saveSpecialValue();
             myFBReaderApp.ViewOptions.ColorProfileName.saveSpecialValue();
-            SetScreenOrientationAction.setOrientation(FBReader.this, zlibrary.getOrientationOption().getValue());
+            SetScreenOrientationAction.setOrientation(FBReader.this, zLibrary.getOrientationOption().getValue());
         });
 
         ((PopupPanel) myFBReaderApp.getPopupById(TextSearchPopup.ID)).setPanelInfo(this, myRootView);
@@ -1033,25 +1103,21 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             new RunPluginAction(this, myFBReaderApp, data).run();
         } else if (Intent.ACTION_SEARCH.equals(action)) {
             final String pattern = intent.getStringExtra(SearchManager.QUERY);
-            final Runnable runnable = new Runnable() {
-                public void run() {
-                    final TextSearchPopup popup = (TextSearchPopup) myFBReaderApp.getPopupById(TextSearchPopup.ID);
-                    popup.initPosition();
-                    myFBReaderApp.MiscOptions.TextSearchPattern.setValue(pattern);
-                    if (myFBReaderApp.getTextView().search(pattern, true, false, false, false) != 0) {
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                myFBReaderApp.showPopup(popup.getId());
-                            }
-                        });
-                    } else {
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                UIMessageUtil.showErrorMessage(FBReader.this, "textNotFound");
-                                popup.StartPosition = null;
-                            }
-                        });
-                    }
+            final Runnable runnable = () -> {
+                final TextSearchPopup popup = (TextSearchPopup) myFBReaderApp.getPopupById(TextSearchPopup.ID);
+                popup.initPosition();
+                myFBReaderApp.MiscOptions.TextSearchPattern.setValue(pattern);
+                if (myFBReaderApp.getTextView().search(pattern, true, false, false, false) != 0) {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            myFBReaderApp.showPopup(popup.getId());
+                        }
+                    });
+                } else {
+                    runOnUiThread(() -> {
+                        UIMessageUtil.showErrorMessage(FBReader.this, "textNotFound");
+                        popup.StartPosition = null;
+                    });
                 }
             };
             UIUtil.wait("search", runnable, this);
@@ -1062,15 +1128,13 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             final Book book = FBReaderIntents.getBookExtra(intent, myFBReaderApp.Collection);
             myFBReaderApp.ExternalBook = null;
             myOpenBookIntent = null;
-            getCollection().bindToService(this, new Runnable() {
-                public void run() {
-                    final BookCollectionShadow collection = getCollection();
-                    Book b = collection.getRecentBook(0);
-                    if (collection.sameBook(b, book)) {
-                        b = collection.getRecentBook(1);
-                    }
-                    myFBReaderApp.openBook(b, null, null, myNotifier);
+            getCollection().bindToService(this, () -> {
+                final BookCollectionShadow collection = getCollection();
+                Book b = collection.getRecentBook(0);
+                if (collection.sameBook(b, book)) {
+                    b = collection.getRecentBook(1);
                 }
+                myFBReaderApp.openBook(b, null, null, myNotifier);
             });
         } else {
             super.onNewIntent(intent);
@@ -1082,31 +1146,27 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         super.onResume();
 
         myStartTimer = true;
-        Config.Instance().runOnConnect(new Runnable() {
-            public void run() {
-                SyncOperations.enableSync(FBReader.this, myFBReaderApp.SyncOptions);
+        Config.Instance().runOnConnect(() -> {
+            SyncOperations.enableSync(FBReader.this, myFBReaderApp.SyncOptions);
 
-                final int brightnessLevel =
-                        getZLibrary().ScreenBrightnessLevelOption.getValue();
-                if (brightnessLevel != 0) {
-                    getViewWidget().setScreenBrightness(brightnessLevel);
-                } else {
-                    setScreenBrightnessAuto();
-                }
-                if (getZLibrary().DisableButtonLightsOption.getValue()) {
-                    setButtonLight(false);
-                }
-
-                getCollection().bindToService(FBReader.this, new Runnable() {
-                    public void run() {
-                        final BookModel model = myFBReaderApp.Model;
-                        if (model == null || model.Book == null) {
-                            return;
-                        }
-                        onPreferencesUpdate(myFBReaderApp.Collection.getBookById(model.Book.getId()));
-                    }
-                });
+            final int brightnessLevel =
+                    getZLibrary().ScreenBrightnessLevelOption.getValue();
+            if (brightnessLevel != 0) {
+                getViewWidget().setScreenBrightness(brightnessLevel);
+            } else {
+                setScreenBrightnessAuto();
             }
+            if (getZLibrary().DisableButtonLightsOption.getValue()) {
+                setButtonLight(false);
+            }
+
+            getCollection().bindToService(FBReader.this, () -> {
+                final BookModel model = myFBReaderApp.Model;
+                if (model == null || model.Book == null) {
+                    return;
+                }
+                onPreferencesUpdate(myFBReaderApp.Collection.getBookById(model.Book.getId()));
+            });
         });
 
         registerReceiver(myBatteryInfoReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
@@ -1124,38 +1184,22 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         if (myCancelIntent != null) {
             final Intent intent = myCancelIntent;
             myCancelIntent = null;
-            getCollection().bindToService(this, new Runnable() {
-                public void run() {
-                    runCancelAction(intent);
-                }
-            });
+            getCollection().bindToService(this, () -> runCancelAction(intent));
             return;
         } else if (myOpenBookIntent != null) {
             final Intent intent = myOpenBookIntent;
             myOpenBookIntent = null;
-            getCollection().bindToService(this, new Runnable() {
-                public void run() {
-                    openBook(intent, null, true);
-                }
-            });
+            getCollection().bindToService(this, () ->
+                    openBook(intent, null, true));
         } else if (myFBReaderApp.getCurrentServerBook(null) != null) {
-            getCollection().bindToService(this, new Runnable() {
-                public void run() {
-                    myFBReaderApp.useSyncInfo(true, myNotifier);
-                }
-            });
+            getCollection().bindToService(this, () ->
+                    myFBReaderApp.useSyncInfo(true, myNotifier));
         } else if (myFBReaderApp.Model == null && myFBReaderApp.ExternalBook != null) {
-            getCollection().bindToService(this, new Runnable() {
-                public void run() {
-                    myFBReaderApp.openBook(myFBReaderApp.ExternalBook, null, null, myNotifier);
-                }
-            });
+            getCollection().bindToService(this, () ->
+                    myFBReaderApp.openBook(myFBReaderApp.ExternalBook, null, null, myNotifier));
         } else {
-            getCollection().bindToService(this, new Runnable() {
-                public void run() {
-                    myFBReaderApp.useSyncInfo(true, myNotifier);
-                }
-            });
+            getCollection().bindToService(this, () ->
+                    myFBReaderApp.useSyncInfo(true, myNotifier));
         }
 
         PopupPanel.restoreVisibilities(myFBReaderApp);
@@ -1187,11 +1231,9 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                 NotificationUtil.drop(this, myBook);
             }
         }
-        Config.Instance().runOnConnect(new Runnable() {
-            public void run() {
-                myFBReaderApp.openBook(myBook, bookmark, action, myNotifier);
-                AndroidFontUtil.clearFontCache();
-            }
+        Config.Instance().runOnConnect(() -> {
+            myFBReaderApp.openBook(myBook, bookmark, action, myNotifier);
+            AndroidFontUtil.clearFontCache();
         });
     }
 
@@ -1376,23 +1418,18 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         myFBReaderApp.hideActivePopup();
         if (DeviceType.Instance().hasStandardSearchDialog()) {
             final SearchManager manager = (SearchManager) getSystemService(SEARCH_SERVICE);
-            manager.setOnCancelListener(new SearchManager.OnCancelListener() {
-                public void onCancel() {
-                    if (popup != null) {
-                        myFBReaderApp.showPopup(popup.getId());
-                    }
-                    manager.setOnCancelListener(null);
+            manager.setOnCancelListener(() -> {
+                if (popup != null) {
+                    myFBReaderApp.showPopup(popup.getId());
                 }
+                manager.setOnCancelListener(null);
             });
             startSearch(myFBReaderApp.MiscOptions.TextSearchPattern.getValue(), true, null, false);
         } else {
             SearchDialogUtil.showDialog(
-                    this, FBReader.class, myFBReaderApp.MiscOptions.TextSearchPattern.getValue(), new DialogInterface.OnCancelListener() {
-                        @Override
-                        public void onCancel(DialogInterface di) {
-                            if (popup != null) {
-                                myFBReaderApp.showPopup(popup.getId());
-                            }
+                    this, FBReader.class, myFBReaderApp.MiscOptions.TextSearchPattern.getValue(), di -> {
+                        if (popup != null) {
+                            myFBReaderApp.showPopup(popup.getId());
                         }
                     }
             );
@@ -1446,14 +1483,9 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 
     @Override
     public void setWindowTitle(final String title) {
-        runOnUiThread(new Runnable() {
-            public void run() {
-                setTitle(title);
-            }
-        });
+        runOnUiThread(() -> setTitle(title));
     }
 
-    // methods from ZLApplicationWindow interface
     @Override
     public void showErrorMessage(String key) {
         UIMessageUtil.showErrorMessage(this, key);
@@ -1500,25 +1532,23 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 
     @Override
     public void refresh() {
-        runOnUiThread(new Runnable() {
-            public void run() {
-                for (Map.Entry<MenuItem, String> entry : myMenuItemMap.entrySet()) {
-                    final String actionId = entry.getValue();
-                    final MenuItem menuItem = entry.getKey();
-                    menuItem.setVisible(myFBReaderApp.isActionVisible(actionId) && myFBReaderApp.isActionEnabled(actionId));
-                    switch (myFBReaderApp.isActionChecked(actionId)) {
-                        case TRUE:
-                            menuItem.setCheckable(true);
-                            menuItem.setChecked(true);
-                            break;
-                        case FALSE:
-                            menuItem.setCheckable(true);
-                            menuItem.setChecked(false);
-                            break;
-                        case UNDEFINED:
-                            menuItem.setCheckable(false);
-                            break;
-                    }
+        runOnUiThread(() -> {
+            for (Map.Entry<MenuItem, String> entry : myMenuItemMap.entrySet()) {
+                final String actionId = entry.getValue();
+                final MenuItem menuItem = entry.getKey();
+                menuItem.setVisible(myFBReaderApp.isActionVisible(actionId) && myFBReaderApp.isActionEnabled(actionId));
+                switch (myFBReaderApp.isActionChecked(actionId)) {
+                    case TRUE:
+                        menuItem.setCheckable(true);
+                        menuItem.setChecked(true);
+                        break;
+                    case FALSE:
+                        menuItem.setCheckable(true);
+                        menuItem.setChecked(false);
+                        break;
+                    case UNDEFINED:
+                        menuItem.setCheckable(false);
+                        break;
                 }
             }
         });
@@ -1552,39 +1582,38 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
      * 显示菜单
      */
     public void openMenu() {
-        if (findViewById(R.id.firstMenu).getVisibility() == View.VISIBLE) { // 第一菜单 -- > 隐藏之
-            AnimationHelper.closeTopMenu(findViewById(R.id.menuTop));
-            AnimationHelper.closeBottomMenu(findViewById(R.id.firstMenu));
+        if (firstMenu.getVisibility() == View.VISIBLE) { // 第一菜单 -- > 隐藏之
+            AnimationHelper.closeTopMenu(menuTop);
+            AnimationHelper.closeBottomMenu(firstMenu);
             AnimationHelper.closePreview(myMainView);
-        } else if (findViewById(R.id.menuSetting).getVisibility() == View.VISIBLE) { // 设置菜单 -- > 隐藏之
-            AnimationHelper.closeTopMenu(findViewById(R.id.menuTop));
-            AnimationHelper.closeBottomMenu(findViewById(R.id.menuSetting));
-        } else if (findViewById(R.id.menuMore).getVisibility() == View.VISIBLE) { // 更多菜单 --> 隐藏之
-            AnimationHelper.closeTopMenu(findViewById(R.id.menuTop));
-            AnimationHelper.closeBottomMenu(findViewById(R.id.menuMore));
+        } else if (menuSetting.getVisibility() == View.VISIBLE) { // 设置菜单 -- > 隐藏之
+            AnimationHelper.closeTopMenu(menuTop);
+            AnimationHelper.closeBottomMenu(menuSetting);
+        } else if (menuMore.getVisibility() == View.VISIBLE) { // 更多菜单 --> 隐藏之
+            AnimationHelper.closeTopMenu(menuTop);
+            AnimationHelper.closeBottomMenu(menuMore);
         } else { // 没菜单显示 --> 显示一级菜单
             initBookInfoView();
-            AnimationHelper.openTopMenu(findViewById(R.id.menuTop));
-            AnimationHelper.openBottomMenu(findViewById(R.id.firstMenu));
+            AnimationHelper.openTopMenu(menuTop);
+            AnimationHelper.openBottomMenu(firstMenu);
             // 阅读器内容预览关闭
             AnimationHelper.openPreview(myMainView);
 
             // 主题状态（当前为夜间主题，字面为日常模式,否则反之）
             if (myFBReaderApp.isActionVisible(ActionCode.SWITCH_THEME_BLACK_PROFILE)) {
-                ((TextView) findViewById(R.id.quick_theme_change_txt)).setText("夜间模式");
-                ((ImageView) findViewById(R.id.quick_theme_change_img)).setImageResource(R.drawable.ic_book_night);
+                quickThemeChangeText.setText("夜间模式");
+                quickThemeChangeImg.setImageResource(R.drawable.ic_book_night);
             } else {
-                ((TextView) findViewById(R.id.quick_theme_change_txt)).setText("日常模式");
-                ((ImageView) findViewById(R.id.quick_theme_change_img)).setImageResource(R.drawable.ic_book_day);
+                quickThemeChangeText.setText("日常模式");
+                quickThemeChangeImg.setImageResource(R.drawable.ic_book_day);
             }
 
             // 设置阅读进度
-            SeekBar seekBar = findViewById(R.id.bookProgress);
             final FBView textView = myFBReaderApp.getTextView();
             ZLTextView.PagePosition pagePosition = textView.pagePosition();
-            if (seekBar.getMax() != pagePosition.Total - 1 || seekBar.getProgress() != pagePosition.Current - 1) {
-                seekBar.setMax(pagePosition.Total - 1);
-                seekBar.setProgress(pagePosition.Current - 1);
+            if (bookProgress.getMax() != pagePosition.Total - 1 || bookProgress.getProgress() != pagePosition.Current - 1) {
+                bookProgress.setMax(pagePosition.Total - 1);
+                bookProgress.setProgress(pagePosition.Current - 1);
             }
         }
     }
@@ -1598,8 +1627,6 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             return;
         }
         String title = book.getTitle();
-
-        TextView tvTitle = findViewById(R.id.tvTitle);
         tvTitle.setText(title);
     }
 
