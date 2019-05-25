@@ -28,7 +28,7 @@ import org.geometerplus.fbreader.book.*;
 public final class BookmarkHighlighting extends ZLTextSimpleHighlighting {
 
     final IBookCollection Collection;
-    final Bookmark Bookmark;
+    public final Bookmark Bookmark;
 
     private static ZLTextPosition startPosition(Bookmark bookmark) {
         return new ZLTextFixedPosition(bookmark.getParagraphIndex(), bookmark.getElementIndex(), 0);

@@ -470,6 +470,7 @@ public class BookCollectionShadow extends AbstractBookCollection<Book> implement
             try {
                 myInterface.deleteBookmark(SerializerUtil.serialize(bookmark));
             } catch (RemoteException e) {
+                e.printStackTrace();
             }
         }
     }

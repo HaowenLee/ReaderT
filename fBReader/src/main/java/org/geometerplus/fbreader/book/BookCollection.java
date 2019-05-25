@@ -540,13 +540,21 @@ public class BookCollection extends AbstractBookCollection<DbBook> {
         }
     }
 
+    /**
+     * 删除图书标记
+     *
+     * @param bookmark 图书标记
+     */
     public void deleteBookmark(Bookmark bookmark) {
         if (bookmark != null && bookmark.getId() != -1) {
             myDatabase.deleteBookmark(bookmark);
-            if (bookmark.IsVisible) {
-                final DbBook book = getBookById(bookmark.BookId);
-                if (book != null) {
-                    book.HasBookmark = myDatabase.hasVisibleBookmark(bookmark.BookId);
+            final DbBook book = getBookById(bookmark.BookId);
+            if (book != null) {
+                book.HasBookmark = myDatabase.hasVisibleBookmark(bookmark.BookId);
+                // 通知更新
+                if (bookmark.MarkType == Bookmark.Type.BookMark.ordinal()) {
+                    fireBookEvent(BookEvent.BookMarkUpdated, book);
+                } else if (bookmark.MarkType == Bookmark.Type.BookNote.ordinal()) {
                     fireBookEvent(BookEvent.BookNoteUpdated, book);
                 }
             }

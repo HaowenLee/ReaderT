@@ -19,6 +19,8 @@
 
 package org.geometerplus.zlibrary.text.view;
 
+import org.geometerplus.fbreader.book.Bookmark;
+import org.geometerplus.fbreader.fbreader.BookmarkHighlighting;
 import org.geometerplus.zlibrary.core.application.ZLApplication;
 import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 import org.geometerplus.zlibrary.core.util.RationalNumber;
@@ -274,6 +276,20 @@ public abstract class ZLTextView extends ZLTextViewBase {
         addHighlighting(new ZLTextManualHighlighting(this, start, end));
     }
 
+    public boolean removeMarkHighlight(Class<? extends ZLTextHighlighting> type) {
+        boolean result = false;
+        synchronized (myBookMarkList) {
+            for (Iterator<ZLTextHighlighting> it = myBookMarkList.iterator(); it.hasNext(); ) {
+                final ZLTextHighlighting h = it.next();
+                if (type.isInstance(h)) {
+                    it.remove();
+                    result = true;
+                }
+            }
+        }
+        return result;
+    }
+
     public boolean removeHighlightings(Class<? extends ZLTextHighlighting> type) {
         boolean result = false;
         synchronized (myHighlightingList) {
@@ -524,9 +540,31 @@ public abstract class ZLTextView extends ZLTextViewBase {
         // 绘制书签
         final List<ZLTextHighlighting> bookMarkList = findBookMarkList(page);
         context.setFillColor(new ZLColor(255, 107, 0));
-        if (bookMarkList != null && !bookMarkList.isEmpty()) {
+        if (!bookMarkList.isEmpty()) {
             context.drawBookMark(getContextWidth() - 100, 0, getContextWidth() - 60, 90);
         }
+    }
+
+    /**
+     * @return 当前页是否有书签
+     */
+    public List<Bookmark> getBookMarks() {
+        List<Bookmark> bookmarks = new ArrayList<>();
+        List<ZLTextHighlighting> bookMarkList = findBookMarkList(myCurrentPage);
+        for (ZLTextHighlighting highlighting : bookMarkList) {
+            if (highlighting instanceof BookmarkHighlighting) {
+                bookmarks.add(((BookmarkHighlighting) highlighting).Bookmark);
+            }
+        }
+        return bookmarks;
+    }
+
+    /**
+     * @return 当前页是否有书签
+     */
+    public boolean hasBookMark() {
+        List<ZLTextHighlighting> bookMarkList = findBookMarkList(myCurrentPage);
+        return !bookMarkList.isEmpty();
     }
 
     @Override

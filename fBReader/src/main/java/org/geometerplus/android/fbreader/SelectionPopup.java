@@ -61,11 +61,8 @@ class SelectionPopup extends PopupPanel implements View.OnClickListener {
 
         // Popup的高度
         int popupHeight = (int) (ZLibrary.Instance().getDisplayDPI() / 160f * 65 + 57);
-        myWindow.post(new Runnable() {
-            @Override
-            public void run() {
+        myWindow.post(() -> {
 
-            }
         });
         int startY = selectionStartY - popupHeight;
         if (startY > 0) {

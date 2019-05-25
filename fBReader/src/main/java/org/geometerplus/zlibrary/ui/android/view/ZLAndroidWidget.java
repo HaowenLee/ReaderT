@@ -19,6 +19,7 @@
 
 package org.geometerplus.zlibrary.ui.android.view;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -37,6 +38,7 @@ import com.haowen.huge.DebugLog;
 
 import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.android.fbreader.constant.PreviewConfig;
+import org.geometerplus.android.fbreader.util.SizeUtils;
 import org.geometerplus.fbreader.Paths;
 import org.geometerplus.zlibrary.core.application.ZLApplication;
 import org.geometerplus.zlibrary.core.application.ZLKeyBindings;
@@ -52,6 +54,7 @@ import org.geometerplus.zlibrary.ui.android.view.animation.PreviewShiftAnimation
 import org.geometerplus.zlibrary.ui.android.view.animation.ShiftAnimationProvider;
 import org.geometerplus.zlibrary.ui.android.view.animation.SlideAnimationProvider;
 import org.geometerplus.zlibrary.ui.android.view.animation.SlideOldStyleAnimationProvider;
+import org.geometerplus.zlibrary.ui.android.view.callbacks.BookMarkCallback;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -292,6 +295,12 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
         postInvalidate();
     }
 
+    private BookMarkCallback bookMarkCallback;
+
+    public void setBookMarkCallback(BookMarkCallback bookMarkCallback) {
+        this.bookMarkCallback = bookMarkCallback;
+    }
+
     /**
      * 在Bitmap上绘制
      *
@@ -509,14 +518,15 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        int x = (int) event.getX();
-        int y = (int) event.getY();
+        int x = (int) event.getRawX();
+        int y = (int) event.getRawY();
         mCurrentX = x;
         mCurrentY = y;
 
         final ZLView view = ZLApplication.Instance().getCurrentView();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                markState = 1;
                 if (myPendingShortClickRunnable != null) {
                     removeCallbacks(myPendingShortClickRunnable);
                     myPendingShortClickRunnable = null;
@@ -543,6 +553,8 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
                     myPendingLongClickRunnable = null;
                 }
                 view.onFingerEventCancelled();
+                // 复位
+                resetTranslateY(false);
                 break;
             case MotionEvent.ACTION_UP:
                 if (myPendingDoubleTap) {
@@ -570,6 +582,8 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
                 myPendingDoubleTap = false;
                 myPendingPress = false;
                 myScreenIsTouched = false;
+                // 复位
+                resetTranslateY(true);
                 break;
             case MotionEvent.ACTION_MOVE: {
                 final int slop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
@@ -594,7 +608,11 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
                         }
                     }
                     if (!myPendingPress) {
-                        view.onFingerMove(x, y);
+                        if (Math.abs(myPressedX - x) > Math.abs(myPressedY - y)) {
+                            view.onFingerMove(x, y);
+                        } else {
+                            onMoveVertical(myPressedY, y);
+                        }
                     }
                 }
                 break;
@@ -603,6 +621,95 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
 
         return true;
     }
+
+    /**
+     * 恢复Y方向的位移
+     */
+    private void resetTranslateY(boolean isUp) {
+        if (isPreview) {
+            return;
+        }
+        if (!isMoveVertical) {
+            return;
+        }
+        animate().setDuration(200)
+                .translationY(0)
+                .setListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        if (markState == 2 && bookMarkCallback != null && isUp) {
+                            bookMarkCallback.onChanged();
+                        }
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                })
+                .start();
+        isMoveVertical = false;
+    }
+
+    /**
+     * 垂直方向移动
+     */
+    private boolean isMoveVertical = false;
+
+    /**
+     * 垂直方向
+     *
+     * @param y1 起始Y
+     * @param y2 当前Y
+     */
+    private void onMoveVertical(int y1, int y2) {
+        if (isPreview) {
+            return;
+        }
+        isMoveVertical = true;
+        int distance = y2 - y1;
+        if (distance < 0) {
+            distance = 0;
+        }
+
+        // [0 - max] 系数 [1, 0.5)
+        int max = SizeUtils.dp2px(getContext(), 200);
+        // 最大距离
+        if (distance > max) {
+            distance = max;
+        }
+
+        float value = 0.5f;
+        distance = (int) (distance * ((max - distance * value) / max));
+
+        if (bookMarkCallback != null) {
+            if (distance > max * value / 2) {
+                if (markState != 2) {
+                    bookMarkCallback.onChanging();
+                    markState = 2;
+                }
+            } else {
+                if (markState != 1) {
+                    bookMarkCallback.onCanceling();
+                    markState = 1;
+                }
+            }
+        }
+
+        setTranslationY(distance);
+    }
+
+    private int markState = 1;
 
     @Override
     public boolean onLongClick(View v) {

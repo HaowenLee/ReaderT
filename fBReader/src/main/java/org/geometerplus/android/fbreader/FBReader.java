@@ -86,6 +86,7 @@ import org.geometerplus.fbreader.book.CoverUtil;
 import org.geometerplus.fbreader.bookmodel.BookModel;
 import org.geometerplus.fbreader.bookmodel.TOCTree;
 import org.geometerplus.fbreader.fbreader.ActionCode;
+import org.geometerplus.fbreader.fbreader.BookmarkHighlighting;
 import org.geometerplus.fbreader.fbreader.DictionaryHighlighting;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
 import org.geometerplus.fbreader.fbreader.FBView;
@@ -104,6 +105,7 @@ import org.geometerplus.zlibrary.core.resources.ZLResource;
 import org.geometerplus.zlibrary.core.view.ZLViewWidget;
 import org.geometerplus.zlibrary.text.view.ZLTextElement;
 import org.geometerplus.zlibrary.text.view.ZLTextFixedPosition;
+import org.geometerplus.zlibrary.text.view.ZLTextHighlighting;
 import org.geometerplus.zlibrary.text.view.ZLTextParagraphCursor;
 import org.geometerplus.zlibrary.text.view.ZLTextRegion;
 import org.geometerplus.zlibrary.text.view.ZLTextView;
@@ -116,6 +118,7 @@ import org.geometerplus.zlibrary.ui.android.image.ZLAndroidImageManager;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidLibrary;
 import org.geometerplus.zlibrary.ui.android.view.AndroidFontUtil;
 import org.geometerplus.zlibrary.ui.android.view.ZLAndroidWidget;
+import org.geometerplus.zlibrary.ui.android.view.callbacks.BookMarkCallback;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -248,6 +251,9 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
     private View fontBig;
     private SeekBar lightProgress;
     private View openSlideMenu;
+    private ImageView ivMarkArrow;
+    private TextView tvMarkHint;
+    private ImageView ivMarkState;
 
     public static void openBookActivity(Context context, Book book, Bookmark bookmark) {
         final Intent intent = defaultIntent(context);
@@ -425,6 +431,9 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         radioGroup = findViewById(R.id.book_menu_color_group);
         lightProgress = findViewById(R.id.lightProgress);
         openSlideMenu = findViewById(R.id.open_slid_menu);
+        ivMarkArrow = findViewById(R.id.ivMarkArrow);
+        tvMarkHint = findViewById(R.id.tvMarkHint);
+        ivMarkState = findViewById(R.id.ivMarkState);
     }
 
     @Override
@@ -485,6 +494,52 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 
     @SuppressLint("ClickableViewAccessibility")
     private void initListener() {
+
+        myMainView.setBookMarkCallback(new BookMarkCallback() {
+
+            @Override
+            public void onCanceling() {
+                if (myFBReaderApp.getTextView().hasBookMark()) {
+                    tvMarkHint.setText("下拉删除书签");
+                    ivMarkState.setImageResource(R.drawable.reader_book_mark_marked);
+                } else {
+                    tvMarkHint.setText("下拉添加书签");
+                    ivMarkState.setImageResource(R.drawable.reader_book_mark_cancel);
+                }
+                ivMarkArrow.animate()
+                        .rotation(0)
+                        .setDuration(200)
+                        .start();
+            }
+
+            @Override
+            public void onChanging() {
+                if (myFBReaderApp.getTextView().hasBookMark()) {
+                    tvMarkHint.setText("松手删除书签");
+                    ivMarkState.setImageResource(R.drawable.reader_book_mark_cancel);
+                } else {
+                    tvMarkHint.setText("松手添加书签");
+                    ivMarkState.setImageResource(R.drawable.reader_book_mark_marked);
+                }
+                ivMarkArrow.animate()
+                        .rotation(180)
+                        .setDuration(200)
+                        .start();
+            }
+
+            @Override
+            public void onChanged() {
+                if (myFBReaderApp.getTextView().hasBookMark()) {
+                    List<Bookmark> bookMarks = myFBReaderApp.getTextView().getBookMarks();
+                    for (Bookmark bookmark : bookMarks) {
+                        getCollection().deleteBookmark(bookmark);
+                    }
+                } else {
+                    getCollection().saveBookmark(myFBReaderApp.createBookmark(20, Bookmark.Type.BookMark));
+                }
+            }
+        });
+
         viewMongolia.setOnClickListener(v -> {
             AnimationHelper.closeTopMenu(menuTop);
             AnimationHelper.closeBottomMenu(menuSetting);

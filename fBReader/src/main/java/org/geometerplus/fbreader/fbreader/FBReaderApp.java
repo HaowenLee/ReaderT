@@ -417,7 +417,7 @@ public final class FBReaderApp extends ZLApplication {
      * @param modelId modelId
      */
     private void setBookMarkHighlighting(ZLTextView view, String modelId) {
-        view.removeHighlightings(BookmarkHighlighting.class);
+        view.removeMarkHighlight(BookmarkHighlighting.class);
         for (BookmarkQuery query = new BookmarkQuery(Model.Book, Bookmark.Type.BookMark.ordinal(), 20); ; query = query.next()) {
             final List<Bookmark> bookmarks = Collection.bookmarks(query);
             if (bookmarks.isEmpty()) {

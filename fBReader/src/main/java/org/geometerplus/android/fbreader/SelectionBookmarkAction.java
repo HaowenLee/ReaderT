@@ -63,13 +63,10 @@ public class SelectionBookmarkAction extends FBAndroidAction {
                 android.R.drawable.ic_menu_edit,
                 ZLResource.resource("dialog").getResource("button").getResource("edit").getValue()
         );
-        toast.setOnClickWrapper(new OnClickWrapper("bkmk", new SuperToast.OnClickListener() {
-            @Override
-            public void onClick(View view, Parcelable token) {
-                final Intent intent = new Intent(BaseActivity.getApplicationContext(), EditBookmarkActivity.class);
-                FBReaderIntents.putBookmarkExtra(intent, bookmark);
-                OrientationUtil.startActivity(BaseActivity, intent);
-            }
+        toast.setOnClickWrapper(new OnClickWrapper("bkmk", (view, token) -> {
+            final Intent intent = new Intent(BaseActivity.getApplicationContext(), EditBookmarkActivity.class);
+            FBReaderIntents.putBookmarkExtra(intent, bookmark);
+            OrientationUtil.startActivity(BaseActivity, intent);
         }));
         BaseActivity.showToast(toast);
     }

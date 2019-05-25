@@ -48,7 +48,7 @@ public class BookMarkFragment extends BaseFragment implements IBookCollection.Li
     private static final int EDIT_ITEM_ID = 1;
     private static final int DELETE_ITEM_ID = 2;
     private final Map<Integer, HighlightingStyle> myStyles =
-            Collections.synchronizedMap(new HashMap<Integer, HighlightingStyle>());
+            Collections.synchronizedMap(new HashMap<>());
     private final BookCollectionShadow myCollection = new BookCollectionShadow();
     private final Comparator<Bookmark> myComparator = new Bookmark.ByTimeComparator();
     private final ZLResource myResource = ZLResource.resource("bookmarksView");
@@ -73,14 +73,12 @@ public class BookMarkFragment extends BaseFragment implements IBookCollection.Li
             ((FBReader) mActivity).closeSlideMenu();
         }
 
-        myCollection.bindToService(mActivity, new Runnable() {
-            public void run() {
-                myThisBookAdapter = new BookmarksAdapter((ListView) getView().findViewById(R.id.listView));
-                myCollection.addListener(BookMarkFragment.this);
+        myCollection.bindToService(mActivity, () -> {
+            myThisBookAdapter = new BookmarksAdapter(getView().findViewById(R.id.listView));
+            myCollection.addListener(BookMarkFragment.this);
 
-                updateStyles();
-                loadBookmarks();
-            }
+            updateStyles();
+            loadBookmarks();
         });
 
         final FBReaderApp fbReader = (FBReaderApp) ZLApplication.Instance();
@@ -192,41 +190,44 @@ public class BookMarkFragment extends BaseFragment implements IBookCollection.Li
         }
     }
 
+    /**
+     * 更新书签
+     *
+     * @param book 书籍对象
+     */
     private void updateBookmarks(final Book book) {
-        new Thread(new Runnable() {
-            public void run() {
-                synchronized (myBookmarksLock) {
-                    // 是否是当前的书
-                    final boolean flagThisBookTab = book.getId() == myBook.getId();
+        new Thread(() -> {
+            synchronized (myBookmarksLock) {
+                // 是否是当前的书
+                final boolean flagThisBookTab = book.getId() == myBook.getId();
 
-                    // 暂存列表里旧数据
-                    final Map<String, Bookmark> oldBookmarks = new HashMap<>();
-                    if (flagThisBookTab) {
-                        for (Bookmark b : myThisBookAdapter.bookmarks()) {
-                            oldBookmarks.put(b.Uid, b);
+                // 暂存列表里旧数据
+                final Map<String, Bookmark> oldBookmarks = new HashMap<>();
+                if (flagThisBookTab) {
+                    for (Bookmark b : myThisBookAdapter.bookmarks()) {
+                        oldBookmarks.put(b.Uid, b);
+                    }
+                }
+
+                // 查询数据库的书签数据
+                for (BookmarkQuery query = new BookmarkQuery(book, Bookmark.Type.BookMark.ordinal(), 50); ; query = query.next()) {
+                    final List<Bookmark> loaded = myCollection.bookmarks(query);
+                    if (loaded.isEmpty()) {
+                        break;
+                    }
+                    for (Bookmark b : loaded) {
+                        // 暂存数据移除远程数据里的标签
+                        final Bookmark old = oldBookmarks.remove(b.Uid);
+                        if (flagThisBookTab) {
+                            // 更新列表书签数据
+                            myThisBookAdapter.replace(old, b);
                         }
                     }
+                }
 
-                    // 查询数据库的书签数据
-                    for (BookmarkQuery query = new BookmarkQuery(book, Bookmark.Type.BookMark.ordinal(), 50); ; query = query.next()) {
-                        final List<Bookmark> loaded = myCollection.bookmarks(query);
-                        if (loaded.isEmpty()) {
-                            break;
-                        }
-                        for (Bookmark b : loaded) {
-                            // 暂存数据移除远程数据里的标签
-                            final Bookmark old = oldBookmarks.remove(b.Uid);
-                            if (flagThisBookTab) {
-                                // 更新列表书签数据
-                                myThisBookAdapter.replace(old, b);
-                            }
-                        }
-                    }
-
-                    if (flagThisBookTab) {
-                        // 移除列表里，远程数据已移除数据
-                        myThisBookAdapter.removeAll(oldBookmarks.values());
-                    }
+                if (flagThisBookTab) {
+                    // 移除列表里，远程数据已移除数据
+                    myThisBookAdapter.removeAll(oldBookmarks.values());
                 }
             }
         }).start();
@@ -238,7 +239,7 @@ public class BookMarkFragment extends BaseFragment implements IBookCollection.Li
 
     private final class BookmarksAdapter extends BaseAdapter implements AdapterView.OnItemClickListener, View.OnCreateContextMenuListener {
         private final List<Bookmark> myBookmarksList =
-                Collections.synchronizedList(new LinkedList<Bookmark>());
+                Collections.synchronizedList(new LinkedList<>());
 
         BookmarksAdapter(ListView listView) {
             listView.setAdapter(this);
@@ -251,18 +252,16 @@ public class BookMarkFragment extends BaseFragment implements IBookCollection.Li
         }
 
         public void addAll(final List<Bookmark> bookmarks) {
-            mActivity.runOnUiThread(new Runnable() {
-                public void run() {
-                    synchronized (myBookmarksList) {
-                        for (Bookmark b : bookmarks) {
-                            final int position = Collections.binarySearch(myBookmarksList, b, myComparator);
-                            if (position < 0) {
-                                myBookmarksList.add(-position - 1, b);
-                            }
+            mActivity.runOnUiThread(() -> {
+                synchronized (myBookmarksList) {
+                    for (Bookmark b : bookmarks) {
+                        final int position = Collections.binarySearch(myBookmarksList, b, myComparator);
+                        if (position < 0) {
+                            myBookmarksList.add(-position - 1, b);
                         }
                     }
-                    notifyDataSetChanged();
                 }
+                notifyDataSetChanged();
             });
         }
 
@@ -277,25 +276,23 @@ public class BookMarkFragment extends BaseFragment implements IBookCollection.Li
             if (old != null && areEqualsForView(old, b)) {
                 return;
             }
-            mActivity.runOnUiThread(new Runnable() {
-                public void run() {
-                    synchronized (myBookmarksList) {
-                        // 有旧数据则移除
-                        if (old != null) {
-                            myBookmarksList.remove(old);
-                        }
-                        // 查找新数据在列表里的位置，如果不存在则添加该数据到列表集合
-                        final int position = Collections.binarySearch(myBookmarksList, b, myComparator);
-                        if (position < 0) {
-                            // 查询章节标题，并设置
-                            String tocText = getTocText(b.ParagraphIndex);
-                            b.setTocText(tocText);
-                            myBookmarksList.add(-position - 1, b);
-                        }
+            mActivity.runOnUiThread(() -> {
+                synchronized (myBookmarksList) {
+                    // 有旧数据则移除
+                    if (old != null) {
+                        myBookmarksList.remove(old);
                     }
-                    // 通知UI更新
-                    notifyDataSetChanged();
+                    // 查找新数据在列表里的位置，如果不存在则添加该数据到列表集合
+                    final int position = Collections.binarySearch(myBookmarksList, b, myComparator);
+                    if (position < 0) {
+                        // 查询章节标题，并设置
+                        String tocText = getTocText(b.ParagraphIndex);
+                        b.setTocText(tocText);
+                        myBookmarksList.add(-position - 1, b);
+                    }
                 }
+                // 通知UI更新
+                notifyDataSetChanged();
             });
         }
 
@@ -317,20 +314,16 @@ public class BookMarkFragment extends BaseFragment implements IBookCollection.Li
             if (bookmarks.isEmpty()) {
                 return;
             }
-            mActivity.runOnUiThread(new Runnable() {
-                public void run() {
-                    myBookmarksList.removeAll(bookmarks);
-                    notifyDataSetChanged();
-                }
+            mActivity.runOnUiThread(() -> {
+                myBookmarksList.removeAll(bookmarks);
+                notifyDataSetChanged();
             });
         }
 
         public void clear() {
-            mActivity.runOnUiThread(new Runnable() {
-                public void run() {
-                    myBookmarksList.clear();
-                    notifyDataSetChanged();
-                }
+            mActivity.runOnUiThread(() -> {
+                myBookmarksList.clear();
+                notifyDataSetChanged();
             });
         }
 
