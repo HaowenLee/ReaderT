@@ -526,7 +526,7 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
         final ZLView view = ZLApplication.Instance().getCurrentView();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                markState = 1;
+                markState = 0;
                 if (myPendingShortClickRunnable != null) {
                     removeCallbacks(myPendingShortClickRunnable);
                     myPendingShortClickRunnable = null;
@@ -709,7 +709,7 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
         setTranslationY(distance);
     }
 
-    private int markState = 1;
+    private int markState = 0;
 
     @Override
     public boolean onLongClick(View v) {
