@@ -23,19 +23,23 @@ import org.geometerplus.fbreader.book.Book;
 import org.geometerplus.fbreader.book.BookUtil;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
 
+/**
+ * 动作-图书分享
+ */
 public class ShareBookAction extends FBAndroidAction {
-	ShareBookAction(FBReader baseActivity, FBReaderApp fbreader) {
-		super(baseActivity, fbreader);
-	}
 
-	@Override
-	public boolean isVisible() {
-		final Book book = Reader.getCurrentBook();
-		return book != null && BookUtil.fileByBook(book).getPhysicalFile() != null;
-	}
+    ShareBookAction(FBReader baseActivity, FBReaderApp fbReader) {
+        super(baseActivity, fbReader);
+    }
 
-	@Override
-	protected void run(Object ... params) {
-		FBUtil.shareBook(BaseActivity, Reader.getCurrentBook());
-	}
+    @Override
+    public boolean isVisible() {
+        final Book book = Reader.getCurrentBook();
+        return book != null && BookUtil.fileByBook(book).getPhysicalFile() != null;
+    }
+
+    @Override
+    protected void run(Object... params) {
+        FBUtil.shareBook(BaseActivity, Reader.getCurrentBook());
+    }
 }

@@ -589,7 +589,9 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 
         // 分享
         bookShare.setOnClickListener(v -> {
-
+            AnimationHelper.closeTopMenu(menuTop);
+            AnimationHelper.closeBottomMenu(menuMore);
+            myFBReaderApp.runAction(ActionCode.SHARE_BOOK);
         });
 
         bookMark.setOnClickListener(v -> {
