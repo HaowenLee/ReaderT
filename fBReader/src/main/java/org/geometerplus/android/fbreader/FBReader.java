@@ -217,7 +217,6 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
      */
     private RelativeLayout myRootView;
     private ZLAndroidWidget myMainView;
-    private View viewMongolia;
     private View firstMenu;
     private TextView tvTitle;
     private ImageView ivPlayer;
@@ -397,7 +396,6 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
     private void bindViews() {
         myRootView = findViewById(R.id.root_view);
         myMainView = findViewById(R.id.main_view);
-        viewMongolia = findViewById(R.id.viewMongolia);
         ivPlayer = findViewById(R.id.ivPlay);
         firstMenu = findViewById(R.id.firstMenu);
         tvTitle = findViewById(R.id.tvTitle);
@@ -540,12 +538,6 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             }
         });
 
-        viewMongolia.setOnClickListener(v -> {
-            AnimationHelper.closeTopMenu(menuTop);
-            AnimationHelper.closeBottomMenu(menuSetting);
-            AnimationHelper.closeBottomMenu(menuMore);
-            viewMongolia.setVisibility(View.GONE);
-        });
         firstMenu.setOnClickListener(v -> {
             // Empty body.
         });
@@ -577,7 +569,6 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             if (firstMenu.getVisibility() == View.VISIBLE) {
                 AnimationHelper.closePreview(myMainView);
             }
-            viewMongolia.setVisibility(View.VISIBLE);
             AnimationHelper.closeBottomMenu(menuSetting, false);
             AnimationHelper.closeBottomMenu(firstMenu, false);
             AnimationHelper.openBottomMenu(menuMore);
@@ -679,7 +670,6 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                 if (!myFBReaderApp.isActionVisible(ActionCode.SWITCH_THEME_BLACK_PROFILE)) {
                     radioGroup.check(R.id.color_black);
                 }
-                viewMongolia.setVisibility(View.VISIBLE);
                 AnimationHelper.closeBottomMenu(firstMenu, false);
                 AnimationHelper.openBottomMenu(menuSetting);
                 AnimationHelper.closePreview(myMainView);
