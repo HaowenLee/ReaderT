@@ -384,6 +384,7 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
         if (myAnimationProvider instanceof PreviewShiftAnimationProvider) {
             ((PreviewShiftAnimationProvider) myAnimationProvider).setPreview(isPreview);
         }
+        ZLApplication.Instance().getCurrentView().setPreview(isPreview);
         postInvalidate();
     }
 

@@ -42,6 +42,16 @@ abstract public class ZLView implements ZLViewEnums {
         return myViewContext;
     }
 
+    private boolean isPreview = false;
+
+    public boolean isPreview() {
+        return isPreview;
+    }
+
+    public void setPreview(boolean preview) {
+        isPreview = preview;
+    }
+
     /**
      * 获取宽度
      *

@@ -393,6 +393,7 @@ public final class FBView extends ZLTextView {
 
     @Override
     public void onFingerMove(int x, int y) {
+
         final SelectionCursor.Which cursor = getSelectionCursorInMovement();
         if (cursor != null) {
             mCanMagnifier = true;
@@ -421,6 +422,11 @@ public final class FBView extends ZLTextView {
     @Override
     public boolean onFingerLongPress(int x, int y) {
         myReader.runAction(ActionCode.HIDE_TOAST);
+
+        // 预览模式不处理
+        if (isPreview()) {
+            return false;
+        }
 
         mCanMagnifier = true;
 
@@ -528,6 +534,12 @@ public final class FBView extends ZLTextView {
         if (myReader.isActionEnabled(ActionCode.SELECTION_CLEAR)) {
             myReader.runAction(ActionCode.SELECTION_CLEAR);
             myReader.runAction(ActionCode.SELECTION_HIDE_PANEL);
+            return;
+        }
+
+        // 预览模式的情况下，点击为打开菜单
+        if (isPreview()) {
+            myReader.runAction(ActionCode.SHOW_MENU, x, y);
             return;
         }
 
