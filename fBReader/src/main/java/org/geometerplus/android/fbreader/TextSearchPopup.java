@@ -28,72 +28,76 @@ import org.geometerplus.zlibrary.core.resources.ZLResource;
 import org.geometerplus.fbreader.fbreader.ActionCode;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
 
+/**
+ * 文字搜索弹框
+ */
 final class TextSearchPopup extends PopupPanel implements View.OnClickListener {
-	final static String ID = "TextSearchPopup";
 
-	TextSearchPopup(FBReaderApp fbReader) {
-		super(fbReader);
-	}
+    final static String ID = "TextSearchPopup";
 
-	@Override
-	public String getId() {
-		return ID;
-	}
+    TextSearchPopup(FBReaderApp fbReader) {
+        super(fbReader);
+    }
 
-	@Override
-	protected void hide_() {
-		getReader().getTextView().clearFindResults();
-		super.hide_();
-	}
+    @Override
+    public String getId() {
+        return ID;
+    }
 
-	@Override
-	public synchronized void createControlPanel(FBReader activity, RelativeLayout root) {
-		if (myWindow != null && activity == myWindow.getContext()) {
-			return;
-		}
+    @Override
+    protected void hide_() {
+        getReader().getTextView().clearFindResults();
+        super.hide_();
+    }
 
-		activity.getLayoutInflater().inflate(R.layout.search_panel, root);
-		myWindow = (SimplePopupWindow)root.findViewById(R.id.search_panel);
+    @Override
+    public synchronized void createControlPanel(FBReader activity, RelativeLayout root) {
+        if (myWindow != null && activity == myWindow.getContext()) {
+            return;
+        }
 
-		final ZLResource resource = ZLResource.resource("textSearchPopup");
-		setupButton(R.id.search_panel_previous, resource.getResource("findPrevious").getValue());
-		setupButton(R.id.search_panel_next, resource.getResource("findNext").getValue());
-		setupButton(R.id.search_panel_close, resource.getResource("close").getValue());
-	}
+        activity.getLayoutInflater().inflate(R.layout.search_panel, root);
+        myWindow = root.findViewById(R.id.search_panel);
 
-	private void setupButton(int buttonId, String description) {
-		final View button = myWindow.findViewById(buttonId);
-		button.setOnClickListener(this);
-		button.setContentDescription(description);
-	}
+        final ZLResource resource = ZLResource.resource("textSearchPopup");
+        setupButton(R.id.search_panel_previous, resource.getResource("findPrevious").getValue());
+        setupButton(R.id.search_panel_next, resource.getResource("findNext").getValue());
+        setupButton(R.id.search_panel_close, resource.getResource("close").getValue());
+    }
 
-	@Override
-	protected synchronized void update() {
-		if (myWindow == null) {
-			return;
-		}
+    private void setupButton(int buttonId, String description) {
+        final View button = myWindow.findViewById(buttonId);
+        button.setOnClickListener(this);
+        button.setContentDescription(description);
+    }
 
-		myWindow.findViewById(R.id.search_panel_previous).setEnabled(
-			Application.isActionEnabled(ActionCode.FIND_PREVIOUS)
-		);
-		myWindow.findViewById(R.id.search_panel_next).setEnabled(
-			Application.isActionEnabled(ActionCode.FIND_NEXT)
-		);
-	}
+    @Override
+    protected synchronized void update() {
+        if (myWindow == null) {
+            return;
+        }
 
-	public void onClick(View view) {
-		switch (view.getId()) {
-			case R.id.search_panel_previous:
-				Application.runAction(ActionCode.FIND_PREVIOUS);
-				break;
-			case R.id.search_panel_next:
-				Application.runAction(ActionCode.FIND_NEXT);
-				break;
-			case R.id.search_panel_close:
-				Application.runAction(ActionCode.CLEAR_FIND_RESULTS);
-				storePosition();
-				StartPosition = null;
-				Application.hideActivePopup();
-		}
-	}
+        myWindow.findViewById(R.id.search_panel_previous).setEnabled(
+                Application.isActionEnabled(ActionCode.FIND_PREVIOUS)
+        );
+        myWindow.findViewById(R.id.search_panel_next).setEnabled(
+                Application.isActionEnabled(ActionCode.FIND_NEXT)
+        );
+    }
+
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.search_panel_previous:
+                Application.runAction(ActionCode.FIND_PREVIOUS);
+                break;
+            case R.id.search_panel_next:
+                Application.runAction(ActionCode.FIND_NEXT);
+                break;
+            case R.id.search_panel_close:
+                Application.runAction(ActionCode.CLEAR_FIND_RESULTS);
+                storePosition();
+                StartPosition = null;
+                Application.hideActivePopup();
+        }
+    }
 }

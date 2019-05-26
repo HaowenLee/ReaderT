@@ -228,6 +228,8 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
     private View menuMore;
     private View menuSetting;
     private View bookMark;
+    private ImageView ivBookMarkState;
+    private TextView tvBookMarkState;
     private View previousPage;
     private View nextPage;
     private SeekBar bookProgress;
@@ -239,9 +241,10 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
     private ViewPager viewPager;
     private TextView tvBookName;
     private TextView tvAuthor;
+    private View bookSearch;
+    private View bookShare;
     private ImageView coverView;
     private View gotoTTS;
-    private View bookLibrary;
     private View scrollV;
     private View menuPlayer;
     private View ivClose;
@@ -407,6 +410,8 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         menuMore = findViewById(R.id.menuMore);
         menuSetting = findViewById(R.id.menuSetting);
         bookMark = findViewById(R.id.book_mark);
+        ivBookMarkState = findViewById(R.id.book_mark_state_icon);
+        tvBookMarkState = findViewById(R.id.book_mark_state_txt);
         previousPage = findViewById(R.id.shangyizhang);
         nextPage = findViewById(R.id.xiayizhang);
         bookProgress = findViewById(R.id.bookProgress);
@@ -416,11 +421,12 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         showSetMenu = findViewById(R.id.showSetMenu);
         viewPager = findViewById(R.id.viewPager);
         tabLayout = findViewById(R.id.tabLayout);
+        bookSearch = findViewById(R.id.book_search);
+        bookShare = findViewById(R.id.book_share);
         tvAuthor = findViewById(R.id.author);
         coverView = findViewById(R.id.book_img);
         tvBookName = findViewById(R.id.book_name);
         gotoTTS = findViewById(R.id.goto_tts_play);
-        bookLibrary = findViewById(R.id.book_library);
         menuPlayer = findViewById(R.id.menuPlayer);
         ivClose = findViewById(R.id.ivClose);
         scrollV = findViewById(R.id.v);
@@ -574,10 +580,30 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             AnimationHelper.openBottomMenu(menuMore);
         });
 
+        // 搜索
+        bookSearch.setOnClickListener(v -> {
+            AnimationHelper.closeTopMenu(menuTop);
+            AnimationHelper.closeBottomMenu(menuMore);
+            myFBReaderApp.runAction(ActionCode.SEARCH);
+        });
+
+        // 分享
+        bookShare.setOnClickListener(v -> {
+
+        });
+
         bookMark.setOnClickListener(v -> {
             // 添加书签
-            getCollection().saveBookmark(myFBReaderApp.createBookmark(20, Bookmark.Type.BookMark));
-            Toast.makeText(FBReader.this, "书签已添加", Toast.LENGTH_SHORT).show();
+            if (myFBReaderApp.getTextView().hasBookMark()) {
+                List<Bookmark> bookMarks = myFBReaderApp.getTextView().getBookMarks();
+                for (Bookmark bookmark : bookMarks) {
+                    getCollection().deleteBookmark(bookmark);
+                }
+            } else {
+                getCollection().saveBookmark(myFBReaderApp.createBookmark(20, Bookmark.Type.BookMark));
+            }
+            AnimationHelper.closeTopMenu(menuTop);
+            AnimationHelper.closeBottomMenu(menuMore);
         });
 
         previousPage.setOnClickListener(v ->
@@ -772,13 +798,6 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             Toast.makeText(FBReader.this, "语音合成中", Toast.LENGTH_SHORT).show();
         });
 
-        // 本地书库
-        bookLibrary.setOnClickListener(v -> {
-            AnimationHelper.closeBottomMenu(menuMore);
-            AnimationHelper.closeBottomMenu(menuTop);
-            myFBReaderApp.runAction(ActionCode.SHOW_LIBRARY);
-        });
-
         // 播放栏
         menuPlayer.setOnClickListener(v -> {
             if (isPlaying) {
@@ -814,6 +833,13 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         final Book book = myFBReaderApp.getCurrentBook();
         if (book == null) {
             return;
+        }
+        if (myFBReaderApp.getTextView().hasBookMark()) {
+            ivBookMarkState.setImageResource(R.drawable.reader_mark_marked_icon);
+            tvBookMarkState.setText("删除书签");
+        } else {
+            ivBookMarkState.setImageResource(R.drawable.reader_mark_icon);
+            tvBookMarkState.setText("添加书签");
         }
         tvBookName.setText(book.getTitle());
         tvAuthor.setText(book.authorsString(""));
@@ -1153,11 +1179,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                 popup.initPosition();
                 myFBReaderApp.MiscOptions.TextSearchPattern.setValue(pattern);
                 if (myFBReaderApp.getTextView().search(pattern, true, false, false, false) != 0) {
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            myFBReaderApp.showPopup(popup.getId());
-                        }
-                    });
+                    runOnUiThread(() -> myFBReaderApp.showPopup(popup.getId()));
                 } else {
                     runOnUiThread(() -> {
                         UIMessageUtil.showErrorMessage(FBReader.this, "textNotFound");

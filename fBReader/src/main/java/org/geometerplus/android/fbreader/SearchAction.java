@@ -21,18 +21,22 @@ package org.geometerplus.android.fbreader;
 
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
 
+/**
+ * 搜索
+ */
 class SearchAction extends FBAndroidAction {
-	SearchAction(FBReader baseActivity, FBReaderApp fbreader) {
-		super(baseActivity, fbreader);
-	}
 
-	@Override
-	public boolean isVisible() {
-		return Reader.Model != null;
-	}
+    SearchAction(FBReader baseActivity, FBReaderApp fbReader) {
+        super(baseActivity, fbReader);
+    }
 
-	@Override
-	protected void run(Object ... params) {
-		BaseActivity.onSearchRequested();
-	}
+    @Override
+    public boolean isVisible() {
+        return Reader.Model != null;
+    }
+
+    @Override
+    protected void run(Object... params) {
+        BaseActivity.onSearchRequested();
+    }
 }
