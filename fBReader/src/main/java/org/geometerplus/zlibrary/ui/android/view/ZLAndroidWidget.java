@@ -619,10 +619,10 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
                         }
                     }
                     if (!myPendingPress) {
-                        if (Math.abs(myPressedX - x) > Math.abs(myPressedY - y)) {
                             view.onFingerMove(x, y);
+                        if (Math.abs(myPressedX - x) > Math.abs(myPressedY - y)) {
                         } else {
-                            onMoveVertical(mStartRawY, (int) event.getRawY());
+                            // onMoveVertical(mStartRawY, (int) event.getRawY());
                         }
                     }
                 }

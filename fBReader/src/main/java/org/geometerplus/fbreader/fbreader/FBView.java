@@ -391,6 +391,14 @@ public final class FBView extends ZLTextView {
         final SelectionCursor.Which cursor = getSelectionCursorInMovement();
         if (cursor != null) {
             releaseSelectionCursor();
+        }
+        // 如果有选中，恢复选中动作弹框
+        if (myReader.isActionEnabled(ActionCode.SELECTION_CLEAR)) {
+            myReader.runAction(ActionCode.SELECTION_SHOW_PANEL);
+            return;
+        }
+        if (cursor != null) {
+            releaseSelectionCursor();
         } else if (myIsBrightnessAdjustmentInProgress) {
             myIsBrightnessAdjustmentInProgress = false;
         } else if (isFlickScrollingEnabled()) {
@@ -407,6 +415,12 @@ public final class FBView extends ZLTextView {
         if (cursor != null) {
             mCanMagnifier = true;
             moveSelectionCursorTo(cursor, x, y);
+            return;
+        }
+
+        // 如果有选中， 隐藏选中动作弹框
+        if (myReader.isActionEnabled(ActionCode.SELECTION_CLEAR)) {
+            myReader.runAction(ActionCode.SELECTION_HIDE_PANEL);
             return;
         }
 
@@ -434,7 +448,13 @@ public final class FBView extends ZLTextView {
 
         // 预览模式不处理
         if (isPreview()) {
-            return false;
+            return true;
+        }
+
+        // 如果有选中， 隐藏选中动作弹框
+        if (myReader.isActionEnabled(ActionCode.SELECTION_CLEAR)) {
+            myReader.runAction(ActionCode.SELECTION_HIDE_PANEL);
+            return true;
         }
 
         mCanMagnifier = true;
@@ -482,6 +502,12 @@ public final class FBView extends ZLTextView {
         final SelectionCursor.Which cursor = getSelectionCursorInMovement();
         if (cursor != null) {
             releaseSelectionCursor();
+            return;
+        }
+
+        // 如果有选中， 显示选中动作弹框
+        if (myReader.isActionEnabled(ActionCode.SELECTION_CLEAR)) {
+            myReader.runAction(ActionCode.SELECTION_SHOW_PANEL);
             return;
         }
 
@@ -539,16 +565,16 @@ public final class FBView extends ZLTextView {
     @Override
     public void onFingerSingleTap(int x, int y) {
 
+        // 预览模式的情况下，点击为打开菜单
+        if (isPreview()) {
+            myReader.runAction(ActionCode.SHOW_MENU, x, y);
+            return;
+        }
+
         // 如果有选中，则(1). 清除选中，(2). 隐藏选中动作弹框
         if (myReader.isActionEnabled(ActionCode.SELECTION_CLEAR)) {
             myReader.runAction(ActionCode.SELECTION_CLEAR);
             myReader.runAction(ActionCode.SELECTION_HIDE_PANEL);
-            return;
-        }
-
-        // 预览模式的情况下，点击为打开菜单
-        if (isPreview()) {
-            myReader.runAction(ActionCode.SHOW_MENU, x, y);
             return;
         }
 
