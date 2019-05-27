@@ -154,15 +154,6 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
         super(context, attrs);
         mySystemInfo = Paths.systemInfo(context);
         init();
-    }    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        getAnimationProvider().terminate();
-        if (myScreenIsTouched) {
-            final ZLView view = ZLApplication.Instance().getCurrentView();
-            myScreenIsTouched = false;
-            view.onScrollingFinished(ZLView.PageIndex.current);
-        }
     }
 
     public ZLAndroidWidget(Context context) {
@@ -203,6 +194,15 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
     @Override
     public void reset() {
         myBitmapManager.reset();
+    }    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        getAnimationProvider().terminate();
+        if (myScreenIsTouched) {
+            final ZLView view = ZLApplication.Instance().getCurrentView();
+            myScreenIsTouched = false;
+            view.onScrollingFinished(ZLView.PageIndex.current);
+        }
     }
 
     @Override
@@ -531,7 +531,7 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
 
         int max = SizeUtils.dp2px(getContext(), 100);
 
-        distance = (int) Math.pow(distance, 4 / 5d);
+        distance = (int) Math.pow(distance, 5 / 6d);
 
         if (distance > max) {
             distance = max;
