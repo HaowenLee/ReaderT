@@ -71,6 +71,10 @@ public final class FBView extends ZLTextView {
 
     private TapZoneMap myZoneMap;
     private Footer myFooter;
+    /**
+     * 是否显示放大镜
+     */
+    private boolean mCanMagnifier = false;
 
     FBView(FBReaderApp reader) {
         super(reader);
@@ -87,6 +91,19 @@ public final class FBView extends ZLTextView {
     }
 
     @Override
+    protected ExtensionElementManager getExtensionManager() {
+        return myBookElementManager;
+    }
+
+    @Override
+    protected void releaseSelectionCursor() {
+        super.releaseSelectionCursor();
+        if (getCountOfSelectedWords() > 0) {
+            myReader.runAction(ActionCode.SELECTION_SHOW_PANEL);
+        }
+    }
+
+    @Override
     public synchronized void onScrollingFinished(PageIndex pageIndex) {
         super.onScrollingFinished(pageIndex);
         if (myReader.PageTurningOptions.Animation.getValue() == Animation.previewNone) {
@@ -97,11 +114,8 @@ public final class FBView extends ZLTextView {
     }
 
     @Override
-    protected void releaseSelectionCursor() {
-        super.releaseSelectionCursor();
-        if (getCountOfSelectedWords() > 0) {
-            myReader.runAction(ActionCode.SELECTION_SHOW_PANEL);
-        }
+    public int scrollbarType() {
+        return myViewOptions.ScrollbarType.getValue();
     }
 
     @Override
@@ -115,11 +129,6 @@ public final class FBView extends ZLTextView {
     }
 
     @Override
-    public int scrollbarType() {
-        return myViewOptions.ScrollbarType.getValue();
-    }
-
-    @Override
     protected ZLPaintContext.ColorAdjustingMode getAdjustingModeForImages() {
         if (myReader.ImageOptions.MatchBackground.getValue()) {
             if (ColorProfile.THEME_WHITE.equals(myViewOptions.getColorProfile().Name)) {
@@ -130,11 +139,6 @@ public final class FBView extends ZLTextView {
         } else {
             return ZLPaintContext.ColorAdjustingMode.NONE;
         }
-    }
-
-    @Override
-    protected ExtensionElementManager getExtensionManager() {
-        return myBookElementManager;
     }
 
     @Override
@@ -164,23 +168,8 @@ public final class FBView extends ZLTextView {
     }
 
     @Override
-    public ZLTextStyleCollection getTextStyleCollection() {
-        return myViewOptions.getTextStyleCollection();
-    }
-
-    @Override
     public ImageFitting getImageFitting() {
         return myReader.ImageOptions.FitToScreen.getValue();
-    }
-
-    @Override
-    public int getLeftMargin() {
-        return myViewOptions.LeftMargin.getValue();
-    }
-
-    @Override
-    public int getRightMargin() {
-        return myViewOptions.RightMargin.getValue();
     }
 
     @Override
@@ -196,11 +185,6 @@ public final class FBView extends ZLTextView {
     @Override
     public int getSpaceBetweenColumns() {
         return myViewOptions.SpaceBetweenColumns.getValue();
-    }
-
-    @Override
-    public boolean twoColumnView() {
-        return getContextHeight() <= getContextWidth() && myViewOptions.TwoColumnView.getValue();
     }
 
     @Override
@@ -230,6 +214,11 @@ public final class FBView extends ZLTextView {
     }
 
     @Override
+    public ZLColor getBookMarkColor() {
+        return myViewOptions.getColorProfile().BookMarkColorOption.getValue();
+    }
+
+    @Override
     public ZLColor getSelectionBackgroundColor() {
         return myViewOptions.getColorProfile().SelectionBackgroundOption.getValue();
     }
@@ -242,16 +231,6 @@ public final class FBView extends ZLTextView {
     @Override
     public ZLColor getSelectionForegroundColor() {
         return myViewOptions.getColorProfile().SelectionForegroundOption.getValue();
-    }
-
-    @Override
-    public ZLColor getHighlightingBackgroundColor() {
-        return myViewOptions.getColorProfile().HighlightingBackgroundOption.getValue();
-    }
-
-    @Override
-    public ZLColor getHighlightingForegroundColor() {
-        return myViewOptions.getColorProfile().HighlightingForegroundOption.getValue();
     }
 
     /**
@@ -275,6 +254,36 @@ public final class FBView extends ZLTextView {
             case FBHyperlinkType.EXTERNAL:
                 return profile.HyperlinkTextOption.getValue();
         }
+    }
+
+    @Override
+    public boolean twoColumnView() {
+        return getContextHeight() <= getContextWidth() && myViewOptions.TwoColumnView.getValue();
+    }
+
+    @Override
+    public int getLeftMargin() {
+        return myViewOptions.LeftMargin.getValue();
+    }
+
+    @Override
+    public int getRightMargin() {
+        return myViewOptions.RightMargin.getValue();
+    }
+
+    @Override
+    public ZLTextStyleCollection getTextStyleCollection() {
+        return myViewOptions.getTextStyleCollection();
+    }
+
+    @Override
+    public ZLColor getHighlightingBackgroundColor() {
+        return myViewOptions.getColorProfile().HighlightingBackgroundOption.getValue();
+    }
+
+    @Override
+    public ZLColor getHighlightingForegroundColor() {
+        return myViewOptions.getColorProfile().HighlightingForegroundOption.getValue();
     }
 
     @Override
@@ -637,11 +646,6 @@ public final class FBView extends ZLTextView {
         new MoveCursorAction(myReader, direction).run();
         return true;
     }
-
-    /**
-     * 是否显示放大镜
-     */
-    private boolean mCanMagnifier = false;
 
     @Override
     public boolean canMagnifier() {

@@ -32,19 +32,15 @@ import org.geometerplus.zlibrary.text.view.style.*;
 
 abstract class ZLTextViewBase extends ZLView {
 
-    public enum ImageFitting {
-        none, covers, all
-    }
-
     private ZLTextStyle myTextStyle;
     private int myWordHeight = -1;
     private ZLTextMetrics myMetrics;
+    private int myMaxSelectionDistance = 0;
+    private char[] myWordPartArray = new char[20];
 
     ZLTextViewBase(ZLApplication application) {
         super(application);
     }
-
-    private int myMaxSelectionDistance = 0;
 
     protected final int maxSelectionDistance() {
         if (myMaxSelectionDistance == 0) {
@@ -57,24 +53,6 @@ abstract class ZLTextViewBase extends ZLView {
         myMetrics = null;
     }
 
-    protected ZLTextMetrics metrics() {
-        // this local variable is used to guarantee null will not
-        // be returned from this method enen in multi-thread environment
-        ZLTextMetrics m = myMetrics;
-        if (m == null) {
-            m = new ZLTextMetrics(
-                    ZLibrary.Instance().getDisplayDPI(),
-                    // TODO: screen area width
-                    100,
-                    // TODO: screen area height
-                    100,
-                    getTextStyleCollection().getBaseStyle().getFontSize()
-            );
-            myMetrics = m;
-        }
-        return m;
-    }
-
     final int getWordHeight() {
         if (myWordHeight == -1) {
             final ZLTextStyle textStyle = myTextStyle;
@@ -83,13 +61,7 @@ abstract class ZLTextViewBase extends ZLView {
         return myWordHeight;
     }
 
-    public abstract ZLTextStyleCollection getTextStyleCollection();
-
     public abstract ImageFitting getImageFitting();
-
-    public abstract int getLeftMargin();
-
-    public abstract int getRightMargin();
 
     public abstract int getTopMargin();
 
@@ -97,23 +69,19 @@ abstract class ZLTextViewBase extends ZLView {
 
     public abstract int getSpaceBetweenColumns();
 
-    public abstract boolean twoColumnView();
-
     public abstract ZLFile getWallpaperFile();
 
     public abstract ZLPaintContext.FillMode getFillMode();
 
     public abstract ZLColor getBackgroundColor();
 
+    public abstract ZLColor getBookMarkColor();
+
     public abstract ZLColor getSelectionBackgroundColor();
 
     public abstract ZLColor getSelectionCursorColor();
 
     public abstract ZLColor getSelectionForegroundColor();
-
-    public abstract ZLColor getHighlightingBackgroundColor();
-
-    public abstract ZLColor getHighlightingForegroundColor();
 
     public abstract ZLColor getTextColor(ZLTextHyperlink hyperlink);
 
@@ -131,6 +99,12 @@ abstract class ZLTextViewBase extends ZLView {
         }
         return 2 * x <= getContextWidth() + getLeftMargin() - getRightMargin() ? 0 : 1;
     }
+
+    public abstract boolean twoColumnView();
+
+    public abstract int getLeftMargin();
+
+    public abstract int getRightMargin();
 
     public int getTextColumnWidth() {
         return twoColumnView()
@@ -155,6 +129,26 @@ abstract class ZLTextViewBase extends ZLView {
 
     final void resetTextStyle() {
         setTextStyle(getTextStyleCollection().getBaseStyle());
+    }
+
+    public abstract ZLTextStyleCollection getTextStyleCollection();
+
+    protected ZLTextMetrics metrics() {
+        // this local variable is used to guarantee null will not
+        // be returned from this method enen in multi-thread environment
+        ZLTextMetrics m = myMetrics;
+        if (m == null) {
+            m = new ZLTextMetrics(
+                    ZLibrary.Instance().getDisplayDPI(),
+                    // TODO: screen area width
+                    100,
+                    // TODO: screen area height
+                    100,
+                    getTextStyleCollection().getBaseStyle().getFontSize()
+            );
+            myMetrics = m;
+        }
+        return m;
     }
 
     boolean isStyleChangeElement(ZLTextElement element) {
@@ -278,7 +272,20 @@ abstract class ZLTextViewBase extends ZLView {
         return getContext().getStringWidth(word.Data, word.Offset + start, length);
     }
 
-    private char[] myWordPartArray = new char[20];
+    int getAreaLength(ZLTextParagraphCursor paragraph, ZLTextElementArea area, int toCharIndex) {
+        setTextStyle(area.Style);
+        final ZLTextWord word = (ZLTextWord) paragraph.getElement(area.ElementIndex);
+        int length = toCharIndex - area.CharIndex;
+        boolean selectHyphenationSign = false;
+        if (length >= area.Length) {
+            selectHyphenationSign = area.AddHyphenationSign;
+            length = area.Length;
+        }
+        if (length > 0) {
+            return getWordWidth(word, area.CharIndex, length, selectHyphenationSign);
+        }
+        return 0;
+    }
 
     final int getWordWidth(ZLTextWord word, int start, int length, boolean addHyphenationSign) {
         if (length == -1) {
@@ -298,21 +305,6 @@ abstract class ZLTextViewBase extends ZLView {
         System.arraycopy(word.Data, word.Offset + start, part, 0, length);
         part[length] = '-';
         return getContext().getStringWidth(part, 0, length + 1);
-    }
-
-    int getAreaLength(ZLTextParagraphCursor paragraph, ZLTextElementArea area, int toCharIndex) {
-        setTextStyle(area.Style);
-        final ZLTextWord word = (ZLTextWord) paragraph.getElement(area.ElementIndex);
-        int length = toCharIndex - area.CharIndex;
-        boolean selectHyphenationSign = false;
-        if (length >= area.Length) {
-            selectHyphenationSign = area.AddHyphenationSign;
-            length = area.Length;
-        }
-        if (length > 0) {
-            return getWordWidth(word, area.CharIndex, length, selectHyphenationSign);
-        }
-        return 0;
     }
 
     /**
@@ -408,5 +400,13 @@ abstract class ZLTextViewBase extends ZLView {
                 context.drawString(x, y, str, offset + pos, length - pos);
             }
         }
+    }
+
+    public abstract ZLColor getHighlightingBackgroundColor();
+
+    public abstract ZLColor getHighlightingForegroundColor();
+
+    public enum ImageFitting {
+        none, covers, all
     }
 }

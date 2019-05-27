@@ -53,6 +53,7 @@ public class ColorProfile {
      * 选中的左右游标颜色
      */
     public final ZLColorOption SelectionCursorOption;
+    public final ZLColorOption BookMarkColorOption;
     public final ZLColorOption HighlightingForegroundOption;
     public final ZLColorOption HighlightingBackgroundOption;
     /**
@@ -81,6 +82,7 @@ public class ColorProfile {
         SelectionBackgroundOption.setValue(base.SelectionBackgroundOption.getValue());
         SelectionForegroundOption.setValue(base.SelectionForegroundOption.getValue());
         SelectionCursorOption.setValue(base.SelectionCursorOption.getValue());
+        BookMarkColorOption.setValue(base.BookMarkColorOption.getValue());
         HighlightingForegroundOption.setValue(base.HighlightingForegroundOption.getValue());
         HighlightingBackgroundOption.setValue(base.HighlightingBackgroundOption.getValue());
         RegularTextOption.setValue(base.RegularTextOption.getValue());
@@ -109,6 +111,8 @@ public class ColorProfile {
                         createNullOption(name, "SelectionForeground");
                 SelectionCursorOption =
                         createOption(name, "SelectionCursorOption", 173, 124, 45);
+                BookMarkColorOption =
+                        createOption(name, "BookMark", 0xFFA87C2D);
                 HighlightingBackgroundOption =
                         createOption(name, "Highlighting", 255, 192, 128);
                 HighlightingForegroundOption =
@@ -143,6 +147,8 @@ public class ColorProfile {
                         createNullOption(name, "SelectionForeground");
                 SelectionCursorOption =
                         createOption(name, "SelectionCursorOption", 70, 144, 34);
+                BookMarkColorOption =
+                        createOption(name, "BookMark", 0xFF539058);
                 HighlightingBackgroundOption =
                         createOption(name, "Highlighting", 255, 192, 128);
                 HighlightingForegroundOption =
@@ -177,6 +183,8 @@ public class ColorProfile {
                         createNullOption(name, "SelectionForeground");
                 SelectionCursorOption =
                         createOption(name, "SelectionCursorOption", 0, 131, 216);
+                BookMarkColorOption =
+                        createOption(name, "BookMark", 0xFFFF6B00);
                 HighlightingBackgroundOption =
                         createOption(name, "Highlighting", 96, 96, 128);
                 HighlightingForegroundOption =
@@ -211,6 +219,8 @@ public class ColorProfile {
                         createNullOption(name, "SelectionForeground");
                 SelectionCursorOption =
                         createOption(name, "SelectionCursorOption", 0xff0083d8);
+                BookMarkColorOption =
+                        createOption(name, "BookMark", 0xFFFF6B00);
                 HighlightingBackgroundOption =
                         createOption(name, "Highlighting", 217, 237, 249);
                 HighlightingForegroundOption =

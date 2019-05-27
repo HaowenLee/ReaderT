@@ -547,7 +547,7 @@ public abstract class ZLTextView extends ZLTextViewBase {
 
         // 绘制书签
         final List<ZLTextHighlighting> bookMarkList = findBookMarkList(page);
-        context.setFillColor(new ZLColor(255, 107, 0));
+        context.setFillColor(getBookMarkColor());
         if (!bookMarkList.isEmpty()) {
             context.drawBookMark(getContextWidth() - 100, 0, getContextWidth() - 60, 90);
         }
