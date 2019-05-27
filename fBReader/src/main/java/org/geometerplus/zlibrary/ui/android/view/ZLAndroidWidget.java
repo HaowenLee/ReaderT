@@ -89,16 +89,7 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
     private Bitmap ovalBitmap;
     private float mCurrentX;
     private float mCurrentY;
-    private AnimationProvider myAnimationProvider;    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        getAnimationProvider().terminate();
-        if (myScreenIsTouched) {
-            final ZLView view = ZLApplication.Instance().getCurrentView();
-            myScreenIsTouched = false;
-            view.onScrollingFinished(ZLView.PageIndex.current);
-        }
-    }
+    private AnimationProvider myAnimationProvider;
     private ZLView.Animation myAnimationType;
     private BookMarkCallback bookMarkCallback;
     /**
@@ -124,6 +115,7 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
     private int markState = 0;
     private int myKeyUnderTracking = -1;
     private long myTrackingStartTime;
+
     public ZLAndroidWidget(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mySystemInfo = Paths.systemInfo(context);
@@ -156,36 +148,21 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
         Matrix matrix = new Matrix();
         matrix.postScale(scaleX, scaleY);
         return Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
-    }    @Override
-    @DebugLog
-    protected void onDraw(final Canvas canvas) {
-
-        canvas.setDrawFilter(paintFlagsDrawFilter);
-
-        // 画布缩放
-        canvas.scale(mScale, mScale, getWidth() * PreviewConfig.SCALE_VALUE_PX, getHeight() * PreviewConfig.SCALE_VALUE_PY);
-
-        final Context context = getContext();
-        if (context instanceof FBReader) {
-            ((FBReader) context).createWakeLock();
-        } else {
-            System.err.println("A surprise: view's context is not an FBReader");
-        }
-        super.onDraw(canvas);
-
-        myBitmapManager.setSize(getWidth(), getMainAreaHeight());
-        if (getAnimationProvider().inProgress()) {
-            onDrawInScrolling(canvas);
-        } else {
-            onDrawStatic(canvas);
-            ZLApplication.Instance().onRepaintFinished();
-        }
     }
 
     public ZLAndroidWidget(Context context, AttributeSet attrs) {
         super(context, attrs);
         mySystemInfo = Paths.systemInfo(context);
         init();
+    }    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        getAnimationProvider().terminate();
+        if (myScreenIsTouched) {
+            final ZLView view = ZLApplication.Instance().getCurrentView();
+            myScreenIsTouched = false;
+            view.onScrollingFinished(ZLView.PageIndex.current);
+        }
     }
 
     public ZLAndroidWidget(Context context) {
@@ -288,32 +265,6 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
         }
         animator.startAnimatedScrolling(x, y, speed);
         postInvalidate();
-    }    private AnimationProvider getAnimationProvider() {
-        final ZLView.Animation type = ZLApplication.Instance().getCurrentView().getAnimationType();
-        if (myAnimationProvider == null || myAnimationType != type) {
-            myAnimationType = type;
-            switch (type) {
-                case none:
-                case previewNone:
-                    myAnimationProvider = new NoneAnimationProvider(myBitmapManager);
-                    break;
-                case curl:
-                    myAnimationProvider = new CurlAnimationProvider(myBitmapManager);
-                    break;
-                case slide:
-                    myAnimationProvider = new SlideAnimationProvider(myBitmapManager);
-                    break;
-                case slideOldStyle:
-                    myAnimationProvider = new SlideOldStyleAnimationProvider(myBitmapManager);
-                    break;
-                case shift:
-                    myAnimationProvider = new ShiftAnimationProvider(myBitmapManager);
-                case previewShift:
-                    myAnimationProvider = new PreviewShiftAnimationProvider(myBitmapManager);
-                    break;
-            }
-        }
-        return myAnimationProvider;
     }
 
     private int getMainAreaHeight() {
@@ -506,8 +457,60 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
 
 
 
+    @Override
+    @DebugLog
+    protected void onDraw(final Canvas canvas) {
+
+        canvas.setDrawFilter(paintFlagsDrawFilter);
+
+        // 画布缩放
+        canvas.scale(mScale, mScale, getWidth() * PreviewConfig.SCALE_VALUE_PX, getHeight() * PreviewConfig.SCALE_VALUE_PY);
+
+        final Context context = getContext();
+        if (context instanceof FBReader) {
+            ((FBReader) context).createWakeLock();
+        } else {
+            System.err.println("A surprise: view's context is not an FBReader");
+        }
+        super.onDraw(canvas);
+
+        myBitmapManager.setSize(getWidth(), getMainAreaHeight());
+        if (getAnimationProvider().inProgress()) {
+            onDrawInScrolling(canvas);
+        } else {
+            onDrawStatic(canvas);
+            ZLApplication.Instance().onRepaintFinished();
+        }
+    }
 
 
+    private AnimationProvider getAnimationProvider() {
+        final ZLView.Animation type = ZLApplication.Instance().getCurrentView().getAnimationType();
+        if (myAnimationProvider == null || myAnimationType != type) {
+            myAnimationType = type;
+            switch (type) {
+                case none:
+                case previewNone:
+                    myAnimationProvider = new NoneAnimationProvider(myBitmapManager);
+                    break;
+                case curl:
+                    myAnimationProvider = new CurlAnimationProvider(myBitmapManager);
+                    break;
+                case slide:
+                    myAnimationProvider = new SlideAnimationProvider(myBitmapManager);
+                    break;
+                case slideOldStyle:
+                    myAnimationProvider = new SlideOldStyleAnimationProvider(myBitmapManager);
+                    break;
+                case shift:
+                    myAnimationProvider = new ShiftAnimationProvider(myBitmapManager);
+                case previewShift:
+                    myAnimationProvider = new PreviewShiftAnimationProvider(myBitmapManager);
+                    break;
+            }
+        }
+        return myAnimationProvider;
+    }
 
 
     /**
@@ -526,18 +529,16 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
             distance = 0;
         }
 
-        // [0 - max] 系数 [1, 0.5)
-        int max = SizeUtils.dp2px(getContext(), 200);
-        // 最大距离
+        int max = SizeUtils.dp2px(getContext(), 100);
+
+        distance = (int) Math.pow(distance, 4 / 5d);
+
         if (distance > max) {
             distance = max;
         }
 
-        float value = 0.5f;
-        distance = (int) (distance * ((max - distance * value) / max));
-
         if (bookMarkCallback != null) {
-            if (distance > max * value / 2) {
+            if (distance > max / 2) {
                 if (markState != 2) {
                     bookMarkCallback.onChanging();
                     markState = 2;
