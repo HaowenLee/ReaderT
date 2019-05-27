@@ -46,18 +46,22 @@ public class CancelMenuHelper {
     public List<ActionDescription> getActionsList(IBookCollection<Book> collection) {
         final List<ActionDescription> list = new ArrayList<ActionDescription>();
 
+        // 书库
         if (ShowLibraryItemOption.getValue()) {
             list.add(new ActionDescription(ActionType.library, null));
         }
+        // 网络书库
         if (ShowNetworkLibraryItemOption.getValue()) {
             list.add(new ActionDescription(ActionType.networkLibrary, null));
         }
+        // 上一本书
         if (ShowPreviousBookItemOption.getValue()) {
             final Book previousBook = collection.getRecentBook(1);
             if (previousBook != null) {
                 list.add(new ActionDescription(ActionType.previousBook, previousBook.getTitle()));
             }
         }
+        // 位置
         if (ShowPositionItemsOption.getValue()) {
             final Book currentBook = collection.getRecentBook(0);
             if (currentBook != null) {

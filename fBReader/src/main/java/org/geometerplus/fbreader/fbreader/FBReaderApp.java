@@ -286,7 +286,7 @@ public final class FBReaderApp extends ZLApplication {
 
     public void addInvisibleBookmark() {
         if (Model.Book != null && getTextView() == BookTextView) {
-            updateInvisibleBookmarksList(createBookmark(30, false, Bookmark.Type.BookMark));
+            updateInvisibleBookmarksList(createBookmark(30, false, Bookmark.Type.BookOther));
         }
     }
 
@@ -691,7 +691,7 @@ public final class FBReaderApp extends ZLApplication {
         }
 
         updateInvisibleBookmarksList(new Bookmark(
-                Collection, book, textModel.getId(), snippet, false, Bookmark.Type.BookMark
+                Collection, book, textModel.getId(), snippet, false, Bookmark.Type.BookOther
         ));
     }
 
