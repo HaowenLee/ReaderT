@@ -29,20 +29,19 @@ abstract public class ZLView implements ZLViewEnums {
      * 空对象模式
      */
     private ZLPaintContext myViewContext = new DummyPaintContext();
+    private boolean isPreview = false;
 
     protected ZLView(ZLApplication application) {
         Application = application;
-    }
-
-    protected final void setContext(ZLPaintContext context) {
-        myViewContext = context;
     }
 
     public final ZLPaintContext getContext() {
         return myViewContext;
     }
 
-    private boolean isPreview = false;
+    protected final void setContext(ZLPaintContext context) {
+        myViewContext = context;
+    }
 
     public boolean isPreview() {
         return isPreview;
@@ -68,12 +67,6 @@ abstract public class ZLView implements ZLViewEnums {
      */
     public final int getContextHeight() {
         return myViewContext.getHeight();
-    }
-
-    public interface FooterArea {
-        int getHeight();
-
-        void paint(ZLPaintContext context);
     }
 
     abstract public FooterArea getFooterArea();
@@ -159,4 +152,15 @@ abstract public class ZLView implements ZLViewEnums {
      * @return 是否可以使用放大镜
      */
     public abstract boolean canMagnifier();
+
+    /**
+     * @return 有选中的
+     */
+    public abstract boolean hasSelection();
+
+    public interface FooterArea {
+        int getHeight();
+
+        void paint(ZLPaintContext context);
+    }
 }
