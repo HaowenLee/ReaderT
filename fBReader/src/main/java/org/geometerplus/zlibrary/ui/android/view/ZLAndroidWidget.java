@@ -61,54 +61,29 @@ import java.util.concurrent.Executors;
 
 public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLongClickListener {
 
+    // 放大镜的半径
+    private static final float RADIUS = 124;
+    private static final float TARGET_DIAMETER = 2 * RADIUS * 333 / 293;
+    private static final float MAGNIFIER_MARGIN = 144;
+    // 放大倍数
+    private static final float FACTOR = 1f;
     /**
      * 预加载线程
      */
     public final ExecutorService PrepareService = Executors.newSingleThreadExecutor();
-
     private final Paint myPaint = new Paint();
-
     private final BitmapManagerImpl myBitmapManager = new BitmapManagerImpl(this);
-    private Bitmap myFooterBitmap;
     private final SystemInfo mySystemInfo;
-
-    public ZLAndroidWidget(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        mySystemInfo = Paths.systemInfo(context);
-        init();
-    }
-
-    public ZLAndroidWidget(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        mySystemInfo = Paths.systemInfo(context);
-        init();
-    }
-
-    public ZLAndroidWidget(Context context) {
-        super(context);
-        mySystemInfo = Paths.systemInfo(context);
-        init();
-    }
-
-    private void init() {
-        // next line prevent ignoring first onKeyDown DPad event
-        // after any dialog was closed
-        setFocusableInTouchMode(true);
-        setDrawingCacheEnabled(false);
-        setOnLongClickListener(this);
-
-        borderPaint.setColor(0xFFFF6B00);
-        borderPaint.setStrokeWidth(PreviewConfig.PREVIEW_STROKE_WIDTH * 2);
-        borderPaint.setStyle(Paint.Style.STROKE);
-
-        mPath.addCircle(RADIUS, RADIUS, RADIUS, Path.Direction.CCW);
-        matrix.setScale(FACTOR, FACTOR);
-
-        ovalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.reader_oval);
-        ovalBitmap = scaleBitmap(ovalBitmap);
-    }
-
-    @Override
+    private Bitmap myFooterBitmap;
+    /**
+     * 抗锯齿
+     */
+    private PaintFlagsDrawFilter paintFlagsDrawFilter = new PaintFlagsDrawFilter(0,
+            Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
+    /**
+     * 缩放比
+     */
+    private float mScale = 1f;    @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         getAnimationProvider().terminate();
@@ -118,31 +93,25 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
             view.onScrollingFinished(ZLView.PageIndex.current);
         }
     }
-
-    /**
-     * 抗锯齿
-     */
-    private PaintFlagsDrawFilter paintFlagsDrawFilter = new PaintFlagsDrawFilter(0,
-            Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
-
-    /**
-     * 缩放比
-     */
-    private float mScale = 1f;
-
     private Path mPath = new Path();
     private Matrix matrix = new Matrix();
     private Bitmap ovalBitmap;
-    // 放大镜的半径
-    private static final float RADIUS = 124;
-    private static final float TARGET_DIAMETER = 2 * RADIUS * 333 / 293;
-    private static final float MAGNIFIER_MARGIN = 144;
-    // 放大倍数
-    private static final float FACTOR = 1f;
     private float mCurrentX;
     private float mCurrentY;
-
-    @Override
+    private AnimationProvider myAnimationProvider;
+    private ZLView.Animation myAnimationType;
+    private BookMarkCallback bookMarkCallback;
+    /**
+     * 是否是预览模式
+     */
+    private boolean isPreview = false;
+    /**
+     * 边框
+     */
+    private Paint borderPaint = new Paint();
+    private volatile LongClickRunnable myPendingLongClickRunnable;
+    private volatile boolean myLongClickPerformed;
+    private volatile ShortClickRunnable myPendingShortClickRunnable;    @Override
     @DebugLog
     protected void onDraw(final Canvas canvas) {
 
@@ -167,11 +136,10 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
             ZLApplication.Instance().onRepaintFinished();
         }
     }
-
-    private AnimationProvider myAnimationProvider;
-    private ZLView.Animation myAnimationType;
-
-    private AnimationProvider getAnimationProvider() {
+    private volatile boolean myPendingPress;
+    private volatile boolean myPendingDoubleTap;
+    private int myPressedX, myPressedY;
+    private int mStartRawY;    private AnimationProvider getAnimationProvider() {
         final ZLView.Animation type = ZLApplication.Instance().getCurrentView().getAnimationType();
         if (myAnimationProvider == null || myAnimationType != type) {
             myAnimationType = type;
@@ -197,6 +165,59 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
             }
         }
         return myAnimationProvider;
+    }
+    private boolean myScreenIsTouched;
+    /**
+     * 垂直方向移动
+     */
+    private boolean isMoveVertical = false;
+    private int markState = 0;
+    private int myKeyUnderTracking = -1;
+    private long myTrackingStartTime;
+    public ZLAndroidWidget(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        mySystemInfo = Paths.systemInfo(context);
+        init();
+    }
+
+    private void init() {
+        // next line prevent ignoring first onKeyDown DPad event
+        // after any dialog was closed
+        setFocusableInTouchMode(true);
+        setDrawingCacheEnabled(false);
+        setOnLongClickListener(this);
+
+        borderPaint.setColor(0xFFFF6B00);
+        borderPaint.setStrokeWidth(PreviewConfig.PREVIEW_STROKE_WIDTH * 2);
+        borderPaint.setStyle(Paint.Style.STROKE);
+
+        mPath.addCircle(RADIUS, RADIUS, RADIUS, Path.Direction.CCW);
+        matrix.setScale(FACTOR, FACTOR);
+
+        ovalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.reader_oval);
+        ovalBitmap = scaleBitmap(ovalBitmap);
+    }
+
+    private Bitmap scaleBitmap(Bitmap bitmap) {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        float scaleX = TARGET_DIAMETER / ((float) width);
+        float scaleY = TARGET_DIAMETER / ((float) height);
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleX, scaleY);
+        return Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
+    }
+
+    public ZLAndroidWidget(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        mySystemInfo = Paths.systemInfo(context);
+        init();
+    }
+
+    public ZLAndroidWidget(Context context) {
+        super(context);
+        mySystemInfo = Paths.systemInfo(context);
+        init();
     }
 
     private void onDrawInScrolling(Canvas canvas) {
@@ -295,7 +316,10 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
         postInvalidate();
     }
 
-    private BookMarkCallback bookMarkCallback;
+    private int getMainAreaHeight() {
+        final ZLView.FooterArea footer = ZLApplication.Instance().getCurrentView().getFooterArea();
+        return footer != null ? getHeight() - footer.getHeight() : getHeight();
+    }
 
     public void setBookMarkCallback(BookMarkCallback bookMarkCallback) {
         this.bookMarkCallback = bookMarkCallback;
@@ -327,6 +351,14 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
                 view.isScrollbarShown() ? getVerticalScrollbarWidth() : 0
         );
         view.paint(context, index);
+    }    @Override
+    public boolean onTrackballEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            onKeyDown(KeyEvent.KEYCODE_DPAD_CENTER, null);
+        } else {
+            ZLApplication.Instance().getCurrentView().onTrackballRotated((int) (10 * event.getX()), (int) (10 * event.getY()));
+        }
+        return true;
     }
 
     private void drawFooter(Canvas canvas, AnimationProvider animator) {
@@ -369,11 +401,6 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
     }
 
     /**
-     * 是否是预览模式
-     */
-    private boolean isPreview = false;
-
-    /**
      * 设置是否是预览模式
      *
      * @param preview 预览
@@ -387,11 +414,6 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
         ZLApplication.Instance().getCurrentView().setPreview(isPreview);
         postInvalidate();
     }
-
-    /**
-     * 边框
-     */
-    private Paint borderPaint = new Paint();
 
     private void onDrawStatic(final Canvas canvas) {
 
@@ -457,26 +479,24 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
         canvas.translate(mCurrentX - TARGET_DIAMETER / 2, mCurrentY - TARGET_DIAMETER / 2 - MAGNIFIER_MARGIN);
         canvas.drawBitmap(ovalBitmap, 0, 0, null);
         canvas.restore();
-    }
-
-    private Bitmap scaleBitmap(Bitmap bitmap) {
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        float scaleX = TARGET_DIAMETER / ((float) width);
-        float scaleY = TARGET_DIAMETER / ((float) height);
-        Matrix matrix = new Matrix();
-        matrix.postScale(scaleX, scaleY);
-        return Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
+    }    private void postLongClickRunnable() {
+        myLongClickPerformed = false;
+        myPendingPress = false;
+        if (myPendingLongClickRunnable == null) {
+            myPendingLongClickRunnable = new LongClickRunnable();
+        }
+        postDelayed(myPendingLongClickRunnable, 2 * ViewConfiguration.getLongPressTimeout());
     }
 
     @Override
-    public boolean onTrackballEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            onKeyDown(KeyEvent.KEYCODE_DPAD_CENTER, null);
-        } else {
-            ZLApplication.Instance().getCurrentView().onTrackballRotated((int) (10 * event.getX()), (int) (10 * event.getY()));
-        }
-        return true;
+    public boolean onLongClick(View v) {
+        final ZLView view = ZLApplication.Instance().getCurrentView();
+        return view.onFingerLongPress(myPressedX, myPressedY);
+    }
+
+    @Override
+    protected void updateColorLevel() {
+        ViewUtil.setColorLevel(myPaint, myColorLevel);
     }
 
     private class LongClickRunnable implements Runnable {
@@ -486,18 +506,6 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
                 myLongClickPerformed = true;
             }
         }
-    }
-
-    private volatile LongClickRunnable myPendingLongClickRunnable;
-    private volatile boolean myLongClickPerformed;
-
-    private void postLongClickRunnable() {
-        myLongClickPerformed = false;
-        myPendingPress = false;
-        if (myPendingLongClickRunnable == null) {
-            myPendingLongClickRunnable = new LongClickRunnable();
-        }
-        postDelayed(myPendingLongClickRunnable, 2 * ViewConfiguration.getLongPressTimeout());
     }
 
     private class ShortClickRunnable implements Runnable {
@@ -510,17 +518,18 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
         }
     }
 
-    private volatile ShortClickRunnable myPendingShortClickRunnable;
 
-    private volatile boolean myPendingPress;
-    private volatile boolean myPendingDoubleTap;
-    private int myPressedX, myPressedY;
-    private boolean myScreenIsTouched;
+
+
+
+
+
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        int x = (int) event.getRawX();
-        int y = (int) event.getRawY();
+        int x = (int) event.getX();
+        int y = (int) event.getY();
         mCurrentX = x;
         mCurrentY = y;
 
@@ -539,6 +548,7 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
                 myScreenIsTouched = true;
                 myPressedX = x;
                 myPressedY = y;
+                mStartRawY = (int) event.getRawY();
                 break;
             case MotionEvent.ACTION_CANCEL:
                 myPendingDoubleTap = false;
@@ -612,7 +622,7 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
                         if (Math.abs(myPressedX - x) > Math.abs(myPressedY - y)) {
                             view.onFingerMove(x, y);
                         } else {
-                            onMoveVertical(myPressedY, y);
+                            onMoveVertical(mStartRawY, (int) event.getRawY());
                         }
                     }
                 }
@@ -622,6 +632,8 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
 
         return true;
     }
+
+
 
     /**
      * 恢复Y方向的位移
@@ -662,10 +674,6 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
         isMoveVertical = false;
     }
 
-    /**
-     * 垂直方向移动
-     */
-    private boolean isMoveVertical = false;
 
     /**
      * 垂直方向
@@ -710,16 +718,6 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
         setTranslationY(distance);
     }
 
-    private int markState = 0;
-
-    @Override
-    public boolean onLongClick(View v) {
-        final ZLView view = ZLApplication.Instance().getCurrentView();
-        return view.onFingerLongPress(myPressedX, myPressedY);
-    }
-
-    private int myKeyUnderTracking = -1;
-    private long myTrackingStartTime;
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -808,13 +806,5 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
         return view.getScrollbarFullSize();
     }
 
-    private int getMainAreaHeight() {
-        final ZLView.FooterArea footer = ZLApplication.Instance().getCurrentView().getFooterArea();
-        return footer != null ? getHeight() - footer.getHeight() : getHeight();
-    }
 
-    @Override
-    protected void updateColorLevel() {
-        ViewUtil.setColorLevel(myPaint, myColorLevel);
-    }
 }

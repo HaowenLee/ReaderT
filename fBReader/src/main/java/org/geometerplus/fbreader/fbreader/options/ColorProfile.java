@@ -114,7 +114,7 @@ public class ColorProfile {
                 BookMarkColorOption =
                         createOption(name, "BookMark", 0xFFA87C2D);
                 HighlightingBackgroundOption =
-                        createOption(name, "Highlighting", 255, 192, 128);
+                        createOption(name, "Highlighting", 0xffe0cfa7);
                 HighlightingForegroundOption =
                         createNullOption(name, "HighlightingForeground");
                 RegularTextOption =
@@ -150,7 +150,7 @@ public class ColorProfile {
                 BookMarkColorOption =
                         createOption(name, "BookMark", 0xFF539058);
                 HighlightingBackgroundOption =
-                        createOption(name, "Highlighting", 255, 192, 128);
+                        createOption(name, "Highlighting", 0xff85b674);
                 HighlightingForegroundOption =
                         createNullOption(name, "HighlightingForeground");
                 RegularTextOption =

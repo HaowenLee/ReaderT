@@ -21,23 +21,27 @@ package org.geometerplus.zlibrary.text.view;
 
 import org.geometerplus.zlibrary.core.util.ZLColor;
 
+/**
+ * 手动高亮
+ */
 class ZLTextManualHighlighting extends ZLTextSimpleHighlighting {
-	ZLTextManualHighlighting(ZLTextView view, ZLTextPosition start, ZLTextPosition end) {
-		super(view, start, end);
-	}
 
-	@Override
-	public ZLColor getBackgroundColor() {
-		return View.getHighlightingBackgroundColor();
-	}
+    ZLTextManualHighlighting(ZLTextView view, ZLTextPosition start, ZLTextPosition end) {
+        super(view, start, end);
+    }
 
-	@Override
-	public ZLColor getForegroundColor() {
-		return View.getHighlightingForegroundColor();
-	}
+    @Override
+    public ZLColor getForegroundColor() {
+        return View.getHighlightingForegroundColor();
+    }
 
-	@Override
-	public ZLColor getOutlineColor() {
-		return null;
-	}
+    @Override
+    public ZLColor getBackgroundColor() {
+        return View.getHighlightingBackgroundColor();
+    }
+
+    @Override
+    public ZLColor getOutlineColor() {
+        return null;
+    }
 }

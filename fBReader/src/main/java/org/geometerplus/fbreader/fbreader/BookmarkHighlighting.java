@@ -27,8 +27,18 @@ import org.geometerplus.fbreader.book.*;
 
 public final class BookmarkHighlighting extends ZLTextSimpleHighlighting {
 
-    final IBookCollection Collection;
     public final Bookmark Bookmark;
+    /**
+     * 使用默认颜色配置
+     */
+    public final boolean USE_DEFAULT = true;
+    final IBookCollection Collection;
+
+    BookmarkHighlighting(ZLTextView view, IBookCollection collection, Bookmark bookmark) {
+        super(view, startPosition(bookmark), endPosition(bookmark));
+        Collection = collection;
+        Bookmark = bookmark;
+    }
 
     private static ZLTextPosition startPosition(Bookmark bookmark) {
         return new ZLTextFixedPosition(bookmark.getParagraphIndex(), bookmark.getElementIndex(), 0);
@@ -43,22 +53,22 @@ public final class BookmarkHighlighting extends ZLTextSimpleHighlighting {
         return bookmark;
     }
 
-    BookmarkHighlighting(ZLTextView view, IBookCollection collection, Bookmark bookmark) {
-        super(view, startPosition(bookmark), endPosition(bookmark));
-        Collection = collection;
-        Bookmark = bookmark;
+    @Override
+    public ZLColor getForegroundColor() {
+        if (USE_DEFAULT) {
+            return View.getHighlightingForegroundColor();
+        }
+        final HighlightingStyle bmStyle = Collection.getHighlightingStyle(Bookmark.getStyleId());
+        return bmStyle != null ? bmStyle.getForegroundColor() : null;
     }
 
     @Override
     public ZLColor getBackgroundColor() {
+        if (USE_DEFAULT) {
+            return View.getHighlightingBackgroundColor();
+        }
         final HighlightingStyle bmStyle = Collection.getHighlightingStyle(Bookmark.getStyleId());
         return bmStyle != null ? bmStyle.getBackgroundColor() : null;
-    }
-
-    @Override
-    public ZLColor getForegroundColor() {
-        final HighlightingStyle bmStyle = Collection.getHighlightingStyle(Bookmark.getStyleId());
-        return bmStyle != null ? bmStyle.getForegroundColor() : null;
     }
 
     @Override
