@@ -276,20 +276,6 @@ public abstract class ZLTextView extends ZLTextViewBase {
         addHighlighting(new ZLTextManualHighlighting(this, start, end));
     }
 
-    public boolean removeMarkHighlight(Class<? extends ZLTextHighlighting> type) {
-        boolean result = false;
-        synchronized (myBookMarkList) {
-            for (Iterator<ZLTextHighlighting> it = myBookMarkList.iterator(); it.hasNext(); ) {
-                final ZLTextHighlighting h = it.next();
-                if (type.isInstance(h)) {
-                    it.remove();
-                    result = true;
-                }
-            }
-        }
-        return result;
-    }
-
     public boolean removeHighlightings(Class<? extends ZLTextHighlighting> type) {
         boolean result = false;
         synchronized (myHighlightingList) {
@@ -314,6 +300,28 @@ public abstract class ZLTextView extends ZLTextViewBase {
         myBookMarkList.add(h);
         Application.getViewWidget().reset();
         Application.getViewWidget().repaint();
+    }
+
+    /**
+     * 重绘
+     */
+    public void repaint() {
+        Application.getViewWidget().reset();
+        Application.getViewWidget().repaint();
+    }
+
+    public boolean removeMarkHighlight(Class<? extends ZLTextHighlighting> type) {
+        boolean result = false;
+        synchronized (myBookMarkList) {
+            for (Iterator<ZLTextHighlighting> it = myBookMarkList.iterator(); it.hasNext(); ) {
+                final ZLTextHighlighting h = it.next();
+                if (type.isInstance(h)) {
+                    it.remove();
+                    result = true;
+                }
+            }
+        }
+        return result;
     }
 
     public final void addHighlightings(Collection<ZLTextHighlighting> hilites) {
@@ -545,28 +553,6 @@ public abstract class ZLTextView extends ZLTextViewBase {
         }
     }
 
-    /**
-     * @return 当前页是否有书签
-     */
-    public List<Bookmark> getBookMarks() {
-        List<Bookmark> bookmarks = new ArrayList<>();
-        List<ZLTextHighlighting> bookMarkList = findBookMarkList(myCurrentPage);
-        for (ZLTextHighlighting highlighting : bookMarkList) {
-            if (highlighting instanceof BookmarkHighlighting) {
-                bookmarks.add(((BookmarkHighlighting) highlighting).Bookmark);
-            }
-        }
-        return bookmarks;
-    }
-
-    /**
-     * @return 当前页是否有书签
-     */
-    public boolean hasBookMark() {
-        List<ZLTextHighlighting> bookMarkList = findBookMarkList(myCurrentPage);
-        return !bookMarkList.isEmpty();
-    }
-
     @Override
     public synchronized void onScrollingFinished(PageIndex pageIndex) {
         switch (pageIndex) {
@@ -659,6 +645,40 @@ public abstract class ZLTextView extends ZLTextViewBase {
                 return cursor != null && !cursor.isNull() && !cursor.isStartOfText();
             }
         }
+    }
+
+    /**
+     * @return 当前页是否有书签
+     */
+    public List<Bookmark> getBookMarks() {
+        List<Bookmark> bookmarks = new ArrayList<>();
+        List<ZLTextHighlighting> bookMarkList = findBookMarkList(myCurrentPage);
+        for (ZLTextHighlighting highlighting : bookMarkList) {
+            if (highlighting instanceof BookmarkHighlighting) {
+                bookmarks.add(((BookmarkHighlighting) highlighting).Bookmark);
+            }
+        }
+        return bookmarks;
+    }
+
+    private List<ZLTextHighlighting> findBookMarkList(ZLTextPage page) {
+        final LinkedList<ZLTextHighlighting> bookMarkList = new LinkedList<>();
+        synchronized (myBookMarkList) {
+            for (ZLTextHighlighting h : myBookMarkList) {
+                if (h.intersects(page)) {
+                    bookMarkList.add(h);
+                }
+            }
+        }
+        return bookMarkList;
+    }
+
+    /**
+     * @return 当前页是否有书签
+     */
+    public boolean hasBookMark() {
+        List<ZLTextHighlighting> bookMarkList = findBookMarkList(myCurrentPage);
+        return !bookMarkList.isEmpty();
     }
 
     protected abstract String getPageProgress();
@@ -895,18 +915,6 @@ public abstract class ZLTextView extends ZLTextViewBase {
         }
         gotoPosition(0, 0, 0);
         preparePaintInfo();
-    }
-
-    private List<ZLTextHighlighting> findBookMarkList(ZLTextPage page) {
-        final LinkedList<ZLTextHighlighting> bookMarkList = new LinkedList<>();
-        synchronized (myBookMarkList) {
-            for (ZLTextHighlighting h : myBookMarkList) {
-                if (h.intersects(page)) {
-                    bookMarkList.add(h);
-                }
-            }
-        }
-        return bookMarkList;
     }
 
     private List<ZLTextHighlighting> findHighlightingList(ZLTextPage page) {

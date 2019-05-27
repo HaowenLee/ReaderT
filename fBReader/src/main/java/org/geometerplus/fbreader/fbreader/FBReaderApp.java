@@ -339,12 +339,14 @@ public final class FBReaderApp extends ZLApplication {
      * @param modelId modelId
      */
     private void setBookNoteHighlighting(ZLTextView view, String modelId) {
+        boolean hasBookNote = false;
         view.removeHighlightings(BookmarkHighlighting.class);
         for (BookmarkQuery query = new BookmarkQuery(Model.Book, Bookmark.Type.BookNote.ordinal(), 20); ; query = query.next()) {
             final List<Bookmark> bookmarks = Collection.bookmarks(query);
             if (bookmarks.isEmpty()) {
                 break;
             }
+            hasBookNote = true;
             for (Bookmark b : bookmarks) {
                 if (b.getEnd() == null) {
                     BookmarkUtil.findEnd(b, view);
@@ -353,6 +355,9 @@ public final class FBReaderApp extends ZLApplication {
                     view.addHighlighting(new BookmarkHighlighting(view, Collection, b));
                 }
             }
+        }
+        if (!hasBookNote) {
+            view.repaint();
         }
     }
 
@@ -417,12 +422,14 @@ public final class FBReaderApp extends ZLApplication {
      * @param modelId modelId
      */
     private void setBookMarkHighlighting(ZLTextView view, String modelId) {
+        boolean hasBookMark = false;
         view.removeMarkHighlight(BookmarkHighlighting.class);
         for (BookmarkQuery query = new BookmarkQuery(Model.Book, Bookmark.Type.BookMark.ordinal(), 20); ; query = query.next()) {
             final List<Bookmark> bookmarks = Collection.bookmarks(query);
             if (bookmarks.isEmpty()) {
                 break;
             }
+            hasBookMark = true;
             for (Bookmark b : bookmarks) {
                 if (b.getEnd() == null) {
                     BookmarkUtil.findEnd(b, view);
@@ -431,6 +438,9 @@ public final class FBReaderApp extends ZLApplication {
                     view.addBookMark(new BookmarkHighlighting(view, Collection, b));
                 }
             }
+        }
+        if (!hasBookMark) {
+            view.repaint();
         }
     }
 

@@ -44,9 +44,9 @@ import java.util.Map;
 
 public class BookNoteFragment extends BaseFragment implements IBookCollection.Listener<Book> {
 
-    private static final int OPEN_ITEM_ID = 0;
-    private static final int EDIT_ITEM_ID = 1;
-    private static final int DELETE_ITEM_ID = 2;
+    private static final int OPEN_ITEM_ID = 3;
+    private static final int EDIT_ITEM_ID = 4;
+    private static final int DELETE_ITEM_ID = 5;
     private final Map<Integer, HighlightingStyle> myStyles =
             Collections.synchronizedMap(new HashMap<Integer, HighlightingStyle>());
     private final BookCollectionShadow myCollection = new BookCollectionShadow();
@@ -157,6 +157,9 @@ public class BookNoteFragment extends BaseFragment implements IBookCollection.Li
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        if (item.getItemId() != OPEN_ITEM_ID && item.getItemId() != EDIT_ITEM_ID && item.getItemId() != DELETE_ITEM_ID) {
+            return false;
+        }
         final int position = ((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).position;
         final Bookmark bookmark = myThisBookAdapter.getItem(position);
         switch (item.getItemId()) {
@@ -172,7 +175,7 @@ public class BookNoteFragment extends BaseFragment implements IBookCollection.Li
                 myCollection.deleteBookmark(bookmark);
                 return true;
         }
-        return super.onContextItemSelected(item);
+        return false;
     }
 
     private void gotoBookmark(Bookmark bookmark) {

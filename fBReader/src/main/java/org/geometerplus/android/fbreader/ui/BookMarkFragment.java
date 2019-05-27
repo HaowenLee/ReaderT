@@ -155,6 +155,9 @@ public class BookMarkFragment extends BaseFragment implements IBookCollection.Li
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        if (item.getItemId() != OPEN_ITEM_ID && item.getItemId() != EDIT_ITEM_ID && item.getItemId() != DELETE_ITEM_ID) {
+            return false;
+        }
         final int position = ((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).position;
         final Bookmark bookmark = myThisBookAdapter.getItem(position);
         switch (item.getItemId()) {
@@ -170,7 +173,7 @@ public class BookMarkFragment extends BaseFragment implements IBookCollection.Li
                 myCollection.deleteBookmark(bookmark);
                 return true;
         }
-        return super.onContextItemSelected(item);
+        return false;
     }
 
     private void gotoBookmark(Bookmark bookmark) {
