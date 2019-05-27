@@ -38,11 +38,6 @@ public class BookTOCFragment extends BaseFragment {
     private ListView listView;
 
     @Override
-    protected int initLayoutRes() {
-        return R.layout.reader_fragment_toc;
-    }
-
-    @Override
     protected void initViews() {
         super.initViews();
 
@@ -56,12 +51,17 @@ public class BookTOCFragment extends BaseFragment {
         initTree();
     }
 
+    @Override
+    protected int initLayoutRes() {
+        return R.layout.reader_fragment_toc;
+    }
+
     /**
      * 初始化目录索引树
      */
     public void initTree() {
         final FBReaderApp fbReader = (FBReaderApp) ZLApplication.Instance();
-        if (fbReader == null) {
+        if (fbReader == null || fbReader.Model == null || fbReader.Model.TOCTree == null) {
             return;
         }
         // 获取目录索引树
@@ -94,6 +94,15 @@ public class BookTOCFragment extends BaseFragment {
 
         TOCAdapter(TOCTree root) {
             super(listView, root);
+        }
+
+        @Override
+        protected boolean runTreeItem(ZLTree<?> tree) {
+            if (super.runTreeItem(tree)) {
+                return true;
+            }
+            openBookText((TOCTree) tree);
+            return true;
         }
 
         @Override
@@ -137,15 +146,6 @@ public class BookTOCFragment extends BaseFragment {
                 fbReader.showBookTextView();
                 fbReader.storePosition();
             }
-        }
-
-        @Override
-        protected boolean runTreeItem(ZLTree<?> tree) {
-            if (super.runTreeItem(tree)) {
-                return true;
-            }
-            openBookText((TOCTree) tree);
-            return true;
         }
     }
 }
