@@ -218,6 +218,9 @@ public final class FBReaderApp extends ZLApplication {
         }
     }
 
+    /**
+     * 存储进度
+     */
     private void savePosition() {
         final RationalNumber progress = BookTextView.getProgress();
         synchronized (mySaverThread) {
@@ -695,6 +698,9 @@ public final class FBReaderApp extends ZLApplication {
         ));
     }
 
+    /**
+     * @return 获取当前目录树
+     */
     public TOCTree getCurrentTOCElement() {
         final ZLTextWordCursor cursor = BookTextView.getStartCursor();
         if (Model == null || cursor == null) {
@@ -739,14 +745,18 @@ public final class FBReaderApp extends ZLApplication {
     }
 
     public interface ExternalFileOpener {
-        public void openFile(ExternalFormatPlugin plugin, Book book, Bookmark bookmark);
+        void openFile(ExternalFormatPlugin plugin, Book book, Bookmark bookmark);
     }
 
-    public static interface Notifier {
+    public interface Notifier {
         void showMissingBookNotification(SyncData.ServerBookInfo info);
     }
 
+    /**
+     * 进度存储
+     */
     private class PositionSaver implements Runnable {
+
         private final Book myBook;
         private final ZLTextPosition myPosition;
         private final RationalNumber myProgress;
@@ -764,14 +774,25 @@ public final class FBReaderApp extends ZLApplication {
         }
     }
 
+    /**
+     * 存储线程（500毫秒定时）
+     */
     private class SaverThread extends Thread {
-        private final List<Runnable> myTasks =
-                Collections.synchronizedList(new LinkedList<Runnable>());
+
+        /**
+         * 任务列表
+         */
+        private final List<Runnable> myTasks = Collections.synchronizedList(new LinkedList<>());
 
         SaverThread() {
             setPriority(MIN_PRIORITY);
         }
 
+        /**
+         * 添加任务
+         *
+         * @param task Runnable
+         */
         void add(Runnable task) {
             myTasks.add(task);
         }
@@ -786,6 +807,7 @@ public final class FBReaderApp extends ZLApplication {
                 try {
                     sleep(500);
                 } catch (InterruptedException e) {
+                    // Empty
                 }
             }
         }

@@ -20,65 +20,79 @@
 package org.geometerplus.zlibrary.core.util;
 
 public class RationalNumber {
-	public static RationalNumber create(long numerator, long denominator) {
-		if (denominator == 0) {
-			return null;
-		}
-		return new RationalNumber(numerator, denominator);
-	}
 
-	public final long Numerator;
-	public final long Denominator;
+    /**
+     * 分子
+     */
+    public final long Numerator;
+    /**
+     * 分母
+     */
+    public final long Denominator;
 
-	private RationalNumber(long numerator, long denominator) {
-		final long gcd = GCD(numerator, denominator);
-		if (gcd > 1) {
-			numerator /= gcd;
-			denominator /= gcd;
-		}
-		if (denominator < 0) {
-			numerator = -numerator;
-			denominator = -denominator;
-		}
-		Numerator = numerator;
-		Denominator = denominator;
-	}
+    private RationalNumber(long numerator, long denominator) {
+        final long gcd = GCD(numerator, denominator);
+        if (gcd > 1) {
+            numerator /= gcd;
+            denominator /= gcd;
+        }
+        if (denominator < 0) {
+            numerator = -numerator;
+            denominator = -denominator;
+        }
+        Numerator = numerator;
+        Denominator = denominator;
+    }
 
-	public float toFloat() {
-		return 1.0f * Numerator / Denominator;
-	}
+    /**
+     * 两数的最大公约数
+     *
+     * @param a 数值
+     * @param b 数值
+     * @return 最大公约数
+     */
+    private long GCD(long a, long b) {
+        if (a < 0) {
+            a = -a;
+        }
+        if (b < 0) {
+            b = -b;
+        }
+        while (a != 0 && b != 0) {
+            if (a > b) {
+                a = a % b;
+            } else {
+                b = b % a;
+            }
+        }
+        return a + b;
+    }
 
-	private long GCD(long a, long b) {
-		if (a < 0) {
-			a = -a;
-		}
-		if (b < 0) {
-			b = -b;
-		}
-		while (a != 0 && b != 0) {
-			if (a > b) {
-				a = a % b;
-			} else {
-				b = b % a;
-			}
-		}
-		return a + b;
-	}
+    public static RationalNumber create(long numerator, long denominator) {
+        if (denominator == 0) {
+            return null;
+        }
+        return new RationalNumber(numerator, denominator);
+    }
 
-	@Override
-	public boolean equals(Object other) {
-		if (this == other) {
-			return true;
-		}
-		if (!(other instanceof RationalNumber)) {
-			return false;
-		}
-		final RationalNumber otherNumber = (RationalNumber)other;
-		return otherNumber.Numerator == Numerator && otherNumber.Denominator == Denominator;
-	}
+    public float toFloat() {
+        return 1.0f * Numerator / Denominator;
+    }
 
-	@Override
-	public int hashCode() {
-		return (int)(37 * Numerator + Denominator);
-	}
+    @Override
+    public int hashCode() {
+        return (int) (37 * Numerator + Denominator);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (!(other instanceof RationalNumber)) {
+            return false;
+        }
+        final RationalNumber otherNumber = (RationalNumber) other;
+        return otherNumber.Numerator == Numerator && otherNumber.Denominator == Denominator;
+    }
 }
