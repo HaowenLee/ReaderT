@@ -20,6 +20,7 @@
 package org.geometerplus.android.fbreader;
 
 import com.facebook.stetho.Stetho;
+import com.haowen.bugreport.CrashHandler;
 
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
 
@@ -32,6 +33,9 @@ public class FBReaderApplication extends ZLAndroidApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        CrashHandler.getInstance().init(this.getApplicationContext());
+
         Stetho.initializeWithDefaults(this);
 
         SkinCompatManager.withoutActivity(this)                         // 基础控件换肤初始化

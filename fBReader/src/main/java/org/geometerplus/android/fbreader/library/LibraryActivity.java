@@ -24,7 +24,6 @@ import java.util.*;
 import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.*;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.AdapterView;

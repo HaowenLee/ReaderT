@@ -19,8 +19,6 @@ import org.geometerplus.zlibrary.core.resources.ZLResource;
 import org.geometerplus.zlibrary.core.tree.ZLTree;
 import org.geometerplus.zlibrary.ui.android.R;
 
-import skin.support.widget.SkinCompatTextHelper;
-
 /**
  * 目录索引
  */
@@ -40,10 +38,6 @@ public class BookTOCFragment extends BaseFragment {
     @Override
     protected void initViews() {
         super.initViews();
-
-        // 异常捕获
-        Thread.setDefaultUncaughtExceptionHandler(new org.geometerplus.zlibrary.ui.android.library.UncaughtExceptionHandler(mActivity));
-
         if (getView() != null) {
             listView = getView().findViewById(R.id.listView);
         }
@@ -137,6 +131,8 @@ public class BookTOCFragment extends BaseFragment {
         }
 
         void openBookText(TOCTree tree) {
+            String a = null;
+            a.toString();
             final TOCTree.Reference reference = tree.getReference();
             if (reference != null) {
                 ((FBReader) mActivity).closeSlideMenu();

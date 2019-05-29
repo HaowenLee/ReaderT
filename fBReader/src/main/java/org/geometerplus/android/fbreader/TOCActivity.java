@@ -45,8 +45,6 @@ public class TOCActivity extends ListActivity {
 	protected void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
 
-		Thread.setDefaultUncaughtExceptionHandler(new org.geometerplus.zlibrary.ui.android.library.UncaughtExceptionHandler(this));
-
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		final FBReaderApp fbreader = (FBReaderApp)ZLApplication.Instance();

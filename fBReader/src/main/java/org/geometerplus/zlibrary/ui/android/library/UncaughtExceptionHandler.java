@@ -29,7 +29,12 @@ import android.os.Process;
 import org.geometerplus.zlibrary.ui.android.error.BugReportActivity;
 import org.geometerplus.android.fbreader.api.FBReaderIntents;
 
+/**
+ * @deprecated 使用三方库代替
+ */
+@Deprecated
 public class UncaughtExceptionHandler implements java.lang.Thread.UncaughtExceptionHandler {
+
 	private final Context myContext;
 
 	public UncaughtExceptionHandler(Context context) {

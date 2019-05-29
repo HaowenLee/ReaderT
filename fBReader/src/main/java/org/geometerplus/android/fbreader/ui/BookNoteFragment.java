@@ -61,7 +61,6 @@ public class BookNoteFragment extends BaseFragment implements IBookCollection.Li
     @Override
     protected void initData() {
         super.initData();
-        Thread.setDefaultUncaughtExceptionHandler(new org.geometerplus.zlibrary.ui.android.library.UncaughtExceptionHandler(mActivity));
 
         mActivity.setDefaultKeyMode(Activity.DEFAULT_KEYS_SEARCH_LOCAL);
 

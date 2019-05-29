@@ -6,10 +6,7 @@ import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 
-import com.haowen.huge.DebugLog;
-
 import org.geometerplus.android.fbreader.constant.PreviewConfig;
-import org.geometerplus.zlibrary.ui.android.R;
 import org.geometerplus.zlibrary.ui.android.view.ZLAndroidWidget;
 
 public class AnimationHelper {

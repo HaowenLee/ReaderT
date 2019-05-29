@@ -20,7 +20,6 @@
 package org.geometerplus.android.fbreader;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
@@ -30,7 +29,6 @@ import org.geometerplus.android.fbreader.dict.DictionaryUtil;
 import org.geometerplus.zlibrary.core.options.ZLIntegerOption;
 import org.geometerplus.zlibrary.core.options.ZLIntegerRangeOption;
 import org.geometerplus.zlibrary.core.options.ZLStringOption;
-import org.geometerplus.zlibrary.ui.android.library.UncaughtExceptionHandler;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidLibrary;
 import org.geometerplus.zlibrary.ui.android.view.AndroidFontUtil;
@@ -42,12 +40,6 @@ public abstract class FBReaderMainActivity extends AppCompatActivity {
     public static final int REQUEST_DICTIONARY = 3;
 
     private volatile SuperActivityToast myToast;
-
-    @Override
-    protected void onCreate(Bundle saved) {
-        super.onCreate(saved);
-        Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler(this));
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

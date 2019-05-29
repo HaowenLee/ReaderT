@@ -20,8 +20,6 @@
 package org.geometerplus.android.fbreader;
 
 import android.content.Intent;
-import android.os.Parcelable;
-import android.view.View;
 
 import com.github.johnpersano.supertoasts.SuperActivityToast;
 import com.github.johnpersano.supertoasts.SuperToast;

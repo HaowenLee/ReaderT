@@ -23,8 +23,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-import com.haowen.huge.DebugLog;
-
 import org.geometerplus.android.fbreader.constant.PreviewConfig;
 import org.geometerplus.zlibrary.core.view.ZLView;
 import org.geometerplus.zlibrary.core.view.ZLViewEnums;

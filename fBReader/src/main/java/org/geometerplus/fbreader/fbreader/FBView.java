@@ -19,7 +19,6 @@
 
 package org.geometerplus.fbreader.fbreader;
 
-import org.geometerplus.android.fbreader.network.action.Action;
 import org.geometerplus.fbreader.bookmodel.BookModel;
 import org.geometerplus.fbreader.bookmodel.FBHyperlinkType;
 import org.geometerplus.fbreader.bookmodel.TOCTree;
