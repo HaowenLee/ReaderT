@@ -131,8 +131,6 @@ public class BookTOCFragment extends BaseFragment {
         }
 
         void openBookText(TOCTree tree) {
-            String a = null;
-            a.toString();
             final TOCTree.Reference reference = tree.getReference();
             if (reference != null) {
                 ((FBReader) mActivity).closeSlideMenu();
