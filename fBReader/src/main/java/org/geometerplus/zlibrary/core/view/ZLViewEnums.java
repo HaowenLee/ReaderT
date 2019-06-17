@@ -73,7 +73,7 @@ public interface ZLViewEnums {
     }
 
     /**
-     * 方向
+     * 翻页方向
      */
     enum Direction {
         leftToRight(true), rightToLeft(true), up(false), down(false);

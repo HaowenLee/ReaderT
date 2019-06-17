@@ -1,22 +1,3 @@
-/*
- * Copyright (C) 2007-2015 FBReader.ORG Limited <contact@fbreader.org>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
- * 02110-1301, USA.
- */
-
 package org.geometerplus.zlibrary.ui.android.view.animation;
 
 import java.util.LinkedList;
@@ -27,7 +8,11 @@ import android.graphics.*;
 import org.geometerplus.zlibrary.core.library.ZLibrary;
 import org.geometerplus.zlibrary.core.view.ZLViewEnums;
 
+/**
+ * 动画提供者
+ */
 public abstract class AnimationProvider {
+
     public enum Mode {
         NoScrolling(false),
         PreManualScrolling(false),
@@ -44,16 +29,33 @@ public abstract class AnimationProvider {
 
     private Mode myMode = Mode.NoScrolling;
 
+    /**
+     * Bitmap管理类
+     */
     protected final BitmapManager myBitmapManager;
+    /**
+     * 起始X坐标，Y坐标；结束X坐标，Y坐标
+     */
     protected int myStartX;
     protected int myStartY;
     protected int myEndX;
     protected int myEndY;
+    /**
+     * 翻页的方向
+     */
     protected ZLViewEnums.Direction myDirection;
+    /**
+     * 速度
+     */
     protected float mySpeed;
-
+    /**
+     * 宽，高
+     */
     protected int myWidth;
     protected int myHeight;
+    /**
+     * 颜色级别
+     */
     protected Integer myColorLevel;
 
     protected AnimationProvider(BitmapManager bitmapManager) {
@@ -64,12 +66,22 @@ public abstract class AnimationProvider {
         return myMode;
     }
 
+    /**
+     * 结束
+     */
     public final void terminate() {
         myMode = Mode.NoScrolling;
         mySpeed = 0;
         myDrawInfos.clear();
     }
 
+    /**
+     * 开始手动滑动
+     * 设置模式为预手动滑动，设置起始和结束位置
+     *
+     * @param x 起始X坐标
+     * @param y 起始Y坐标
+     */
     public final void startManualScrolling(int x, int y) {
         if (!myMode.Auto) {
             myMode = Mode.PreManualScrolling;
@@ -78,9 +90,14 @@ public abstract class AnimationProvider {
         }
     }
 
-    private final Mode detectManualMode() {
+    /**
+     * @return 根据位置信息活动模式
+     */
+    private Mode detectManualMode() {
+        // 位移
         final int dX = Math.abs(myStartX - myEndX);
         final int dY = Math.abs(myStartY - myEndY);
+        // 水平翻页
         if (myDirection.IsHorizontal) {
             if (dY > ZLibrary.Instance().getDisplayDPI() / 2 && dY > dX) {
                 return Mode.NoScrolling;
@@ -111,26 +128,37 @@ public abstract class AnimationProvider {
         }
     }
 
+    /**
+     * 开始动画滑动
+     *
+     * @param x     X坐标
+     * @param y     Y坐标
+     * @param speed 速度
+     */
     public final void startAnimatedScrolling(int x, int y, int speed) {
+        // 当前状态不是手动滑动 --> 返回
         if (myMode != Mode.ManualScrolling) {
             return;
         }
-
+        // 滑动目标页是当前页 --> 返回
         if (getPageToScrollTo(x, y) == ZLViewEnums.PageIndex.current) {
             return;
         }
 
         final int dpi = ZLibrary.Instance().getDisplayDPI();
+        // 滑动距离
         final int diff = myDirection.IsHorizontal ? x - myStartX : y - myStartY;
         final int minDiff = myDirection.IsHorizontal
                 ? (myWidth > myHeight ? myWidth / 4 : myWidth / 3)
                 : (myHeight > myWidth ? myHeight / 4 : myHeight / 3);
+        // 根据距离判断是否向前翻页
         boolean forward = Math.abs(diff) > Math.min(minDiff, dpi / 2);
-
         myMode = forward ? Mode.AnimatedScrollingForward : Mode.AnimatedScrollingBackward;
 
+        // 速度
         float velocity = 15;
         if (myDrawInfos.size() > 1) {
+            // 时长
             int duration = 0;
             for (DrawInfo info : myDrawInfos) {
                 duration += info.Duration;

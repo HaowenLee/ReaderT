@@ -22,22 +22,41 @@ package org.geometerplus.fbreader.fbreader.options;
 import org.geometerplus.zlibrary.core.options.*;
 import org.geometerplus.zlibrary.core.view.ZLView;
 
+/**
+ * 翻页选择设置
+ */
 public class PageTurningOptions {
 
+    /**
+     * 手指滑动类型：点击，滑动，点击和滑动
+     */
     public enum FingerScrollingType {
         byTap, byFlick, byTapAndFlick
     }
 
+    /**
+     * 手指滑动类型支持
+     */
     public final ZLEnumOption<FingerScrollingType> FingerScrolling =
             new ZLEnumOption<>("Scrolling", "Finger", FingerScrollingType.byTapAndFlick);
-
+    /**
+     * 翻页动画
+     */
     public final ZLEnumOption<ZLView.Animation> Animation =
             new ZLEnumOption<>("Scrolling", "Animation", ZLView.Animation.previewShift);
+    /**
+     * 动画速度
+     */
     public final ZLIntegerRangeOption AnimationSpeed =
             new ZLIntegerRangeOption("Scrolling", "AnimationSpeed", 1, 10, 7);
-
+    /**
+     * 滑动方向
+     */
     public final ZLBooleanOption Horizontal =
             new ZLBooleanOption("Scrolling", "Horizontal", true);
+    /**
+     * 点击位置图
+     */
     public final ZLStringOption TapZoneMap =
             new ZLStringOption("Scrolling", "TapZoneMap", "");
 }
