@@ -194,7 +194,9 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
     @Override
     public void reset() {
         myBitmapManager.reset();
-    }    @Override
+    }
+
+    @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         getAnimationProvider().terminate();
@@ -455,8 +457,6 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
     }
 
 
-
-
     @Override
     @DebugLog
     protected void onDraw(final Canvas canvas) {
@@ -670,7 +670,7 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
                     }
                     if (!myPendingPress) {
                         // 有选中的情况，都交给onFingerMove
-                        if (view.hasSelection()) {
+                        if (view.hasSelection() || !view.isHorizontal()) {
                             view.onFingerMove(x, y);
                         } else {
                             if (Math.abs(myPressedX - x) < Math.abs(myPressedY - y) || isMoveVertical) {

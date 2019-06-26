@@ -48,7 +48,7 @@ public class PageTurningOptions {
      * 动画速度
      */
     public final ZLIntegerRangeOption AnimationSpeed =
-            new ZLIntegerRangeOption("Scrolling", "AnimationSpeed", 1, 10, 7);
+            new ZLIntegerRangeOption("Scrolling", "AnimationSpeed", 1, 10, 1);
     /**
      * 滑动方向
      */

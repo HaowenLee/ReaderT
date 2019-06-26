@@ -158,6 +158,11 @@ abstract public class ZLView implements ZLViewEnums {
      */
     public abstract boolean hasSelection();
 
+    /**
+     * @return 是否水平方向
+     */
+    public abstract boolean isHorizontal();
+
     public interface FooterArea {
         int getHeight();
 

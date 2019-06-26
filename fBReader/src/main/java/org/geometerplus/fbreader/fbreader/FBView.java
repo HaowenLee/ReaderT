@@ -683,6 +683,11 @@ public final class FBView extends ZLTextView {
         return myReader.isActionEnabled(ActionCode.SELECTION_CLEAR);
     }
 
+    @Override
+    public boolean isHorizontal() {
+        return myReader.PageTurningOptions.Horizontal.getValue();
+    }
+
     public int getCountOfSelectedWords() {
         final WordCountTraverser traverser = new WordCountTraverser(this);
         if (!isSelectionEmpty()) {

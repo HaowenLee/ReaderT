@@ -44,7 +44,7 @@ public class CancelMenuHelper {
     }
 
     public List<ActionDescription> getActionsList(IBookCollection<Book> collection) {
-        final List<ActionDescription> list = new ArrayList<ActionDescription>();
+        final List<ActionDescription> list = new ArrayList<>();
 
         // 书库
         if (ShowLibraryItemOption.getValue()) {
@@ -79,7 +79,7 @@ public class CancelMenuHelper {
         return list;
     }
 
-    public static enum ActionType {
+    public enum ActionType {
         library,
         networkLibrary,
         previousBook,

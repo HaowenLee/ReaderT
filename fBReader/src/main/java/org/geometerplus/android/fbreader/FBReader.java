@@ -242,6 +242,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
     private View bookShare;
     private ImageView coverView;
     private View gotoTTS;
+    private View scrollH;
     private View scrollV;
     private View menuPlayer;
     private View ivClose;
@@ -426,6 +427,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         gotoTTS = findViewById(R.id.goto_tts_play);
         menuPlayer = findViewById(R.id.menuPlayer);
         ivClose = findViewById(R.id.ivClose);
+        scrollH = findViewById(R.id.h);
         scrollV = findViewById(R.id.v);
         fontSmall = findViewById(R.id.font_small);
         fontBig = findViewById(R.id.font_big);
@@ -682,6 +684,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             if (menuSetting.getVisibility() == View.VISIBLE) {
                 AnimationHelper.closeBottomMenu(menuSetting);
             } else {
+                updatePageDirectionUI();
                 // 主题
                 if (!myFBReaderApp.isActionVisible(ActionCode.SWITCH_THEME_WHITE_PROFILE)) {
                     radioGroup.check(R.id.color_white);
@@ -817,8 +820,29 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         });
 
         // 上下滚动
-        scrollV.setOnClickListener(v ->
-                Toast.makeText(FBReader.this, "敬请期待", Toast.LENGTH_SHORT).show());
+        scrollV.setOnClickListener(v -> {
+            myFBReaderApp.PageTurningOptions.Horizontal.setValue(false);
+            updatePageDirectionUI();
+        });
+
+        // 水平
+        scrollH.setOnClickListener(v -> {
+            myFBReaderApp.PageTurningOptions.Horizontal.setValue(true);
+            updatePageDirectionUI();
+        });
+    }
+
+    /**
+     * 更新页面方向设置的UI
+     */
+    private void updatePageDirectionUI() {
+        if (myFBReaderApp.PageTurningOptions.Horizontal.getValue()) {
+            scrollH.setBackgroundResource(R.drawable.reader_button_border_checked);
+            scrollV.setBackgroundResource(R.drawable.reader_button_border);
+        } else {
+            scrollV.setBackgroundResource(R.drawable.reader_button_border_checked);
+            scrollH.setBackgroundResource(R.drawable.reader_button_border);
+        }
     }
 
     private BookCollectionShadow getCollection() {

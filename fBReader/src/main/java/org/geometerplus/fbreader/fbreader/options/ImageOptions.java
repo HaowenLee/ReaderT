@@ -25,12 +25,18 @@ import org.geometerplus.zlibrary.core.util.ZLColor;
 import org.geometerplus.fbreader.fbreader.FBView;
 
 public class ImageOptions {
+
+	/**
+	 * 图片背景
+	 */
 	public final ZLColorOption ImageViewBackground;
 
 	public final ZLEnumOption<FBView.ImageFitting> FitToScreen;
-	public static enum TapActionEnum {
+
+	public enum TapActionEnum {
 		doNothing, selectImage, openImageView
 	}
+
 	public final ZLEnumOption<TapActionEnum> TapAction;
 	public final ZLBooleanOption MatchBackground;
 
@@ -38,9 +44,9 @@ public class ImageOptions {
 		ImageViewBackground =
 			new ZLColorOption("Colors", "ImageViewBackground", new ZLColor(255, 255, 255));
 		FitToScreen =
-			new ZLEnumOption<FBView.ImageFitting>("Options", "FitImagesToScreen", FBView.ImageFitting.covers);
+				new ZLEnumOption<>("Options", "FitImagesToScreen", FBView.ImageFitting.covers);
 		TapAction =
-			new ZLEnumOption<TapActionEnum>("Options", "ImageTappingAction", TapActionEnum.openImageView);
+				new ZLEnumOption<>("Options", "ImageTappingAction", TapActionEnum.openImageView);
 		MatchBackground =
 			new ZLBooleanOption("Colors", "ImageMatchBackground", true);
 	}

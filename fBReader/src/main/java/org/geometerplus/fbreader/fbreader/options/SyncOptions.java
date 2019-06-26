@@ -30,7 +30,7 @@ public class SyncOptions {
 	public final ZLBooleanOption Enabled =
 		new ZLBooleanOption("Sync", "Enabled", false);
 
-	public static enum Condition {
+	public enum Condition {
 		never, viaWifi, always
 	}
 	public final ZLEnumOption<Condition> UploadAllBooks =

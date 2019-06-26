@@ -22,6 +22,9 @@ package org.geometerplus.fbreader.fbreader.options;
 import org.geometerplus.zlibrary.core.options.*;
 import org.geometerplus.fbreader.fbreader.DurationEnum;
 
+/**
+ * 其他设置
+ */
 public class MiscOptions {
 
     /**
