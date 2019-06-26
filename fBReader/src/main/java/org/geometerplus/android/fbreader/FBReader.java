@@ -234,6 +234,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
     private View viewBackground;
     private View readerView;
     private View showSetMenu;
+    private View fontChoice;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private TextView tvBookName;
@@ -437,6 +438,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         ivMarkArrow = findViewById(R.id.ivMarkArrow);
         tvMarkHint = findViewById(R.id.tvMarkHint);
         ivMarkState = findViewById(R.id.ivMarkState);
+        fontChoice = findViewById(R.id.font_choice);
     }
 
     @Override
@@ -829,6 +831,11 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         scrollH.setOnClickListener(v -> {
             myFBReaderApp.PageTurningOptions.Horizontal.setValue(true);
             updatePageDirectionUI();
+        });
+
+        // 字体选择
+        fontChoice.setOnClickListener(v -> {
+
         });
     }
 
