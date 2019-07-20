@@ -6,13 +6,13 @@ import com.baidu.tts.client.SpeechSynthesizer;
 import com.baidu.tts.client.TtsMode;
 
 /**
- * 语音合成
+ * 语音合成（百度语音合成）
  */
 public class TTSProvider {
 
-    private final String AppId = "16237949";
-    private final String AppKey = "BAn6205aD5Xb9TXgGbGGsxvH";
-    private final String AppSecret = "M2Luu4AGngce7W4tBeio2ZrEBRK123ek";
+    private final String AppId = "app id";
+    private final String AppKey = "app key";
+    private final String AppSecret = "app secret";
 
     public SpeechSynthesizer mSpeechSynthesizer = SpeechSynthesizer.getInstance();
 
