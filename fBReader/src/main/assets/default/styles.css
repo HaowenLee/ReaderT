@@ -3,14 +3,14 @@
 p {
 	fbreader-id: 0;
 	fbreader-name: "Regular Paragraph";
-	text-indent: 10pt;
+	text-indent: 2em;
 	hyphens: auto;
 }
 
 p.xhtml {
 	fbreader-id: 51;
 	fbreader-name: xhtml-tag-p;
-	text-indent: 10pt;
+	text-indent: 2em;
 	margin-top: 0.2em;
 	margin-bottom: 0.2em;
 	hyphens: auto;
@@ -102,7 +102,7 @@ annotation {
 	fbreader-id: 5;
 	fbreader-name: "Annotation";
 	font-size: 0.91em;
-	text-indent: 10pt;
+	text-indent: 2em;
 	hyphens: auto;
 }
 
