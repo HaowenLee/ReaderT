@@ -30,6 +30,7 @@ shared_ptr<ZLTextStyleEntry> ZLTextStyleEntry::start() const {
 	clone->myFontModifier = myFontModifier;
 	clone->myFontFamilies = myFontFamilies;
 	clone->myVerticalAlignCode = myVerticalAlignCode;
+	clone->myColor = myColor;
 	return clone;
 }
 
@@ -61,5 +62,6 @@ shared_ptr<ZLTextStyleEntry> ZLTextStyleEntry::inherited() const {
 	clone->myFontModifier = myFontModifier;
 	clone->myFontFamilies = myFontFamilies;
 	clone->myVerticalAlignCode = myVerticalAlignCode;
+	clone->myColor = myColor;
 	return clone;
 }

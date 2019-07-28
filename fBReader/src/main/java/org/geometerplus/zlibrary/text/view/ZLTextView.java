@@ -1037,6 +1037,11 @@ public abstract class ZLTextView extends ZLTextViewBase {
         }
     }
 
+    @Override
+    public ZLColor getColor() {
+        return getTextStyle().getColor();
+    }
+
     /**
      * 获取文字高亮
      *

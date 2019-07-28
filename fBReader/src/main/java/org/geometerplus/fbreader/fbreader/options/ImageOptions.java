@@ -24,30 +24,37 @@ import org.geometerplus.zlibrary.core.util.ZLColor;
 
 import org.geometerplus.fbreader.fbreader.FBView;
 
+/**
+ * 图片的相关设置选项
+ */
 public class ImageOptions {
 
-	/**
-	 * 图片背景
-	 */
-	public final ZLColorOption ImageViewBackground;
+    /**
+     * 图片背景
+     */
+    public final ZLColorOption ImageViewBackground;
 
-	public final ZLEnumOption<FBView.ImageFitting> FitToScreen;
+    public final ZLEnumOption<FBView.ImageFitting> FitToScreen;
 
-	public enum TapActionEnum {
-		doNothing, selectImage, openImageView
-	}
+    public enum TapActionEnum {
+        doNothing, selectImage, openImageView
+    }
 
-	public final ZLEnumOption<TapActionEnum> TapAction;
-	public final ZLBooleanOption MatchBackground;
+    public final ZLEnumOption<TapActionEnum> TapAction;
+    public final ZLBooleanOption MatchBackground;
 
-	public ImageOptions() {
-		ImageViewBackground =
-			new ZLColorOption("Colors", "ImageViewBackground", new ZLColor(255, 255, 255));
-		FitToScreen =
-				new ZLEnumOption<>("Options", "FitImagesToScreen", FBView.ImageFitting.covers);
-		TapAction =
-				new ZLEnumOption<>("Options", "ImageTappingAction", TapActionEnum.openImageView);
-		MatchBackground =
-			new ZLBooleanOption("Colors", "ImageMatchBackground", true);
-	}
+    public ImageOptions() {
+        // 图片背景（查看）
+        ImageViewBackground =
+                new ZLColorOption("Colors", "ImageViewBackground", new ZLColor(255, 255, 255));
+        // 填充屏幕
+        FitToScreen =
+                new ZLEnumOption<>("Options", "FitImagesToScreen", FBView.ImageFitting.covers);
+        // 触摸事件
+        TapAction =
+                new ZLEnumOption<>("Options", "ImageTappingAction", TapActionEnum.openImageView);
+        // 适应背景
+        MatchBackground =
+                new ZLBooleanOption("Colors", "ImageMatchBackground", true);
+    }
 }

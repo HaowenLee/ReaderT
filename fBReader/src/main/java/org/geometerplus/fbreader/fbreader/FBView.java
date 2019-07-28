@@ -131,10 +131,10 @@ public final class FBView extends ZLTextView {
     @Override
     protected ZLPaintContext.ColorAdjustingMode getAdjustingModeForImages() {
         if (myReader.ImageOptions.MatchBackground.getValue()) {
-            if (ColorProfile.THEME_WHITE.equals(myViewOptions.getColorProfile().Name)) {
-                return ZLPaintContext.ColorAdjustingMode.DARKEN_TO_BACKGROUND;
-            } else {
+            if (ColorProfile.THEME_BLACK.equals(myViewOptions.getColorProfile().Name)) {
                 return ZLPaintContext.ColorAdjustingMode.LIGHTEN_TO_BACKGROUND;
+            } else {
+                return ZLPaintContext.ColorAdjustingMode.DARKEN_TO_BACKGROUND;
             }
         } else {
             return ZLPaintContext.ColorAdjustingMode.NONE;
@@ -245,7 +245,10 @@ public final class FBView extends ZLTextView {
         switch (hyperlink.Type) {
             default:
             case FBHyperlinkType.NONE:
-                return profile.RegularTextOption.getValue();
+                if (getColor() == null) {
+                    return profile.RegularTextOption.getValue();
+                }
+                return getColor();
             case FBHyperlinkType.INTERNAL:
             case FBHyperlinkType.FOOTNOTE:
                 return myReader.Collection.isHyperlinkVisited(myReader.getCurrentBook(), hyperlink.Id)

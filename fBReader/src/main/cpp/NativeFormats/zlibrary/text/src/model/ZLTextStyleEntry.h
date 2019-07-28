@@ -76,7 +76,8 @@ public:
 		FONT_FAMILY =                       NUMBER_OF_LENGTHS + 1,
 		FONT_STYLE_MODIFIER =               NUMBER_OF_LENGTHS + 2,
 		NON_LENGTH_VERTICAL_ALIGN =         NUMBER_OF_LENGTHS + 3,
-		DISPLAY =                           NUMBER_OF_LENGTHS + 4 // 11; max = 15
+		DISPLAY =                           NUMBER_OF_LENGTHS + 4, // 11; max = 15
+		COLOR=                              NUMBER_OF_LENGTHS + 5
 	};
 
 	enum DisplayCode {
@@ -137,6 +138,9 @@ public:
 	DisplayCode displayCode() const;
 	void setDisplayCode(DisplayCode code);
 
+    std::string color() const;
+    void setColor(std::string color);
+
 	shared_ptr<ZLTextStyleEntry> start() const;
 	shared_ptr<ZLTextStyleEntry> end() const;
 	shared_ptr<ZLTextStyleEntry> inherited() const;
@@ -152,6 +156,7 @@ private:
 	std::vector<std::string> myFontFamilies;
 	unsigned char myVerticalAlignCode;
 	DisplayCode myDisplayCode;
+    std::string myColor;
 
 	friend class ZLTextModel;
 };
@@ -216,6 +221,12 @@ inline void ZLTextStyleEntry::setDisplayCode(DisplayCode code) {
 		myFeatureMask |= 1 << DISPLAY;
 		myDisplayCode = code;
 	}
+}
+
+inline std::string ZLTextStyleEntry ::color()  const { return myColor; }
+inline void ZLTextStyleEntry::setColor(std::string color) {
+    myFeatureMask |= 1 << COLOR;
+    myColor = color;
 }
 
 #endif /* __ZLTEXTSTYLEENTRY_H__ */

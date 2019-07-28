@@ -22,6 +22,7 @@ package org.geometerplus.zlibrary.text.view;
 import java.util.List;
 
 import org.geometerplus.zlibrary.core.fonts.FontEntry;
+import org.geometerplus.zlibrary.core.util.ZLColor;
 import org.geometerplus.zlibrary.text.model.ZLTextMetrics;
 
 public abstract class ZLTextStyle {
@@ -35,6 +36,7 @@ public abstract class ZLTextStyle {
 
 	public abstract List<FontEntry> getFontEntries();
 	public abstract int getFontSize(ZLTextMetrics metrics);
+	public abstract ZLColor getColor();
 
 	public abstract boolean isBold();
 	public abstract boolean isItalic();

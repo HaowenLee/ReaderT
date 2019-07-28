@@ -26,6 +26,7 @@ import org.geometerplus.zlibrary.core.fonts.FontEntry;
 import org.geometerplus.zlibrary.core.library.ZLibrary;
 import org.geometerplus.zlibrary.core.options.*;
 
+import org.geometerplus.zlibrary.core.util.ZLColor;
 import org.geometerplus.zlibrary.text.model.ZLTextAlignmentType;
 import org.geometerplus.zlibrary.text.model.ZLTextMetrics;
 import org.geometerplus.zlibrary.text.view.ZLTextStyle;
@@ -88,6 +89,11 @@ public class ZLTextBaseStyle extends ZLTextStyle {
 	@Override
 	public int getFontSize(ZLTextMetrics metrics) {
 		return getFontSize();
+	}
+
+	@Override
+	public ZLColor getColor() {
+		return null;
 	}
 
 	@Override

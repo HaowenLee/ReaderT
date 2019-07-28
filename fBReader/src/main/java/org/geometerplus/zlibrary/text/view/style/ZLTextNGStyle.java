@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geometerplus.zlibrary.core.fonts.FontEntry;
+import org.geometerplus.zlibrary.core.util.ZLColor;
 import org.geometerplus.zlibrary.text.model.ZLTextAlignmentType;
 import org.geometerplus.zlibrary.text.model.ZLTextMetrics;
 import org.geometerplus.zlibrary.text.view.ZLTextHyperlink;
@@ -146,6 +147,11 @@ public class ZLTextNGStyle extends ZLTextDecoratedStyle {
 	@Override
 	protected int getSpaceAfterInternal(ZLTextMetrics metrics, int fontSize) {
 		return myDescription.getSpaceAfter(metrics, Parent.getSpaceAfter(metrics), fontSize);
+	}
+
+	@Override
+	public ZLColor getColor() {
+		return myDescription.getColor();
 	}
 
 	@Override

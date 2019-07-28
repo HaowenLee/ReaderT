@@ -25,6 +25,7 @@ import java.util.HashMap;
 import org.fbreader.util.Boolean3;
 
 import org.geometerplus.zlibrary.core.options.ZLStringOption;
+import org.geometerplus.zlibrary.core.util.ZLColor;
 import org.geometerplus.zlibrary.text.model.*;
 
 public class ZLTextNGStyleDescription {
@@ -191,6 +192,10 @@ public class ZLTextNGStyleDescription {
 		} else {
 			return Boolean3.FALSE;
 		}
+	}
+
+	ZLColor getColor(){
+		return null;
 	}
 
 	byte getAlignment() {

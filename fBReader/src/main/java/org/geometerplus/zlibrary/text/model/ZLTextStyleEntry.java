@@ -44,6 +44,7 @@ public abstract class ZLTextStyleEntry {
 		int NON_LENGTH_VERTICAL_ALIGN         = NUMBER_OF_LENGTHS + 3;
 		// not transferred at the moment
 		int DISPLAY                           = NUMBER_OF_LENGTHS + 4;
+		int COLOR                             = NUMBER_OF_LENGTHS + 5;
 	}
 
 	public interface FontModifier {
@@ -91,6 +92,7 @@ public abstract class ZLTextStyleEntry {
 	private byte mySupportedFontModifiers;
 	private byte myFontModifiers;
 	private byte myVerticalAlignCode;
+	private int myColor;
 
 	static boolean isFeatureSupported(short mask, int featureId) {
 		return (mask & (1 << featureId)) != 0;
@@ -161,6 +163,15 @@ public abstract class ZLTextStyleEntry {
 
 	public final byte getAlignmentType() {
 		return myAlignmentType;
+	}
+
+	final void setColor(int color) {
+		myFeatureMask |= 1 << Feature.COLOR;
+		myColor = color;
+	}
+
+	public final int getColor() {
+		return myColor;
 	}
 
 	final void setFontFamilies(FontManager fontManager, int fontFamiliesIndex) {
