@@ -5,8 +5,8 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.1'
-        classpath 'com.haowen.huge:huge-plugin:1.0.0'
+        classpath 'com.android.tools.build:gradle:3.5.0'
+        // classpath 'com.haowen.huge:huge-plugin:1.0.0'
     }
 }
 

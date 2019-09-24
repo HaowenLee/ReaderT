@@ -34,8 +34,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 
-import com.haowen.huge.DebugLog;
-
 import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.android.fbreader.constant.PreviewConfig;
 import org.geometerplus.android.fbreader.util.SizeUtils;
@@ -458,7 +456,6 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
 
 
     @Override
-    @DebugLog
     protected void onDraw(final Canvas canvas) {
 
         canvas.setDrawFilter(paintFlagsDrawFilter);

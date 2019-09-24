@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'huge'
+// apply plugin: 'huge'
 
 android {
     compileSdkVersion 28
