@@ -20,7 +20,12 @@
 package org.geometerplus.android.fbreader;
 
 import android.content.Intent;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.app.SkinAppCompatDelegateImpl;
+
 import android.view.WindowManager;
 
 import com.github.johnpersano.supertoasts.SuperActivityToast;
@@ -114,4 +119,10 @@ public abstract class FBReaderMainActivity extends AppCompatActivity {
     /* ------ SUPER TOAST ------ */
 
     public abstract void hideDictionarySelection();
+
+    @NonNull
+    @Override
+    public AppCompatDelegate getDelegate() {
+        return SkinAppCompatDelegateImpl.get(this, this);
+    }
 }
