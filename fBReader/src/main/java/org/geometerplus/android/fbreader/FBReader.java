@@ -783,7 +783,6 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 
             @Override
             public void onSpeechFinish(String s) {
-
             }
 
             @Override
@@ -979,10 +978,10 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             cursor.moveToParagraph(zlTextParagraphCursor.Index);
             // 段落起始
             cursor.moveToParagraphStart();
-            // 如果不是段落最后
             builder.setLength(0);
             // 开始元素位置索引
             startEIndex = cursor.getElementIndex();
+            // 如果不是段落最后
             while (!cursor.isEndOfParagraph()) {
                 // 元素
                 ZLTextElement element = cursor.getElement();
@@ -1012,6 +1011,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                             isChange = false;
                             continue;
                         }
+                        System.out.println(builder.toString());
                         ttsProvider.mSpeechSynthesizer.speak(builder.toString(), tag);
                         builder.setLength(0);
                         isChange = true;
