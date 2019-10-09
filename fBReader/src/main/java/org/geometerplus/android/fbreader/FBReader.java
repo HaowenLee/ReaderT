@@ -998,7 +998,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                     }
                     builder.append(element);
                     // 以标点符号断句
-                    if (element.toString().matches(".*[。？！;；，!、]+.*")) {
+                    if (element.toString().matches(".*[。？！;；，!]+.*")) {
                         // 结束元素位置索引
                         endEIndex = cursor.getElementIndex();
                         String tag = pIndex + "-" + startEIndex + "-" + endEIndex;
