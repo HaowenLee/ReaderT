@@ -19,7 +19,7 @@
 
 package org.geometerplus.zlibrary.text.view;
 
-import android.support.v4.util.LruCache;
+import androidx.collection.LruCache;
 
 import org.geometerplus.zlibrary.text.model.ZLTextModel;
 

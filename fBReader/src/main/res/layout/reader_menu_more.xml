@@ -15,7 +15,7 @@
         android:layout_height="1px"
         android:background="#cccccc" />
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/book_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
             app:layout_constraintTop_toBottomOf="@+id/author"
             tools:text="$9.99" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
         android:layout_width="match_parent"
