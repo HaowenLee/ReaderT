@@ -33,12 +33,18 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
+
 import com.google.android.material.tabs.TabLayout;
+
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,6 +53,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -68,6 +75,7 @@ import org.geometerplus.android.fbreader.libraryService.BookCollectionShadow;
 import org.geometerplus.android.fbreader.sync.SyncOperations;
 import org.geometerplus.android.fbreader.tips.TipsActivity;
 import org.geometerplus.android.fbreader.tts.TTSProvider;
+import org.geometerplus.android.fbreader.tts.util.TimeUtils;
 import org.geometerplus.android.fbreader.ui.BookMarkFragment;
 import org.geometerplus.android.fbreader.ui.BookNoteFragment;
 import org.geometerplus.android.fbreader.ui.BookTOCFragment;
@@ -83,7 +91,6 @@ import org.geometerplus.fbreader.book.BookUtil;
 import org.geometerplus.fbreader.book.Bookmark;
 import org.geometerplus.fbreader.book.CoverUtil;
 import org.geometerplus.fbreader.bookmodel.BookModel;
-import org.geometerplus.fbreader.bookmodel.TOCTree;
 import org.geometerplus.fbreader.fbreader.ActionCode;
 import org.geometerplus.fbreader.fbreader.DictionaryHighlighting;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
@@ -101,6 +108,7 @@ import org.geometerplus.zlibrary.core.library.ZLibrary;
 import org.geometerplus.zlibrary.core.options.Config;
 import org.geometerplus.zlibrary.core.resources.ZLResource;
 import org.geometerplus.zlibrary.core.view.ZLViewWidget;
+import org.geometerplus.zlibrary.text.model.ZLTextModel;
 import org.geometerplus.zlibrary.text.view.ZLTextElement;
 import org.geometerplus.zlibrary.text.view.ZLTextFixedPosition;
 import org.geometerplus.zlibrary.text.view.ZLTextParagraphCursor;
@@ -203,7 +211,8 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
     /**
      * 文本内容（断句好了的）
      */
-    private HashMap<String, Boolean> textMap = new HashMap<>();
+    private HashMap<String, Pair<String, Boolean>> textMap = new HashMap<>();
+    private StringBuilder readBuilder = new StringBuilder();
     /**
      * 是否正在播放
      */
@@ -255,6 +264,20 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
     private ImageView ivMarkArrow;
     private TextView tvMarkHint;
     private ImageView ivMarkState;
+    private SeekBar audioProgress;
+    private TextView tvPosition;
+    private TextView tvDuration;
+    /**
+     * 章节结束tag
+     */
+    private String lastTag = null;
+    private int lastParagraphIndex = -1;
+    /**
+     * 测试语字和时间的关系
+     */
+    private long startTime = 0;
+    private int totalCount = 0;
+    private int totalTime = 0;
 
     public static void openBookActivity(Context context, Book book, Bookmark bookmark) {
         final Intent intent = defaultIntent(context);
@@ -439,62 +462,9 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         tvMarkHint = findViewById(R.id.tvMarkHint);
         ivMarkState = findViewById(R.id.ivMarkState);
         fontChoice = findViewById(R.id.font_choice);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            default:
-                super.onActivityResult(requestCode, resultCode, data);
-                break;
-            case REQUEST_PREFERENCES:
-                if (resultCode != RESULT_DO_NOTHING && data != null) {
-                    final Book book = FBReaderIntents.getBookExtra(data, myFBReaderApp.Collection);
-                    if (book != null) {
-                        getCollection().bindToService(this, new Runnable() {
-                            public void run() {
-                                onPreferencesUpdate(book);
-                            }
-                        });
-                    }
-                }
-                break;
-            case REQUEST_CANCEL_MENU:
-                runCancelAction(data);
-                break;
-        }
-    }
-
-    public void hideDictionarySelection() {
-        myFBReaderApp.getTextView().hideOutline();
-        myFBReaderApp.getTextView().removeHighlightings(DictionaryHighlighting.class);
-        myFBReaderApp.getViewWidget().reset();
-        myFBReaderApp.getViewWidget().repaint();
-    }
-
-    private void onPreferencesUpdate(Book book) {
-        AndroidFontUtil.clearFontCache();
-        myFBReaderApp.onBookUpdated(book);
-    }
-
-    private void runCancelAction(Intent intent) {
-        final CancelMenuHelper.ActionType type;
-        try {
-            type = CancelMenuHelper.ActionType.valueOf(
-                    intent.getStringExtra(FBReaderIntents.Key.TYPE)
-            );
-        } catch (Exception e) {
-            // invalid (or null) type value
-            return;
-        }
-        Bookmark bookmark = null;
-        if (type == CancelMenuHelper.ActionType.returnTo) {
-            bookmark = FBReaderIntents.getBookmarkExtra(intent);
-            if (bookmark == null) {
-                return;
-            }
-        }
-        myFBReaderApp.runCancelAction(type, bookmark);
+        audioProgress = findViewById(R.id.audioProgress);
+        tvPosition = findViewById(R.id.tvPosition);
+        tvDuration = findViewById(R.id.tvDuration);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -753,24 +723,42 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             }
 
             @Override
-            public void onSpeechStart(String s) {
-
+            public void onSpeechStart(String tag) {
+                // 进度
+                Pair<String, Boolean> itemText = textMap.get(tag);
+                if (itemText != null) {
+                    startTime = System.currentTimeMillis();
+                }
             }
 
             @Override
-            public void onSpeechProgressChanged(String tag, int i) {
+            public void onSpeechProgressChanged(String tag, int progress) {
+
+                int second = readBuilder.toString().length() + progress;
+
+                runOnUiThread(() -> {
+                    // 进度更新
+                    audioProgress.setProgress(second);
+
+                    tvPosition.setText(TimeUtils.getTimeByWordCount(second, 5));
+                });
+
                 String[] split = tag.split("-");
                 if (split.length < 3) {
                     return;
                 }
+                Pair<String, Boolean> itemText = textMap.get(tag);
+                if (itemText == null) {
+                    return;
+                }
                 // 如果已经标记过就算了
-                Boolean isPlayed = textMap.get(tag);
+                Boolean isPlayed = itemText.second;
                 if (isPlayed == null || isPlayed) {
                     return;
                 }
                 myFBReaderApp.getTextView().highlight(new ZLTextFixedPosition(Integer.parseInt(split[0]), Integer.parseInt(split[1]), 0),
                         new ZLTextFixedPosition(Integer.parseInt(split[0]), Integer.parseInt(split[2]), 0));
-                textMap.put(tag, true);
+                textMap.put(tag, new Pair<>(itemText.first, true));
                 // 翻页
                 int endPIndex = myFBReaderApp.getTextView().getEndCursor().getParagraphIndex();
                 int endEIndex = myFBReaderApp.getTextView().getEndCursor().getElementIndex();
@@ -782,7 +770,30 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             }
 
             @Override
-            public void onSpeechFinish(String s) {
+            public void onSpeechFinish(String tag) {
+                // 章节末尾
+                if (TextUtils.equals(tag, lastTag)) {
+                    myFBReaderApp.runAction(ActionCode.TURN_PAGE_FORWARD);
+                    // 读下一段
+                    splitText(lastParagraphIndex, myFBReaderApp.Model.getTextModel(),
+                            myFBReaderApp.getTextView().getStartCursor(), false);
+                }
+
+                // 进度
+                Pair<String, Boolean> itemText = textMap.get(tag);
+                long currentTime = System.currentTimeMillis();
+                if (itemText != null) {
+                    readBuilder.append(itemText.first);
+                    Log.d("时间关系：", "文字内容： " + itemText.first + "  字数： " +
+                            itemText.first.length() + "  时长： " +
+                            (currentTime - startTime) + "  平均时长（毫秒/字）:" + (currentTime - startTime) / itemText.first.length());
+                    if((currentTime - startTime) / itemText.first.length() > 500){
+                        return;
+                    }
+                    totalCount++;
+                    totalTime += (currentTime - startTime) / itemText.first.length();
+                    Log.e("平均时长:", "数量： " + totalCount + "  平均值：" + totalTime / totalCount);
+                }
             }
 
             @Override
@@ -791,7 +802,10 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         });
 
         gotoTTS.setOnClickListener(v -> {
-            splitText();
+            if (myFBReaderApp.getCurrentTOCElement() != null) {
+                splitText(myFBReaderApp.getCurrentTOCElement().getReference().ParagraphIndex,
+                        myFBReaderApp.Model.getTextModel(), myFBReaderApp.getTextView().getStartCursor(), true);
+            }
             AnimationHelper.closeBottomMenu(firstMenu);
             AnimationHelper.closeBottomMenu(menuTop);
             AnimationHelper.closePreview(myMainView);
@@ -836,19 +850,6 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         fontChoice.setOnClickListener(v -> {
 
         });
-    }
-
-    /**
-     * 更新页面方向设置的UI
-     */
-    private void updatePageDirectionUI() {
-        if (myFBReaderApp.PageTurningOptions.Horizontal.getValue()) {
-            scrollH.setBackgroundResource(R.drawable.reader_button_border_checked);
-            scrollV.setBackgroundResource(R.drawable.reader_button_border);
-        } else {
-            scrollV.setBackgroundResource(R.drawable.reader_button_border_checked);
-            scrollH.setBackgroundResource(R.drawable.reader_button_border);
-        }
     }
 
     private BookCollectionShadow getCollection() {
@@ -943,21 +944,38 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
     }
 
     /**
-     * 文本分割
+     * 更新页面方向设置的UI
      */
-    private void splitText() {
-        // 当前的TOC
-        final TOCTree tocElement = myFBReaderApp.getCurrentTOCElement();
-        // 段落索引
-        if (tocElement == null) {
+    private void updatePageDirectionUI() {
+        if (myFBReaderApp.PageTurningOptions.Horizontal.getValue()) {
+            scrollH.setBackgroundResource(R.drawable.reader_button_border_checked);
+            scrollV.setBackgroundResource(R.drawable.reader_button_border);
+        } else {
+            scrollV.setBackgroundResource(R.drawable.reader_button_border_checked);
+            scrollH.setBackgroundResource(R.drawable.reader_button_border);
+        }
+    }
+
+    /**
+     * 文本分割
+     *
+     * @param paragraphIndex 该章节的起始段落索引
+     * @param textModel      ZLTextModel
+     * @param textWordCursor ZLTextWordCursor
+     * @param isMiddle       是否是中间的内容
+     */
+    private void splitText(int paragraphIndex, ZLTextModel textModel, ZLTextWordCursor textWordCursor, boolean isMiddle) {
+        if (paragraphIndex < 0 || textModel == null || textWordCursor == null) {
             return;
         }
-        // 起始段索引，和元素索引
-        int currentPIndex = myFBReaderApp.getTextView().getStartCursor().getParagraphIndex();
-        int currentEIndex = myFBReaderApp.getTextView().getStartCursor().getElementIndex();
-        int currentCIndex = myFBReaderApp.getTextView().getStartCursor().getCharIndex();
 
-        System.out.println("p" + currentPIndex + "e" + currentEIndex + "c" + currentCIndex);
+        readBuilder.setLength(0);
+        totalCount = 0;
+        totalTime = 0;
+
+        // 起始段索引，和元素索引
+        int currentPIndex = textWordCursor.getParagraphIndex();
+        int currentEIndex = textWordCursor.getElementIndex();
 
         int pIndex;
         int startEIndex;
@@ -965,43 +983,51 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         boolean isChange = false;
         // 清空内容
         textMap.clear();
-        // 该章节的起始段落索引
-        int paragraphIndex = tocElement.getReference().ParagraphIndex;
         StringBuilder builder = new StringBuilder();
+        StringBuilder paragraphBuilder = new StringBuilder();
         // 段落游标
-        ZLTextParagraphCursor zlTextParagraphCursor = new ZLTextParagraphCursor(myFBReaderApp.Model.getTextModel(), paragraphIndex);
+        ZLTextParagraphCursor zlTextParagraphCursor = new ZLTextParagraphCursor(textModel, paragraphIndex);
         // 如果不是章节结束
         while (!zlTextParagraphCursor.isEndOfSection()) {
-            final ZLTextWordCursor cursor = new ZLTextWordCursor(myFBReaderApp.getTextView().getStartCursor());
+            final ZLTextWordCursor cursor;
+            if (isMiddle) {
+                cursor = new ZLTextWordCursor(zlTextParagraphCursor);
+            } else {
+                cursor = new ZLTextWordCursor(zlTextParagraphCursor);
+            }
             pIndex = zlTextParagraphCursor.Index;
             // 移动到章节起始段落
-            cursor.moveToParagraph(zlTextParagraphCursor.Index);
+            //cursor.moveToParagraph(zlTextParagraphCursor.Index);
             // 段落起始
-            cursor.moveToParagraphStart();
+            //cursor.moveToParagraphStart();
             builder.setLength(0);
             // 开始元素位置索引
             startEIndex = cursor.getElementIndex();
+
             // 如果不是段落最后
             while (!cursor.isEndOfParagraph()) {
                 // 元素
                 ZLTextElement element = cursor.getElement();
                 if (element instanceof ZLTextWord) {
                     // 该页面起始之前的都不记录
-                    if (pIndex == currentPIndex && startEIndex < currentEIndex) {
+                    if (pIndex <= currentPIndex && startEIndex < currentEIndex && isMiddle) {
                         builder.setLength(0);
                         // 游标右移
                         cursor.nextWord();
                         startEIndex = cursor.getElementIndex();
                         isChange = false;
+                        readBuilder.append(element);
                         continue;
                     }
                     builder.append(element);
+                    paragraphBuilder.append(element);
                     // 以标点符号断句
                     if (element.toString().matches(".*[。？！;；，!]+.*")) {
                         // 结束元素位置索引
                         endEIndex = cursor.getElementIndex();
                         String tag = pIndex + "-" + startEIndex + "-" + endEIndex;
-                        textMap.put(tag, false);
+                        textMap.put(tag, new Pair<>(builder.toString(), false));
+                        lastTag = tag;
                         // 当该页面之前的都算了
                         if (pIndex < currentPIndex) {
                             builder.setLength(0);
@@ -1011,7 +1037,6 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                             isChange = false;
                             continue;
                         }
-                        System.out.println(builder.toString());
                         ttsProvider.mSpeechSynthesizer.speak(builder.toString(), tag);
                         builder.setLength(0);
                         isChange = true;
@@ -1031,6 +1056,17 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                 break;
             }
         }
+
+        // 下一个段落
+        if (zlTextParagraphCursor != null) {
+            zlTextParagraphCursor = zlTextParagraphCursor.next();
+            if (zlTextParagraphCursor != null) {
+                lastParagraphIndex = zlTextParagraphCursor.Index;
+            }
+        }
+
+        audioProgress.setMax(paragraphBuilder.toString().length());
+        tvDuration.setText(TimeUtils.getTimeByWordCount(paragraphBuilder.toString().length(), 5));
     }
 
     /**
@@ -1138,6 +1174,62 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         return (myMainView != null && myMainView.onKeyDown(keyCode, event)) || super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+                break;
+            case REQUEST_PREFERENCES:
+                if (resultCode != RESULT_DO_NOTHING && data != null) {
+                    final Book book = FBReaderIntents.getBookExtra(data, myFBReaderApp.Collection);
+                    if (book != null) {
+                        getCollection().bindToService(this, new Runnable() {
+                            public void run() {
+                                onPreferencesUpdate(book);
+                            }
+                        });
+                    }
+                }
+                break;
+            case REQUEST_CANCEL_MENU:
+                runCancelAction(data);
+                break;
+        }
+    }
+
+    public void hideDictionarySelection() {
+        myFBReaderApp.getTextView().hideOutline();
+        myFBReaderApp.getTextView().removeHighlightings(DictionaryHighlighting.class);
+        myFBReaderApp.getViewWidget().reset();
+        myFBReaderApp.getViewWidget().repaint();
+    }
+
+    private void onPreferencesUpdate(Book book) {
+        AndroidFontUtil.clearFontCache();
+        myFBReaderApp.onBookUpdated(book);
+    }
+
+    private void runCancelAction(Intent intent) {
+        final CancelMenuHelper.ActionType type;
+        try {
+            type = CancelMenuHelper.ActionType.valueOf(
+                    intent.getStringExtra(FBReaderIntents.Key.TYPE)
+            );
+        } catch (Exception e) {
+            // invalid (or null) type value
+            return;
+        }
+        Bookmark bookmark = null;
+        if (type == CancelMenuHelper.ActionType.returnTo) {
+            bookmark = FBReaderIntents.getBookmarkExtra(intent);
+            if (bookmark == null) {
+                return;
+            }
+        }
+        myFBReaderApp.runCancelAction(type, bookmark);
     }
 
     @Override

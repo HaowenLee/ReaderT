@@ -97,12 +97,6 @@ final class BitmapManagerImpl implements BitmapManager {
             }
         }
 
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < SIZE; ++i) {
-            builder.append(" | ").append(myIndexes[i]);
-        }
-        System.out.println(builder.toString());
-
         // 绘制出Bitmap
         myWidget.drawOnBitmap(myBitmaps[iIndex], index);
         return myBitmaps[iIndex];

@@ -10,9 +10,9 @@ import com.baidu.tts.client.TtsMode;
  */
 public class TTSProvider {
 
-    private final String AppId = "16237949";
-    private final String AppKey = "BAn6205aD5Xb9TXgGbGGsxvH";
-    private final String AppSecret = "M2Luu4AGngce7W4tBeio2ZrEBRK123ek";
+    private static final String AppId = "16237949";
+    private static final String AppKey = "BAn6205aD5Xb9TXgGbGGsxvH";
+    private static final String AppSecret = "M2Luu4AGngce7W4tBeio2ZrEBRK123ek";
 
     public SpeechSynthesizer mSpeechSynthesizer = SpeechSynthesizer.getInstance();
 
@@ -20,7 +20,7 @@ public class TTSProvider {
         mSpeechSynthesizer.setAppId(AppId);
         mSpeechSynthesizer.setApiKey(AppKey, AppSecret);
         mSpeechSynthesizer.setContext(context);
-        mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_SPEAKER, "3");
+        mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_SPEAKER, "5");
         mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_SPEED, "5");
         mSpeechSynthesizer.initTts(TtsMode.MIX);
     }
