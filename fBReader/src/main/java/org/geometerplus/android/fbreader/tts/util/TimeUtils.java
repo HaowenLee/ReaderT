@@ -16,6 +16,8 @@ public class TimeUtils {
         int second = 0;
         if (speed == 5) {
             second = wordCount * 201 / 1000;
+        } else if (speed == 15) {
+            second = wordCount * 122 / 1000;
         }
         return second2Time(second);
     }

@@ -740,7 +740,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                     // 进度更新
                     audioProgress.setProgress(second);
 
-                    tvPosition.setText(TimeUtils.getTimeByWordCount(second, 5));
+                    tvPosition.setText(TimeUtils.getTimeByWordCount(second, 15));
                 });
 
                 String[] split = tag.split("-");
@@ -1066,7 +1066,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         }
 
         audioProgress.setMax(paragraphBuilder.toString().length());
-        tvDuration.setText(TimeUtils.getTimeByWordCount(paragraphBuilder.toString().length(), 5));
+        tvDuration.setText(TimeUtils.getTimeByWordCount(paragraphBuilder.toString().length(), 15));
     }
 
     /**
