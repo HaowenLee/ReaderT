@@ -26,8 +26,10 @@ public class TTSProvider {
         mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_SPEED, "15");
         mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_MIX_MODE, SpeechSynthesizer.MIX_MODE_HIGH_SPEED_NETWORK);
         mSpeechSynthesizer.initTts(TtsMode.ONLINE);
+    }
 
-        //initTTSListener();
+    public void setTTSListener(SpeechSynthesizerListener listener) {
+        mSpeechSynthesizer.setSpeechSynthesizerListener(listener);
     }
 
     private void initTTSListener() {
