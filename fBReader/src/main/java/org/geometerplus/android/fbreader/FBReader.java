@@ -74,6 +74,9 @@ import org.geometerplus.android.fbreader.httpd.DataService;
 import org.geometerplus.android.fbreader.libraryService.BookCollectionShadow;
 import org.geometerplus.android.fbreader.sync.SyncOperations;
 import org.geometerplus.android.fbreader.tips.TipsActivity;
+import org.geometerplus.android.fbreader.tts.TTSHelper;
+import org.geometerplus.android.fbreader.tts.TTSPlayer;
+import org.geometerplus.android.fbreader.tts.TTSPlayerCallback;
 import org.geometerplus.android.fbreader.tts.TTSProvider;
 import org.geometerplus.android.fbreader.tts.util.TimeUtils;
 import org.geometerplus.android.fbreader.ui.BookMarkFragment;
@@ -705,107 +708,14 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             }
         });
 
-        // TTS的状态回调
-        ttsProvider.mSpeechSynthesizer.setSpeechSynthesizerListener(new SpeechSynthesizerListener() {
-            @Override
-            public void onSynthesizeStart(String s) {
-
-            }
-
-            @Override
-            public void onSynthesizeDataArrived(String s, byte[] bytes, int i) {
-
-            }
-
-            @Override
-            public void onSynthesizeFinish(String s) {
-
-            }
-
-            @Override
-            public void onSpeechStart(String tag) {
-                // 进度
-                Pair<String, Boolean> itemText = textMap.get(tag);
-                if (itemText != null) {
-                    startTime = System.currentTimeMillis();
-                }
-            }
-
-            @Override
-            public void onSpeechProgressChanged(String tag, int progress) {
-
-                int second = readBuilder.toString().length() + progress;
-
-                runOnUiThread(() -> {
-                    // 进度更新
-                    audioProgress.setProgress(second);
-
-                    tvPosition.setText(TimeUtils.getTimeByWordCount(second, 15));
-                });
-
-                String[] split = tag.split("-");
-                if (split.length < 3) {
-                    return;
-                }
-                Pair<String, Boolean> itemText = textMap.get(tag);
-                if (itemText == null) {
-                    return;
-                }
-                // 如果已经标记过就算了
-                Boolean isPlayed = itemText.second;
-                if (isPlayed == null || isPlayed) {
-                    return;
-                }
-                myFBReaderApp.getTextView().highlight(new ZLTextFixedPosition(Integer.parseInt(split[0]), Integer.parseInt(split[1]), 0),
-                        new ZLTextFixedPosition(Integer.parseInt(split[0]), Integer.parseInt(split[2]), 0));
-                textMap.put(tag, new Pair<>(itemText.first, true));
-                // 翻页
-                int endPIndex = myFBReaderApp.getTextView().getEndCursor().getParagraphIndex();
-                int endEIndex = myFBReaderApp.getTextView().getEndCursor().getElementIndex();
-
-                // 判断是否是本页的最后
-                if (Integer.parseInt(split[0]) == endPIndex && Integer.parseInt(split[2]) > endEIndex) {
-                    myFBReaderApp.runAction(ActionCode.TURN_PAGE_FORWARD);
-                }
-            }
-
-            @Override
-            public void onSpeechFinish(String tag) {
-                // 章节末尾
-                if (TextUtils.equals(tag, lastTag)) {
-                    myFBReaderApp.runAction(ActionCode.TURN_PAGE_FORWARD);
-                    // 读下一段
-                    splitText(lastParagraphIndex, myFBReaderApp.Model.getTextModel(),
-                            myFBReaderApp.getTextView().getStartCursor(), false);
-                }
-
-                // 进度
-                Pair<String, Boolean> itemText = textMap.get(tag);
-                long currentTime = System.currentTimeMillis();
-                if (itemText != null) {
-                    readBuilder.append(itemText.first);
-                    Log.d("时间关系：", "文字内容： " + itemText.first + "  字数： " +
-                            itemText.first.length() + "  时长： " +
-                            (currentTime - startTime) + "  平均时长（毫秒/字）:" + (currentTime - startTime) / itemText.first.length());
-                    if((currentTime - startTime) / itemText.first.length() > 500){
-                        return;
-                    }
-                    totalCount++;
-                    totalTime += (currentTime - startTime) / itemText.first.length();
-                    Log.e("平均时长:", "数量： " + totalCount + "  平均值：" + totalTime / totalCount);
-                }
-            }
-
-            @Override
-            public void onError(String s, SpeechError speechError) {
-            }
-        });
-
         gotoTTS.setOnClickListener(v -> {
-            if (myFBReaderApp.getCurrentTOCElement() != null) {
-                splitText(myFBReaderApp.getCurrentTOCElement().getReference().ParagraphIndex,
-                        myFBReaderApp.Model.getTextModel(), myFBReaderApp.getTextView().getStartCursor(), true);
-            }
+            TTSPlayer ttsPlayer = new TTSPlayer(this, myFBReaderApp);
+            ttsPlayer.setPlayCallback((currentPosition, duration) ->
+                    runOnUiThread(() -> {
+                        tvPosition.setText(TimeUtils.millis2Time(currentPosition));
+                        tvDuration.setText(TimeUtils.millis2Time(duration));
+                    }));
+            ttsPlayer.process();
             AnimationHelper.closeBottomMenu(firstMenu);
             AnimationHelper.closeBottomMenu(menuTop);
             AnimationHelper.closePreview(myMainView);
@@ -957,6 +867,113 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
     }
 
     /**
+     * 设置封面
+     */
+    private void setCover(ImageView coverView, ZLImage image) {
+        final ZLAndroidImageData data =
+                ((ZLAndroidImageManager) ZLAndroidImageManager.Instance()).getImageData(image);
+        if (data == null) {
+            return;
+        }
+
+        final DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        final Bitmap coverBitmap = data.getBitmap((int) getResources().getDisplayMetrics().density * 56,
+                (int) getResources().getDisplayMetrics().density * 74);
+        if (coverBitmap == null) {
+            return;
+        }
+
+        coverView.setImageBitmap(coverBitmap);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        getCollection().bindToService(this, () -> {
+            new Thread() {
+                public void run() {
+                    getPostponedInitAction().run();
+                }
+            }.start();
+
+            myFBReaderApp.getViewWidget().repaint();
+        });
+
+        initPluginActions();
+
+        final ZLAndroidLibrary zLibrary = getZLibrary();
+
+        Config.Instance().runOnConnect(() -> {
+            final boolean showStatusBar = zLibrary.ShowStatusBarOption.getValue();
+            if (showStatusBar != myShowStatusBarFlag) {
+                finish();
+                startActivity(new Intent(FBReader.this, FBReader.class));
+            }
+            zLibrary.ShowStatusBarOption.saveSpecialValue();
+            myFBReaderApp.ViewOptions.ColorProfileName.saveSpecialValue();
+            SetScreenOrientationAction.setOrientation(FBReader.this, zLibrary.getOrientationOption().getValue());
+        });
+
+        ((PopupPanel) myFBReaderApp.getPopupById(TextSearchPopup.ID)).setPanelInfo(this, myRootView);
+        ((NavigationPopup) myFBReaderApp.getPopupById(NavigationPopup.ID)).setPanelInfo(this, myRootView);
+        ((PopupPanel) myFBReaderApp.getPopupById(SelectionPopup.ID)).setPanelInfo(this, myRootView);
+    }
+
+    private Runnable getPostponedInitAction() {
+        return () -> runOnUiThread(() -> {
+            new TipRunner().start();
+            DictionaryUtil.init(FBReader.this, null);
+            final Intent intent = getIntent();
+            if (intent != null && FBReaderIntents.Action.PLUGIN.equals(intent.getAction())) {
+                new RunPluginAction(FBReader.this, myFBReaderApp, intent.getData()).run();
+            }
+        });
+    }
+
+    private void initPluginActions() {
+        synchronized (myPluginActions) {
+            int index = 0;
+            while (index < myPluginActions.size()) {
+                myFBReaderApp.removeAction(PLUGIN_ACTION_PREFIX + index++);
+            }
+            myPluginActions.clear();
+        }
+
+        sendOrderedBroadcast(
+                new Intent(PluginApi.ACTION_REGISTER),
+                null,
+                myPluginInfoReceiver,
+                null,
+                RESULT_OK,
+                null,
+                null
+        );
+    }
+
+    @Override
+    protected void onStop() {
+        ApiServerImplementation.sendEvent(this, ApiListener.EVENT_READ_MODE_CLOSED);
+        // TODO: 2019/5/9 移除后状态恢复有问题
+        // PopupPanel.removeAllWindows(myFBReaderApp, this);
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        getCollection().unbind();
+        unbindService(DataConnection);
+        super.onDestroy();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return (myMainView != null && myMainView.onKeyDown(keyCode, event)) || super.onKeyDown(keyCode, event);
+    }
+
+    /**
      * 文本分割
      *
      * @param paragraphIndex 该章节的起始段落索引
@@ -1067,113 +1084,6 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 
         audioProgress.setMax(paragraphBuilder.toString().length());
         tvDuration.setText(TimeUtils.getTimeByWordCount(paragraphBuilder.toString().length(), 15));
-    }
-
-    /**
-     * 设置封面
-     */
-    private void setCover(ImageView coverView, ZLImage image) {
-        final ZLAndroidImageData data =
-                ((ZLAndroidImageManager) ZLAndroidImageManager.Instance()).getImageData(image);
-        if (data == null) {
-            return;
-        }
-
-        final DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-
-        final Bitmap coverBitmap = data.getBitmap((int) getResources().getDisplayMetrics().density * 56,
-                (int) getResources().getDisplayMetrics().density * 74);
-        if (coverBitmap == null) {
-            return;
-        }
-
-        coverView.setImageBitmap(coverBitmap);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        getCollection().bindToService(this, () -> {
-            new Thread() {
-                public void run() {
-                    getPostponedInitAction().run();
-                }
-            }.start();
-
-            myFBReaderApp.getViewWidget().repaint();
-        });
-
-        initPluginActions();
-
-        final ZLAndroidLibrary zLibrary = getZLibrary();
-
-        Config.Instance().runOnConnect(() -> {
-            final boolean showStatusBar = zLibrary.ShowStatusBarOption.getValue();
-            if (showStatusBar != myShowStatusBarFlag) {
-                finish();
-                startActivity(new Intent(FBReader.this, FBReader.class));
-            }
-            zLibrary.ShowStatusBarOption.saveSpecialValue();
-            myFBReaderApp.ViewOptions.ColorProfileName.saveSpecialValue();
-            SetScreenOrientationAction.setOrientation(FBReader.this, zLibrary.getOrientationOption().getValue());
-        });
-
-        ((PopupPanel) myFBReaderApp.getPopupById(TextSearchPopup.ID)).setPanelInfo(this, myRootView);
-        ((NavigationPopup) myFBReaderApp.getPopupById(NavigationPopup.ID)).setPanelInfo(this, myRootView);
-        ((PopupPanel) myFBReaderApp.getPopupById(SelectionPopup.ID)).setPanelInfo(this, myRootView);
-    }
-
-    private Runnable getPostponedInitAction() {
-        return () -> runOnUiThread(() -> {
-            new TipRunner().start();
-            DictionaryUtil.init(FBReader.this, null);
-            final Intent intent = getIntent();
-            if (intent != null && FBReaderIntents.Action.PLUGIN.equals(intent.getAction())) {
-                new RunPluginAction(FBReader.this, myFBReaderApp, intent.getData()).run();
-            }
-        });
-    }
-
-    private void initPluginActions() {
-        synchronized (myPluginActions) {
-            int index = 0;
-            while (index < myPluginActions.size()) {
-                myFBReaderApp.removeAction(PLUGIN_ACTION_PREFIX + index++);
-            }
-            myPluginActions.clear();
-        }
-
-        sendOrderedBroadcast(
-                new Intent(PluginApi.ACTION_REGISTER),
-                null,
-                myPluginInfoReceiver,
-                null,
-                RESULT_OK,
-                null,
-                null
-        );
-    }
-
-    @Override
-    protected void onStop() {
-        ApiServerImplementation.sendEvent(this, ApiListener.EVENT_READ_MODE_CLOSED);
-        // TODO: 2019/5/9 移除后状态恢复有问题
-        // PopupPanel.removeAllWindows(myFBReaderApp, this);
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        getCollection().unbind();
-        unbindService(DataConnection);
-        super.onDestroy();
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        return (myMainView != null && myMainView.onKeyDown(keyCode, event)) || super.onKeyDown(keyCode, event);
     }
 
     @Override

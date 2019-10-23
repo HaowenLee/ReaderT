@@ -1,5 +1,7 @@
 package org.geometerplus.android.fbreader.tts;
 
+import java.util.HashMap;
+
 /**
  * ================================================
  * 作    者：Herve、Li
@@ -11,11 +13,16 @@ package org.geometerplus.android.fbreader.tts;
 public interface TTSReader {
 
     /**
+     * 处理文字内容
+     */
+    void processText();
+
+    /**
      * 总的文字数量（带标点）
      *
      * @return 总的文字数量（带标点）
      */
-    long getTotalCount();
+    int getTotalCount();
 
     /**
      * 获取当前的文字内容
@@ -37,4 +44,11 @@ public interface TTSReader {
      * @return 后一个章节的文字内容
      */
     long getNextText();
+
+    /**
+     * 获取当前语音合成的集合
+     *
+     * @return 前语音合成的集合
+     */
+    HashMap<String, String> getCurrentTextMap();
 }

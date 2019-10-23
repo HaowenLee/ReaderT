@@ -2,7 +2,7 @@ package org.geometerplus.android.fbreader.tts;
 
 public interface IPlayer {
 
-    void start();
+    int getDuration();
 
-    void pause();
+    int getCurrentPosition();
 }

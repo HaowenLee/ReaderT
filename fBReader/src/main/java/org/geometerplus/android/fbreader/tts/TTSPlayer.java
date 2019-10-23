@@ -6,6 +6,12 @@ import android.util.Log;
 import com.baidu.tts.client.SpeechError;
 import com.baidu.tts.client.SpeechSynthesizerListener;
 
+import org.geometerplus.android.fbreader.tts.util.TimeUtils;
+import org.geometerplus.fbreader.fbreader.FBReaderApp;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 
 /**
  * 语音合成播放
@@ -15,31 +21,25 @@ public class TTSPlayer implements IPlayer {
     public static final String TAG = "TTSPlayer";
 
     /**
-     * 总字符数
-     */
-    private long totalCount;
-    /**
-     * 起始的字符数（即该句之前的字符数）
-     */
-    private long startCount;
-    /**
-     * 当前已播放的字符数
-     */
-    private long currentCount;
-
-    /**
      * 语音合成提供者
      */
     private TTSProvider ttsProvider;
+    /**
+     * TTSReader帮助类
+     */
+    private TTSHelper ttsHelper;
+    /**
+     * 当前位置
+     */
+    private int currentPosition;
+    /**
+     * 播放的回调
+     */
+    private TTSPlayerCallback mPlayCallback;
 
-    @Override
-    public void start() {
-
-    }
-
-    @Override
-    public void pause() {
-
+    public TTSPlayer(Context context, FBReaderApp fbReaderApp) {
+        ttsHelper = new TTSHelper(fbReaderApp);
+        init(context);
     }
 
     /**
@@ -57,7 +57,6 @@ public class TTSPlayer implements IPlayer {
              */
             @Override
             public void onSynthesizeStart(String utteranceId) {
-                Log.i(TAG, "语音合成开始");
             }
 
             /**
@@ -65,6 +64,7 @@ public class TTSPlayer implements IPlayer {
              */
             @Override
             public void onSynthesizeDataArrived(String utteranceId, byte[] audioData, int progress) {
+
             }
 
             /**
@@ -72,7 +72,6 @@ public class TTSPlayer implements IPlayer {
              */
             @Override
             public void onSynthesizeFinish(String utteranceId) {
-                Log.i(TAG, "语音合成结束");
             }
 
             /**
@@ -80,7 +79,7 @@ public class TTSPlayer implements IPlayer {
              */
             @Override
             public void onSpeechStart(String utteranceId) {
-                Log.i(TAG, "语音播放开始");
+                ttsHelper.start(utteranceId);
             }
 
             /**
@@ -90,8 +89,13 @@ public class TTSPlayer implements IPlayer {
              */
             @Override
             public void onSpeechProgressChanged(String utteranceId, int progress) {
-                currentCount = startCount + progress;
-
+                // 更新进度
+                updatePosition(progress);
+                // UI进度更新（外部回调）
+                mPlayCallback.onProgressUpdate(TimeUtils.getTimeMillis(currentPosition, 5),
+                        TimeUtils.getTimeMillis(ttsHelper.getTotalCount(), 5));
+                // 翻页
+                ttsHelper.highlight(utteranceId);
             }
 
             /**
@@ -99,7 +103,7 @@ public class TTSPlayer implements IPlayer {
              */
             @Override
             public void onSpeechFinish(String utteranceId) {
-                Log.i(TAG, "语音播放结束");
+                ttsHelper.finish(utteranceId);
             }
 
             /**
@@ -112,5 +116,46 @@ public class TTSPlayer implements IPlayer {
                         "错误描述（" + speechError.description + "）");
             }
         });
+    }
+
+    /**
+     * 更新当前的进度
+     *
+     * @param progress 该句中的进度
+     */
+    private void updatePosition(int progress) {
+        currentPosition = ttsHelper.getStartIndex() + progress;
+    }
+
+    /**
+     * 处理文本内容
+     */
+    public void process() {
+        ttsHelper.processText();
+        synthesise();
+    }
+
+    /**
+     * 语音合成
+     */
+    private void synthesise() {
+        LinkedHashMap<String, String> map = ttsHelper.getCurrentTextMap();
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            ttsProvider.mSpeechSynthesizer.speak(entry.getValue(), entry.getKey());
+        }
+    }
+
+    @Override
+    public int getDuration() {
+        return 0;
+    }
+
+    @Override
+    public int getCurrentPosition() {
+        return 0;
+    }
+
+    public void setPlayCallback(TTSPlayerCallback callback) {
+        this.mPlayCallback = callback;
     }
 }

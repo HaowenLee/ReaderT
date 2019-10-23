@@ -13,13 +13,12 @@ public class TimeUtils {
      * @return 格式化的时长格式（mm:ss）
      */
     public static String getTimeByWordCount(int wordCount, float speed) {
-        int second = 0;
-        if (speed == 5) {
-            second = wordCount * 201 / 1000;
-        } else if (speed == 15) {
-            second = wordCount * 122 / 1000;
-        }
+        int second = getTimeMillis(wordCount,speed) / 1000;
         return second2Time(second);
+    }
+
+    public static String millis2Time(int millis){
+        return second2Time(millis / 1000);
     }
 
     /**
@@ -28,7 +27,7 @@ public class TimeUtils {
      * @param count 秒
      * @return 时间字符串格式（mm:ss）
      */
-    private static String second2Time(int count) {
+    public static String second2Time(int count) {
         StringBuilder builder = new StringBuilder();
         int minute = count / 60;
         int second = count % 60;
@@ -45,5 +44,22 @@ public class TimeUtils {
             builder.append(0).append(second);
         }
         return builder.toString();
+    }
+
+    /**
+     * 计算后所得时间毫秒
+     *
+     * @param wordCount 字数
+     * @param speed     语速（百度语音）
+     * @return 计算后所得时间毫秒
+     */
+    public static int getTimeMillis(int wordCount, float speed) {
+        int second = 0;
+        if (speed == 5) {
+            second = wordCount * 201;
+        } else if (speed == 15) {
+            second = wordCount * 122;
+        }
+        return second;
     }
 }
