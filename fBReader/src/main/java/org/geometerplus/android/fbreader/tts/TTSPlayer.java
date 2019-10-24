@@ -4,14 +4,12 @@ import android.content.Context;
 import android.util.Log;
 
 import com.baidu.tts.client.SpeechError;
-import com.baidu.tts.client.SpeechSynthesizeBag;
 import com.baidu.tts.client.SpeechSynthesizerListener;
 
 import org.geometerplus.android.fbreader.tts.util.TimeUtils;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 
