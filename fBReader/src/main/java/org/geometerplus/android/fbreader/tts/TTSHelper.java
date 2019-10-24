@@ -41,7 +41,7 @@ public class TTSHelper implements TTSReader {
      * 总字符数
      */
     private int totalCount;
-    private int totalWordcount;
+    private int totalWordCount;
     /**
      * 下一个章节的起始段落索引
      */
@@ -60,20 +60,25 @@ public class TTSHelper implements TTSReader {
      */
     private long startTime = 0;
     private int totalTime = 0;
+    private OnProcessComplete onProcessComplete;
 
     /**
      * 构造函数
      *
      * @param myFBReaderApp FBReaderApp
      */
-    public TTSHelper(FBReaderApp myFBReaderApp) {
+    TTSHelper(FBReaderApp myFBReaderApp) {
         this.myFBReaderApp = myFBReaderApp;
+    }
+
+    public void processText() {
+        processText(-1);
     }
 
     /**
      * 处理文字内容
      */
-    public void processText() {
+    public void processText(int paragraphIndex) {
         // 无效判断
         if (myFBReaderApp == null || myFBReaderApp.getCurrentTOCElement() == null ||
                 myFBReaderApp.getCurrentTOCElement().getReference() == null || myFBReaderApp.Model == null ||
@@ -85,7 +90,9 @@ public class TTSHelper implements TTSReader {
         sectionBuilder.setLength(0);
 
         // 章节的起始段落索引
-        int paragraphIndex = myFBReaderApp.getCurrentTOCElement().getReference().ParagraphIndex;
+        if (paragraphIndex == -1) {
+            paragraphIndex = myFBReaderApp.getCurrentTOCElement().getReference().ParagraphIndex;
+        }
 
         // 起始段索引，和元素索引
         int currentPIndex = myFBReaderApp.getTextView().getStartCursor().getParagraphIndex();
@@ -96,6 +103,10 @@ public class TTSHelper implements TTSReader {
 
         // 是否断句了，断句则重置起始信息
         boolean isPunctuation = false;
+
+        // 清空内容
+        textMap.clear();
+        currentTextMap.clear();
 
         // 语句的Builder
         StringBuilder builder = new StringBuilder();
@@ -185,12 +196,16 @@ public class TTSHelper implements TTSReader {
         }
 
         // 计算相关数据
-        totalWordcount = paragraphBuilder.length();
+        totalWordCount = paragraphBuilder.length();
+
+        if (onProcessComplete != null) {
+            onProcessComplete.onComplete();
+        }
     }
 
     @Override
     public int getTotalCount() {
-        return totalWordcount;
+        return totalWordCount;
     }
 
     @Override
@@ -245,18 +260,18 @@ public class TTSHelper implements TTSReader {
 
         // 判断是否是本页的最后
         if (Integer.parseInt(split[0]) == endPIndex && Integer.parseInt(split[2]) > endEIndex) {
-            turnPage();
+            turnNextPage();
         }
     }
 
     /**
      * 翻到下一页
      */
-    private void turnPage() {
+    private void turnNextPage() {
         myFBReaderApp.runAction(ActionCode.TURN_PAGE_FORWARD);
     }
 
-    public void start(String utteranceId){
+    public void start(String utteranceId) {
         // 进度
         Pair<String, Boolean> itemText = textMap.get(utteranceId);
         if (itemText != null) {
@@ -269,7 +284,7 @@ public class TTSHelper implements TTSReader {
         if (TextUtils.equals(utteranceId, lastTag)) {
             myFBReaderApp.runAction(ActionCode.TURN_PAGE_FORWARD);
             // 读下一段
-            // TODO: 2019/10/23 下一段
+            processText(lastParagraphIndex);
         }
 
         // 进度
@@ -287,5 +302,13 @@ public class TTSHelper implements TTSReader {
             totalTime += (currentTime - startTime) / itemText.first.length();
             Log.d("平均时长:", "数量： " + totalCount + "  平均值：" + totalTime / totalCount);
         }
+    }
+
+    void setOnProcessComplete(OnProcessComplete onProcessComplete) {
+        this.onProcessComplete = onProcessComplete;
+    }
+
+    public interface OnProcessComplete {
+        void onComplete();
     }
 }

@@ -32,13 +32,16 @@
         android:id="@+id/audioProgress"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:indeterminateOnly="false"
-        android:max="100"
-        android:progress="50"
+        android:maxHeight="2dp"
+        android:minHeight="2dp"
+        android:progressDrawable="@drawable/reader_progress_bar_bg"
+        android:splitTrack="false"
+        android:thumb="@drawable/reader_seek_bar_thumb"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/tvDuration"
         app:layout_constraintStart_toEndOf="@id/tvPosition"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:progress="30" />
 
     <TextView
         android:id="@+id/tvDuration"

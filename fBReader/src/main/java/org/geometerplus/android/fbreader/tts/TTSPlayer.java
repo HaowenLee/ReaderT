@@ -4,12 +4,14 @@ import android.content.Context;
 import android.util.Log;
 
 import com.baidu.tts.client.SpeechError;
+import com.baidu.tts.client.SpeechSynthesizeBag;
 import com.baidu.tts.client.SpeechSynthesizerListener;
 
 import org.geometerplus.android.fbreader.tts.util.TimeUtils;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -92,8 +94,8 @@ public class TTSPlayer implements IPlayer {
                 // 更新进度
                 updatePosition(progress);
                 // UI进度更新（外部回调）
-                mPlayCallback.onProgressUpdate(TimeUtils.getTimeMillis(currentPosition, 5),
-                        TimeUtils.getTimeMillis(ttsHelper.getTotalCount(), 5));
+                mPlayCallback.onProgressUpdate(TimeUtils.getTimeMillis(currentPosition, TTSProvider.SPEED),
+                        TimeUtils.getTimeMillis(ttsHelper.getTotalCount(), TTSProvider.SPEED));
                 // 翻页
                 ttsHelper.highlight(utteranceId);
             }
@@ -116,6 +118,8 @@ public class TTSPlayer implements IPlayer {
                         "错误描述（" + speechError.description + "）");
             }
         });
+
+        ttsHelper.setOnProcessComplete(this::synthesise);
     }
 
     /**
@@ -132,7 +136,6 @@ public class TTSPlayer implements IPlayer {
      */
     public void process() {
         ttsHelper.processText();
-        synthesise();
     }
 
     /**
@@ -147,12 +150,12 @@ public class TTSPlayer implements IPlayer {
 
     @Override
     public int getDuration() {
-        return 0;
+        return TimeUtils.getTimeMillis(currentPosition, TTSProvider.SPEED);
     }
 
     @Override
     public int getCurrentPosition() {
-        return 0;
+        return TimeUtils.getTimeMillis(ttsHelper.getTotalCount(), TTSProvider.SPEED);
     }
 
     public void setPlayCallback(TTSPlayerCallback callback) {

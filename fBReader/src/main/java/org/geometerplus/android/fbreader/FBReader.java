@@ -33,17 +33,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
-
-import com.google.android.material.tabs.TabLayout;
-
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-
-import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -53,15 +43,18 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.baidu.tts.client.SpeechError;
-import com.baidu.tts.client.SpeechSynthesizerListener;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
 
 import org.geometerplus.android.fbreader.api.ApiListener;
 import org.geometerplus.android.fbreader.api.ApiServerImplementation;
@@ -74,9 +67,7 @@ import org.geometerplus.android.fbreader.httpd.DataService;
 import org.geometerplus.android.fbreader.libraryService.BookCollectionShadow;
 import org.geometerplus.android.fbreader.sync.SyncOperations;
 import org.geometerplus.android.fbreader.tips.TipsActivity;
-import org.geometerplus.android.fbreader.tts.TTSHelper;
 import org.geometerplus.android.fbreader.tts.TTSPlayer;
-import org.geometerplus.android.fbreader.tts.TTSPlayerCallback;
 import org.geometerplus.android.fbreader.tts.TTSProvider;
 import org.geometerplus.android.fbreader.tts.util.TimeUtils;
 import org.geometerplus.android.fbreader.ui.BookMarkFragment;
@@ -111,14 +102,8 @@ import org.geometerplus.zlibrary.core.library.ZLibrary;
 import org.geometerplus.zlibrary.core.options.Config;
 import org.geometerplus.zlibrary.core.resources.ZLResource;
 import org.geometerplus.zlibrary.core.view.ZLViewWidget;
-import org.geometerplus.zlibrary.text.model.ZLTextModel;
-import org.geometerplus.zlibrary.text.view.ZLTextElement;
-import org.geometerplus.zlibrary.text.view.ZLTextFixedPosition;
-import org.geometerplus.zlibrary.text.view.ZLTextParagraphCursor;
 import org.geometerplus.zlibrary.text.view.ZLTextRegion;
 import org.geometerplus.zlibrary.text.view.ZLTextView;
-import org.geometerplus.zlibrary.text.view.ZLTextWord;
-import org.geometerplus.zlibrary.text.view.ZLTextWordCursor;
 import org.geometerplus.zlibrary.ui.android.R;
 import org.geometerplus.zlibrary.ui.android.error.ErrorKeys;
 import org.geometerplus.zlibrary.ui.android.image.ZLAndroidImageData;
@@ -281,6 +266,10 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
     private long startTime = 0;
     private int totalCount = 0;
     private int totalTime = 0;
+    /**
+     * 语音合成播放器
+     */
+    private TTSPlayer ttsPlayer;
 
     public static void openBookActivity(Context context, Book book, Bookmark bookmark) {
         final Intent intent = defaultIntent(context);
@@ -416,6 +405,8 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
                         myFBReaderApp.openBook(null, null, null, myNotifier));
             }
         }
+
+        ttsPlayer = new TTSPlayer(this, myFBReaderApp);
     }
 
     /**
@@ -709,11 +700,12 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         });
 
         gotoTTS.setOnClickListener(v -> {
-            TTSPlayer ttsPlayer = new TTSPlayer(this, myFBReaderApp);
             ttsPlayer.setPlayCallback((currentPosition, duration) ->
                     runOnUiThread(() -> {
                         tvPosition.setText(TimeUtils.millis2Time(currentPosition));
                         tvDuration.setText(TimeUtils.millis2Time(duration));
+                        audioProgress.setMax(duration);
+                        audioProgress.setProgress(currentPosition);
                     }));
             ttsPlayer.process();
             AnimationHelper.closeBottomMenu(firstMenu);
@@ -971,119 +963,6 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         return (myMainView != null && myMainView.onKeyDown(keyCode, event)) || super.onKeyDown(keyCode, event);
-    }
-
-    /**
-     * 文本分割
-     *
-     * @param paragraphIndex 该章节的起始段落索引
-     * @param textModel      ZLTextModel
-     * @param textWordCursor ZLTextWordCursor
-     * @param isMiddle       是否是中间的内容
-     */
-    private void splitText(int paragraphIndex, ZLTextModel textModel, ZLTextWordCursor textWordCursor, boolean isMiddle) {
-        if (paragraphIndex < 0 || textModel == null || textWordCursor == null) {
-            return;
-        }
-
-        readBuilder.setLength(0);
-        totalCount = 0;
-        totalTime = 0;
-
-        // 起始段索引，和元素索引
-        int currentPIndex = textWordCursor.getParagraphIndex();
-        int currentEIndex = textWordCursor.getElementIndex();
-
-        int pIndex;
-        int startEIndex;
-        int endEIndex;
-        boolean isChange = false;
-        // 清空内容
-        textMap.clear();
-        StringBuilder builder = new StringBuilder();
-        StringBuilder paragraphBuilder = new StringBuilder();
-        // 段落游标
-        ZLTextParagraphCursor zlTextParagraphCursor = new ZLTextParagraphCursor(textModel, paragraphIndex);
-        // 如果不是章节结束
-        while (!zlTextParagraphCursor.isEndOfSection()) {
-            final ZLTextWordCursor cursor;
-            if (isMiddle) {
-                cursor = new ZLTextWordCursor(zlTextParagraphCursor);
-            } else {
-                cursor = new ZLTextWordCursor(zlTextParagraphCursor);
-            }
-            pIndex = zlTextParagraphCursor.Index;
-            // 移动到章节起始段落
-            //cursor.moveToParagraph(zlTextParagraphCursor.Index);
-            // 段落起始
-            //cursor.moveToParagraphStart();
-            builder.setLength(0);
-            // 开始元素位置索引
-            startEIndex = cursor.getElementIndex();
-
-            // 如果不是段落最后
-            while (!cursor.isEndOfParagraph()) {
-                // 元素
-                ZLTextElement element = cursor.getElement();
-                if (element instanceof ZLTextWord) {
-                    // 该页面起始之前的都不记录
-                    if (pIndex <= currentPIndex && startEIndex < currentEIndex && isMiddle) {
-                        builder.setLength(0);
-                        // 游标右移
-                        cursor.nextWord();
-                        startEIndex = cursor.getElementIndex();
-                        isChange = false;
-                        readBuilder.append(element);
-                        continue;
-                    }
-                    builder.append(element);
-                    paragraphBuilder.append(element);
-                    // 以标点符号断句
-                    if (element.toString().matches(".*[。？！;；，!]+.*")) {
-                        // 结束元素位置索引
-                        endEIndex = cursor.getElementIndex();
-                        String tag = pIndex + "-" + startEIndex + "-" + endEIndex;
-                        textMap.put(tag, new Pair<>(builder.toString(), false));
-                        lastTag = tag;
-                        // 当该页面之前的都算了
-                        if (pIndex < currentPIndex) {
-                            builder.setLength(0);
-                            // 游标右移
-                            cursor.nextWord();
-                            startEIndex = cursor.getElementIndex();
-                            isChange = false;
-                            continue;
-                        }
-                        ttsProvider.mSpeechSynthesizer.speak(builder.toString(), tag);
-                        builder.setLength(0);
-                        isChange = true;
-                    }
-                }
-                // 游标右移
-                cursor.nextWord();
-                if (isChange) {
-                    startEIndex = cursor.getElementIndex();
-                    isChange = false;
-                }
-            }
-            // 段落游标右移
-            zlTextParagraphCursor = zlTextParagraphCursor.next();
-            // 段落位置
-            if (zlTextParagraphCursor == null) {
-                break;
-            }
-        }
-
-        // 下一个段落
-        if (zlTextParagraphCursor != null) {
-            zlTextParagraphCursor = zlTextParagraphCursor.next();
-            if (zlTextParagraphCursor != null) {
-                lastParagraphIndex = zlTextParagraphCursor.Index;
-            }
-        }
-
-        audioProgress.setMax(paragraphBuilder.toString().length());
-        tvDuration.setText(TimeUtils.getTimeByWordCount(paragraphBuilder.toString().length(), 15));
     }
 
     @Override
