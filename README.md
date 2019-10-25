@@ -1,4 +1,4 @@
-# ReaderT
+# ReaderT（开发中...）
 
 基于[FBReaderJ](https://github.com/geometer/FBReaderJ)修改，仿得到AppUI效果的epub阅读器。
 
