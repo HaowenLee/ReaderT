@@ -24,7 +24,7 @@ public class TTSProvider {
     public SpeechSynthesizer mSpeechSynthesizer = SpeechSynthesizer.getInstance();
 
     public TTSProvider(Context context) {
-        LoggerProxy.printable(true);
+        LoggerProxy.printable(false);
         mSpeechSynthesizer.setAppId(AppId);
         mSpeechSynthesizer.setApiKey(AppKey, AppSecret);
         mSpeechSynthesizer.setContext(context);

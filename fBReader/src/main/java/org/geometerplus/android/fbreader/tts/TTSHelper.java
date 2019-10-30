@@ -251,16 +251,30 @@ public class TTSHelper implements TTSReader {
             return;
         }
 
+        System.out.println("位置" + utteranceId);
+
         myFBReaderApp.getTextView().highlight(new ZLTextFixedPosition(Integer.parseInt(split[0]), Integer.parseInt(split[1]), 0),
                 new ZLTextFixedPosition(Integer.parseInt(split[0]), Integer.parseInt(split[2]), 0));
         textMap.put(utteranceId, new Pair<>(itemText.first, true));
+
+        // 判断是否是本页的最后，并做自动翻页操作
+        checkPageCorrect(Integer.parseInt(split[0]), Integer.parseInt(split[2]));
+    }
+
+    /**
+     * 检查页面是否正确
+     *
+     * @param cPIndex 当前朗读位置-段落索引
+     * @param cCIndex 当前朗读位置-字符索引
+     */
+    private void checkPageCorrect(int cPIndex, int cCIndex) {
         // 翻页
         int endPIndex = myFBReaderApp.getTextView().getEndCursor().getParagraphIndex();
         int endEIndex = myFBReaderApp.getTextView().getEndCursor().getElementIndex();
-
-        // 判断是否是本页的最后
-        if (Integer.parseInt(split[0]) == endPIndex && Integer.parseInt(split[2]) > endEIndex) {
+        boolean isNeedTurnPage = (cPIndex == endPIndex && cCIndex > endEIndex) || cPIndex > endPIndex;
+        if (isNeedTurnPage) {
             turnNextPage();
+            checkPageCorrect(cPIndex, cCIndex);
         }
     }
 
