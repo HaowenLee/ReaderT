@@ -26,12 +26,16 @@ public class TimeUtils {
      */
     public static int getTimeMillis(int wordCount, float speed) {
         int second = 0;
-        if (speed == 5) {
-            second = wordCount * 201;
+        if (speed == 3) {
+            second = wordCount * 321;
+        } else if (speed == 5) {
+            second = wordCount * 233;
+        } else if (speed == 8) {
+            second = wordCount * 162;
         } else if (speed == 10) {
-            second = wordCount * 124;
+            second = wordCount * 144;
         } else if (speed == 15) {
-            second = wordCount * 122;
+            second = wordCount * 146;
         }
         return second;
     }

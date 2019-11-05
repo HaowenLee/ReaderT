@@ -142,7 +142,7 @@ public final class FBView extends ZLTextView {
     }
 
     @Override
-    protected String getTOCText(ZLTextWordCursor cursor) {
+    public String getTOCText(ZLTextWordCursor cursor) {
         int index = cursor.getParagraphIndex();
         if (cursor.isEndOfParagraph()) {
             ++index;

@@ -6,6 +6,7 @@
     android:versionName="2.5.10">
 
     <uses-sdk android:maxSdkVersion="10" />
+
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
@@ -31,7 +32,9 @@
             android:theme="@style/FBReader.Dialog">
             <intent-filter>
                 <action android:name="android.fbreader.action.ERROR" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:scheme="BookReadingException" />
             </intent-filter>
         </activity>
@@ -42,6 +45,11 @@
             android:label="FBReader crash"
             android:process=":crash"
             android:theme="@style/FBReader.Activity" />
+
+        <activity
+            android:name="org.geometerplus.android.fbreader.ui.TTSPlayerActivity"
+            android:theme="@style/FBReader.Activity" />
+
         <activity
             android:name="org.geometerplus.android.fbreader.crash.FixBooksDirectoryActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -50,7 +58,9 @@
             android:theme="@style/FBReader.Dialog">
             <intent-filter>
                 <action android:name="android.fbreader.action.CRASH" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:scheme="CachedCharStorageException" />
             </intent-filter>
         </activity>
@@ -62,12 +72,16 @@
             android:theme="@style/FBReader.Dialog">
             <intent-filter>
                 <action android:name="android.fbreader.action.CRASH" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:scheme="ExceptionInInitializerError" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.fbreader.action.CRASH" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:scheme="UnsatisfiedLinkError" />
             </intent-filter>
         </activity>
@@ -77,6 +91,7 @@
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.fbreader.action.API" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
@@ -90,28 +105,36 @@
             android:theme="@style/FBReader.Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.fbreader.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.fbreader.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:scheme="file" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:scheme="fbreader-action" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.fbreader.action.PLUGIN" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
@@ -132,6 +155,7 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
@@ -150,12 +174,14 @@
                 <data android:pathPattern=".*\\.cbr" />
                 <data android:pathPattern=".*\\.cbz" />
             </intent-filter>
-            <!--intent-filter>
+            <!--
+            intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="content" android:pathPattern=".*\\.fb2"/>
-            </intent-filter-->
+            </intent-filter
+            -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -190,10 +216,12 @@
 
             <intent-filter>
                 <action android:name="android.fbreader.action.CLOSE" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.fbreader.action.PLUGIN_CRASH" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -208,6 +236,7 @@
             android:theme="@style/FBReader.Dialog">
             <intent-filter>
                 <action android:name="android.fbreader.action.CANCEL_MENU" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -215,7 +244,6 @@
             android:name="org.geometerplus.android.fbreader.PluginListActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/FBReader.Dialog" />
-
         <activity
             android:name="org.geometerplus.android.fbreader.bookmark.BookmarksActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -225,11 +253,14 @@
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
+
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
+
             <intent-filter>
                 <action android:name="android.fbreader.action.BOOKMARKS" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -239,6 +270,7 @@
             android:theme="@style/FBReader.Dialog">
             <intent-filter>
                 <action android:name="android.fbreader.action.EDIT_BOOKMARK" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -248,10 +280,10 @@
             android:theme="@style/FBReader.Dialog">
             <intent-filter>
                 <action android:name="android.fbreader.action.EDIT_STYLES" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="org.geometerplus.android.fbreader.image.ImageViewActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -293,6 +325,7 @@
             android:theme="@style/FBReader.Activity">
             <intent-filter>
                 <action android:name="android.fbreader.action.BOOK_INFO" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -303,6 +336,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
+
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
@@ -316,8 +350,10 @@
             <meta-data
                 android:name="android.app.default_searchable"
                 android:value="org.geometerplus.android.fbreader.library.LibrarySearchActivity" />
+
             <intent-filter>
                 <action android:name="android.fbreader.action.LIBRARY" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -332,11 +368,14 @@
             android:theme="@style/FBReader.Activity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:scheme="fbreader-preferences" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.fbreader.action.PREFERENCES" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -446,6 +485,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
+
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
@@ -468,6 +508,7 @@
 
             <intent-filter>
                 <action android:name="android.fbreader.action.OPEN_NETWORK_CATALOG" />
+
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
@@ -479,6 +520,7 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.fbreader.action.NETWORK_LIBRARY" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -509,7 +551,9 @@
             android:theme="@style/FBReader.Dialog">
             <intent-filter>
                 <action android:name="android.fbreader.action.ADD_OPDS_CATALOG" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data
                     android:host="data.fbreader.org"
                     android:path="/add_catalog/editUrl"
@@ -527,14 +571,18 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.fbreader.action.ADD_OPDS_CATALOG_URL" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data
                     android:host="*"
                     android:scheme="http" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.fbreader.action.ADD_OPDS_CATALOG_URL" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data
                     android:host="*"
                     android:scheme="https" />
@@ -567,7 +615,9 @@
             android:theme="@style/FBReader.Activity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data
                     android:host="*"
                     android:scheme="litres-book" />
@@ -583,6 +633,7 @@
             android:process=":networkLibrary">
             <intent-filter>
                 <action android:name="android.fbreader.action.network.SIGNIN" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
@@ -619,20 +670,17 @@
             android:name="org.geometerplus.android.fbreader.preferences.background.PredefinedImages"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
             android:exported="false"
-            android:theme="@style/FBReader.Dialog" />
-        <!-- 文件夹列表 -->
+            android:theme="@style/FBReader.Dialog" /> <!-- 文件夹列表 -->
         <activity
             android:name="org.geometerplus.android.util.FolderListDialogActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
             android:exported="false"
-            android:theme="@style/FBReader.Dialog" />
-        <!-- 标签编辑 -->
+            android:theme="@style/FBReader.Dialog" /> <!-- 标签编辑 -->
         <activity
             android:name="org.geometerplus.android.util.EditTagsDialogActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
             android:exported="false"
-            android:theme="@style/FBReader.Dialog" />
-        <!-- 作者编辑 -->
+            android:theme="@style/FBReader.Dialog" /> <!-- 作者编辑 -->
         <activity
             android:name="org.geometerplus.android.util.EditAuthorsDialogActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
@@ -649,4 +697,5 @@
                 android:resource="@xml/provider_paths" />
         </provider>
     </application>
+
 </manifest>

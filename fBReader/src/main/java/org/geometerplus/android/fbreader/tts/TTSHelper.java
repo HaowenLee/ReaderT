@@ -1,5 +1,8 @@
 package org.geometerplus.android.fbreader.tts;
 
+import android.annotation.SuppressLint;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
@@ -274,9 +277,25 @@ public class TTSHelper implements TTSReader {
         boolean isNeedTurnPage = (cPIndex == endPIndex && cCIndex > endEIndex) || cPIndex > endPIndex;
         if (isNeedTurnPage) {
             turnNextPage();
-            checkPageCorrect(cPIndex, cCIndex);
+            Message msg = new Message();
+            msg.what = 888;
+            msg.arg1 = cPIndex;
+            msg.arg2 = cCIndex;
+            mHandler.removeMessages(888);
+            mHandler.sendMessageDelayed(msg,50);
         }
     }
+
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if(msg.what == 888){
+                checkPageCorrect(msg.arg1,msg.arg2);
+            }
+        }
+    };
 
     /**
      * 翻到下一页

@@ -34,7 +34,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.util.DisplayMetrics;
-import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -68,11 +67,11 @@ import org.geometerplus.android.fbreader.libraryService.BookCollectionShadow;
 import org.geometerplus.android.fbreader.sync.SyncOperations;
 import org.geometerplus.android.fbreader.tips.TipsActivity;
 import org.geometerplus.android.fbreader.tts.TTSPlayer;
-import org.geometerplus.android.fbreader.tts.TTSProvider;
 import org.geometerplus.android.fbreader.tts.util.TimeUtils;
 import org.geometerplus.android.fbreader.ui.BookMarkFragment;
 import org.geometerplus.android.fbreader.ui.BookNoteFragment;
 import org.geometerplus.android.fbreader.ui.BookTOCFragment;
+import org.geometerplus.android.fbreader.ui.TTSPlayerActivity;
 import org.geometerplus.android.fbreader.util.AndroidImageSynchronizer;
 import org.geometerplus.android.fbreader.util.AnimationHelper;
 import org.geometerplus.android.util.DeviceType;
@@ -195,16 +194,6 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
     };
 
     private boolean isLoad = false;
-    private TTSProvider ttsProvider;
-    /**
-     * 文本内容（断句好了的）
-     */
-    private HashMap<String, Pair<String, Boolean>> textMap = new HashMap<>();
-    private StringBuilder readBuilder = new StringBuilder();
-    /**
-     * 是否正在播放
-     */
-    private boolean isPlaying = false;
 
     /**
      * View
@@ -256,17 +245,6 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
     private TextView tvPosition;
     private TextView tvDuration;
     /**
-     * 章节结束tag
-     */
-    private String lastTag = null;
-    private int lastParagraphIndex = -1;
-    /**
-     * 测试语字和时间的关系
-     */
-    private long startTime = 0;
-    private int totalCount = 0;
-    private int totalTime = 0;
-    /**
      * 语音合成播放器
      */
     private TTSPlayer ttsPlayer;
@@ -289,8 +267,6 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         super.onCreate(icicle);
 
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 321);
-
-        ttsProvider = new TTSProvider(FBReader.this);
 
         bindService(
                 new Intent(this, DataService.class),
@@ -406,7 +382,8 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             }
         }
 
-        ttsPlayer = new TTSPlayer(this, myFBReaderApp);
+        ttsPlayer = TTSPlayer.getInstance();
+        ttsPlayer.init(this, myFBReaderApp);
     }
 
     /**
@@ -700,7 +677,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
         });
 
         gotoTTS.setOnClickListener(v -> {
-            ttsPlayer.setPlayCallback((currentPosition, duration) ->
+            ttsPlayer.addPlayCallback((currentPosition, duration) ->
                     runOnUiThread(() -> {
                         tvPosition.setText(TimeUtils.millis2Time(currentPosition));
                         tvDuration.setText(TimeUtils.millis2Time(duration));
@@ -712,26 +689,32 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
             AnimationHelper.closeBottomMenu(menuTop);
             AnimationHelper.closePreview(myMainView);
             menuPlayer.setVisibility(View.VISIBLE);
-            isPlaying = true;
+            TTSPlayer.getInstance().setPlaying(true);
             ivPlayer.setImageResource(R.drawable.reader_player_pause_icon);
             Toast.makeText(FBReader.this, "语音合成中", Toast.LENGTH_SHORT).show();
         });
 
         // 播放栏
         menuPlayer.setOnClickListener(v -> {
-            if (isPlaying) {
+            if (TTSPlayer.getInstance().isPlaying()) {
                 ivPlayer.setImageResource(R.drawable.reader_player_start_icon);
-                ttsProvider.mSpeechSynthesizer.pause();
+                ttsPlayer.pause();
             } else {
                 ivPlayer.setImageResource(R.drawable.reader_player_pause_icon);
-                ttsProvider.mSpeechSynthesizer.resume();
+                ttsPlayer.start();
             }
-            isPlaying = !isPlaying;
+            TTSPlayer.getInstance().setPlaying(!TTSPlayer.getInstance().isPlaying());
+        });
+
+        // 跳转播放器页面
+        menuPlayer.setOnClickListener(v -> {
+            Intent intent = new Intent(FBReader.this, TTSPlayerActivity.class);
+            startActivity(intent);
         });
 
         // 关闭播放栏
         ivClose.setOnClickListener(v -> {
-            ttsProvider.mSpeechSynthesizer.stop();
+            ttsPlayer.stop();
             myFBReaderApp.getTextView().clearHighlighting();
             menuPlayer.setVisibility(View.GONE);
         });
@@ -1122,6 +1105,13 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
     @Override
     protected void onResume() {
         super.onResume();
+
+        // 恢复按钮的播放状态
+        if (TTSPlayer.getInstance().isPlaying()) {
+            ivPlayer.setImageResource(R.drawable.reader_player_pause_icon);
+        } else {
+            ivPlayer.setImageResource(R.drawable.reader_player_start_icon);
+        }
 
         myStartTimer = true;
         Config.Instance().runOnConnect(() -> {

@@ -13,17 +13,16 @@ import com.baidu.tts.client.TtsMode;
  */
 public class TTSProvider {
 
-    /**
-     * 语速
-     */
-    static final int SPEED = 10;
-
     private static final String AppId = "16237949";
     private static final String AppKey = "BAn6205aD5Xb9TXgGbGGsxvH";
     private static final String AppSecret = "M2Luu4AGngce7W4tBeio2ZrEBRK123ek";
-    public SpeechSynthesizer mSpeechSynthesizer = SpeechSynthesizer.getInstance();
+    /**
+     * 语速
+     */
+    static int SPEED = 10;
+    SpeechSynthesizer mSpeechSynthesizer = SpeechSynthesizer.getInstance();
 
-    public TTSProvider(Context context) {
+    TTSProvider(Context context) {
         LoggerProxy.printable(false);
         mSpeechSynthesizer.setAppId(AppId);
         mSpeechSynthesizer.setApiKey(AppKey, AppSecret);
@@ -37,5 +36,10 @@ public class TTSProvider {
 
     void setTTSListener(SpeechSynthesizerListener listener) {
         mSpeechSynthesizer.setSpeechSynthesizerListener(listener);
+    }
+
+    void setSpeed(String speed) {
+        SPEED = Integer.parseInt(speed);
+        mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_SPEED, String.valueOf(SPEED));
     }
 }

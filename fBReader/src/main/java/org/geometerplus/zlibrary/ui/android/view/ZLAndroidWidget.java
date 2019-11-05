@@ -195,17 +195,6 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        getAnimationProvider().terminate();
-        if (myScreenIsTouched) {
-            final ZLView view = ZLApplication.Instance().getCurrentView();
-            myScreenIsTouched = false;
-            view.onScrollingFinished(ZLView.PageIndex.current);
-        }
-    }
-
-    @Override
     public void repaint() {
         postInvalidate();
     }
@@ -224,6 +213,15 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
         if (view.canScroll(animator.getPageToScrollTo(x, y))) {
             animator.scrollTo(x, y);
             postInvalidate();
+        }
+    }    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        getAnimationProvider().terminate();
+        if (myScreenIsTouched) {
+            final ZLView view = ZLApplication.Instance().getCurrentView();
+            myScreenIsTouched = false;
+            view.onScrollingFinished(ZLView.PageIndex.current);
         }
     }
 
@@ -265,6 +263,34 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
         }
         animator.startAnimatedScrolling(x, y, speed);
         postInvalidate();
+    }
+
+    private AnimationProvider getAnimationProvider() {
+        final ZLView.Animation type = ZLApplication.Instance().getCurrentView().getAnimationType();
+        if (myAnimationProvider == null || myAnimationType != type) {
+            myAnimationType = type;
+            switch (type) {
+                case none:
+                case previewNone:
+                    myAnimationProvider = new NoneAnimationProvider(myBitmapManager);
+                    break;
+                case curl:
+                    myAnimationProvider = new CurlAnimationProvider(myBitmapManager);
+                    break;
+                case slide:
+                    myAnimationProvider = new SlideAnimationProvider(myBitmapManager);
+                    break;
+                case slideOldStyle:
+                    myAnimationProvider = new SlideOldStyleAnimationProvider(myBitmapManager);
+                    break;
+                case shift:
+                    myAnimationProvider = new ShiftAnimationProvider(myBitmapManager);
+                case previewShift:
+                    myAnimationProvider = new PreviewShiftAnimationProvider(myBitmapManager);
+                    break;
+            }
+        }
+        return myAnimationProvider;
     }
 
     private int getMainAreaHeight() {
@@ -481,33 +507,7 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
     }
 
 
-    private AnimationProvider getAnimationProvider() {
-        final ZLView.Animation type = ZLApplication.Instance().getCurrentView().getAnimationType();
-        if (myAnimationProvider == null || myAnimationType != type) {
-            myAnimationType = type;
-            switch (type) {
-                case none:
-                case previewNone:
-                    myAnimationProvider = new NoneAnimationProvider(myBitmapManager);
-                    break;
-                case curl:
-                    myAnimationProvider = new CurlAnimationProvider(myBitmapManager);
-                    break;
-                case slide:
-                    myAnimationProvider = new SlideAnimationProvider(myBitmapManager);
-                    break;
-                case slideOldStyle:
-                    myAnimationProvider = new SlideOldStyleAnimationProvider(myBitmapManager);
-                    break;
-                case shift:
-                    myAnimationProvider = new ShiftAnimationProvider(myBitmapManager);
-                case previewShift:
-                    myAnimationProvider = new PreviewShiftAnimationProvider(myBitmapManager);
-                    break;
-            }
-        }
-        return myAnimationProvider;
-    }
+
 
 
     /**
@@ -812,6 +812,4 @@ public class ZLAndroidWidget extends MainView implements ZLViewWidget, View.OnLo
         }
         return view.getScrollbarFullSize();
     }
-
-
 }

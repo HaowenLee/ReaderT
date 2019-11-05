@@ -7,9 +7,13 @@ import com.baidu.tts.client.SpeechError;
 import com.baidu.tts.client.SpeechSynthesizerListener;
 
 import org.geometerplus.android.fbreader.tts.util.TimeUtils;
+import org.geometerplus.fbreader.book.Book;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
+import org.geometerplus.fbreader.fbreader.FBView;
+import org.geometerplus.zlibrary.text.model.ZLTextModel;
 
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 
@@ -33,11 +37,32 @@ public class TTSPlayer implements IPlayer {
      */
     private int currentPosition;
     /**
-     * 播放的回调
+     * 是否在播放
      */
-    private TTSPlayerCallback mPlayCallback;
+    private boolean isPlaying = false;
 
-    public TTSPlayer(Context context, FBReaderApp fbReaderApp) {
+    private FBReaderApp mFBReaderApp;
+
+    private LinkedList<TTSPlayerCallback> callbacks = new LinkedList<>();
+
+    private TTSPlayer() {
+
+    }
+
+    public static TTSPlayer getInstance() {
+        return Holder.instance;
+    }
+
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    public void setPlaying(boolean playing) {
+        isPlaying = playing;
+    }
+
+    public void init(Context context, FBReaderApp fbReaderApp) {
+        this.mFBReaderApp = fbReaderApp;
         ttsHelper = new TTSHelper(fbReaderApp);
         init(context);
     }
@@ -91,9 +116,14 @@ public class TTSPlayer implements IPlayer {
             public void onSpeechProgressChanged(String utteranceId, int progress) {
                 // 更新进度
                 updatePosition(progress);
-                // UI进度更新（外部回调）
-                mPlayCallback.onProgressUpdate(TimeUtils.getTimeMillis(currentPosition, TTSProvider.SPEED),
-                        TimeUtils.getTimeMillis(ttsHelper.getTotalCount(), TTSProvider.SPEED));
+                for (TTSPlayerCallback callback : callbacks) {
+                    if (callback != null) {
+                        // UI进度更新（外部回调）
+                        callback.onProgressUpdate(TimeUtils.getTimeMillis(currentPosition, TTSProvider.SPEED),
+                                TimeUtils.getTimeMillis(ttsHelper.getTotalCount(), TTSProvider.SPEED));
+                    }
+                }
+
                 // 翻页
                 ttsHelper.highlight(utteranceId);
             }
@@ -130,13 +160,6 @@ public class TTSPlayer implements IPlayer {
     }
 
     /**
-     * 处理文本内容
-     */
-    public void process() {
-        ttsHelper.processText();
-    }
-
-    /**
      * 语音合成
      */
     private void synthesise() {
@@ -144,6 +167,17 @@ public class TTSPlayer implements IPlayer {
         for (Map.Entry<String, String> entry : map.entrySet()) {
             ttsProvider.mSpeechSynthesizer.speak(entry.getValue(), entry.getKey());
         }
+    }
+
+    public Book getBook() {
+        return mFBReaderApp.Model.Book;
+    }
+
+    /**
+     * 处理文本内容
+     */
+    public void process() {
+        ttsHelper.processText();
     }
 
     @Override
@@ -156,7 +190,42 @@ public class TTSPlayer implements IPlayer {
         return TimeUtils.getTimeMillis(ttsHelper.getTotalCount(), TTSProvider.SPEED);
     }
 
-    public void setPlayCallback(TTSPlayerCallback callback) {
-        this.mPlayCallback = callback;
+    @Override
+    public void start() {
+        ttsProvider.mSpeechSynthesizer.resume();
+    }
+
+    @Override
+    public void pause() {
+        ttsProvider.mSpeechSynthesizer.pause();
+    }
+
+    @Override
+    public void stop() {
+        ttsProvider.mSpeechSynthesizer.stop();
+    }
+
+    @Override
+    public String getSpeed() {
+        return String.valueOf(TTSProvider.SPEED);
+    }
+
+    @Override
+    public void setSpeed(String speed) {
+        ttsProvider.setSpeed(speed);
+    }
+
+    public void addPlayCallback(TTSPlayerCallback callback) {
+        callbacks.add(callback);
+    }
+
+    public String getName() {
+        FBView view = mFBReaderApp.getTextView();
+        String tocText = view.getTOCText(view.getStartCursor());
+        return tocText == null ? "" : tocText;
+    }
+
+    private static class Holder {
+        public static final TTSPlayer instance = new TTSPlayer();
     }
 }
