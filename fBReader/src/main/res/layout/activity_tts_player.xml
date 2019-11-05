@@ -28,7 +28,7 @@
         android:id="@+id/tvName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="60dp"
         android:textColor="@color/reader_font_black"
         android:textSize="16dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,9 +38,9 @@
 
     <ImageView
         android:id="@+id/ivCover"
-        android:layout_width="150dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="50dp"
+        android:layout_width="133dp"
+        android:layout_height="175dp"
+        android:layout_marginTop="30dp"
         android:scaleType="centerCrop"
         android:src="#99cc33"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,20 +49,20 @@
 
     <ImageView
         android:id="@+id/ivTiming"
-        android:layout_width="39dp"
-        android:layout_height="39dp"
-        android:layout_marginTop="30dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_timing"
+        app:layout_constraintBottom_toBottomOf="@id/ivSpeed"
         app:layout_constraintEnd_toStartOf="@id/ivSpeed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivCover" />
+        app:layout_constraintTop_toTopOf="@id/ivSpeed" />
 
     <ImageView
         android:id="@+id/ivSpeed"
-        android:layout_width="39dp"
-        android:layout_height="39dp"
-        android:layout_marginTop="30dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="46dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_speed"
         app:layout_constraintEnd_toStartOf="@id/ivVoice"
@@ -71,20 +71,21 @@
 
     <ImageView
         android:id="@+id/ivVoice"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="30dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="@id/ivSpeed"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ivSpeed"
-        app:layout_constraintTop_toBottomOf="@id/ivCover"
+        app:layout_constraintTop_toTopOf="@id/ivSpeed"
         tools:background="#0000ff" />
 
     <TextView
         android:id="@+id/tvSpeed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12dp"
+        android:layout_marginTop="3dp"
+        android:textSize="9dp"
         app:layout_constraintEnd_toEndOf="@id/ivSpeed"
         app:layout_constraintStart_toStartOf="@id/ivSpeed"
         app:layout_constraintTop_toBottomOf="@id/ivSpeed"
@@ -105,6 +106,7 @@
         android:id="@+id/audioProgress"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
         android:maxHeight="2dp"
         android:minHeight="2dp"
         android:progressDrawable="@drawable/reader_progress_bar_bg"
@@ -128,33 +130,33 @@
 
     <ImageView
         android:id="@+id/ivCatalog"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="30dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:scaleType="centerCrop"
+        android:src="@drawable/ic_catalog"
+        app:layout_constraintBottom_toBottomOf="@id/ivPlay"
         app:layout_constraintEnd_toStartOf="@id/ivPrevious"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/audioProgress"
-        tools:background="#ff0000" />
+        app:layout_constraintTop_toTopOf="@id/ivPlay" />
 
     <ImageView
         android:id="@+id/ivPrevious"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginTop="30dp"
         android:scaleType="centerCrop"
+        android:src="@drawable/ic_previous"
+        app:layout_constraintBottom_toBottomOf="@id/ivPlay"
         app:layout_constraintEnd_toStartOf="@id/ivPlay"
         app:layout_constraintStart_toEndOf="@id/ivCatalog"
-        app:layout_constraintTop_toBottomOf="@id/audioProgress"
-        tools:background="#00ff00" />
+        app:layout_constraintTop_toTopOf="@id/ivPlay" />
 
     <ImageView
         android:id="@+id/ivPlay"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginTop="30dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/reader_player_start_icon"
+        android:src="@drawable/reader_player_start_icon_big"
         app:layout_constraintEnd_toStartOf="@id/ivNext"
         app:layout_constraintStart_toEndOf="@id/ivPrevious"
         app:layout_constraintTop_toBottomOf="@id/audioProgress" />
@@ -163,22 +165,22 @@
         android:id="@+id/ivNext"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginTop="30dp"
         android:scaleType="centerCrop"
+        android:src="@drawable/ic_next"
+        app:layout_constraintBottom_toBottomOf="@id/ivPlay"
         app:layout_constraintEnd_toEndOf="@id/ivClose"
         app:layout_constraintStart_toEndOf="@id/ivPlay"
-        app:layout_constraintTop_toBottomOf="@id/audioProgress"
-        tools:background="#0000ff" />
+        app:layout_constraintTop_toTopOf="@id/ivPlay" />
 
     <ImageView
         android:id="@+id/ivClose"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="30dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:scaleType="centerCrop"
+        android:src="@drawable/ic_close"
+        app:layout_constraintBottom_toBottomOf="@id/ivPlay"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ivNext"
-        app:layout_constraintTop_toBottomOf="@id/audioProgress"
-        tools:background="#0000ff" />
+        app:layout_constraintTop_toTopOf="@id/ivPlay" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

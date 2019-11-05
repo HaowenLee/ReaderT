@@ -79,9 +79,9 @@ public class TTSPlayerActivity extends AppCompatActivity {
 
     private void initViews() {
         if (TTSPlayer.getInstance().isPlaying()) {
-            ivPlay.setImageResource(R.drawable.reader_player_pause_icon);
+            ivPlay.setImageResource(R.drawable.reader_player_pause_icon_big);
         } else {
-            ivPlay.setImageResource(R.drawable.reader_player_start_icon);
+            ivPlay.setImageResource(R.drawable.reader_player_start_icon_big);
         }
     }
 
@@ -121,10 +121,10 @@ public class TTSPlayerActivity extends AppCompatActivity {
 
         ivPlay.setOnClickListener(v -> {
             if (TTSPlayer.getInstance().isPlaying()) {
-                ivPlay.setImageResource(R.drawable.reader_player_start_icon);
+                ivPlay.setImageResource(R.drawable.reader_player_start_icon_big);
                 TTSPlayer.getInstance().pause();
             } else {
-                ivPlay.setImageResource(R.drawable.reader_player_pause_icon);
+                ivPlay.setImageResource(R.drawable.reader_player_pause_icon_big);
                 TTSPlayer.getInstance().start();
             }
             TTSPlayer.getInstance().setPlaying(!TTSPlayer.getInstance().isPlaying());
